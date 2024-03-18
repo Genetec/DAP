@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PtzCoordinatesManagerSample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageTaskSample", "PageTaskSample\PageTaskSample.csproj", "{4A495885-792B-43B0-95FB-2EF16BB37FD4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptionsExtensionSample", "OptionsExtensionSample\OptionsExtensionSample.csproj", "{7118D2B1-7DF7-497D-8D81-478150472EB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +156,10 @@ Global
 		{4A495885-792B-43B0-95FB-2EF16BB37FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A495885-792B-43B0-95FB-2EF16BB37FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A495885-792B-43B0-95FB-2EF16BB37FD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7118D2B1-7DF7-497D-8D81-478150472EB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7118D2B1-7DF7-497D-8D81-478150472EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7118D2B1-7DF7-497D-8D81-478150472EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7118D2B1-7DF7-497D-8D81-478150472EB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +177,7 @@ Global
 		{7EB16455-8E54-4033-B32D-909BCAD1609D} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{9683A716-B265-4195-A8D4-4D46095F1013} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{4A495885-792B-43B0-95FB-2EF16BB37FD4} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
+		{7118D2B1-7DF7-497D-8D81-478150472EB5} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -182,7 +189,6 @@ Global
 		Shared\Shared.projitems*{36e0317b-fad0-48c4-9d22-6f3346c2942d}*SharedItemsImports = 4
 		Shared\Shared.projitems*{464c76ea-da3e-4957-bbc3-2b8591e64349}*SharedItemsImports = 4
 		Shared\Shared.projitems*{49274831-ce4c-4b89-91b9-61c7deda2a26}*SharedItemsImports = 4
-		Shared\Shared.projitems*{4a495885-792b-43b0-95fb-2ef16bb37fd4}*SharedItemsImports = 4
 		Shared\Shared.projitems*{4d27a27e-a287-4366-89dc-e89571b07321}*SharedItemsImports = 4
 		Shared\Shared.projitems*{6328364a-f4e7-4410-83ee-1793405863cc}*SharedItemsImports = 4
 		Shared\Shared.projitems*{73543dda-ef56-49e4-a49c-b3f162150038}*SharedItemsImports = 4
