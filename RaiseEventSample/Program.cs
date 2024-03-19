@@ -22,37 +22,46 @@ namespace Genetec.Dap.CodeSamples
 
             var engine = new Engine();
 
-            await engine.LogOnAsync(server, username, password);
+            var state = await engine.LogOnAsync(server, username, password);
 
-            var door = (Door)engine.GetEntity(EntityType.Door, 1);
-            var reader = (Reader)engine.GetEntity(door.DoorSideIn.Reader.Device);
+            if (state == ConnectionStateCode.Success)
+            {
+                var door = (Door)engine.GetEntity(EntityType.Door, 1);
+                var reader = (Reader)engine.GetEntity(door.DoorSideIn.Reader.Device);
 
-            RaiseAccessGranted(engine, (Credential)engine.GetEntity(new Guid("0083db96-b7bf-4fc8-9534-12239bcc1b92")), reader);
+                RaiseAccessGranted(engine, (Credential)engine.GetEntity(new Guid("0083db96-b7bf-4fc8-9534-12239bcc1b92")), reader);
+            }
+            else
+            {
+                Console.WriteLine($"Logon failed: {state}");
+            }
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
 
 
-       static void RaiseAccessGranted(Engine engine, Credential credential, Reader reader)
-       {
-           using var transaction = engine.TransactionManager.CreateEventTransaction();
+        static void RaiseAccessGranted(Engine engine, Credential credential, Reader reader)
+        {
+            using (var transaction = engine.TransactionManager.CreateEventTransaction())
+            {
+                Guid groupId = Guid.NewGuid();
+                foreach (var accessPoint in reader.AccessPoint.Select(engine.GetEntity).OfType<AccessPoint>())
+                {
+                    var accessEvent = (AccessEvent)engine.ActionManager.BuildEvent(EventType.AccessGranted, accessPoint.Guid);
+                    accessEvent.Cardholder = credential.CardholderGuid;
+                    accessEvent.Credentials.Add(credential.Guid);
+                    accessEvent.GroupId = groupId;
 
-           Guid groupId = Guid.NewGuid();
-           foreach (var accessPoint in reader.AccessPoint.Select(engine.GetEntity).OfType<AccessPoint>())
-           {
-               var accessEvent = (AccessEvent)engine.ActionManager.BuildEvent(EventType.AccessGranted, accessPoint.Guid);
-               accessEvent.Cardholder = credential.CardholderGuid;
-               accessEvent.Credentials.Add(credential.Guid);
-               accessEvent.GroupId = groupId;
+                    if (accessPoint.AccessPointType == AccessPointType.CardReader)
+                    {
+                        accessEvent.DoorSideGuid = accessPoint.Guid;
+                    }
 
-               if (accessPoint.AccessPointType == AccessPointType.CardReader)
-               {
-                   accessEvent.DoorSideGuid = accessPoint.Guid;
-               }
+                    transaction.AddEvent(accessEvent);
+                }
+            }
 
-               transaction.AddEvent(accessEvent);
-           }
-       }
+        }
     }
 }

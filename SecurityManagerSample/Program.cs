@@ -22,14 +22,15 @@ namespace Genetec.Dap.CodeSamples
 
             var engine = new Engine();
             var state = await engine.LogOnAsync(server, username, password);
-            if (state != ConnectionStateCode.Success)
-            {
-                Console.WriteLine($"Logon failed: {state}");
-            }
-            else
+
+            if (state == ConnectionStateCode.Success)
             {
                 PrintPrivileges(engine);
                 await PrintUsersPrivileges(engine);
+            }
+            else
+            {
+                Console.WriteLine($"Logon failed: {state}");
             }
 
             Console.WriteLine("Press any key to exit...");
