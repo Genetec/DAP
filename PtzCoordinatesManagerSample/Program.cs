@@ -22,9 +22,9 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
+            using var engine = new Engine();
 
-            var engine = new Engine();
-            var state = await engine.LogOnAsync(server: server, username: username, password: password);
+            ConnectionStateCode state = await engine.LogOnAsync(server: server, username: username, password: password);
 
             if (state == ConnectionStateCode.Success)
             {

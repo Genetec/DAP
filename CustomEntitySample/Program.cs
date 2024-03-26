@@ -19,9 +19,10 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var engine = new Engine();
+            using var engine = new Engine();
 
-            var state = await engine.LogOnAsync(server, username, password);
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
             if (state == ConnectionStateCode.Success)
             {
                 var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);

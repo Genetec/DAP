@@ -19,16 +19,23 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var engine = new Engine();
+            using var engine = new Engine();
 
-            await engine.LogOnAsync(server, username, password);
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-            PrintEntityCache();
+            if (state == ConnectionStateCode.Success)
+            {
+                PrintEntityCache();
 
-            await LoadEntities(EntityType.AccessPoint, EntityType.AccessRule);
+                await LoadEntities(EntityType.AccessPoint, EntityType.AccessRule);
 
-            PrintEntityCache();
-
+                PrintEntityCache();
+            }
+            else
+            {
+                Console.WriteLine($"Logon failed: {state}");
+            }
+            
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 

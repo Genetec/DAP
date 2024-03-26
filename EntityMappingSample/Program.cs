@@ -21,20 +21,27 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var engine = new Engine();
+            using var engine = new Engine();
 
-            await engine.LogOnAsync(server, username, password);
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-            await LoadCameras();
-
-            foreach (Camera camera in engine.GetEntities(EntityType.Camera).OfType<Camera>())
+            if (state == ConnectionStateCode.Success)
             {
-                if (!TryGetMapping(camera, out string data))
-                {
-                    SaveMapping(camera, "DATA");
-                }
+                await LoadCameras();
 
-                Console.WriteLine($"{camera.Name,-20}: {data}");
+                foreach (Camera camera in engine.GetEntities(EntityType.Camera).OfType<Camera>())
+                {
+                    if (!TryGetMapping(camera, out string data))
+                    {
+                        SaveMapping(camera, "DATA");
+                    }
+
+                    Console.WriteLine($"{camera.Name,-20}: {data}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Logon failed: {state}");
             }
 
             Console.WriteLine("Press any key to exit...");

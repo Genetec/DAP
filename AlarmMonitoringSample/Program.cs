@@ -18,14 +18,14 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var engine = new Engine();
+            using var engine = new Engine();
 
-            engine.AlarmTriggered += OnAlarmTriggerd;
+            engine.AlarmTriggered += OnAlarmTriggered;
             engine.AlarmAcknowledged += OnAlarmAcknowledged;
             engine.AlarmInvestigating += OnAlarmInvestigating;
             engine.AlarmSourceConditionCleared += OnAlarmSourceConditionCleared;
 
-            var state = await engine.LogOnAsync(server, username, password);
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
             if (state != ConnectionStateCode.Success)
                 Console.WriteLine($"Logon failed: {state}");
@@ -33,7 +33,7 @@ namespace Genetec.Dap.CodeSamples
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 
-            void OnAlarmTriggerd(object sender, AlarmTriggeredEventArgs e)
+            void OnAlarmTriggered(object sender, AlarmTriggeredEventArgs e)
             {
                 var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
 

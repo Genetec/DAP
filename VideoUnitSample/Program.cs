@@ -26,10 +26,12 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            using (var engine = new Engine())
-            {
-                await engine.LogOnAsync(server: server, username: username, password: password);
+            using var engine = new Engine();
 
+            ConnectionStateCode state = await engine.LogOnAsync(server: server, username: username, password: password);
+
+            if (state == ConnectionStateCode.Success)
+            {
                 PrintSupportedCameras(engine.VideoUnitManager);
 
                 VideoUnitProductInfo productInfo = engine.VideoUnitManager.FindProductsByManufacturer("Genetec").First(p => p.ProductType == "All");
@@ -56,10 +58,14 @@ namespace Genetec.Dap.CodeSamples
                 {
                     Console.WriteLine("No Archiver role was found. An Archiver role must be created to enroll a camera.");
                 }
-
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
             }
+            else
+            {
+                Console.WriteLine($"Logon failed: {state}");
+            }
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
 
         static async Task<ArchiverRole> GetArchiverRole(Engine engine)
