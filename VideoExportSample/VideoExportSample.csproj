@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6328364A-F4E7-4410-83EE-1793405863CC}</ProjectGuid>
+    <ProjectGuid>{25070840-D9AF-497C-902A-EC0FC08638D6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
