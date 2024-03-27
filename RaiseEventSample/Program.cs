@@ -43,25 +43,22 @@ namespace Genetec.Dap.CodeSamples
 
         static void RaiseAccessGranted(Engine engine, Credential credential, Reader reader)
         {
-            using (var transaction = engine.TransactionManager.CreateEventTransaction())
+            using var transaction = engine.TransactionManager.CreateEventTransaction();
+            Guid groupId = Guid.NewGuid();
+            foreach (var accessPoint in reader.AccessPoint.Select(engine.GetEntity).OfType<AccessPoint>())
             {
-                Guid groupId = Guid.NewGuid();
-                foreach (var accessPoint in reader.AccessPoint.Select(engine.GetEntity).OfType<AccessPoint>())
+                var accessEvent = (AccessEvent)engine.ActionManager.BuildEvent(EventType.AccessGranted, accessPoint.Guid);
+                accessEvent.Cardholder = credential.CardholderGuid;
+                accessEvent.Credentials.Add(credential.Guid);
+                accessEvent.GroupId = groupId;
+
+                if (accessPoint.AccessPointType == AccessPointType.CardReader)
                 {
-                    var accessEvent = (AccessEvent)engine.ActionManager.BuildEvent(EventType.AccessGranted, accessPoint.Guid);
-                    accessEvent.Cardholder = credential.CardholderGuid;
-                    accessEvent.Credentials.Add(credential.Guid);
-                    accessEvent.GroupId = groupId;
-
-                    if (accessPoint.AccessPointType == AccessPointType.CardReader)
-                    {
-                        accessEvent.DoorSideGuid = accessPoint.Guid;
-                    }
-
-                    transaction.AddEvent(accessEvent);
+                    accessEvent.DoorSideGuid = accessPoint.Guid;
                 }
-            }
 
+                transaction.AddEvent(accessEvent);
+            }
         }
     }
 }

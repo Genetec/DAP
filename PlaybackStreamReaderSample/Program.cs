@@ -27,24 +27,22 @@ namespace Genetec.Dap.CodeSamples
             {
                 var camera = (Camera)engine.GetEntity(EntityType.Camera, 1);
 
-                using (PlaybackStreamReader reader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid))
+                await using PlaybackStreamReader reader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid);
+                await reader.ConnectAsync();
+                await reader.SeekAsync(DateTime.UtcNow.AddMinutes(-1));
+                
+                while (true)
                 {
-                    await reader.ConnectAsync();
-                    await reader.SeekAsync(DateTime.UtcNow.AddMinutes(-1));
-
-                    while (true)
+                    RawDataContent content = await reader.ReadAsync();
+                    if (content is null)
                     {
-                        RawDataContent content = await reader.ReadAsync();
-                        if (content is null)
-                        {
-                            Console.WriteLine("End reached");
-                            break;
-                        }
+                        Console.WriteLine("End reached");
+                        break;
+                    }
 
-                        using (content)
-                        {
-                            Console.WriteLine($"Frame time {content.FrameTime}, Format: {content.Format}, Data size: {content.Data.Count}");
-                        }
+                    using (content)
+                    {
+                        Console.WriteLine($"Frame time {content.FrameTime}, Format: {content.Format}, Data size: {content.Data.Count}");
                     }
                 }
             }
