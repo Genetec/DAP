@@ -11,7 +11,7 @@ namespace Genetec.Dap.CodeSamples
         {
             if (Workspace.ApplicationType == ApplicationType.SecurityDesk)
             {
-                var builder = new SampleTilePropertiestBuilder();
+                var builder = new SampleTilePropertiesBuilder();
                 builder.Initialize(Workspace);
                 Workspace.Components.Register(builder);
             }
