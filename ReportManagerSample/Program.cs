@@ -112,7 +112,7 @@ namespace Genetec.Dap.CodeSamples
         /// <summary>
         /// Find the creation and last modification timestamp of a give entity.
         /// </summary>
-        static async Task<(DateTime CreationTime, Guid CreatedBy, DateTime LastModificationTime, Guid LastModifiedBy)> GetCreattionAndModificationDate(Engine engine, Entity entity)
+        static async Task<(DateTime CreationTime, Guid CreatedBy, DateTime LastModificationTime, Guid LastModifiedBy)> GetCreationAndModificationDate(Engine engine, Entity entity)
         {
             var first = await Query(OrderByType.Ascending);
             var last = await Query(OrderByType.Descending);
