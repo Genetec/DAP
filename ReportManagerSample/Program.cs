@@ -81,7 +81,6 @@ namespace Genetec.Dap.CodeSamples
             });
         }
 
-  
         async Task<List<Guid>> FindCardholdersByCustomFieldValue(Engine engine, string customFieldName, object customFieldValue, FieldRangeType condition)
         {
             var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
