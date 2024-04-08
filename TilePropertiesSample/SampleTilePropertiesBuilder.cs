@@ -4,7 +4,6 @@
 namespace Genetec.Dap.CodeSamples
 {
     using System;
-    using Sdk.Entities;
     using Sdk.Workspace.Components;
     using Sdk.Workspace.Components.TileProperties;
     using Sdk.Workspace.Pages.Contents;

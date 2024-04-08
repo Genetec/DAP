@@ -5,7 +5,6 @@ namespace Genetec.Dap.CodeSamples
 {
     using System;
     using System.Diagnostics;
-    using System.Threading.Tasks;
     using Sdk.Diagnostics;
     using Sdk.Diagnostics.Logging.Core;
 

@@ -45,7 +45,7 @@ namespace Genetec.Dap.CodeSamples
                 Console.WriteLine($"\tTrigger Event: {e.TriggerEvent}");
                 Console.WriteLine($"\tOccurence Period: {e.OfflinePeriod}");
 
-                if (engine.GetEntity(e.SourceGuid) is Entity entity)
+                if (engine.GetEntity(e.SourceGuid) is { } entity)
                 {
                     Console.WriteLine($"\tSource: {entity.Name}");
                     Console.WriteLine($"\tSource entity type: {entity.EntityType}");
@@ -63,7 +63,7 @@ namespace Genetec.Dap.CodeSamples
                 Console.WriteLine($"\tInstance ID: {e.InstanceId}");
                 Console.WriteLine($"\tAcknowledged on: {e.AckTime}");
 
-                if (engine.GetEntity(e.AckBy) is Entity entity) Console.WriteLine($"\tAcknowledged by: {entity.Name}");
+                if (engine.GetEntity(e.AckBy) is { } entity) Console.WriteLine($"\tAcknowledged by: {entity.Name}");
 
                 Console.WriteLine(new string('-', 50));
             }
@@ -77,7 +77,7 @@ namespace Genetec.Dap.CodeSamples
                 Console.WriteLine($"\tInstance ID: {e.InstanceId}");
                 Console.WriteLine($"\tInvestigated on: {e.InvestigatedTime}");
 
-                if (engine.GetEntity(e.InvestigatedBy) is Entity entity) Console.WriteLine($"\tInvestigated by: {entity.Name}");
+                if (engine.GetEntity(e.InvestigatedBy) is { } entity) Console.WriteLine($"\tInvestigated by: {entity.Name}");
 
                 Console.WriteLine(new string('-', 50));
             }

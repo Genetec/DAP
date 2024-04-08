@@ -40,7 +40,6 @@ namespace Genetec.Dap.CodeSamples
             Console.ReadKey();
         }
 
-
         static void RaiseAccessGranted(Engine engine, Credential credential, Reader reader)
         {
             using var transaction = engine.TransactionManager.CreateEventTransaction();
