@@ -81,7 +81,7 @@ namespace Genetec.Dap.CodeSamples
             });
         }
 
-  
+
         async Task<List<Guid>> FindCardholdersByCustomFieldValue(Engine engine, string customFieldName, object customFieldValue, FieldRangeType condition)
         {
             var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
@@ -133,7 +133,7 @@ namespace Genetec.Dap.CodeSamples
                     .FirstOrDefault();
             }
         }
-        
+
         static async Task<IEnumerable<(DateTime date, Guid source, EventType eventType)>> GetDoorActivity(Engine engine, IEnumerable<Guid> doorGuids, DateTime startDate, DateTime endDate)
         {
             var query = (DoorActivityQuery)engine.ReportManager.CreateReportQuery(ReportType.DoorActivity);
@@ -151,7 +151,7 @@ namespace Genetec.Dap.CodeSamples
                 query.Doors.Add(SystemConfiguration.SystemConfigurationGuid);
             }
 
-            
+
             query.TimeRange.SetTimeRange(startDate, endDate);
             query.MaximumResultCount = 100;
             query.SortOrder = OrderByType.Ascending;
@@ -190,7 +190,7 @@ namespace Genetec.Dap.CodeSamples
             return results;
         }
 
-        static async Task<List<AccessControlRawEvent>> RetrieveOfflineEvents(Engine engine, DateTime startDate, DateTime endDate, IEnumerable<EventType> eventTypes, IEnumerable<Guid> sources)
+        static async Task<List<AccessControlRawEvent>> RetrieveOfflineEvents(Engine engine, DateTime startDate, DateTime endDate, IEnumerable<EventType> eventTypes)
         {
             var list = new List<AccessControlRawEvent>();
 
@@ -212,7 +212,7 @@ namespace Genetec.Dap.CodeSamples
                 if (results.Count == 0)
                     break;
 
-                list.AddRange(results.Where(e => e.SourceGuid.HasValue && sources.Contains(e.SourceGuid.Value) && (e.OccurrencePeriod == OfflinePeriodType.Offline || e.OccurrencePeriod == OfflinePeriodType.OfflineAlarmPeriod)));
+                list.AddRange(results.Where(rawEvent => rawEvent.OccurrencePeriod == OfflinePeriodType.Offline || rawEvent.OccurrencePeriod == OfflinePeriodType.OfflineAlarmPeriod));
 
                 if (results.Count < query.MaximumResultCount)
                 {
