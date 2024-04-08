@@ -81,13 +81,42 @@ namespace Genetec.Dap.CodeSamples
             });
         }
 
-  
+        async Task<List<Guid>> FindCamerasByCustomFieldValue(Engine engine, string customFieldName, object customFieldValue)
+        {
+            var cameras = new List<Guid>();
+
+            var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
+            var customField = config.CustomFieldService.CustomFields.FirstOrDefault(cf => cf.EntityType == EntityType.Camera && cf.Name.Equals(customFieldName, StringComparison.OrdinalIgnoreCase));
+            if (customField != null)
+            {
+                var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+                query.EntityTypeFilter.Add(EntityType.Camera);
+                query.DownloadAllRelatedData = true;
+                query.CustomFields.Add(new CustomFieldFilter(customField, customFieldValue, FieldRangeType.Equal));
+                query.PageSize = 500;
+                query.Page = 1;
+
+                while (true)
+                {
+                    QueryCompletedEventArgs args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+                    cameras.AddRange(args.Data.AsEnumerable().Take(query.PageSize).Select(row => row.Field<Guid>(nameof(Guid))));
+
+                    if (args.Data.Rows.Count <= query.PageSize)
+                        break;
+
+                    query.Page++;
+                }
+            }
+
+            return cameras;
+        }
+
         async Task<List<Guid>> FindCardholdersByCustomFieldValue(Engine engine, string customFieldName, object customFieldValue, FieldRangeType condition)
         {
             var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
             var customField = config.CustomFieldService.GetCustomField(customFieldName, EntityType.Cardholder);
 
-            var query = (CardholderConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+            var query = (CardholderConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.CardholderConfiguration);
             query.DownloadAllRelatedData = true;
             query.CustomFields.Add(new CustomFieldFilter(customField, customFieldValue, condition));
             query.PageSize = 500;
@@ -133,7 +162,7 @@ namespace Genetec.Dap.CodeSamples
                     .FirstOrDefault();
             }
         }
-        
+
         static async Task<IEnumerable<(DateTime date, Guid source, EventType eventType)>> GetDoorActivity(Engine engine, IEnumerable<Guid> doorGuids, DateTime startDate, DateTime endDate)
         {
             var query = (DoorActivityQuery)engine.ReportManager.CreateReportQuery(ReportType.DoorActivity);
@@ -151,7 +180,7 @@ namespace Genetec.Dap.CodeSamples
                 query.Doors.Add(SystemConfiguration.SystemConfigurationGuid);
             }
 
-            
+
             query.TimeRange.SetTimeRange(startDate, endDate);
             query.MaximumResultCount = 100;
             query.SortOrder = OrderByType.Ascending;

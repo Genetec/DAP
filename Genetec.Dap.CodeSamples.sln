@@ -72,6 +72,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoExportSample", "VideoE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportManagerSample", "ReportManagerSample\ReportManagerSample.csproj", "{61813096-0091-425E-9844-847D1AAD0A07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventMonitoringSample", "EventMonitoringSample\EventMonitoringSample.csproj", "{534DB081-2747-4FB6-B269-C3EEDBD9F30D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrivilegeSample", "PrivilegeSample\PrivilegeSample.csproj", "{1C73E396-7482-4A2E-B032-FB7BADCBD2DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -190,6 +194,14 @@ Global
 		{61813096-0091-425E-9844-847D1AAD0A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61813096-0091-425E-9844-847D1AAD0A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61813096-0091-425E-9844-847D1AAD0A07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{534DB081-2747-4FB6-B269-C3EEDBD9F30D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{534DB081-2747-4FB6-B269-C3EEDBD9F30D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{534DB081-2747-4FB6-B269-C3EEDBD9F30D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{534DB081-2747-4FB6-B269-C3EEDBD9F30D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C73E396-7482-4A2E-B032-FB7BADCBD2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C73E396-7482-4A2E-B032-FB7BADCBD2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C73E396-7482-4A2E-B032-FB7BADCBD2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C73E396-7482-4A2E-B032-FB7BADCBD2DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -211,6 +223,7 @@ Global
 		{8BA6C468-F9FD-469B-9D45-D68528BDBD59} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{B2D953C3-B160-4566-89E3-7B65580E6019} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{25070840-D9AF-497C-902A-EC0FC08638D6} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
+		{1C73E396-7482-4A2E-B032-FB7BADCBD2DC} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -225,6 +238,7 @@ Global
 		Shared\Shared.projitems*{464c76ea-da3e-4957-bbc3-2b8591e64349}*SharedItemsImports = 4
 		Shared\Shared.projitems*{49274831-ce4c-4b89-91b9-61c7deda2a26}*SharedItemsImports = 4
 		Shared\Shared.projitems*{4d27a27e-a287-4366-89dc-e89571b07321}*SharedItemsImports = 4
+		Shared\Shared.projitems*{534db081-2747-4fb6-b269-c3eedbd9f30d}*SharedItemsImports = 4
 		Shared\Shared.projitems*{61813096-0091-425e-9844-847d1aad0a07}*SharedItemsImports = 4
 		Shared\Shared.projitems*{73543dda-ef56-49e4-a49c-b3f162150038}*SharedItemsImports = 4
 		Shared\Shared.projitems*{7e86ab23-938e-4384-bdbe-e98d7cc9ca44}*SharedItemsImports = 4
