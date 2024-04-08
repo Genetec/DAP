@@ -21,13 +21,18 @@ namespace Genetec.Dap.CodeSamples
 
             var engine = new Engine();
 
-            await engine.LogOnAsync(server, username, password);
+            var state = await engine.LogOnAsync(server, username, password);
 
-            PrintEntityCache();
-
-            await LoadEntities(EntityType.AccessPoint, EntityType.AccessRule);
-
-            PrintEntityCache();
+            if (state == ConnectionStateCode.Success)
+            {
+                PrintEntityCache();
+                await LoadEntities(EntityType.AccessPoint, EntityType.AccessRule);
+                PrintEntityCache();
+            }
+            else
+            {
+                Console.WriteLine($"Logon failed: {state}");
+            }
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();

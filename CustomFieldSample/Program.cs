@@ -29,14 +29,16 @@ namespace Genetec.Dap.CodeSamples
 
             if (state == ConnectionStateCode.Success)
             {
-                ICustomFieldService service = ((SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid)).CustomFieldService;
+                var configuration = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
+
+                ICustomFieldService service = configuration.CustomFieldService;
 
                 const string customFieldName = "My Custom Field";
 
                 var field = service.CustomFields.FirstOrDefault(cf => cf.Name.Equals(customFieldName, StringComparison.OrdinalIgnoreCase) && cf.EntityType == EntityType.Cardholder);
                 if (field is null)
                 {
-                    field = ((SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid)).CustomFieldService.CreateCustomFieldBuilder()
+                    field = configuration.CustomFieldService.CreateCustomFieldBuilder()
                         .SetEntityType(EntityType.Cardholder)
                         .SetName(customFieldName)
                         .SetValueType(CustomFieldValueType.Text)

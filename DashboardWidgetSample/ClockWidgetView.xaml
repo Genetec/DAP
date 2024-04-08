@@ -1,0 +1,89 @@
+﻿<UserControl
+    x:Class="Genetec.Dap.CodeSamples.ClockWidgetView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:codeSamples="clr-namespace:Genetec.Dap.CodeSamples"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Margin="2"
+    d:DataContext="{d:DesignInstance codeSamples:ClockWidget}"
+    Background="Transparent"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Viewbox>
+        <Grid
+            x:Name="LayoutRoot"
+            Width="260"
+            Height="300">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image
+                x:Name="ClockFace"
+                Grid.Row="0"
+                d:IsLocked="True"
+                Source="pack://application:,,,/ModuleSample;Component/Resources/BackgroundClock.png" />
+            <Path
+                x:Name="MinuteHand"
+                Grid.Row="0"
+                Height="76.25"
+                Margin="128.331,59.75,126.669,40"
+                VerticalAlignment="Top"
+                d:IsLocked="True"
+                Data="M0.5,0.5 L4.5,0.5 L4.5,95.5 L0.5,95.5 z"
+                RenderTransformOrigin="0.4,0.923"
+                Stretch="Fill"
+                Stroke="#00000000"
+                UseLayoutRounding="False">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0.509" Color="#FF80AACF" />
+                        <GradientStop Offset="1" Color="#FF46B644" />
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform x:Name="MinuteRotate" Angle="{Binding UpdateMinuteHand}" />
+                    </TransformGroup>
+                </Path.RenderTransform>
+            </Path>
+            <Path
+                x:Name="HourHand"
+                Grid.Row="0"
+                Height="52.5"
+                Margin="128.331,83.5,126.669,40"
+                VerticalAlignment="Top"
+                d:IsLocked="True"
+                Data="M0.5,0.5 L4.5,0.5 L4.5,95.5 L0.5,95.5 z"
+                RenderTransformOrigin="0.4,0.889"
+                Stretch="Fill"
+                Stroke="#00000000"
+                UseLayoutRounding="False">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0.73" Color="#FF539DDE" />
+                        <GradientStop Offset="1" Color="#FF46B644" />
+                        <GradientStop Offset="1" Color="#FF47B546" />
+                    </LinearGradientBrush>
+                </Path.Fill>
+                <Path.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform x:Name="HourRotate" Angle="{Binding UpdateHourHand}" />
+                    </TransformGroup>
+                </Path.RenderTransform>
+            </Path>
+            <TextBlock
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                FontSize="30"
+                Text="{Binding Path=Time}"
+                Visibility="{Binding Path=ShowDigitalTime, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </Grid>
+    </Viewbox>
+</UserControl>

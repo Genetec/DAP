@@ -1,0 +1,19 @@
+﻿<UserControl
+    x:Class="Genetec.Dap.CodeSamples.CustomWidgetSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:codeSamples="clr-namespace:Genetec.Dap.CodeSamples"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance codeSamples:ClockWidget}"
+    mc:Ignorable="d">
+    <Grid>
+        <Button
+            MinWidth="150"
+            MinHeight="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Command="{Binding ViewDigitalTimeCommand}"
+            Content="Digital Time" />
+    </Grid>
+</UserControl>
