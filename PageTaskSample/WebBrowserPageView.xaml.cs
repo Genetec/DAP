@@ -6,9 +6,9 @@ namespace Genetec.Dap.CodeSamples
     using System.Windows;
     using System.Windows.Controls;
 
-    public partial class PageView : UserControl
+    public partial class WebBrowserPageView : UserControl
     {
-        public PageView()
+        public WebBrowserPageView()
         {
             InitializeComponent();
         }

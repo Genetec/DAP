@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Genetec.Dap.CodeSamples.PageView"
+    x:Class="Genetec.Dap.CodeSamples.WebBrowserPageView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sdkControls="clr-namespace:Genetec.Sdk.Controls;assembly=Genetec.Sdk.Controls">
@@ -7,6 +7,6 @@
     <sdkControls:WebBrowser
         Name="Browser"
         Loaded="Browser_OnLoaded"
-        WebBrowserType="Chrome" />
+        WebBrowserType="Chrome"  />
 
 </UserControl>

@@ -12,7 +12,7 @@ namespace Genetec.Dap.CodeSamples
         {
             if (Workspace.ApplicationType == ApplicationType.SecurityDesk)
             {
-                var task  = new CreatePageTask<SamplePage>();
+                var task  = new CreatePageTask<WebBrowserPage>();
                 task.Initialize(Workspace);
                 Workspace.Tasks.Register(task);
             }

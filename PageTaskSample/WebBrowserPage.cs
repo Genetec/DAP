@@ -6,11 +6,11 @@ namespace Genetec.Dap.CodeSamples
     using Sdk.Workspace.Pages;
 
     [Page(typeof(SamplePageDescriptor))]
-    public class SamplePage : Page
+    public class WebBrowserPage : Page
     {
-        public SamplePage()
+        public WebBrowserPage()
         {
-            View = new PageView();
+            View = new WebBrowserPageView();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Genetec.Dap.CodeSamples
 
     public class SamplePageDescriptor : PageDescriptor
     {
-        public override string Name => "Page sample";
+        public override string Name => "Web Browser";
 
         public override Guid Type { get; } = new Guid("10B5DC08-51DF-470E-9169-8344DF69F372");
 
