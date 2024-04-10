@@ -22,22 +22,30 @@ namespace Genetec.Dap.CodeSamples
             const string password = "";
 
             using var engine = new Engine();
-            await engine.LogOnAsync(server, username, password);
-            
-            var camera = (Camera)engine.GetEntity(EntityType.Camera, 1);
 
-            using var videoSourceFilter = new VideoSourceFilter();
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-            videoSourceFilter.FrameDecoded += (sender, args) =>
+            if (state == ConnectionStateCode.Success)
             {
-                using (args)
-                {
-                    Console.WriteLine($"Frame Time: {args.FrameTime}, IsKeyFrame: {args.IsKeyFrame}");
-                }
-            };
+                var camera = (Camera)engine.GetEntity(EntityType.Camera, 1);
 
-            videoSourceFilter.Initialize(engine, camera.Guid);
-            videoSourceFilter.PlayLive();
+                using var videoSourceFilter = new VideoSourceFilter();
+
+                videoSourceFilter.FrameDecoded += (sender, args) =>
+                {
+                    using (args)
+                    {
+                        Console.WriteLine($"Frame Time: {args.FrameTime}, IsKeyFrame: {args.IsKeyFrame}");
+                    }
+                };
+
+                videoSourceFilter.Initialize(engine, camera.Guid);
+                videoSourceFilter.PlayLive();
+            }
+            else
+            {
+                Console.WriteLine($"Logon failed: {state}");
+            }
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
@@ -96,11 +104,11 @@ namespace Genetec.Dap.CodeSamples
                     case PlayerState.NoVideoSequenceAvailable:
                     case PlayerState.InsufficientSecurityInformation:
                     case PlayerState.Error:
-                    {
-                        var videoSourceFilter = (VideoSourceFilter)sender;
-                        completion.TrySetException(new Exception(videoSourceFilter.ErrorDetails?.Details));
-                        break;
-                    }
+                        {
+                            var videoSourceFilter = (VideoSourceFilter)sender;
+                            completion.TrySetException(new Exception(videoSourceFilter.ErrorDetails?.Details));
+                            break;
+                        }
                 }
             }
         }

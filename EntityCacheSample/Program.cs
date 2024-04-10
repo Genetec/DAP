@@ -19,21 +19,47 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var engine = new Engine();
+            using var engine = new Engine();
 
-            var state = await engine.LogOnAsync(server, username, password);
+            engine.EntitiesAdded += (sender, e) =>
+            {
+                foreach (var info in e.Entities)
+                {
+                    Console.WriteLine($"Entity has been added: {engine.GetEntity(info.EntityGuid)}");
+                }
+            };
+
+            engine.EntitiesInvalidated += (sender, e) =>
+            {
+                foreach (var info in e.Entities)
+                {
+                    Console.WriteLine($"Entity has been modified: {engine.GetEntity(info.EntityGuid)}");
+                }
+            };
+
+            engine.EntitiesRemoved += (sender, e) =>
+            {
+                foreach (var info in e.Entities)
+                {
+                    Console.WriteLine($"Entity has been deleted: {info.EntityType} {info.EntityGuid}");
+                }
+            };
+
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
             if (state == ConnectionStateCode.Success)
             {
                 PrintEntityCache();
+
                 await LoadEntities(EntityType.AccessPoint, EntityType.AccessRule);
+
                 PrintEntityCache();
             }
             else
             {
                 Console.WriteLine($"Logon failed: {state}");
             }
-
+            
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 

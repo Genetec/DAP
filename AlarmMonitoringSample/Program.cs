@@ -18,14 +18,14 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var engine = new Engine();
+            using var engine = new Engine();
 
-            engine.AlarmTriggered += OnAlarmTriggerd;
+            engine.AlarmTriggered += OnAlarmTriggered;
             engine.AlarmAcknowledged += OnAlarmAcknowledged;
             engine.AlarmInvestigating += OnAlarmInvestigating;
             engine.AlarmSourceConditionCleared += OnAlarmSourceConditionCleared;
 
-            var state = await engine.LogOnAsync(server, username, password);
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
             if (state != ConnectionStateCode.Success)
                 Console.WriteLine($"Logon failed: {state}");
@@ -33,7 +33,7 @@ namespace Genetec.Dap.CodeSamples
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 
-            void OnAlarmTriggerd(object sender, AlarmTriggeredEventArgs e)
+            void OnAlarmTriggered(object sender, AlarmTriggeredEventArgs e)
             {
                 var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
 
@@ -45,7 +45,7 @@ namespace Genetec.Dap.CodeSamples
                 Console.WriteLine($"\tTrigger Event: {e.TriggerEvent}");
                 Console.WriteLine($"\tOccurence Period: {e.OfflinePeriod}");
 
-                if (engine.GetEntity(e.SourceGuid) is Entity entity)
+                if (engine.GetEntity(e.SourceGuid) is { } entity)
                 {
                     Console.WriteLine($"\tSource: {entity.Name}");
                     Console.WriteLine($"\tSource entity type: {entity.EntityType}");
@@ -63,7 +63,7 @@ namespace Genetec.Dap.CodeSamples
                 Console.WriteLine($"\tInstance ID: {e.InstanceId}");
                 Console.WriteLine($"\tAcknowledged on: {e.AckTime}");
 
-                if (engine.GetEntity(e.AckBy) is Entity entity) Console.WriteLine($"\tAcknowledged by: {entity.Name}");
+                if (engine.GetEntity(e.AckBy) is { } entity) Console.WriteLine($"\tAcknowledged by: {entity.Name}");
 
                 Console.WriteLine(new string('-', 50));
             }
@@ -77,7 +77,7 @@ namespace Genetec.Dap.CodeSamples
                 Console.WriteLine($"\tInstance ID: {e.InstanceId}");
                 Console.WriteLine($"\tInvestigated on: {e.InvestigatedTime}");
 
-                if (engine.GetEntity(e.InvestigatedBy) is Entity entity) Console.WriteLine($"\tInvestigated by: {entity.Name}");
+                if (engine.GetEntity(e.InvestigatedBy) is { } entity) Console.WriteLine($"\tInvestigated by: {entity.Name}");
 
                 Console.WriteLine(new string('-', 50));
             }

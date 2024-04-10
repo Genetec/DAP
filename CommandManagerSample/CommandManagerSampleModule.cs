@@ -4,9 +4,9 @@
 namespace Genetec.Dap.CodeSamples
 {
     using Genetec.Sdk;
-    using Sdk.Diagnostics.Logging.Core;
-    using Sdk.Workspace.Commands;
-    using Sdk.Workspace.Modules;
+    using Genetec.Sdk.Diagnostics.Logging.Core;
+    using Genetec.Sdk.Workspace.Commands;
+    using Genetec.Sdk.Workspace.Modules;
 
     public class CommandManagerSampleModule : Module
     {

@@ -3,7 +3,6 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using System.Diagnostics;
     using Sdk.Workspace.Modules;
 
     public class SampleModule : Module

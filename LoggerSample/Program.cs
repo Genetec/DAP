@@ -5,7 +5,6 @@ namespace Genetec.Dap.CodeSamples
 {
     using System;
     using System.Diagnostics;
-    using System.Threading.Tasks;
     using Sdk.Diagnostics;
     using Sdk.Diagnostics.Logging.Core;
 
@@ -13,7 +12,7 @@ namespace Genetec.Dap.CodeSamples
     {
         static Program() => SdkResolver.Initialize();
 
-        static async Task Main()
+        static void Main()
         {
             const int diagnosticServerPort = 4523;
             const int webServerPort = 6023;

@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,14 +30,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Genetec.Sdk">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.11\Genetec.Sdk.dll</HintPath>
+      <HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Genetec.Sdk.Workspace">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.11\Genetec.Sdk.Workspace.dll</HintPath>
+      <HintPath>$(GSC_SDK)\Genetec.Sdk.Workspace.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
