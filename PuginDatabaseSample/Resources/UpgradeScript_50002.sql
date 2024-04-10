@@ -1,0 +1,2 @@
+ALTER TABLE Logs
+ADD Exception NVARCHAR(MAX);
