@@ -81,7 +81,6 @@ namespace Genetec.Dap.CodeSamples
             });
         }
 
-
         async Task<List<Guid>> FindCardholdersByCustomFieldValue(Engine engine, string customFieldName, object customFieldValue, FieldRangeType condition)
         {
             var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
@@ -213,6 +212,64 @@ namespace Genetec.Dap.CodeSamples
                     break;
 
                 list.AddRange(results.Where(rawEvent => rawEvent.OccurrencePeriod == OfflinePeriodType.Offline || rawEvent.OccurrencePeriod == OfflinePeriodType.OfflineAlarmPeriod));
+
+                if (results.Count < query.MaximumResultCount)
+                {
+                    break;
+                }
+
+                query.StartingAfterIndexes.Clear();
+                foreach (var index in results.GroupBy(@event => @event.AccessManager).Select(group => new RawEventIndex { AccessManager = group.Key, Position = group.Max(rawEvent => rawEvent.EventPosition) }))
+                {
+                    query.StartingAfterIndexes.Add(index);
+                }
+
+            } while (true);
+
+            return list;
+
+            AccessControlRawEvent CreateEvent(DataRow row) => new AccessControlRawEvent
+            {
+                SourceGuid = row.Field<Guid?>(AccessControlRawEventQuery.TableColumns.SourceGuid),
+                AccessPointGuid = row.Field<Guid?>(AccessControlRawEventQuery.TableColumns.AccessPointGuid),
+                CredentialGuid = row.Field<Guid?>(AccessControlRawEventQuery.TableColumns.CredentialGuid),
+                CardholderGuid = row.Field<Guid?>(AccessControlRawEventQuery.TableColumns.CardholderGuid),
+                EventType = row.Field<EventType>(AccessControlRawEventQuery.TableColumns.EventType),
+                InsertionTimestamp = DateTime.SpecifyKind(row.Field<DateTime>(AccessControlRawEventQuery.TableColumns.InsertionTimestamp), DateTimeKind.Utc),
+                Timestamp = DateTime.SpecifyKind(row.Field<DateTime>(AccessControlRawEventQuery.TableColumns.Timestamp), DateTimeKind.Utc),
+                EventPosition = row.Field<long>(AccessControlRawEventQuery.TableColumns.Position),
+                EventTimeZone = row.Field<string>(AccessControlRawEventQuery.TableColumns.TimeZone),
+                AccessManager = row.Field<Guid>(AccessControlRawEventQuery.TableColumns.AccessManagerGuid),
+                OccurrencePeriod = row.Field<OfflinePeriodType>(AccessControlRawEventQuery.TableColumns.OccurrencePeriod)
+            };
+        }
+
+        static async Task<List<AccessControlRawEvent>> RetrieveEvents(Engine engine, IEnumerable<EventType> eventTypes, IEnumerable<RawEventIndex> indexes)
+        {
+            var list = new List<AccessControlRawEvent>();
+
+            var query = (AccessControlRawEventQuery)engine.ReportManager.CreateReportQuery(ReportType.AccessControlRawEvent);
+            query.MaximumResultCount = 1000;
+
+            foreach (var index in indexes)
+            {
+                query.StartingAfterIndexes.Add(index);
+            }
+
+            foreach (var eventType in eventTypes)
+            {
+                query.EventTypeFilter.Add(eventType);
+            }
+
+            do
+            {
+                var args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+
+                var results = args.Data.AsEnumerable().Select(CreateEvent).ToList();
+                if (results.Count == 0)
+                    break;
+
+                list.AddRange(results);
 
                 if (results.Count < query.MaximumResultCount)
                 {
