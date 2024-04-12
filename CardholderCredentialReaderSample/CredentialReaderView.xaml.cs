@@ -7,7 +7,7 @@ namespace Genetec.Dap.CodeSamples
 
     public partial class CredentialReaderView : UserControl
     {
-        public CredentialReaderView(BatchCredentialReader credentialReader)
+        public CredentialReaderView(SampleCardholderCredentialReader credentialReader)
         {
             DataContext = credentialReader;
             InitializeComponent();

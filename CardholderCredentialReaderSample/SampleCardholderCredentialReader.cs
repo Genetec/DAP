@@ -18,7 +18,7 @@ namespace Genetec.Dap.CodeSamples
     using Sdk.Queries;
     using Sdk.Workspace.Components.CredentialReader;
 
-    public class BatchCredentialReader : CardholderCredentialReader, INotifyPropertyChanged
+    public class SampleCardholderCredentialReader : CardholderCredentialReader, INotifyPropertyChanged
     {
         private int m_facilityCode;
 
@@ -26,11 +26,11 @@ namespace Genetec.Dap.CodeSamples
 
         private int m_startNumber;
 
-        public BatchCredentialReader()
+        public SampleCardholderCredentialReader()
         {
             GenerateCommand = new DelegateCommand(async () =>
             {
-                List<WiegandStandardCredentialFormat> formats = Enumerable.Range(StartNumber, Quantity).Select(i => new WiegandStandardCredentialFormat(FacilityCode, i)).ToList();
+                var formats = Enumerable.Range(StartNumber, Quantity).Select(i => new WiegandStandardCredentialFormat(FacilityCode, i)).ToList();
 
                 var query = (CredentialConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.CredentialConfiguration);
 
@@ -62,7 +62,7 @@ namespace Genetec.Dap.CodeSamples
             });
         }
 
-        public override string Name => "Batch creation";
+        public override string Name => nameof(SampleCardholderCredentialReader);
 
         public override Guid UniqueId { get; } = new Guid("9B28081F-206B-41D4-AC26-B358DD9573EF");
 
