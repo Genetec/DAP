@@ -18,7 +18,7 @@ namespace Genetec.Dap.CodeSamples
     using Sdk.Queries;
     using Sdk.Workspace.Components.CredentialReader;
 
-    public class BatchCredentialReader : CredentialReader, INotifyPropertyChanged
+    public class SampleCredentialReader : CredentialReader, INotifyPropertyChanged
     {
         private int m_facilityCode;
 
@@ -26,7 +26,7 @@ namespace Genetec.Dap.CodeSamples
 
         private int m_startNumber;
 
-        public BatchCredentialReader()
+        public SampleCredentialReader()
         {
             GenerateCommand = new DelegateCommand(async () =>
             {
@@ -62,7 +62,7 @@ namespace Genetec.Dap.CodeSamples
             });
         }
 
-        public override string Name => "Batch creation";
+        public override string Name => nameof(SampleCredentialReader);
 
         public override Guid UniqueId { get; } = new Guid("76104935-7793-4529-83D2-061BE6FB072F");
 

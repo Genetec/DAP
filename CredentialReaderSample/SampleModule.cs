@@ -9,7 +9,7 @@ namespace Genetec.Dap.CodeSamples
     {
         public override void Load()
         {
-            var component = new BatchCredentialReader();
+            var component = new SampleCredentialReader();
             component.Initialize(Workspace);
             Workspace.Components.Register(component);
         }

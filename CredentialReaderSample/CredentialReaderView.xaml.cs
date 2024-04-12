@@ -4,7 +4,7 @@
 
     public partial class CredentialReaderView : UserControl
     {
-        public CredentialReaderView(BatchCredentialReader credentialReader)
+        public CredentialReaderView(SampleCredentialReader credentialReader)
         {
             DataContext = credentialReader;
             InitializeComponent();
