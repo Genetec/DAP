@@ -10,10 +10,9 @@ namespace Genetec.Dap.CodeSamples
     {
         public override void Load()
         {
-            if (Workspace.ApplicationType == ApplicationType.SecurityDesk)
-            {
-              
-            }
+            var component = new SampleBadgePrinter();
+            component.Initialize(Workspace);
+            Workspace.Components.Register(component);
         }
 
         public override void Unload()
