@@ -244,7 +244,7 @@ namespace Genetec.Dap.CodeSamples
             };
         }
 
-        static async Task<List<AccessControlRawEvent>> RetrieveEvents(Engine engine, IEnumerable<EventType> eventTypes, IEnumerable<RawEventIndex> indexes)
+        static async Task<List<AccessControlRawEvent>> RetrieveAccessControlEvents(Engine engine, IEnumerable<EventType> eventTypes, IEnumerable<RawEventIndex> indexes)
         {
             var list = new List<AccessControlRawEvent>();
 
