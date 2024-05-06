@@ -29,26 +29,16 @@ namespace Genetec.Dap.CodeSamples
             if (state == ConnectionStateCode.Success)
             {
                 var camera = await FindPtzCamera();
-
-                using var manager = new PtzCoordinatesManager();
+                
+                var manager = new PtzCoordinatesManager();
                 manager.Initialize(sdkEngine: engine, cameraGuid: camera.Guid);
-
-                var presets = Enumerable.Range(camera.PtzCapabilities.PresetBase, camera.PtzCapabilities.NumberOfPresets);
-                foreach (var preset in presets)
-                {
-                    var presetName = camera.GetPtzPresetName(preset);
-                    if (string.IsNullOrEmpty(presetName)) presetName = $"Preset {preset}";
-                    Console.WriteLine($"Moving to {presetName}...");
-
-                    manager.ControlPtz(PtzCommandType.GoToPreset, preset, 0);
-
-                    await Task.Delay(2000);
-                }
+                manager.ControlPtz(PtzCommandType.GoToPreset,  camera.PtzCapabilities.PatternBase, 0);
             }
             else
             {
                 Console.WriteLine($"Logon failed: {state}");
             }
+       
 
             Console.WriteLine(value: "Press any key to exit...");
             Console.ReadKey();
@@ -70,7 +60,7 @@ namespace Genetec.Dap.CodeSamples
                         .Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid))))
                         .OfType<Camera>()
                         .FirstOrDefault(c => c.IsPtz && c.RunningState == State.Running);
-
+                    
                     if (camera != null)
                     {
                         return camera;

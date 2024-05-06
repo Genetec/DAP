@@ -8,7 +8,7 @@ namespace Genetec.Dap.CodeSamples
     using System.Threading.Tasks;
     using Sdk.Media.Overlay;
 
-    public class BouncingBallOverlay
+    class BouncingBallOverlay
     {
         private readonly Guid m_cameraId;
         private readonly Guid m_layerId = new Guid("69A64ACE-6DDC-4142-AD04-06690D8591B3");

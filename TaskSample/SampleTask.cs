@@ -6,7 +6,7 @@ namespace Genetec.Dap.CodeSamples
     using System;
     using System.Diagnostics;
     using System.Windows.Media.Imaging;
-    using Sdk;
+    using Genetec.Sdk;
     using Genetec.Sdk.Workspace.Tasks;
 
     public class NotepadTask : Task

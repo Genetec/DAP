@@ -8,7 +8,6 @@
 
     <Label
         HorizontalAlignment="Center"
-        VerticalAlignment="Center"
         HorizontalContentAlignment="Center"
         Content="Tile View Sample"
         FontSize="16"

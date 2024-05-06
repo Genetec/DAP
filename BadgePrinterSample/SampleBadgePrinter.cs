@@ -13,7 +13,7 @@ namespace Genetec.Dap.CodeSamples
     {
         public override string Name => "Badge Printer Sample";
 
-        public override Guid UniqueId { get; } = new Guid("9D4B5E78-9DE7-40EA-86C2-E70078DDC8D1");
+        public override Guid UniqueId { get; } = new Guid("{9D4B5E78-9DE7-40EA-86C2-E70078DDC8D1}");
 
         public override bool Print(Guid credential, Guid badge, Guid cardholderGuid)
         {

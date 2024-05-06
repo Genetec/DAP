@@ -83,7 +83,7 @@
                 HorizontalAlignment="Stretch"
                 Command="{Binding SendNotification}"
                 CommandParameter="{Binding ElementName=MessageTextBox, Path=Text}"
-                Content="Send notification" />
+                Content="Send Notification" />
 
             <TextBox
                 x:Name="MessageTextBox"
@@ -133,7 +133,7 @@
                 HorizontalAlignment="Stretch"
                 Command="{Binding UpdateProgress}"
                 CommandParameter="{Binding ElementName=ProgressNumericUpDown, Path=Value}"
-                Content="Update progress" />
+                Content="Update Progress" />
 
             <NumericUpDown
                 x:Name="ProgressNumericUpDown"
@@ -182,7 +182,7 @@
                 Margin="4,5"
                 HorizontalAlignment="Stretch"
                 Command="{Binding ClearCompletedProcesses}"
-                Content="Clear completed" />
+                Content="Clear Completed" />
 
         </Grid>
     </Grid>

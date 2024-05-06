@@ -30,7 +30,7 @@ namespace Genetec.Dap.CodeSamples
         {
             GenerateCommand = new DelegateCommand(async () =>
             {
-                var formats = Enumerable.Range(StartNumber, Quantity).Select(i => new WiegandStandardCredentialFormat(FacilityCode, i)).ToList();
+                List<WiegandStandardCredentialFormat> formats = Enumerable.Range(StartNumber, Quantity).Select(i => new WiegandStandardCredentialFormat(FacilityCode, i)).ToList();
 
                 var query = (CredentialConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.CredentialConfiguration);
 

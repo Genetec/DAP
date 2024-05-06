@@ -49,43 +49,51 @@ namespace Genetec.Dap.CodeSamples
         {
             m_logger.TraceDebug($"Deleting logs older than {daysOld} days");
 
-            using SqlConnection connection = Configuration.CreateSqlConnection();
-            try
+            using (SqlConnection connection = Configuration.CreateSqlConnection())
             {
-                using var command = new SqlCommand("DeleteOldLogs", connection);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@DaysOld", daysOld));
+                try
+                {
+                    using (var command = new SqlCommand("DeleteOldLogs", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@DaysOld", daysOld));
 
-                connection.Open();
+                        connection.Open();
 
-                int rowsAffected = command.ExecuteNonQuery();
+                        int rowsAffected = command.ExecuteNonQuery();
 
-                m_logger.TraceDebug($"{rowsAffected} rows were deleted.");
-            }
-            catch (Exception ex)
-            {
-                m_logger.TraceError(ex, $"An error occurred: {ex.Message}");
+                        m_logger.TraceDebug($"{rowsAffected} rows were deleted.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    m_logger.TraceError(ex, $"An error occurred: {ex.Message}");
+                }
             }
         }
 
         public void InsertLog(DateTime timestamp, int logLevel, string message)
         {
-            using SqlConnection connection = Configuration.CreateSqlConnection();
-            try
+            using (SqlConnection connection = Configuration.CreateSqlConnection())
             {
-                using var command = new SqlCommand("InsertLog", connection);
-                command.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    using (var command = new SqlCommand("InsertLog", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
 
-                command.Parameters.Add(new SqlParameter("@Timestamp", timestamp));
-                command.Parameters.Add(new SqlParameter("@LogLevel", logLevel));
-                command.Parameters.Add(new SqlParameter("@Message", message));
+                        command.Parameters.Add(new SqlParameter("@Timestamp", timestamp));
+                        command.Parameters.Add(new SqlParameter("@LogLevel", logLevel));
+                        command.Parameters.Add(new SqlParameter("@Message", message));
 
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                m_logger.TraceError(ex, $"An error occurred while inserting log: {ex.Message}");
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    m_logger.TraceError(ex, $"An error occurred while inserting log: {ex.Message}");
+                }
             }
         }
 

@@ -8,7 +8,7 @@ namespace Genetec.Dap.CodeSamples
     using Genetec.Sdk;
     using Genetec.Sdk.Entities;
 
-    class Program
+    internal class Program
     {
         static Program() => SdkResolver.Initialize();
 
@@ -29,7 +29,7 @@ namespace Genetec.Dap.CodeSamples
 
             if (state != ConnectionStateCode.Success)
                 Console.WriteLine($"Logon failed: {state}");
-
+            
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 
@@ -63,10 +63,7 @@ namespace Genetec.Dap.CodeSamples
                 Console.WriteLine($"\tInstance ID: {e.InstanceId}");
                 Console.WriteLine($"\tAcknowledged on: {e.AckTime}");
 
-                if (engine.GetEntity(e.AckBy) is { } entity)
-                {
-                    Console.WriteLine($"\tAcknowledged by: {entity.Name}");
-                }
+                if (engine.GetEntity(e.AckBy) is { } entity) Console.WriteLine($"\tAcknowledged by: {entity.Name}");
 
                 Console.WriteLine(new string('-', 50));
             }
@@ -80,10 +77,7 @@ namespace Genetec.Dap.CodeSamples
                 Console.WriteLine($"\tInstance ID: {e.InstanceId}");
                 Console.WriteLine($"\tInvestigated on: {e.InvestigatedTime}");
 
-                if (engine.GetEntity(e.InvestigatedBy) is { } entity)
-                {
-                    Console.WriteLine($"\tInvestigated by: {entity.Name}");
-                }
+                if (engine.GetEntity(e.InvestigatedBy) is { } entity) Console.WriteLine($"\tInvestigated by: {entity.Name}");
 
                 Console.WriteLine(new string('-', 50));
             }

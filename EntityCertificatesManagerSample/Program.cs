@@ -67,7 +67,7 @@ namespace Genetec.Dap.CodeSamples
             }
 
             Console.WriteLine("A certificate already exists.");
-           
+
             return summaries.First();
         }
 
