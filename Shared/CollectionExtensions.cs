@@ -7,12 +7,6 @@ namespace Genetec.Dap.CodeSamples
 
     public static class CollectionExtensions
     {
-        /// <summary>
-        /// Adds a range of items to the collection.
-        /// </summary>
-        /// <typeparam name="T">Type of items in the collection.</typeparam>
-        /// <param name="collection">The target collection.</param>
-        /// <param name="items">The items to add to the collection.</param>
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
         {
             foreach (var item in items)

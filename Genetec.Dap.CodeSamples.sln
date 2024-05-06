@@ -66,8 +66,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardholderFieldsExtractorSa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageExtractorSample", "ImageExtractorSample\ImageExtractorSample.csproj", "{B2D953C3-B160-4566-89E3-7B65580E6019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapLayerBuilderSample", "MapLayerBuilderSample\MapLayerBuilderSample.csproj", "{936F3141-6709-4E3A-A4FD-F81618BC547C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomFieldSample", "CustomFieldSample\CustomFieldSample.csproj", "{AEB2EC24-97E3-4F60-822B-7BE876D97AC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigPageSample", "ConfigPageSample\ConfigPageSample.csproj", "{73AF157B-5C79-4C5F-A957-D548513E2798}"
@@ -85,8 +83,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventToActionSample", "EventToActionSample\EventToActionSample.csproj", "{0905D84F-59BC-4A31-BCE5-916FEC9B169C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuginDatabaseSample", "PuginDatabaseSample\PuginDatabaseSample.csproj", "{B622A780-E98F-4E65-B5CA-C305E6B45965}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportManagerSample", "ReportManagerSample\ReportManagerSample.csproj", "{61813096-0091-425E-9844-847D1AAD0A07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomReportSample", "CustomReportSample\CustomReportSample.csproj", "{F905C101-896C-49E6-8078-19C0E9513F88}"
 EndProject
@@ -206,10 +202,6 @@ Global
 		{B2D953C3-B160-4566-89E3-7B65580E6019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2D953C3-B160-4566-89E3-7B65580E6019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2D953C3-B160-4566-89E3-7B65580E6019}.Release|Any CPU.Build.0 = Release|Any CPU
-		{936F3141-6709-4E3A-A4FD-F81618BC547C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{936F3141-6709-4E3A-A4FD-F81618BC547C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{936F3141-6709-4E3A-A4FD-F81618BC547C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{936F3141-6709-4E3A-A4FD-F81618BC547C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEB2EC24-97E3-4F60-822B-7BE876D97AC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEB2EC24-97E3-4F60-822B-7BE876D97AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB2EC24-97E3-4F60-822B-7BE876D97AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -246,10 +238,6 @@ Global
 		{B622A780-E98F-4E65-B5CA-C305E6B45965}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B622A780-E98F-4E65-B5CA-C305E6B45965}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B622A780-E98F-4E65-B5CA-C305E6B45965}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61813096-0091-425E-9844-847D1AAD0A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61813096-0091-425E-9844-847D1AAD0A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61813096-0091-425E-9844-847D1AAD0A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61813096-0091-425E-9844-847D1AAD0A07}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F905C101-896C-49E6-8078-19C0E9513F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F905C101-896C-49E6-8078-19C0E9513F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F905C101-896C-49E6-8078-19C0E9513F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -295,7 +283,6 @@ Global
 		{B1470875-4071-4047-BD8E-712B6DD22F1E} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{8BA6C468-F9FD-469B-9D45-D68528BDBD59} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{B2D953C3-B160-4566-89E3-7B65580E6019} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
-		{936F3141-6709-4E3A-A4FD-F81618BC547C} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{73AF157B-5C79-4C5F-A957-D548513E2798} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{27A4F6F6-F0E5-4FB1-86F8-A70751957A3A} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{A2A41EB7-93AD-49B8-9C53-4706B6E9E9ED} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
@@ -319,7 +306,6 @@ Global
 		Shared\Shared.projitems*{464c76ea-da3e-4957-bbc3-2b8591e64349}*SharedItemsImports = 4
 		Shared\Shared.projitems*{49274831-ce4c-4b89-91b9-61c7deda2a26}*SharedItemsImports = 4
 		Shared\Shared.projitems*{4d27a27e-a287-4366-89dc-e89571b07321}*SharedItemsImports = 4
-		Shared\Shared.projitems*{61813096-0091-425e-9844-847d1aad0a07}*SharedItemsImports = 4
 		Shared\Shared.projitems*{73543dda-ef56-49e4-a49c-b3f162150038}*SharedItemsImports = 4
 		Shared\Shared.projitems*{7e86ab23-938e-4384-bdbe-e98d7cc9ca44}*SharedItemsImports = 4
 		Shared\Shared.projitems*{7eafb04b-b851-41c6-8ce7-09ca2b68c3af}*SharedItemsImports = 4
