@@ -51,7 +51,7 @@ namespace Genetec.Dap.CodeSamples
                             PrintVideoCompressionConfiguration(config);
                             Console.WriteLine(new string('-', 20)); // Separator for each configuration
                         }
-                        
+                       
                         PrintQualityBoostConfiguration("Event Recording Configuration", camera.IsBoostQualityOnEventRecordingEnabled, stream.BoostQualityOnEventRecording);
                         PrintQualityBoostConfiguration("Manual Recording Configuration", camera.IsBoostQualityOnManualRecordingEnabled, stream.BoostQualityOnManualRecording);
 

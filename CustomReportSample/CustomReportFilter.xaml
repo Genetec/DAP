@@ -1,0 +1,15 @@
+﻿<pages:ReportFilter x:Class="Genetec.Dap.CodeSamples.CustomReportFilter"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:pages="clr-namespace:Genetec.Sdk.Workspace.Pages;assembly=Genetec.Sdk.Workspace"
+              mc:Ignorable="d" >
+    <Grid>
+        <TextBox
+            MinWidth="150"
+            Margin="4"
+            HorizontalAlignment="Stretch"
+            Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </Grid>
+</pages:ReportFilter>

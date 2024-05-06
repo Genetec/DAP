@@ -17,7 +17,7 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var engine = new Engine();
+            using var engine = new Engine();
 
             engine.LoginManager.ConnectionRetry = -1;
 

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<streamingConfiguration PreAllocateSocketBuffers="50" ThrottlingThreshold="0" />
+	<logTargets>
+		<!-- Debug -->
+		<logTarget type="Genetec.Diagnostics.Logging.Targets.DebugTarget, Genetec">
+			<settings>
+				<add Key="TraceWithoutDebugger" Value="true" />
+			</settings>
+			<traces>
+				<!--<add loggerName="Genetec.Sentinel.DSProxy.Workflows.WFEntity" severity="All" />-->
+				<add loggerName="Genetec.Dap" severity="All" />
+			</traces>
+		</logTarget>
+		<logTarget type="Genetec.Diagnostics.Logging.Targets.LogFileTarget, Genetec">
+			<settings>
+				<add Key="prefix" Value="Trace_"/>
+				<add Key="deleteOlderThanNDays" Value="2"/>
+				<add Key="logMaxLine" Value="50000"/>
+				<add Key="logFolder" Value="Logs"/>
+			</settings>
+			<traces>
+				<!--<add loggerName="root" severity="Warning|Error|Fatal"/>-->
+				<add loggerName="Genetec.Dap" severity="All" />
+			</traces>
+		</logTarget>
+	</logTargets>
+</configuration>

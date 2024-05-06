@@ -17,10 +17,10 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var sender = new Engine();
-            var receiver = new Engine(); 
+            using var sender = new Engine();
+            using var receiver = new Engine(); 
             
-            await Task.WhenAll(sender.LogOnAsync(server, username, password), receiver.LogOnAsync(server, username, password));
+           var states = await Task.WhenAll(sender.LogOnAsync(server, username, password), receiver.LogOnAsync(server, username, password));
 
             receiver.RequestManager.AddRequestHandler<Request, Response>((request, completion) =>
             {
