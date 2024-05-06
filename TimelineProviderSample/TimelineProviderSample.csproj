@@ -60,19 +60,8 @@
     <Compile Include="AlarmTimelineEvent.cs" />
     <Compile Include="AlarmTimelineProvider.cs" />
     <Compile Include="AlarmTimelineProviderBuilder.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="SampleModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Certificates\Genetec.Dap.CodeSamples.AlarmTimelineProviderBuilder.cert">

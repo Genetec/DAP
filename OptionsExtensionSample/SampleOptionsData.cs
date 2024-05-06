@@ -29,26 +29,20 @@ namespace Genetec.Dap.CodeSamples
             if (string.IsNullOrEmpty(data)) 
                 return new SampleOptionsData();
 
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(data)))
-            {
-                var serializer = new DataContractSerializer(typeof(SampleOptionsData));
-                return (SampleOptionsData)serializer.ReadObject(stream);
-            }
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
+            var serializer = new DataContractSerializer(typeof(SampleOptionsData));
+            return (SampleOptionsData)serializer.ReadObject(stream);
         }
 
         public string Serialize()
         {
-            using (var stream = new MemoryStream())
-            {
-                var serializer = new DataContractSerializer(typeof(SampleOptionsData));
-                serializer.WriteObject(stream, this);
-                stream.Position = 0;
+            using var stream = new MemoryStream();
+            var serializer = new DataContractSerializer(typeof(SampleOptionsData));
+            serializer.WriteObject(stream, this);
+            stream.Position = 0;
 
-                using (var reader = new StreamReader(stream))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
     }
 }

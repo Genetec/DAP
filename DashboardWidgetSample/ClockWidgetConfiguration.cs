@@ -19,27 +19,21 @@ namespace Genetec.Dap.CodeSamples
             if (string.IsNullOrEmpty(data))
                 return new ClockWidgetConfiguration();
 
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(data)))
-            {
-                var serializer = new DataContractJsonSerializer(typeof(ClockWidgetConfiguration));
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
+            var serializer = new DataContractJsonSerializer(typeof(ClockWidgetConfiguration));
 
-                return (ClockWidgetConfiguration)serializer.ReadObject(stream);
-            }
+            return (ClockWidgetConfiguration)serializer.ReadObject(stream);
         }
 
         public string Serialize()
         {
-            using (var stream = new MemoryStream())
-            {
-                var serializer = new DataContractJsonSerializer(typeof(ClockWidgetConfiguration));
-                serializer.WriteObject(stream, this);
-                stream.Position = 0;
+            using var stream = new MemoryStream();
+            var serializer = new DataContractJsonSerializer(typeof(ClockWidgetConfiguration));
+            serializer.WriteObject(stream, this);
+            stream.Position = 0;
 
-                using (var reader = new StreamReader(stream))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
     }
 }

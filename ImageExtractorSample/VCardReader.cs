@@ -47,16 +47,14 @@ namespace Genetec.Dap.CodeSamples
             {
                 string base64Data = photoMatch.Groups[1].Value.Trim().Replace("\n", "").Replace("\r", "");
 
-                using (var stream = new MemoryStream(Convert.FromBase64String(base64Data)))
-                {
-                    var bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.StreamSource = stream;
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.EndInit();
-                    bitmap.Freeze();
-                    return bitmap;
-                }
+                using var stream = new MemoryStream(Convert.FromBase64String(base64Data));
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = stream;
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                bitmap.Freeze();
+                return bitmap;
             }
 
             return null;

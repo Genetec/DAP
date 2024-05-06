@@ -30,13 +30,9 @@ namespace Genetec.Dap.CodeSamples
             if (string.IsNullOrEmpty(data))
                 return new AedUnitInformation();
 
-            using (var stringReader = new StringReader(data))
-            {
-                using (var xmlReader = XmlReader.Create(stringReader))
-                {
-                    return (AedUnitInformation)s_serializer.ReadObject(xmlReader);
-                }
-            }
+            using var stringReader = new StringReader(data);
+            using var xmlReader = XmlReader.Create(stringReader);
+            return (AedUnitInformation)s_serializer.ReadObject(xmlReader);
         }
 
         public string Serialize()

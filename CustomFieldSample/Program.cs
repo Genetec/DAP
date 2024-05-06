@@ -4,14 +4,11 @@
 namespace Genetec.Dap.CodeSamples
 {
     using System;
-    using System.Collections.Generic;
-    using System.Data;
     using System.Linq;
     using System.Threading.Tasks;
     using Sdk;
     using Sdk.Entities;
     using Sdk.Entities.CustomFields;
-    using Sdk.Queries;
 
     class Program
     {
@@ -54,15 +51,6 @@ namespace Genetec.Dap.CodeSamples
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
-
-        }
-
-        async Task<IEnumerable<Entity>> FindEntityByCustomFieldValue(Engine engine, CustomField field, object value)
-        {
-            var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-            query.CustomFields.Add(new CustomFieldFilter(field, value));
-            var result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            return result.Data.AsEnumerable().Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid))));
         }
     }
 }
