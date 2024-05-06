@@ -51,7 +51,7 @@ namespace Genetec.Dap.CodeSamples
             {
                 PrintEntityCache();
 
-                await LoadEntities(EntityType.AccessPoint, EntityType.AccessRule);
+                await LoadEntities(EntityType.AccessPoint);
 
                 PrintEntityCache();
             }
@@ -59,7 +59,7 @@ namespace Genetec.Dap.CodeSamples
             {
                 Console.WriteLine($"Logon failed: {state}");
             }
-            
+
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 
@@ -89,7 +89,7 @@ namespace Genetec.Dap.CodeSamples
 
                 var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
                 query.EntityTypeFilter.AddRange(types);
-                query.DownloadAllRelatedData = false;
+                query.DownloadAllRelatedData = true;
                 query.Page = 1;
                 query.PageSize = 1000;
 

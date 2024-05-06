@@ -23,9 +23,9 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            var engine = new Engine();
+            using var engine = new Engine();
 
-            var state = await engine.LogOnAsync(server, username, password);
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
             if (state == ConnectionStateCode.Success)
             {
@@ -62,7 +62,7 @@ namespace Genetec.Dap.CodeSamples
             var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
             query.CustomFields.Add(new CustomFieldFilter(field, value));
             var result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            return result.Data.AsEnumerable().Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid)))).OfType<Cardholder>();
+            return result.Data.AsEnumerable().Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid))));
         }
     }
 }

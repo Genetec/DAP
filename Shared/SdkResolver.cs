@@ -32,33 +32,29 @@ namespace Genetec.Dap.CodeSamples
             {
                 foreach (var root in new[] { @"SOFTWARE\Genetec\Security Center\", @"SOFTWARE\Wow6432Node\Genetec\Security Center\" })
                 {
-                    using (RegistryKey key = Registry.LocalMachine.OpenSubKey(root))
+                    using RegistryKey key = Registry.LocalMachine.OpenSubKey(root);
+                    if (key is null)
                     {
-                        if (key is null)
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        foreach (var name in key.GetSubKeyNames())
+                    foreach (var name in key.GetSubKeyNames())
+                    {
+                        if (Version.TryParse(name, out Version version))
                         {
-                            if (Version.TryParse(name, out Version version))
+                            using RegistryKey subKey = key.OpenSubKey(name);
+                            if (subKey is null)
                             {
-                                using (RegistryKey subKey = key.OpenSubKey(name))
-                                {
-                                    if (subKey is null)
-                                    {
-                                        continue;
-                                    }
+                                continue;
+                            }
 
-                                    if (subKey.GetValue("Installation Path") is string path) //SDK installation PATH
-                                    {
-                                        yield return (version, path);
-                                    }
-                                    else if (subKey.GetValue("InstallDir") is string dir) //Security Center installation PATH
-                                    {
-                                        yield return (version, dir);
-                                    }
-                                }
+                            if (subKey.GetValue("Installation Path") is string path) //SDK installation PATH
+                            {
+                                yield return (version, path);
+                            }
+                            else if (subKey.GetValue("InstallDir") is string dir) //Security Center installation PATH
+                            {
+                                yield return (version, dir);
                             }
                         }
                     }

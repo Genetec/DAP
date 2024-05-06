@@ -42,7 +42,7 @@ namespace Genetec.Dap.CodeSamples
         {
             var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
             query.EntityTypeFilter.Add(EntityType.User);
-            var result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+            await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
             var definitions = engine.SecurityManager.GetPrivilegeDefinitions().ToDictionary(information => information.Id);
 
