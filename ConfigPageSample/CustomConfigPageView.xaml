@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:Genetec.Dap.CodeSamples.Properties"
     mc:Ignorable="d">
 
     <Grid>
@@ -22,61 +23,66 @@
         <Label
             Grid.Row="0"
             Grid.Column="0"
+            Margin="4,5,4,5"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Content="Last inspection date"
+            Content="{x:Static properties:Resources.LastInspectionDate}"
             Style="{Styles {x:Static LabelStyles.Intro}}" />
-        <DatePicker
+        <DateTimePicker
             Grid.Row="0"
             Grid.Column="1"
             Margin="4,5,4,5"
-            HorizontalAlignment="Stretch"
-            SelectedDate="{Binding LastInspectionDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            HorizontalAlignment="Left"
+            DisplayType="Date"
+            Value="{Binding LastInspectionDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
         <Label
             Grid.Row="1"
             Grid.Column="0"
+            Margin="4,5,4,5"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Content="Next scheduled maintenance"
+            Content="{x:Static properties:Resources.NextScheduledMaintenance}"
             Style="{Styles {x:Static LabelStyles.Intro}}" />
-        <DatePicker
+        <DateTimePicker
             Grid.Row="1"
             Grid.Column="1"
-            Width="60"
             Margin="4,5,4,5"
             HorizontalAlignment="Left"
-            SelectedDate="{Binding NextScheduledMaintenance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            DisplayType="Date"
+            Value="{Binding NextScheduledMaintenance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
         <Label
             Grid.Row="2"
             Grid.Column="0"
+            Margin="4,5,4,5"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Content="Battery expiration date"
+            Content="{x:Static properties:Resources.BatteryExpirationDate}"
             Style="{Styles {x:Static LabelStyles.Intro}}" />
-        <DatePicker
+        <DateTimePicker
             Grid.Row="2"
             Grid.Column="1"
-            Width="60"
             Margin="4,5,4,5"
             HorizontalAlignment="Left"
-            SelectedDate="{Binding BatteryExpirationDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            DisplayType="Date"
+            Value="{Binding BatteryExpirationDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
         <Label
             Grid.Row="3"
             Grid.Column="0"
+            Margin="4,5,4,5"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Content="Pad expiration date"
+            Content="{x:Static properties:Resources.PadExpirationDate}"
             Style="{Styles {x:Static LabelStyles.Intro}}" />
-        <DatePicker
+        <DateTimePicker
             Grid.Row="3"
             Grid.Column="1"
-            Width="60"
             Margin="4,5,4,5"
             HorizontalAlignment="Left"
-            SelectedDate="{Binding PadExpirationDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            DisplayType="Date"
+            Value="{Binding PadExpirationDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
     </Grid>
 

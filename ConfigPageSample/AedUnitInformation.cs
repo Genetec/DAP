@@ -6,43 +6,51 @@ namespace Genetec.Dap.CodeSamples
     using System;
     using System.IO;
     using System.Runtime.Serialization;
-    using System.Text;
+    using System.Xml;
 
+    [DataContract(Namespace = "")]
     public class AedUnitInformation
     {
+        [DataMember]
         public DateTime LastInspectionDate { get; set; }
 
+        [DataMember]
         public DateTime NextScheduledMaintenance { get; set; }
 
+        [DataMember]
         public DateTime BatteryExpirationDate { get; set; }
 
+        [DataMember]
         public DateTime PadExpirationDate { get; set; }
+
+        private static readonly DataContractSerializer s_serializer = new DataContractSerializer(typeof(AedUnitInformation));
 
         public static AedUnitInformation Deserialize(string data)
         {
             if (string.IsNullOrEmpty(data))
                 return new AedUnitInformation();
 
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(data)))
+            using (var stringReader = new StringReader(data))
             {
-                var serializer = new DataContractSerializer(typeof(AedUnitInformation));
-                return (AedUnitInformation)serializer.ReadObject(stream);
+                using (var xmlReader = XmlReader.Create(stringReader))
+                {
+                    return (AedUnitInformation)s_serializer.ReadObject(xmlReader);
+                }
             }
         }
 
         public string Serialize()
         {
-            using (var stream = new MemoryStream())
+            using (var stringWriter = new StringWriter())
             {
-                var serializer = new DataContractSerializer(typeof(AedUnitInformation));
-                serializer.WriteObject(stream, this);
-                stream.Position = 0;
-
-                using (var reader = new StreamReader(stream))
+                using (var xmlWriter = XmlWriter.Create(stringWriter))
                 {
-                    return reader.ReadToEnd();
+                    s_serializer.WriteObject(xmlWriter, this);
+                    xmlWriter.Flush();
+                    return stringWriter.ToString();
                 }
             }
         }
     }
+
 }
