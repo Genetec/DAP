@@ -29,9 +29,24 @@ namespace Genetec.Dap.CodeSamples
                 await LoadAreas();
 
                 var areas = engine.GetEntities(EntityType.Area).OfType<Area>();
+                
                 foreach (var area in areas)
                 {
-                    Console.WriteLine($"{area.Name}: {area.PeopleCount.Count}");
+                    Console.WriteLine($"\n{area.Name}");
+                    Console.WriteLine($"People Count: {area.PeopleCount.Count}");
+
+                    if (area.PeopleCount.Any())
+                    {
+                        Console.WriteLine("\nShowing the first 10 cardholders:");
+
+                        foreach (var peopleCountRecord in area.PeopleCount.Take(10))
+                        {
+                            var cardholder = engine.GetEntity(peopleCountRecord.Cardholder);
+                            Console.WriteLine($"Name: {cardholder.Name}");
+                            Console.WriteLine($"Location: {peopleCountRecord.Status}");
+                            Console.WriteLine($"Last Access: {peopleCountRecord.LastAccess}");
+                        }
+                    }
                 }
             }
             else
@@ -60,6 +75,21 @@ namespace Genetec.Dap.CodeSamples
 
                 } while (args.Error == ReportError.TooManyResults || args.Data.Rows.Count > query.PageSize);
             }
+        }
+
+        static void RemoveAllCardholders(Area area)
+        {
+            area.ResetPeopleCount();
+        }
+
+        static void AddCardholderToArea(Area area, Cardholder cardholder)
+        {
+            area.ModifyPeopleCount(true, cardholder.Guid);
+        }
+
+        static void RemoveCardholderFromArea(Area area, Cardholder cardholder)
+        {
+            area.ModifyPeopleCount(false, cardholder.Guid);
         }
     }
 }
