@@ -4,9 +4,11 @@
 namespace Genetec.Dap.CodeSamples
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Sdk;
     using Sdk.Entities;
+    using Sdk.Workflows;
 
     class Program
     {
@@ -24,8 +26,8 @@ namespace Genetec.Dap.CodeSamples
 
             if (state == ConnectionStateCode.Success)
             {
-              
 
+                IEnumerable<AccessVerifier.AccessPointResult> s = engine.AccessVerifier.GetAccessResults();
             }
             else
             {
@@ -35,8 +37,5 @@ namespace Genetec.Dap.CodeSamples
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
-
-    
-
     }
 }
