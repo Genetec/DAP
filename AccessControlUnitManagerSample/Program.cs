@@ -29,7 +29,7 @@ namespace Genetec.Dap.CodeSamples
 
             if (state == ConnectionStateCode.Success)
             {
-                var accessManagerRole = await GetAccessManagerRole();
+                AccessManagerRole accessManagerRole = await GetAccessManagerRole();
 
                 var info = new AddAccessControlUnitInfo(
                     address: IPAddress.Parse("127.0.0.1"),

@@ -27,7 +27,7 @@ namespace Genetec.Dap.CodeSamples
             {
                 var camera = (Camera)engine.GetEntity(EntityType.Camera, 1);
 
-                await using PlaybackStreamReader reader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid);
+                await using var reader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid);
                 await reader.ConnectAsync();
                 await reader.SeekAsync(DateTime.UtcNow.AddMinutes(-1));
                 

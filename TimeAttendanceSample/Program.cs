@@ -11,7 +11,7 @@ namespace Genetec.Dap.CodeSamples
     using Genetec.Sdk;
     using Sdk.Queries;
 
-    internal class Program
+    class Program
     {
         static Program() => SdkResolver.Initialize();
 
@@ -28,11 +28,11 @@ namespace Genetec.Dap.CodeSamples
             if (state == ConnectionStateCode.Success)
             {
                 // Example parameters
-                Guid areaGuid = new Guid("ENTER_AREA_GUID_HERE");
-                List<Guid> cardholderGuids = new List<Guid> { new Guid("ENTER_CARDHOLDER_GUID_HERE") };
-                TimeSpan? startOfDay = TimeSpan.FromHours(9); // Example start of day: 09:00 AM
-                DateTime from = DateTime.UtcNow.AddDays(-1); // Example: past day
-                DateTime to = DateTime.UtcNow;
+                var areaGuid = new Guid("ENTER_AREA_GUID_HERE");
+                var cardholderGuids = new List<Guid> { new Guid("ENTER_CARDHOLDER_GUID_HERE") };
+                var startOfDay = TimeSpan.FromHours(9); // Example start of day: 09:00 AM
+                var from = DateTime.UtcNow.AddDays(-1); // Example: past day
+                var to = DateTime.UtcNow;
 
                 List<TimeAttendance> attendances = await GetTimeAndAttendance(engine, areaGuid, cardholderGuids, startOfDay, from, to);
 

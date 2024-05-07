@@ -23,7 +23,7 @@ namespace Genetec.Dap.CodeSamples
 
             engine.EntitiesAdded += (sender, e) =>
             {
-                foreach (var info in e.Entities)
+                foreach (EntityUpdateInfo info in e.Entities)
                 {
                     Console.WriteLine($"Entity has been added: {engine.GetEntity(info.EntityGuid)}");
                 }
@@ -31,7 +31,7 @@ namespace Genetec.Dap.CodeSamples
 
             engine.EntitiesInvalidated += (sender, e) =>
             {
-                foreach (var info in e.Entities)
+                foreach (EntityUpdateInfo info in e.Entities)
                 {
                     Console.WriteLine($"Entity has been modified: {engine.GetEntity(info.EntityGuid)}");
                 }
@@ -39,7 +39,7 @@ namespace Genetec.Dap.CodeSamples
 
             engine.EntitiesRemoved += (sender, e) =>
             {
-                foreach (var info in e.Entities)
+                foreach (EntityUpdateInfo info in e.Entities)
                 {
                     Console.WriteLine($"Entity has been deleted: {info.EntityType} {info.EntityGuid}");
                 }
@@ -71,7 +71,7 @@ namespace Genetec.Dap.CodeSamples
                 {
                     try
                     {
-                        var count = engine.GetEntities(entityType).Count;
+                        int count = engine.GetEntities(entityType).Count;
                         if (count > 0)
                         {
                             Console.WriteLine($"{entityType,-20}: {count}");

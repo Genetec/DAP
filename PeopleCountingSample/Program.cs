@@ -4,6 +4,7 @@
 namespace Genetec.Dap.CodeSamples
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Genetec.Sdk.Entities;
@@ -28,7 +29,7 @@ namespace Genetec.Dap.CodeSamples
             {
                 await LoadAreas();
 
-                var areas = engine.GetEntities(EntityType.Area).OfType<Area>();
+                IEnumerable<Area> areas = engine.GetEntities(EntityType.Area).OfType<Area>();
                 
                 foreach (var area in areas)
                 {
@@ -39,9 +40,9 @@ namespace Genetec.Dap.CodeSamples
                     {
                         Console.WriteLine("\nShowing the first 10 cardholders:");
 
-                        foreach (var peopleCountRecord in area.PeopleCount.Take(10))
+                        foreach (PeopleCountRecord peopleCountRecord in area.PeopleCount.Take(10))
                         {
-                            var cardholder = engine.GetEntity(peopleCountRecord.Cardholder);
+                            Entity cardholder = engine.GetEntity(peopleCountRecord.Cardholder);
                             Console.WriteLine($"Name: {cardholder.Name}");
                             Console.WriteLine($"Location: {peopleCountRecord.Status}");
                             Console.WriteLine($"Last Access: {peopleCountRecord.LastAccess}");

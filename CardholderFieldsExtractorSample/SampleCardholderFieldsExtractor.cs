@@ -24,7 +24,7 @@ namespace Genetec.Dap.CodeSamples
 
             if (openFileDialog.ShowDialog() == true)
             {
-                var vCardInfo = VCardReader.ReadVCard(openFileDialog.FileName);
+                VCard vCardInfo = VCardReader.ReadVCard(openFileDialog.FileName);
                 if (vCardInfo != null)
                 {
                     return new CardholderFields

@@ -32,12 +32,12 @@ namespace Genetec.Dap.CodeSamples
                 query.MaximumResultCount = 5;
                 await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
-                foreach (var camera in engine.GetEntities(EntityType.Camera).OfType<Camera>())
+                foreach (Camera camera in engine.GetEntities(EntityType.Camera).OfType<Camera>())
                 {
                     Console.WriteLine($"Camera: {camera.Name}");
                     Console.WriteLine(new string('-', 20)); // Separator for clarity
 
-                    foreach (var streamUsage in camera.StreamUsages)
+                    foreach (VideoStreamUsage streamUsage in camera.StreamUsages)
                     {
                         var stream = (VideoStream)engine.GetEntity(streamUsage.Stream);
 

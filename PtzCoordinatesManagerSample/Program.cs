@@ -4,6 +4,7 @@
 namespace Genetec.Dap.CodeSamples
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using System.Threading.Tasks;
@@ -28,15 +29,15 @@ namespace Genetec.Dap.CodeSamples
 
             if (state == ConnectionStateCode.Success)
             {
-                var camera = await FindPtzCamera();
+                Camera camera = await FindPtzCamera();
 
                 using var manager = new PtzCoordinatesManager();
                 manager.Initialize(sdkEngine: engine, cameraGuid: camera.Guid);
 
-                var presets = Enumerable.Range(camera.PtzCapabilities.PresetBase, camera.PtzCapabilities.NumberOfPresets);
+                IEnumerable<int> presets = Enumerable.Range(camera.PtzCapabilities.PresetBase, camera.PtzCapabilities.NumberOfPresets);
                 foreach (var preset in presets)
                 {
-                    var presetName = camera.GetPtzPresetName(preset);
+                    string presetName = camera.GetPtzPresetName(preset);
                     if (string.IsNullOrEmpty(presetName)) presetName = $"Preset {preset}";
                     Console.WriteLine($"Moving to {presetName}...");
 
