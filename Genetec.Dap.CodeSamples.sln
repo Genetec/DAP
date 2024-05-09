@@ -94,9 +94,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraSample", "CameraSampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleCountingSample", "PeopleCountingSample\PeopleCountingSample.csproj", "{847CF4D4-2B00-4C6A-848A-F0908D705669}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeAttendanceSample", "TimeAttendanceSample\TimeAttendanceSample.csproj", "{9C1FCCB7-A08D-4140-BFF8-949F036C50AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessVerifierSample", "AccessVerifierSample\AccessVerifierSample.csproj", "{1D9DF30C-817E-45AF-9071-03EDC92429CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisplayInTileSample", "..\DAP - Copy\DisplayInTileSample\DisplayInTileSample.csproj", "{DD133C7E-1BE3-436D-91AA-DD298A30F72E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeAttendanceSample", "TimeAttendanceSample\TimeAttendanceSample.csproj", "{9C1FCCB7-A08D-4140-BFF8-949F036C50AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -260,14 +260,14 @@ Global
 		{847CF4D4-2B00-4C6A-848A-F0908D705669}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{847CF4D4-2B00-4C6A-848A-F0908D705669}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{847CF4D4-2B00-4C6A-848A-F0908D705669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D9DF30C-817E-45AF-9071-03EDC92429CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D9DF30C-817E-45AF-9071-03EDC92429CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D9DF30C-817E-45AF-9071-03EDC92429CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D9DF30C-817E-45AF-9071-03EDC92429CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C1FCCB7-A08D-4140-BFF8-949F036C50AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C1FCCB7-A08D-4140-BFF8-949F036C50AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C1FCCB7-A08D-4140-BFF8-949F036C50AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C1FCCB7-A08D-4140-BFF8-949F036C50AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD133C7E-1BE3-436D-91AA-DD298A30F72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD133C7E-1BE3-436D-91AA-DD298A30F72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD133C7E-1BE3-436D-91AA-DD298A30F72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD133C7E-1BE3-436D-91AA-DD298A30F72E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -305,6 +305,7 @@ Global
 		Shared\Shared.projitems*{0c0757f1-6a2b-4258-af4e-5a10964e8142}*SharedItemsImports = 4
 		Shared\Shared.projitems*{16ccb28d-f9a2-489c-9783-d92eee687b71}*SharedItemsImports = 4
 		Shared\Shared.projitems*{177adf02-8114-4594-88d1-ca6fbb92fa7a}*SharedItemsImports = 4
+		Shared\Shared.projitems*{1d9df30c-817e-45af-9071-03edc92429ce}*SharedItemsImports = 4
 		Shared\Shared.projitems*{25070840-d9af-497c-902a-ec0fc08638d6}*SharedItemsImports = 4
 		Shared\Shared.projitems*{2f8a8884-0c43-486e-99a9-7ad133d6a443}*SharedItemsImports = 4
 		Shared\Shared.projitems*{36e0317b-fad0-48c4-9d22-6f3346c2942d}*SharedItemsImports = 4
@@ -321,7 +322,6 @@ Global
 		Shared\Shared.projitems*{a2b97d24-662d-400d-a3e7-1d8760bc8b4b}*SharedItemsImports = 4
 		Shared\Shared.projitems*{aeb2ec24-97e3-4f60-822b-7be876d97ac8}*SharedItemsImports = 4
 		Shared\Shared.projitems*{bd80885d-81e5-44a0-a78f-bcb72ec5fdca}*SharedItemsImports = 4
-		..\DAP - Copy\Shared\Shared.projitems*{dd133c7e-1be3-436d-91aa-dd298a30f72e}*SharedItemsImports = 4
 		Shared\Shared.projitems*{e7ecb4d6-1382-4fe3-afff-b47c9cbba888}*SharedItemsImports = 4
 		Shared\Shared.projitems*{ef31e80d-6743-4d64-be6b-c1ae3dad798a}*SharedItemsImports = 4
 		Shared\Shared.projitems*{feafca17-7cf4-4d24-aba8-b31d284a963c}*SharedItemsImports = 13
