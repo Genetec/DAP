@@ -8,6 +8,7 @@ namespace Genetec.Dap.CodeSamples
     using Sdk;
     using Sdk.Entities;
     using Sdk.Entities.Collections;
+    using Sdk.Entities.CustomEvents;
 
     class Program
     {
@@ -21,7 +22,7 @@ namespace Genetec.Dap.CodeSamples
 
             var engine = new Engine();
 
-            var state = await engine.LogOnAsync(server, username, password);
+            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
             if (state == ConnectionStateCode.Success)
             {
@@ -46,7 +47,7 @@ namespace Genetec.Dap.CodeSamples
 
                 if (eventToAction.EventType == EventType.CustomEvent && eventToAction.CustomEventId.HasValue)
                 {
-                    var customEvent = configuration.CustomEventService.GetCustomEvent(eventToAction.CustomEventId.Value);
+                    CustomEvent customEvent = configuration.CustomEventService.GetCustomEvent(eventToAction.CustomEventId.Value);
                     Console.WriteLine($"Event: {customEvent.Name} ({customEvent.SourceEntityType})");
                 }
                 else

@@ -38,7 +38,7 @@ namespace Genetec.Dap.CodeSamples
                 exporter.Initialize(m_engine, Path.GetDirectoryName(fileName));
                 exporter.SetExportFileFormat(option.Format == VideoExportFormat.G64 ? MediaExportFileFormat.G64 : MediaExportFileFormat.G64X);
 
-                var result = await exporter.ExportAsync(configs, option.PlaybackMode, Path.GetFileNameWithoutExtension(fileName), option.IncludeWatermark);
+                ExportEndedResult result = await exporter.ExportAsync(configs, option.PlaybackMode, Path.GetFileNameWithoutExtension(fileName), option.IncludeWatermark);
 
                 if (result.ExceptionDetails != null)
                     throw result.ExceptionDetails;

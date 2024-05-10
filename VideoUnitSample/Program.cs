@@ -38,7 +38,7 @@ namespace Genetec.Dap.CodeSamples
 
                 var endpoint = new IPEndPoint(address: IPAddress.Parse("127.0.0.1"), port: 16000);
 
-                AddVideoUnitInfo info = new AddVideoUnitInfo(videoUnitProductInfo: productInfo, endpoint, useDefaultCredentials: true);
+                var info = new AddVideoUnitInfo(videoUnitProductInfo: productInfo, endpoint, useDefaultCredentials: true);
 
                 ArchiverRole role = await GetArchiverRole(engine);
                 if (role != null)

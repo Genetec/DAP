@@ -48,7 +48,7 @@ namespace Genetec.Dap.CodeSamples
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    var data = CustomReportFilterData.Deserialize(value);
+                    CustomReportFilterData data = CustomReportFilterData.Deserialize(value);
                     Message = data.Message;
                 }
             }

@@ -34,7 +34,7 @@ namespace Genetec.Dap.CodeSamples
             m_cancellationTokenSource?.Dispose();
             m_cancellationTokenSource = new CancellationTokenSource();
 
-            var token = m_cancellationTokenSource.Token;
+            CancellationToken token = m_cancellationTokenSource.Token;
 
             m_task = Task.Run(async () =>
             {

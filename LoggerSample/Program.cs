@@ -22,7 +22,7 @@ namespace Genetec.Dap.CodeSamples
             {
                 DiagnosticServer.Instance.InitializeServer(diagnosticServerPort: diagnosticServerPort, webServerPort: webServerPort, password: password);
 
-                string url = $"http://localhost:{webServerPort}/Console";
+                var url = $"http://localhost:{webServerPort}/Console";
 
                 Console.WriteLine($"Console started: {url}");
 

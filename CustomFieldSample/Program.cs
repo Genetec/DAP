@@ -32,7 +32,7 @@ namespace Genetec.Dap.CodeSamples
 
                 const string customFieldName = "My Custom Field";
 
-                var field = service.CustomFields.FirstOrDefault(cf => cf.Name.Equals(customFieldName, StringComparison.OrdinalIgnoreCase) && cf.EntityType == EntityType.Cardholder);
+                CustomField field = service.CustomFields.FirstOrDefault(cf => cf.Name.Equals(customFieldName, StringComparison.OrdinalIgnoreCase) && cf.EntityType == EntityType.Cardholder);
                 if (field is null)
                 {
                     field = configuration.CustomFieldService.CreateCustomFieldBuilder()

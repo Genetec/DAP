@@ -9,6 +9,7 @@ namespace Genetec.Dap.CodeSamples
     using Sdk;
     using Sdk.Entities;
     using Sdk.Events.AccessPoint;
+    using Sdk.Workflows;
 
     class Program
     {
@@ -42,9 +43,9 @@ namespace Genetec.Dap.CodeSamples
 
         static void RaiseAccessGranted(Engine engine, Credential credential, Reader reader)
         {
-            using var transaction = engine.TransactionManager.CreateEventTransaction();
-            Guid groupId = Guid.NewGuid();
-            foreach (var accessPoint in reader.AccessPoint.Select(engine.GetEntity).OfType<AccessPoint>())
+            using EventTransaction transaction = engine.TransactionManager.CreateEventTransaction();
+            var groupId = Guid.NewGuid();
+            foreach (AccessPoint accessPoint in reader.AccessPoint.Select(engine.GetEntity).OfType<AccessPoint>())
             {
                 var accessEvent = (AccessEvent)engine.ActionManager.BuildEvent(EventType.AccessGranted, accessPoint.Guid);
                 accessEvent.Cardholder = credential.CardholderGuid;

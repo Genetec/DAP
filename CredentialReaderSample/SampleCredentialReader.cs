@@ -30,7 +30,7 @@ namespace Genetec.Dap.CodeSamples
         {
             GenerateCommand = new DelegateCommand(async () =>
             {
-                var formats = Enumerable.Range(StartNumber, Quantity).Select(i => new WiegandStandardCredentialFormat(FacilityCode, i)).ToList();
+                List<WiegandStandardCredentialFormat> formats = Enumerable.Range(StartNumber, Quantity).Select(i => new WiegandStandardCredentialFormat(FacilityCode, i)).ToList();
 
                 var query = (CredentialConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.CredentialConfiguration);
 
@@ -40,20 +40,20 @@ namespace Genetec.Dap.CodeSamples
                 }
 
                 QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-                var existings = result.Data.AsEnumerable().Select(row => row.Field<Guid>(nameof(Guid)));
+                var existing = result.Data.AsEnumerable().Select(row => row.Field<Guid>(nameof(Guid)));
 
-                foreach (Guid existing in existings)
+                foreach (Guid entityId in existing)
                 {
-                    OnExistingCredentialRetrieved(new ExistingCredentialRetrievedEventArgs(existing));
+                    OnExistingCredentialRetrieved(new ExistingCredentialRetrievedEventArgs(entityId));
                 }
 
-                var missings = formats
-                    .Except(existings.Select(Workspace.Sdk.GetEntity).OfType<Credential>().Select(credential => credential.Format), new CredentialFormatComparer())
+                var missing = formats
+                    .Except(existing.Select(Workspace.Sdk.GetEntity).OfType<Credential>().Select(credential => credential.Format), new CredentialFormatComparer())
                     .OfType<WiegandStandardCredentialFormat>();
 
                 await Workspace.Sdk.TransactionManager.ExecuteTransactionAsync(() =>
                 {
-                    foreach (WiegandStandardCredentialFormat format in missings)
+                    foreach (WiegandStandardCredentialFormat format in missing)
                     {
                     
                         Dispatcher.Invoke(() => OnCredentialRetrieved(new CredentialRetrievedEventArgs(format)));
