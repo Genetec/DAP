@@ -31,11 +31,11 @@ namespace Genetec.Dap.CodeSamples
             {
                 await PrefetchEntities(engine);
 
-                var doorGuids = engine.GetEntities(EntityType.Door).Select(door => door.Guid).ToList();
+                List<Guid> doorGuids = engine.GetEntities(EntityType.Door).Select(door => door.Guid).ToList();
 
                 DateTime currentTime = DateTime.UtcNow;
 
-                var accessResults = engine.GetEntities(EntityType.Credential)
+                List<(AccessPoint, Credential, AccessResult Result)> accessResults = engine.GetEntities(EntityType.Credential)
                     .SelectMany(credential => engine.AccessVerifier.GetAccessResults(doorGuids, currentTime, credential.Guid, Guid.Empty, Guid.Empty)
                     .Select(result => (engine.GetEntity<AccessPoint>(result.AccessPoint), engine.GetEntity<Credential>(credential.Guid), result.Result)))
                     .ToList();
@@ -56,7 +56,7 @@ namespace Genetec.Dap.CodeSamples
             Console.ReadKey();
         }
 
-        static async Task PrefetchEntities(Engine engine)
+        static async Task PrefetchEntities(IEngine engine)
         {
             var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
             query.EntityTypeFilter.Add(EntityType.Credential);
@@ -75,29 +75,29 @@ namespace Genetec.Dap.CodeSamples
             } while (args.Error == ReportError.TooManyResults || args.Data.Rows.Count > query.PageSize);
         }
 
-        static void GenerateAccessMatrixCsv(Engine engine, IEnumerable<(AccessPoint AccessPoint, Credential Credential, AccessResult Result)> accessResults, StreamWriter streamWriter)
+        static void GenerateAccessMatrixCsv(IEngine engine, ICollection<(AccessPoint AccessPoint, Credential Credential, AccessResult Result)> accessResults, TextWriter textWriter)
         {
             var accessPoints = accessResults.Select(tuple => tuple.AccessPoint).Distinct().ToList();
 
             var resultLookup = accessResults.ToDictionary(tuple => (tuple.AccessPoint, tuple.Credential), tuple => tuple.Result);
 
-            streamWriter.Write("Credential");
+            textWriter.Write("Credential");
             foreach (var accessPoint in accessPoints)
             {
-                streamWriter.Write($",{engine.GetEntity(accessPoint.AccessPointGroup).Name} ({accessPoint.Name})");
+                textWriter.Write($",{engine.GetEntity(accessPoint.AccessPointGroup).Name} ({accessPoint.Name})");
             }
-            streamWriter.WriteLine();
+            textWriter.WriteLine();
 
             foreach (var credential in accessResults.Select(tuple => tuple.Credential).Distinct())
             {
-                streamWriter.Write(credential.Name);
+                textWriter.Write(credential.Name);
 
                 foreach (var accessPoint in accessPoints)
                 {
-                    streamWriter.Write(resultLookup.TryGetValue((accessPoint, credential), out var result) ? $",{result}" : ",");
+                    textWriter.Write(resultLookup.TryGetValue((accessPoint, credential), out var result) ? $",{result}" : ",");
                 }
 
-                streamWriter.WriteLine();
+                textWriter.WriteLine();
             }
         }
     }
