@@ -19,7 +19,7 @@ namespace Genetec.Dap.CodeSamples
         {
             const string server = "localhost";
             const string username = "admin";
-            const string password = "Rodenbach_1516";
+            const string password = "";
 
             using var engine = new Engine();
 
@@ -36,7 +36,6 @@ namespace Genetec.Dap.CodeSamples
                     {
                         Console.WriteLine($"   Content Item ID: {item.Id}, Type: {item.Type}");
                     }
-
                 }
 
                 Console.WriteLine();
