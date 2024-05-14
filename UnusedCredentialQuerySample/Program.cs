@@ -59,7 +59,7 @@ namespace Genetec.Dap.CodeSamples
                 return credentialGuids.Select(engine.GetEntity).OfType<Credential>().ToList();
             }
 
-            async Task DeactivateCredentials(List<Credential> credentials)
+            async Task DeactivateCredentials(IEnumerable<Credential> credentials)
             {
                 await engine.TransactionManager.ExecuteTransactionAsync(() =>
                 {
@@ -75,11 +75,11 @@ namespace Genetec.Dap.CodeSamples
             {
                 foreach (var batch in entityGuids.Split(2000))
                 {
-                    var configQuery = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-                    configQuery.EntityGuids.AddRange(batch);
-                    configQuery.DownloadAllRelatedData = true;
+                    var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+                    query.EntityGuids.AddRange(batch);
+                    query.DownloadAllRelatedData = true;
 
-                    await Task.Factory.FromAsync(configQuery.BeginQuery, configQuery.EndQuery, null);
+                    await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
                 }
             }
         }
