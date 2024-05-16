@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Genetec.Sdk">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.11 SDK\Genetec.Sdk.dll</HintPath>
+      <HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
