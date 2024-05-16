@@ -80,7 +80,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashboardWidgetSample", "Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventToActionSample", "EventToActionSample\EventToActionSample.csproj", "{0905D84F-59BC-4A31-BCE5-916FEC9B169C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuginDatabaseSample", "PuginDatabaseSample\PuginDatabaseSample.csproj", "{B622A780-E98F-4E65-B5CA-C305E6B45965}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginDatabaseSample", "PuginDatabaseSample\PluginDatabaseSample.csproj", "{B622A780-E98F-4E65-B5CA-C305E6B45965}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomReportSample", "CustomReportSample\CustomReportSample.csproj", "{F905C101-896C-49E6-8078-19C0E9513F88}"
 EndProject
