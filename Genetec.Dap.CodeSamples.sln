@@ -100,6 +100,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisplayInTileSample", "..\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnusedCredentialQuerySample", "UnusedCredentialQuerySample\UnusedCredentialQuerySample.csproj", "{649419F6-7E22-419D-BFF4-A6674215CFDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionManagerSample", "TransactionManagerSample\TransactionManagerSample.csproj", "{08316764-72E6-4A9D-BE64-132BF06A303D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -274,6 +276,10 @@ Global
 		{649419F6-7E22-419D-BFF4-A6674215CFDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{649419F6-7E22-419D-BFF4-A6674215CFDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{649419F6-7E22-419D-BFF4-A6674215CFDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08316764-72E6-4A9D-BE64-132BF06A303D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08316764-72E6-4A9D-BE64-132BF06A303D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08316764-72E6-4A9D-BE64-132BF06A303D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08316764-72E6-4A9D-BE64-132BF06A303D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -307,6 +313,7 @@ Global
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{08316764-72e6-4a9d-be64-132bf06a303d}*SharedItemsImports = 4
 		Shared\Shared.projitems*{0905d84f-59bc-4a31-bce5-916fec9b169c}*SharedItemsImports = 4
 		Shared\Shared.projitems*{0c0757f1-6a2b-4258-af4e-5a10964e8142}*SharedItemsImports = 4
 		Shared\Shared.projitems*{16ccb28d-f9a2-489c-9783-d92eee687b71}*SharedItemsImports = 4
