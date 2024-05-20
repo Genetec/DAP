@@ -21,7 +21,7 @@ namespace Genetec.Dap.CodeSamples
         {
             const string server = "localhost";
             const string username = "admin";
-            const string password = "Rodenbach_1516";
+            const string password = "";
 
             using var engine = new Engine();
 
