@@ -102,6 +102,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionManagerSample", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenseManagerSample", "LicenseManagerSample\LicenseManagerSample.csproj", "{81B35A77-4551-4F33-866A-95B2E47111EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitorManagerSample", "VisitorManagerSample\VisitorManagerSample.csproj", "{00380687-5FA7-4E60-8317-6748BB0DC713}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -280,6 +282,10 @@ Global
 		{81B35A77-4551-4F33-866A-95B2E47111EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81B35A77-4551-4F33-866A-95B2E47111EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81B35A77-4551-4F33-866A-95B2E47111EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00380687-5FA7-4E60-8317-6748BB0DC713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00380687-5FA7-4E60-8317-6748BB0DC713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00380687-5FA7-4E60-8317-6748BB0DC713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00380687-5FA7-4E60-8317-6748BB0DC713}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -313,6 +319,7 @@ Global
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{00380687-5fa7-4e60-8317-6748bb0dc713}*SharedItemsImports = 4
 		Shared\Shared.projitems*{08316764-72e6-4a9d-be64-132bf06a303d}*SharedItemsImports = 4
 		Shared\Shared.projitems*{0905d84f-59bc-4a31-bce5-916fec9b169c}*SharedItemsImports = 4
 		Shared\Shared.projitems*{0c0757f1-6a2b-4258-af4e-5a10964e8142}*SharedItemsImports = 4
