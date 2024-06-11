@@ -1,5 +1,9 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 namespace Genetec.Dap.CodeSamples
 {
@@ -27,10 +31,11 @@ namespace Genetec.Dap.CodeSamples
 
             if (state == ConnectionStateCode.Success)
             {
-                var door = (Door)engine.GetEntity(EntityType.Door, 1);
-                var reader = (Reader)engine.GetEntity(door.DoorSideIn.Reader.Device);
+                // Retrieve the credential and reader entities using their GUIDs
+                var credential = (Credential)engine.GetEntity(new Guid("YOUR_CREDENTIAL_GUID"));
+                var reader = (Reader)engine.GetEntity(new Guid("YOUR_READER_GUID"));
 
-                RaiseAccessGranted(engine, (Credential)engine.GetEntity(new Guid("0083db96-b7bf-4fc8-9534-12239bcc1b92")), reader);
+                RaiseAccessGranted(engine, credential, reader);
             }
             else
             {
@@ -44,20 +49,25 @@ namespace Genetec.Dap.CodeSamples
         static void RaiseAccessGranted(Engine engine, Credential credential, Reader reader)
         {
             using EventTransaction transaction = engine.TransactionManager.CreateEventTransaction();
-            var groupId = Guid.NewGuid();
-            foreach (AccessPoint accessPoint in reader.AccessPoint.Select(engine.GetEntity).OfType<AccessPoint>())
+
+            // Find the access point
+            AccessPoint accessPoint = reader.AccessPoint.Select(engine.GetEntity).OfType<AccessPoint>().FirstOrDefault(point => point.AccessPointType == AccessPointType.CardReader);
+
+            if (accessPoint != null)
             {
                 var accessEvent = (AccessEvent)engine.ActionManager.BuildEvent(EventType.AccessGranted, accessPoint.Guid);
                 accessEvent.Cardholder = credential.CardholderGuid;
                 accessEvent.Credentials.Add(credential.Guid);
-                accessEvent.GroupId = groupId;
+                accessEvent.DoorSideGuid = accessPoint.Guid;
 
-                if (accessPoint.AccessPointType == AccessPointType.CardReader)
-                {
-                    accessEvent.DoorSideGuid = accessPoint.Guid;
-                }
-
+                // Add the event to the transaction
                 transaction.AddEvent(accessEvent);
+
+                Console.WriteLine("Access granted event raised successfully.");
+            }
+            else
+            {
+                Console.WriteLine("No card reader access point found.");
             }
         }
     }
