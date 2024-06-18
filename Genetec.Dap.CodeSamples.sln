@@ -110,6 +110,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenseManagerSample", "Lic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitorManagerSample", "VisitorManagerSample\VisitorManagerSample.csproj", "{00380687-5FA7-4E60-8317-6748BB0DC713}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CredentialBuilderSample", "CredentialBuilderSample\CredentialBuilderSample.csproj", "{8C2CE84C-EF36-4940-B031-C8A933DBF6EB}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbnailQuerySample", "ThumbnailQuerySample\ThumbnailQuerySample.csproj", "{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlUnitSample", "AccessControlUnitSample\AccessControlUnitSample.csproj", "{7BCE5199-8B5B-4905-8CAA-5ABC3ACAAD00}"
@@ -310,6 +312,10 @@ Global
 		{00380687-5FA7-4E60-8317-6748BB0DC713}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00380687-5FA7-4E60-8317-6748BB0DC713}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00380687-5FA7-4E60-8317-6748BB0DC713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C2CE84C-EF36-4940-B031-C8A933DBF6EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C2CE84C-EF36-4940-B031-C8A933DBF6EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C2CE84C-EF36-4940-B031-C8A933DBF6EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C2CE84C-EF36-4940-B031-C8A933DBF6EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -378,6 +384,7 @@ Global
 		Shared\Shared.projitems*{80235dd0-e10a-4d5a-b904-3ffaf947ae00}*SharedItemsImports = 4
 		Shared\Shared.projitems*{81b35a77-4551-4f33-866a-95b2e47111ef}*SharedItemsImports = 4
 		Shared\Shared.projitems*{847cf4d4-2b00-4c6a-848a-f0908d705669}*SharedItemsImports = 4
+		Shared\Shared.projitems*{8c2ce84c-ef36-4940-b031-c8a933dbf6eb}*SharedItemsImports = 4
 		Shared\Shared.projitems*{9683a716-b265-4195-a8d4-4d46095f1013}*SharedItemsImports = 4
 		Shared\Shared.projitems*{9c1fccb7-a08d-4140-bff8-949f036c50aa}*SharedItemsImports = 4
 		Shared\Shared.projitems*{a2b97d24-662d-400d-a3e7-1d8760bc8b4b}*SharedItemsImports = 4
