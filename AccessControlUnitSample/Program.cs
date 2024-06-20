@@ -110,6 +110,7 @@ namespace Genetec.Dap.CodeSamples
                 {
                     Console.WriteLine($"{indent}  Name: {device.Name}");
                     Console.WriteLine($"{indent}  Physical name: {device.PhysicalName}");
+                    Console.WriteLine($"{indent}  Unique ID: {device.UniqueId}");
                     Console.WriteLine($"{indent}  Online: {device.IsOnline}");
 
                     switch (device)
