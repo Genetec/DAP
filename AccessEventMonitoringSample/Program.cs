@@ -23,76 +23,70 @@ namespace Genetec.Dap.CodeSamples
 
         static async Task Main()
         {
-            // Set the server URL, username, and password for authentication
             const string server = "localhost";
             const string username = "admin";
             const string password = "";
 
-            // Create an instance of the Engine class
             using var engine = new Engine();
+            engine.EventReceived += OnEventReceived;
 
-            // Subscribe to the EventReceived event to handle access events
-            engine.EventReceived += (sender, e) =>
-            {
-                // Check if the received event is an AccessEvent
-                if (e.Event is AccessEvent accessEvent)
-                {
-                    // Get the AccessPoint and Reader entities associated with the access event
-                    if (engine.GetEntity(accessEvent.AccessPoint) is AccessPoint accessPoint && engine.GetEntity(accessPoint.Device) is Reader reader)
-                    {
-                        // Iterate over the credential formats associated with the access event
-                        foreach (CredentialFormat format in GetCredentialFormats(accessEvent))
-                        {
-                            // Print the card swipe information
-                            Console.WriteLine($"Card swiped ({format.RawData}) on {reader.Name}");
-                        }
-                    }
-                }
-            };
-
-            // Attempt to log on to the server with the provided credentials
             ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-            // Check if the logon was successful
             if (state == ConnectionStateCode.Success)
             {
-                // Load the access points if logon was successful
                 await LoadAccessPoints();
             }
             else
             {
-                // Print an error message if logon failed
                 Console.WriteLine($"Logon failed: {state}");
             }
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 
-            // Method to load access points
-            async Task LoadAccessPoints()
+            Task LoadAccessPoints()
             {
-                // Create an EntityConfigurationQuery for access points
                 var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
                 query.EntityTypeFilter.Add(EntityType.AccessPoint);
                 query.DownloadAllRelatedData = true;
-                await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+                return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
             }
 
-            // Method to get credential formats from an AccessEvent
             IEnumerable<CredentialFormat> GetCredentialFormats(AccessEvent accessEvent)
             {
-                // If the event is an AccessPointCredentialUnknownEvent, deserialize the XmlCredential
                 if (accessEvent is AccessPointCredentialUnknownEvent unknownEvent)
                 {
                     yield return CredentialFormat.Deserialize(unknownEvent.XmlCredential);
                 }
-                else
+
+                IEnumerable<CredentialFormat> formats = accessEvent.Credentials.Select(engine.GetEntity).OfType<Credential>().Select(credential => credential.Format);
+
+                foreach (var format in formats)
                 {
-                    // Otherwise, get the credential formats from the Credentials collection
-                    IEnumerable<CredentialFormat> formats = accessEvent.Credentials.Select(engine.GetEntity).OfType<Credential>().Select(credential => credential.Format);
-                    foreach (CredentialFormat format in formats)
+                    yield return format;
+                }
+            }
+
+            void OnEventReceived(object sender, EventReceivedEventArgs e)
+            {
+                if (e.Event is AccessEvent accessEvent)
+                {
+                    if (engine.GetEntity(accessEvent.AccessPoint) is AccessPoint accessPoint && engine.GetEntity(accessPoint.Device) is Device device)
                     {
-                        yield return format;
+                        var accessPointGroup = (AccessPointGroup)engine.GetEntity(accessPoint.AccessPointGroup);
+                        var cardholder = engine.GetEntity(accessEvent.Cardholder);
+
+                        foreach (CredentialFormat format in GetCredentialFormats(accessEvent))
+                        {
+                            Console.WriteLine(
+                                $"[{e.Timestamp:yyyy-MM-dd HH:mm:ss}] Access Event: {e.EventType}\n" +
+                                $"  Cardholder:  {cardholder?.Name ?? "Unknown"}\n" +
+                                $"  Credential Format: {format}\n" +
+                                $"  Access Point Group: {accessPointGroup.Name}\n" +
+                                $"  Access Point: {accessPoint.Name}\n" +
+                                $"  Device:      {device.Name}\n"
+                            );
+                        }
                     }
                 }
             }

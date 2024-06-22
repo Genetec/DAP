@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AccessControlEventMonitoringSample")]
+[assembly: AssemblyTitle("AccessEventMonitoringSample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Copyright Inc.")]
-[assembly: AssemblyProduct("AccessControlEventMonitoringSample")]
+[assembly: AssemblyCompany("Genetec Inc.")]
+[assembly: AssemblyProduct("AccessEventMonitoringSample")]
 [assembly: AssemblyCopyright("Copyright © Genetec 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

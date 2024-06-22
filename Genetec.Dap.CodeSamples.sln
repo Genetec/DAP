@@ -118,7 +118,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlUnitSample", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventMonitoringSample", "EventMonitoringSample\EventMonitoringSample.csproj", "{534DB081-2747-4FB6-B269-C3EEDBD9F30D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlEventMonitoringSample", "AccessControlEventMonitoringSample\AccessControlEventMonitoringSample.csproj", "{7EF1D932-1CF1-4BF7-A900-C7E3F98EB039}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessEventMonitoringSample", "AccessEventMonitoringSample\AccessEventMonitoringSample.csproj", "{7EF1D932-1CF1-4BF7-A900-C7E3F98EB039}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
