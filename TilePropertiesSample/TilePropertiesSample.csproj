@@ -1,88 +1,91 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E8C6571-B661-4FA0-AE8F-D9214B166F4B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-    <AssemblyName>TilePropertiesSample</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>8</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>8</LangVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Genetec.Sdk">
-      <HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Genetec.Sdk.Controls">
-      <HintPath>$(GSC_SDK)\Genetec.Sdk.Controls.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Genetec.Sdk.Workspace">
-      <HintPath>$(GSC_SDK)\Genetec.Sdk.Workspace.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="SampleModule.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleTileProperties.cs" />
-    <Compile Include="SampleTilePropertiesBuilder.cs" />
-    <Compile Include="SampleTilePropertiesView.xaml.cs">
-      <DependentUpon>SampleTilePropertiesView.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="SampleTilePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Certificates\Genetec.Dap.CodeSamples.SampleTilePropertiesBuilder.cert">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)" /v Enabled /t REG_SZ /d "True" /f
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)" /v ClientModule /t REG_SZ /d "$(TargetPath)" /f
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)" /v Enabled /t REG_SZ /d "True" /f
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)" /v ClientModule /t REG_SZ /d "$(TargetPath)" /f</PostBuildEvent>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net481</TargetFrameworks>
+		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
+		<AssemblyName>TilePropertiesSample</AssemblyName>
+		<Description>Sample project</Description>
+		<Company>Genetec Inc.</Company>
+		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
+		<OutputType>Library</OutputType>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<LangVersion>8</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<LangVersion>8</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
+		<Reference Include="Genetec.Sdk">
+			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Genetec.Sdk.Workspace">
+			<HintPath>$(GSC_SDK)\Genetec.Sdk.Workspace.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Genetec.Sdk.Controls">
+			<HintPath>$(GSC_SDK)\Genetec.Sdk.Controls.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+		<Reference Include="Genetec.Sdk">
+			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Genetec.Sdk.Workspace">
+			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.Workspace.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Genetec.Sdk.Controls">
+			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.Controls.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="WindowsBase" />
+	</ItemGroup>
+
+	<Target Name="CopyCertificates" AfterTargets="Build">
+		<PropertyGroup>
+			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
+		</PropertyGroup>
+		<ItemGroup>
+			<Certificates Include="Certificates\*.cert" />
+		</ItemGroup>
+		<MakeDir Directories="$(CertOutputPath)" />
+		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
+	</Target>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f" />
+	</Target>
+	
 </Project>

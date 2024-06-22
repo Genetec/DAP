@@ -38,8 +38,6 @@
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="System" />
-		<Reference Include="System.Core" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
@@ -47,12 +45,12 @@
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="System" />
-		<Reference Include="System.Core" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
 	</ItemGroup>
 
 	<Import Project="..\Shared\Shared.projitems" Label="Shared" />
