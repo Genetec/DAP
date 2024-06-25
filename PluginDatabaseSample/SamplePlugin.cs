@@ -4,6 +4,7 @@
 namespace Genetec.Dap.CodeSamples
 {
     using System;
+    using Sdk.Diagnostics.Logging.Core;
     using Sdk.EventsArgs;
     using Sdk.Plugin;
     using Sdk.Plugin.Interfaces;

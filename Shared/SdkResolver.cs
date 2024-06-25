@@ -8,6 +8,7 @@ namespace Genetec.Dap.CodeSamples
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.InteropServices;
     using Microsoft.Win32;
 
     public static class SdkResolver
@@ -22,7 +23,7 @@ namespace Genetec.Dap.CodeSamples
 
         private static string GetProbingPath()
         {
-            string sdkFolder = Environment.GetEnvironmentVariable("GSC_SDK");
+            string sdkFolder = Environment.GetEnvironmentVariable(RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework") ? "GSC_SDK" : "GSC_SDK_CORE");
 
             return Directory.Exists(sdkFolder)
                 ? sdkFolder
