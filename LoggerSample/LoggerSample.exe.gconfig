@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<logTargets>
+
+		<logTarget type="Genetec.Diagnostics.Logging.Targets.DebugTarget, Genetec">
+			<settings>
+				<add Key="TraceWithoutDebugger" Value="true" />
+			</settings>
+			<traces>
+				<add loggerName="Genetec.Dap" severity="Information|Debug|Warning|Error|Fatal" />
+			</traces>
+		</logTarget>
+
+		<!--<logTarget type="Genetec.Diagnostics.Logging.Targets.ConsoleTarget, Genetec">
+			<settings>
+				<add key="TraceExceptionStacks" value="true" />
+				<add key="IncludeThreadId" value="true" />
+			</settings>
+			<traces>
+				<add loggerName="Genetec.Dap" severity="Information|Debug|Warning|Error|Fatal" />
+			</traces>
+		</logTarget>-->
+
+		<!--<logTarget type="Genetec.Diagnostics.Logging.Targets.EtwLogTarget, Genetec">
+			<settings>
+				<add key="providerName" value="Genetec.Dap.Samples" />
+				<add key="AutoRegisterEventLog" value="true" />
+				<add key="EventLogMaxSizeInMegabyte" value="100" />
+			</settings>
+			<traces>
+				<add loggerName="Genetec.Dap" severity="Information|Debug|Warning|Error|Fatal" />
+			</traces>
+		</logTarget>-->
+
+		<!--<logTarget type="Genetec.Diagnostics.Logging.Targets.EventLogTarget, Genetec">
+			<settings>
+				<add Key="EventViewerLoggerName" Value="Genetec.Dap.Samples"/>
+			</settings>
+			<traces>
+				<add loggerName="Genetec.Dap" severity="Information|Debug|Warning|Error|Fatal" />
+			</traces>
+		</logTarget>-->
+
+		<!--<logTarget type="Genetec.Diagnostics.Logging.Targets.LogFileTarget, Genetec">
+			<settings>
+				<add Key="deleteOlderThanNDays" Value="3"/>
+				<add Key="logMaxLine" Value="-1"/>
+				<add Key="maxDiskUsage" Value="9223372036854775807"/>
+				<add Key="minDiskSpace" Value="0"/>
+				<add Key="maxFileSize" Value="9223372036854775807"/>
+				<add Key="zipFiles" Value="false"/>
+				<add Key="detailedHeader" Value="true"/>
+				<add Key="format" Value="Text"/>
+				<add Key="reuseFiles" Value="true"/>
+				<add Key="prefix" Value=""/>
+				<add Key="prefixWithMachineName" Value="false"/>
+				<add Key="logFolder" Value="DAP"/>
+			</settings>
+			<traces>
+				<add loggerName="Genetec.Dap" severity="Information|Debug|Warning|Error|Fatal" />
+			</traces>
+		</logTarget>-->
+
+	</logTargets>
+</configuration>
