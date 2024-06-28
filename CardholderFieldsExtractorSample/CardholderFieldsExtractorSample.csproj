@@ -70,7 +70,10 @@
   <PropertyGroup>
     <PostBuildEvent>REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)" /v Enabled /t REG_SZ /d "True" /f
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)" /v ClientModule /t REG_SZ /d "$(TargetPath)" /f
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)" /v AddFoldersToAssemblyProbe /t REG_SZ /d "True" /f
+
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)" /v Enabled /t REG_SZ /d "True" /f
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)" /v ClientModule /t REG_SZ /d "$(TargetPath)" /f</PostBuildEvent>
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)" /v ClientModule /t REG_SZ /d "$(TargetPath)" /f
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)" /v AddFoldersToAssemblyProbe /t REG_SZ /d "True" /f</PostBuildEvent>
   </PropertyGroup>
 </Project>
