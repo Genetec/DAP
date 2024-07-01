@@ -65,7 +65,10 @@ namespace Genetec.Dap.CodeSamples
                     Console.WriteLine($"\nEntity Type: {group.Key}");
                     Console.WriteLine(new string('-', 20));
 
-                    foreach (CustomField customField in group.OrderBy(cf => cf.Name)) PrintCustomFieldDetails(customField);
+                    foreach (CustomField customField in group.OrderBy(cf => cf.Name))
+                    {
+                        PrintCustomFieldDetails(customField);
+                    }
                 }
 
                 void PrintCustomFieldDetails(CustomField customField)
