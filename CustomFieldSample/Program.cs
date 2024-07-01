@@ -139,12 +139,6 @@ namespace Genetec.Dap.CodeSamples
 
                 QueryCompletedEventArgs queryResults = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
-                if (queryResults.Data.Rows.Count == 0)
-                {
-                    Console.WriteLine("No cardholders found matching the query.");
-                    return;
-                }
-
                 Console.WriteLine($"Found {queryResults.Data.Rows.Count} cardholder(s) matching the query:");
 
                 foreach (Cardholder cardholder in queryResults.Data.AsEnumerable().Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid)))).OfType<Cardholder>())
