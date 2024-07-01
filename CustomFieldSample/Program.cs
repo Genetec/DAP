@@ -27,7 +27,7 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
             const string customFieldName = "Employee ID";
-            const string customFieldNameValue = "12345";
+            const string customFieldValue = "12345";
 
             using var engine = new Engine();
 
@@ -42,9 +42,9 @@ namespace Genetec.Dap.CodeSamples
 
                 CustomField customField = await CreateOrUpdateCustomField(customFieldService);
 
-                await CreateCardholderWithCustomField(customFieldService, customField, customFieldNameValue);
+                await CreateCardholderWithCustomField(customFieldService, customField, customFieldValue);
 
-                await QueryAndPrintCardholder(customFieldService, customField, customFieldNameValue);
+                await QueryAndPrintCardholder(customFieldService, customField, customFieldValue);
             }
             else
             {
