@@ -23,23 +23,32 @@ namespace Genetec.Dap.CodeSamples
             const string username = "admin";
             const string password = "";
 
-            using var engine = new Engine();
+            object consoleLock = new object(); // Lock object to synchronize console output
 
-            engine.EntitiesAdded += OnEntitiesAdded;
-            engine.EntitiesInvalidated += OnEntitiesInvalidated;
-            engine.EntitiesRemoved += OnEntitiesRemoved;
+            using var engine = new Engine();
 
             ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
             if (state == ConnectionStateCode.Success)
             {
-                PrintEntityCache();
+                engine.EntitiesAdded += OnEntitiesAdded;
+                engine.EntitiesInvalidated += OnEntitiesInvalidated;
+                engine.EntitiesRemoved += OnEntitiesRemoved;
 
-                EntityType[] entityTypes = { EntityType.Role, EntityType.Server, EntityType.User, EntityType.UserGroup };
+                lock (consoleLock)
+                {
+                    Console.WriteLine("Entity cache before loading AccessPoints:");
+                    PrintEntityCache();
+                }
 
-                await LoadEntitiesIntoEntityCache(entityTypes);
+                // Load entities of the specified types into the entity cache
+                await LoadEntities(EntityType.AccessPoint);
 
-                PrintEntityCache();
+                lock (consoleLock)
+                {
+                    Console.WriteLine("\nEntity cache after loading AccessPoints:");
+                    PrintEntityCache();
+                }
             }
             else
             {
@@ -49,68 +58,94 @@ namespace Genetec.Dap.CodeSamples
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 
+            // Method to print the current state of the entity cache
             void PrintEntityCache()
             {
-                Console.WriteLine("\nCurrent Entity Cache:");
+                Console.WriteLine("\n===== Entity Cache Summary =====");
+                Console.WriteLine($"{"Entity Type",-25} | {"Count",10}");
+                Console.WriteLine(new string('-', 38));
 
-                foreach (var entityType in Enum.GetValues(typeof(EntityType)).OfType<EntityType>().Except(new[] { EntityType.None, EntityType.ReportTemplate }))
+                int totalEntities = 0;
+
+                foreach (var entityType in Enum.GetValues(typeof(EntityType)).OfType<EntityType>().Except(new[] { EntityType.None, EntityType.ReportTemplate }).OrderBy(et => et.ToString()))
                 {
                     try
                     {
                         int count = engine.GetEntities(entityType).Count;
+                        totalEntities += count;
+
                         if (count > 0)
                         {
-                            Console.WriteLine($"{entityType,-20}: {count}");
+                            Console.WriteLine($"{entityType,-25} | {count,10:N0}");
                         }
                     }
                     catch
                     {
+                        // Ignore any exceptions
                     }
                 }
+
+                Console.WriteLine(new string('-', 38));
+                Console.WriteLine($"Total entities: {totalEntities:N0}");
+                Console.WriteLine("================================\n");
             }
 
-            async Task LoadEntitiesIntoEntityCache(params EntityType[] types)
+            async Task LoadEntities(params EntityType[] types)
             {
-                Console.WriteLine("\nLoading entities into entity cache");
-
+                Console.WriteLine("Loading entities into the entity cache...");
+                
                 var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
                 query.EntityTypeFilter.AddRange(types);
+                query.DownloadAllRelatedData = true;
                 query.Page = 1;
                 query.PageSize = 1000;
 
+                int totalLoaded = 0;
                 QueryCompletedEventArgs args;
-
                 do
                 {
                     args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-                    query.Page++;
-                } while (args.Error == ReportError.TooManyResults || args.Data.Rows.Count > query.PageSize);
-            }
 
-            void OnEntitiesRemoved(object sender, EntitiesRemovedEventArgs e)
-            {
-                var removedEntities = e.Entities.Select(info => $"{info.EntityType} {info.EntityGuid}").ToList();
-                if (removedEntities.Any())
-                {
-                    Console.WriteLine($"Entities removed ({removedEntities.Count}): {string.Join(", ", removedEntities)}");
-                }
+                    totalLoaded += args.Data.Rows.Count;
+                    Console.WriteLine($"Loaded page {query.Page}: {args.Data.Rows.Count} entities. Total loaded: {totalLoaded}");
+
+                    query.Page++;
+
+                } while (args.Data.Rows.Count >= query.PageSize);
+
+                Console.WriteLine($"Finished loading entities. Total loaded: {totalLoaded}");
             }
 
             void OnEntitiesAdded(object sender, EntitiesAddedEventArgs e)
             {
-                var addedEntities = e.Entities.Select(info => engine.GetEntity(info.EntityGuid)).ToList();
-                if (addedEntities.Any())
+                lock (consoleLock)
                 {
-                    Console.WriteLine($"Entities added ({addedEntities.Count}): {string.Join(", ", addedEntities)}");
+                    foreach (EntityUpdateInfo info in e.Entities)
+                    {
+                        Console.WriteLine($"Entity has been added: {engine.GetEntity(info.EntityGuid)}");
+                    }
                 }
             }
 
             void OnEntitiesInvalidated(object sender, EntitiesInvalidatedEventArgs e)
             {
-                var modifiedEntities = e.Entities.Select(info => engine.GetEntity(info.EntityGuid)).ToList();
-                if (modifiedEntities.Any())
+                lock (consoleLock)
                 {
-                    Console.WriteLine($"Entities modified ({modifiedEntities.Count}): {string.Join(", ", modifiedEntities)}");
+                    foreach (EntityUpdateInfo info in e.Entities)
+                    {
+                        Console.WriteLine($"Entity has been modified: {engine.GetEntity(info.EntityGuid)}");
+                    }
+                }
+            }
+
+            void OnEntitiesRemoved(object sender, EntitiesRemovedEventArgs e)
+            {
+                lock (consoleLock)
+                {
+                    foreach (EntityUpdateInfo info in e.Entities)
+                    {
+                        Console.WriteLine($"Entity has been deleted: {info.EntityType} {info.EntityGuid}");
+                    }
                 }
             }
         }
