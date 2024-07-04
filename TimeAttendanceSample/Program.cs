@@ -40,7 +40,7 @@ namespace Genetec.Dap.CodeSamples
                 {
                     foreach (var record in attendances)
                     {
-                        Console.WriteLine($"Date: {record.Date}, Cardholder: {record.CardholderGuid}, Area: {record.AreaGuid}, First Time In: {record.FirstTimeIn}, Last Exit Time: {record.LastExitTime}, Total Minutes: {record.TotalMinutes}");
+                        Console.WriteLine($"Date: {record.Date}, Cardholder: {GetEntityName(record.CardholderGuid)}, Area: {GetEntityName(record.AreaGuid)}, First Time In: {record.FirstTimeIn}, Last Exit Time: {record.LastExitTime}, Total Minutes: {record.TotalMinutes}");
                     }
                 }
                 else
@@ -55,35 +55,37 @@ namespace Genetec.Dap.CodeSamples
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
-        }
 
-        static async Task<List<TimeAttendance>> GetTimeAndAttendance(Engine engine, Guid area, IEnumerable<Guid> cardholders, TimeSpan? startOfDay, DateTime from, DateTime to)
-        {
-            var query = (TimeAttendanceQuery)engine.ReportManager.CreateReportQuery(ReportType.TimeAttendanceActivity);
-
-            query.Areas.Add(area);
-            query.Cardholders.AddRange(cardholders);
-            query.TimeRange.SetTimeRange(from, to);
-
-            if (startOfDay.HasValue)
+            async Task<List<TimeAttendance>> GetTimeAndAttendance(Guid area, IEnumerable<Guid> cardholders, TimeSpan? startOfDay, DateTime from, DateTime to)
             {
-                query.DayStartOffset = startOfDay.Value;
+                var query = (TimeAttendanceQuery)engine.ReportManager.CreateReportQuery(ReportType.TimeAttendanceActivity);
+
+                query.Areas.Add(area);
+                query.Cardholders.AddRange(cardholders);
+                query.TimeRange.SetTimeRange(from, to);
+
+                if (startOfDay.HasValue)
+                {
+                    query.DayStartOffset = startOfDay.Value;
+                }
+
+                QueryCompletedEventArgs results = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+
+                return results.Data.AsEnumerable().Select(CreateTimeAttendance).ToList();
+
+                TimeAttendance CreateTimeAttendance(DataRow row) => new TimeAttendance
+                {
+                    Date = DateTime.SpecifyKind(row.Field<DateTime>("Date"), DateTimeKind.Utc),
+                    CardholderGuid = row.Field<Guid>("CardholderGuid"),
+                    AreaGuid = row.Field<Guid>("AreaGuid"),
+                    FirstTimeIn = DateTime.SpecifyKind(row.Field<DateTime>("FirstTimeIn"), DateTimeKind.Utc),
+                    LastExitTime = row.IsNull("LastExitTime") ? (DateTime?)null : DateTime.SpecifyKind(row.Field<DateTime>("LastExitTime"), DateTimeKind.Utc),
+                    TotalMinutes = row.Field<int>("TotalMinutes"),
+                    TotalMinutesInclusive = row.Field<int>("TotalMinutesInclusive")
+                };
             }
 
-            QueryCompletedEventArgs results = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-
-            return results.Data.AsEnumerable().Select(CreateTimeAttendance).ToList();
-
-            TimeAttendance CreateTimeAttendance(DataRow row) => new TimeAttendance
-            {
-                Date = DateTime.SpecifyKind(row.Field<DateTime>("Date"), DateTimeKind.Utc),
-                CardholderGuid = row.Field<Guid>("CardholderGuid"),
-                AreaGuid = row.Field<Guid>("AreaGuid"),
-                FirstTimeIn = DateTime.SpecifyKind(row.Field<DateTime>("FirstTimeIn"), DateTimeKind.Utc),
-                LastExitTime = row.IsNull("LastExitTime") ? (DateTime?)null : DateTime.SpecifyKind(row.Field<DateTime>("LastExitTime"), DateTimeKind.Utc),
-                TotalMinutes = row.Field<int>("TotalMinutes"),
-                TotalMinutesInclusive = row.Field<int>("TotalMinutesInclusive")
-            };
+            string GetEntityName(Guid entityGuid) => engine.GetEntity(entityGuid)?.Name ?? "Unknown";
         }
     }
 }
