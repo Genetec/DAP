@@ -34,7 +34,7 @@ namespace Genetec.Dap.CodeSamples
                 var from = DateTime.UtcNow.AddDays(-1); // Example: past day
                 var to = DateTime.UtcNow;
 
-                List<TimeAttendance> attendances = await GetTimeAndAttendance(engine, areaGuid, cardholderGuids, startOfDay, from, to);
+                List<TimeAttendance> attendances = await GetTimeAndAttendance(areaGuid, cardholderGuids, startOfDay, from, to);
 
                 if (attendances.Any())
                 {
