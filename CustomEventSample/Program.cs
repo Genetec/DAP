@@ -1,6 +1,14 @@
-﻿namespace Genetec.Dap.CodeSamples
+﻿// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+namespace Genetec.Dap.CodeSamples
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Sdk;
@@ -17,37 +25,27 @@
             const string server = "localhost";
             const string username = "admin";
             const string password = "";
+            
+            // TODO: Replace with your own custom event ID
+            const int customEventId = 1000;
+
+            // TODO: Replace with your own camera GUID
+            Guid cameraGuid = new Guid("YOUR_CAMERA_GUID_HERE");
 
             using var engine = new Engine();
+
             ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
             if (state == ConnectionStateCode.Success)
             {
                 var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
+                ICustomEventService customEventService = config.CustomEventService;
 
-                const int customEventId = 1000;
+                IReadOnlyList<CustomEvent> events = customEventService.CustomEvents;
+                DisplayCustomEvents(events);
 
-                CustomEvent customEvent = config.CustomEventService.CustomEvents.FirstOrDefault(c => c.Id == customEventId);
-
-                if (customEvent is null)
-                {
-                    customEvent = config.CustomEventService.CreateCustomEventBuilder()
-                        .SetEntityType(EntityType.Camera)
-                        .SetId(customEventId)
-                        .SetName("Custom event")
-                        .Build();
-
-                    await config.CustomEventService.AddAsync(customEvent);
-                }
-
-                Entity source = engine.GetEntity(EntityType.Camera, 1);
-
-                var customEventInstance = (CustomEventInstance)engine.ActionManager.BuildEvent(EventType.CustomEvent, source.Guid);
-                customEventInstance.Id = new CustomEventId(customEventId);
-                customEventInstance.Message = "Custom event Message";
-                customEventInstance.ExtraHiddenPayload = "This is a hidden payload";
-
-                engine.ActionManager.RaiseEvent(customEventInstance);
+                CustomEvent customEvent = await CreateOrGetCustomEvent(customEventService, customEventId);
+                RaiseCustomEvent(customEvent);
             }
             else
             {
@@ -56,6 +54,73 @@
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
+
+            void DisplayCustomEvents(IReadOnlyList<CustomEvent> events)
+            {
+                Console.WriteLine($"Total Number of Custom Events: {events.Count}");
+
+                foreach (var group in events.GroupBy(e => e.SourceEntityType).OrderBy(g => g.Key))
+                {
+                    Console.WriteLine($"\nSource Entity Type: {group.Key}");
+                    Console.WriteLine(new string('-', 30));
+
+                    foreach (var customEvent in group.OrderBy(e => e.Id))
+                    {
+                        Console.WriteLine($"Name: {customEvent.Name}");
+                        Console.WriteLine($"  ID: {customEvent.Id}");
+                        Console.WriteLine($"  Local: {customEvent.LocalCustomEvent}");
+
+                        if (engine.GetEntity(customEvent.Owner) is Role owner)
+                            Console.WriteLine($"  Owner: {owner.Name}");
+                        else
+                            Console.WriteLine("  Owner: LocalSystem");
+
+                        Console.WriteLine();
+                    }
+                }
+            }
+
+            async Task<CustomEvent> CreateOrGetCustomEvent(ICustomEventService customEventService, int eventId)
+            {
+                CustomEvent customEvent = customEventService.CustomEvents.FirstOrDefault(@event => @event.Id == eventId);
+                if (customEvent is null)
+                {
+                    Console.WriteLine($"Creating new custom event with ID: {eventId}");
+
+                    ICustomEventBuilder builder = customEventService.CreateCustomEventBuilder();
+
+                    customEvent = builder.SetEntityType(EntityType.Camera)
+                        .SetId(eventId)
+                        .SetName("Camera custom event")
+                        .Build();
+
+                    await customEventService.AddAsync(customEvent);
+                }
+                else
+                {
+                    Console.WriteLine($"Using existing custom event with ID: {eventId}");
+                }
+                return customEvent;
+            }
+
+            void RaiseCustomEvent(CustomEvent customEvent)
+            {
+                Console.WriteLine("Raising custom event");
+
+                Entity source = engine.GetEntity(cameraGuid);
+                if (source is null)
+                {
+                    Console.WriteLine($"Error: No entity found with GUID {cameraGuid}");
+                    return;
+                }
+
+                var eventInstance = (CustomEventInstance)engine.ActionManager.BuildEvent(EventType.CustomEvent, cameraGuid);
+                eventInstance.Id = new CustomEventId(customEvent.Id);
+                eventInstance.Message = "Custom event message";
+                eventInstance.ExtraHiddenPayload = "Custom event extra payload";
+
+                engine.ActionManager.RaiseEvent(eventInstance);
+            }
         }
     }
 }
