@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{534DB081-2747-4FB6-B269-C3EEDBD9F30D}</ProjectGuid>
+    <ProjectGuid>{3FF358EA-B133-4EC1-BE3E-0FF110C48EB3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-    <AssemblyName>EventMonitoringSample</AssemblyName>
+    <AssemblyName>IncidentManagerSample</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -49,12 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IncidentData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Certificates\EventMonitoringSample.exe.cert">
+    <None Include="Certificates\IncidentManagerSample.exe.cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
