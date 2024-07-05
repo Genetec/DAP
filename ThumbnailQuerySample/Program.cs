@@ -5,104 +5,93 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using Genetec.Dap.CodeSamples;
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Queries;
+using Genetec.Sdk.Queries.Video;
+
+const string server = "localhost";
+const string username = "admin";
+const string password = "";
+
+SdkResolver.Initialize();
+
+using var engine = new Engine();
+
+ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
+if (state == ConnectionStateCode.Success)
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Genetec.Sdk.Queries;
-    using Genetec.Sdk.Queries.Video;
-    using Genetec.Sdk;
+    await LoadCameras();
 
-    class Program
+    List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
+    Console.WriteLine($"Loaded {cameras.Count} cameras.");
+
+    IEnumerable<Thumbnail> thumbnails = await GetThumbnails(cameras);
+
+    foreach (Thumbnail thumbnail in thumbnails)
     {
-        static Program() => SdkResolver.Initialize();
-
-        static async Task Main()
-        {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
-
-            using var engine = new Engine();
-
-            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-            if (state == ConnectionStateCode.Success)
-            {
-                List<Guid> cameras = await GetCameras();
-
-                if (cameras.Any())
-                {
-                    IEnumerable<Thumbnail> thumbnails = await GetThumbnails(cameras);
-
-                    foreach (var thumbnail in thumbnails)
-                    {
-                        Console.WriteLine("Thumbnail Details:");
-                        Console.WriteLine($"  Camera:        {engine.GetEntity(thumbnail.Camera).Name}");
-                        Console.WriteLine($"  Timestamp:     {thumbnail.Timestamp.ToLocalTime()}");
-                        Console.WriteLine($"  Latest Frame:  {thumbnail.LatestFrame.ToLocalTime()}");
-                        Console.WriteLine($"  Size:          {thumbnail.Data?.Length ?? 0} bytes");
-                        Console.WriteLine($"  Context:       {thumbnail.Context}");
-                        Console.WriteLine(new string('-', 40));
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine($"Logon failed: {state}");
-            }
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-
-            async Task<List<Guid>> GetCameras()
-            {
-                var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-                query.EntityTypeFilter.Add(EntityType.Camera);
-                query.Page = 1;
-                query.PageSize = 50;
-
-                var cameras = new List<Guid>();
-
-                QueryCompletedEventArgs args;
-                do
-                {
-                    args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-
-                    cameras.AddRange(args.Data.AsEnumerable().Take(query.PageSize).Select(row => row.Field<Guid>(nameof(Guid))));
-
-                    query.Page++;
-
-                } while (args.Error == ReportError.TooManyResults || args.Data.Rows.Count > query.PageSize);
-
-                return cameras;
-            }
-
-            async Task<IEnumerable<Thumbnail>> GetThumbnails(List<Guid> cameras)
-            {
-                var query = (VideoThumbnailQuery)engine.ReportManager.CreateReportQuery(ReportType.Thumbnail);
-
-                const int thumbnailWidth = 200;
-
-                foreach (var camera in cameras)
-                {
-                    query.AddTimestamp(camera: camera, timestamp: DateTime.UtcNow.AddSeconds(-1), width: thumbnailWidth);
-                }
-
-                QueryCompletedEventArgs args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-
-                return args.Data.AsEnumerable().Select(row => new Thumbnail
-                {
-                    Camera = row.Field<Guid>(VideoThumbnailQuery.CameraColumnName),
-                    Data = row.Field<byte[]>(VideoThumbnailQuery.ThumbnailColumnName),
-                    Timestamp = row.Field<DateTime>(VideoThumbnailQuery.TimestampColumnName),
-                    LatestFrame = row.Field<DateTime>(VideoThumbnailQuery.LatestFrameColumnName),
-                    Context = row.Field<Guid>(VideoThumbnailQuery.ContextColumnName)
-                });
-            }
-        }
+        Console.WriteLine("Thumbnail Details:");
+        Console.WriteLine($"  {"Camera:",-16} {engine.GetEntity(thumbnail.Camera).Name}");
+        Console.WriteLine($"  {"Timestamp:",-16} {thumbnail.Timestamp.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+        Console.WriteLine($"  {"Latest Frame:",-16} {thumbnail.LatestFrame.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+        Console.WriteLine($"  {"Size:",-16} {thumbnail.Data?.Length ?? 0} bytes");
+        Console.WriteLine($"  {"Context:",-16} {thumbnail.Context}");
+        Console.WriteLine(new string('-', 50));
     }
+}
+else
+{
+    Console.WriteLine($"logon failed: {state}");
+}
+
+Console.WriteLine("Press any key to exit...");
+Console.ReadKey();
+
+Task LoadCameras()
+{
+    var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+    query.EntityTypeFilter.Add(EntityType.Camera);
+
+    return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+}
+
+async Task<IEnumerable<Thumbnail>> GetThumbnails(IEnumerable<Camera> cameras)
+{
+    var query = (VideoThumbnailQuery)engine.ReportManager.CreateReportQuery(ReportType.Thumbnail);
+
+    const int thumbnailWidth = 200;
+
+    foreach (var camera in cameras)
+    {
+        query.AddTimestamp(camera: camera.Guid, timestamp: DateTime.UtcNow.AddSeconds(-1), width: thumbnailWidth);
+    }
+
+    QueryCompletedEventArgs args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+
+    return args.Data.AsEnumerable().Select(CreateFromDataRow).ToList();
+
+    Thumbnail CreateFromDataRow(DataRow row) => new()
+    {
+        Camera = row.Field<Guid>(VideoThumbnailQuery.CameraColumnName),
+        Data = row.Field<byte[]>(VideoThumbnailQuery.ThumbnailColumnName),
+        Timestamp = row.Field<DateTime>(VideoThumbnailQuery.TimestampColumnName),
+        LatestFrame = row.Field<DateTime>(VideoThumbnailQuery.LatestFrameColumnName),
+        Context = row.Field<Guid>(VideoThumbnailQuery.ContextColumnName)
+    };
+}
+
+public class Thumbnail
+{
+    public Guid Camera { get; set; }
+    public byte[] Data { get; set; }
+    public DateTime Timestamp { get; set; }
+    public DateTime LatestFrame { get; set; }
+    public Guid Context { get; set; }
 }
