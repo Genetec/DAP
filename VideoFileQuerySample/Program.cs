@@ -39,7 +39,7 @@ if (state == ConnectionStateCode.Success)
     IEnumerable<VideoFileInfo> videoFileInfos = await GetVideoFileInfos(cameras);
 
     // Display video file information
-    foreach (var videoFileInfo in videoFileInfos)
+    foreach (VideoFileInfo videoFileInfo in videoFileInfos)
     {
         Console.WriteLine("Video File Information:");
         Console.WriteLine($"  {"Camera:",-22} {engine.GetEntity(videoFileInfo.CameraGuid).Name}");
