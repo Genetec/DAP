@@ -5,124 +5,144 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using Genetec.Dap.CodeSamples;
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Queries;
+using Genetec.Sdk.Queries.AccessControl;
+
+const string server = "localhost";
+const string username = "admin";
+const string password = "";
+
+SdkResolver.Initialize();
+
+await RunSample();
+
+async Task RunSample()
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Genetec.Sdk;
-    using Genetec.Sdk.Entities;
-    using Genetec.Sdk.Queries;
-    using Genetec.Sdk.Queries.AccessControl;
+    using var engine = new Engine();
 
-    class Program
+    ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
+    if (state == ConnectionStateCode.Success)
     {
-        static Program() => SdkResolver.Initialize();
+        DateTime from = DateTime.Now.AddDays(-30);
+        DateTime to = DateTime.Now;
+        int maxResultCount = 10;
+        Guid entity = SystemConfiguration.SystemConfigurationGuid; // All entities
 
-        static async Task Main()
+        var reportTypes = new[]
         {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
+            ReportType.AccessControlUnitActivity,
+            ReportType.CredentialActivity,
+            ReportType.CardholderActivity,
+            ReportType.AreaActivity,
+            ReportType.DoorActivity,
+            ReportType.ZoneActivity,
+            ReportType.ElevatorActivity,
+            ReportType.VisitorActivity
+        };
+  
+        foreach (ReportType reportType in reportTypes)
+        {
+            List<AccessControlEvent> activities = await GetActivities(engine, reportType, from, to, maxResultCount, entity);
 
-            using var engine = new Engine();
+            Console.WriteLine($"\nFound {activities.Count} activities.\n");
 
-            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-            if (state == ConnectionStateCode.Success)
-            {
-                DateTime from = DateTime.UtcNow.AddDays(-30); // last 30 days
-                DateTime to = DateTime.UtcNow;
-                int maxResultCount = 10; // limit the number of results to 10
-                Guid allEntitiesGuid = SystemConfiguration.SystemConfigurationGuid; // Get result from all entities
-
-                await QueryAndDisplayActivities("Unit", ReportType.AccessControlUnitActivity, from, to, maxResultCount, allEntitiesGuid);
-                await QueryAndDisplayActivities("Credential", ReportType.CredentialActivity, from, to, maxResultCount, allEntitiesGuid);
-                await QueryAndDisplayActivities("Cardholder", ReportType.CardholderActivity, from, to, maxResultCount, allEntitiesGuid);
-                await QueryAndDisplayActivities("Area", ReportType.AreaActivity, from, to, maxResultCount, allEntitiesGuid);
-                await QueryAndDisplayActivities("Door", ReportType.DoorActivity, from, to, maxResultCount, allEntitiesGuid);
-                await QueryAndDisplayActivities("Zone", ReportType.ZoneActivity, from, to, maxResultCount, allEntitiesGuid);
-                await QueryAndDisplayActivities("Elevator", ReportType.ElevatorActivity, from, to, maxResultCount, allEntitiesGuid);
-                await QueryAndDisplayActivities("Visitor", ReportType.VisitorActivity, from, to, maxResultCount, allEntitiesGuid);
-            }
-            else
-            {
-                Console.WriteLine($"Logon failed: {state}");
-            }
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-
-            async Task QueryAndDisplayActivities(string activityType, ReportType reportType, DateTime from, DateTime to,int maximumResultCount, params Guid[] allEntitiesGuid)
-            {
-                List<AccessControlEvent> activities = await ExecuteAccessControlReportQuery(reportType, from, to, maximumResultCount, allEntitiesGuid);
-                
-                Console.WriteLine($"{activityType} activities ({activities.Count})");
-
-                foreach (AccessControlEvent activity in activities)
-                {
-                    Console.Write($"Timestamp: {activity.Timestamp}, EventType: {activity.EventType}");
-
-                    WriteEntityName(activity.Unit);
-                    WriteEntityName(activity.Device);
-                    WriteEntityName(activity.AccessPointGroup);
-                    WriteEntityName(activity.AccessPoint);
-                    WriteEntityName(activity.Credential);
-                    WriteEntityName(activity.Credential2);
-                    WriteEntityName(activity.Cardholder);
-
-                    Console.WriteLine();
-                }
-
-                Console.WriteLine();
-
-                void WriteEntityName(Guid? guid)
-                {
-                    if (guid.HasValue)
-                    {
-                        Entity entity = engine.GetEntity(guid.Value);
-                        if (entity != null) Console.Write($", {entity.EntityType}: {entity.Name}");
-                    }
-                }
-            }
-
-            async Task<List<AccessControlEvent>> ExecuteAccessControlReportQuery(ReportType reportType, DateTime from, DateTime to, int maxResults, params Guid[] entities)
-            {
-                var query = (AccessControlReportQuery)engine.ReportManager.CreateReportQuery(reportType);
-                query.TimeRange.SetTimeRange(from, to);
-                query.MaximumResultCount = maxResults;
-
-                if (query is VisitorActivityQuery visitorActivityQuery)
-                {
-                    visitorActivityQuery.Visitor = entities.First();
-                }
-                else
-                {
-                    query.QueryEntities.AddRange(entities);
-                }
-
-                QueryCompletedEventArgs results = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-                return results.Data.AsEnumerable().Take(query.MaximumResultCount).Select(CreateAccessControlEvent).ToList();
-
-                AccessControlEvent CreateAccessControlEvent(DataRow row) => new AccessControlEvent
-                {
-                    Timestamp = DateTime.SpecifyKind(row.Field<DateTime>(AccessControlReportQuery.TimestampColumnName), DateTimeKind.Utc),
-                    Unit = row.Field<Guid?>(AccessControlReportQuery.UnitGuidColumnName),
-                    AccessPoint = row.Field<Guid?>(AccessControlReportQuery.APGuidColumnName),
-                    AccessPointGroup = row.Field<Guid?>(AccessControlReportQuery.AccessPointGroupGuidColumnName),
-                    Credential = row.Field<Guid?>(AccessControlReportQuery.CredentialGuidColumnName),
-                    Credential2 = row.Field<Guid?>(AccessControlReportQuery.Credential2GuidColumnName),
-                    Device = row.Field<Guid?>(AccessControlReportQuery.DeviceGuidColumnName),
-                    CustomEventMessage = row.Field<string>(AccessControlReportQuery.CustomEventMessageColumnName),
-                    EventType = row.Field<EventType>(AccessControlReportQuery.EventTypeColumnName),
-                    Source = row.Field<Guid?>(AccessControlReportQuery.SourceGuidColumnName),
-                    Cardholder = row.Field<Guid?>(AccessControlReportQuery.CardholderGuidColumnName),
-                    OccurrencePeriod = row.Field<OfflinePeriodType>(AccessControlReportQuery.OccurrencePeriodColumnName),
-                    TimeZone = TimeZoneInfo.FindSystemTimeZoneById(row.Field<string>(AccessControlReportQuery.TimeZoneColumnName))
-                };
-            }
+            DisplayToConsole(engine, activities);
         }
+    }
+    else
+    {
+        Console.WriteLine($"Logon failed: {state}");
+    }
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
+}
+
+async Task<List<AccessControlEvent>> GetActivities(Engine engine, ReportType reportType, DateTime from, DateTime to, int maxResultCount, Guid entityGuid)
+{
+    Console.WriteLine($"Querying {reportType}...");
+
+    var query = (AccessControlReportQuery)engine.ReportManager.CreateReportQuery(reportType);
+    query.TimeRange.SetTimeRange(from, to);
+    query.MaximumResultCount = maxResultCount;
+
+    if (query is VisitorActivityQuery visitorQuery)
+    {
+        visitorQuery.Visitor = entityGuid;
+    }
+    else
+    {
+        query.QueryEntities.Add(entityGuid);
+    }
+
+    QueryCompletedEventArgs results = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+
+    return results.Data.AsEnumerable().Select(CreateAccessControlEvent).ToList();
+
+    AccessControlEvent CreateAccessControlEvent(DataRow row) => new()
+    {
+        Timestamp = DateTime.SpecifyKind(row.Field<DateTime>(AccessControlReportQuery.TimestampColumnName), DateTimeKind.Utc),
+        Unit = row.Field<Guid?>(AccessControlReportQuery.UnitGuidColumnName),
+        AccessPoint = row.Field<Guid?>(AccessControlReportQuery.APGuidColumnName),
+        AccessPointGroup = row.Field<Guid?>(AccessControlReportQuery.AccessPointGroupGuidColumnName),
+        Credential = row.Field<Guid?>(AccessControlReportQuery.CredentialGuidColumnName),
+        Credential2 = row.Field<Guid?>(AccessControlReportQuery.Credential2GuidColumnName),
+        Device = row.Field<Guid?>(AccessControlReportQuery.DeviceGuidColumnName),
+        CustomEventMessage = row.Field<string>(AccessControlReportQuery.CustomEventMessageColumnName),
+        EventType = row.Field<EventType>(AccessControlReportQuery.EventTypeColumnName),
+        Source = row.Field<Guid?>(AccessControlReportQuery.SourceGuidColumnName),
+        Cardholder = row.Field<Guid?>(AccessControlReportQuery.CardholderGuidColumnName),
+        OccurrencePeriod = row.Field<OfflinePeriodType>(AccessControlReportQuery.OccurrencePeriodColumnName),
+        TimeZone = TimeZoneInfo.FindSystemTimeZoneById(row.Field<string>(AccessControlReportQuery.TimeZoneColumnName))
+    };
+}
+
+void DisplayToConsole(Engine engine, List<AccessControlEvent> activities)
+{
+    activities.ForEach(activity =>
+    {
+        Console.WriteLine($"Timestamp: {activity.Timestamp}, EventType: {activity.EventType}");
+        Console.WriteLine($"  Unit: {GetEntityName(activity.Unit)}");
+        Console.WriteLine($"  Device: {GetEntityName(activity.Device)}");
+        Console.WriteLine($"  AccessPointGroup: {GetEntityName(activity.AccessPointGroup)}");
+        Console.WriteLine($"  AccessPoint: {GetEntityName(activity.AccessPoint)}");
+        Console.WriteLine($"  Credential: {GetEntityName(activity.Credential)}");
+        Console.WriteLine($"  Credential2: {GetEntityName(activity.Credential2)}");
+        Console.WriteLine($"  Cardholder: {GetEntityName(activity.Cardholder)}");
+        Console.WriteLine();
+    });
+
+    Console.WriteLine(new string('-', 50));
+
+    string GetEntityName(Guid? entityId) => engine.GetEntity(entityId.GetValueOrDefault())?.Name;
+}
+
+class AccessControlEvent
+{
+    public DateTime Timestamp { get; set; }
+    public Guid? Unit { get; set; }
+    public Guid? AccessPoint { get; set; }
+    public Guid? AccessPointGroup { get; set; }
+    public Guid? Credential { get; set; }
+    public Guid? Credential2 { get; set; }
+    public Guid? Device { get; set; }
+    public string CustomEventMessage { get; set; }
+    public EventType EventType { get; set; }
+    public Guid? Source { get; set; }
+    public TimeZoneInfo TimeZone { get; set; }
+    public OfflinePeriodType OccurrencePeriod { get; set; }
+    public Guid? Cardholder { get; set; }
+    string GetEntityName(Engine engine, Guid? entityId)
+    {
+        return engine.GetEntity(entityId.GetValueOrDefault())?.Name;
     }
 }
