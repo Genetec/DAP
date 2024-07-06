@@ -16,59 +16,65 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk.Queries.Video;
 
-const string server = "localhost";
-const string username = "admin";
-const string password = "";
-
 SdkResolver.Initialize();
 
-using var engine = new Engine();
+await RunSample();
 
-ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-if (state == ConnectionStateCode.Success)
+async Task RunSample()
 {
-    await LoadCameras();
+    const string server = "localhost";
+    const string username = "admin";
+    const string password = "";
 
-    List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
-    Console.WriteLine($"Loaded {cameras.Count} cameras.");
+    using var engine = new Engine();
 
-    IEnumerable<Thumbnail> thumbnails = await GetThumbnails(cameras);
+    ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-    foreach (Thumbnail thumbnail in thumbnails)
+    if (state == ConnectionStateCode.Success)
     {
-        Console.WriteLine("Thumbnail Details:");
-        Console.WriteLine($"  {"Camera:",-16} {engine.GetEntity(thumbnail.Camera).Name}");
-        Console.WriteLine($"  {"Timestamp:",-16} {thumbnail.Timestamp.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
-        Console.WriteLine($"  {"Latest Frame:",-16} {thumbnail.LatestFrame.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
-        Console.WriteLine($"  {"Size:",-16} {thumbnail.Data?.Length ?? 0} bytes");
-        Console.WriteLine($"  {"Context:",-16} {thumbnail.Context}");
-        Console.WriteLine(new string('-', 50));
+        // Load cameras into the entity cache 
+        await LoadCameras(engine);
+
+        // Retrieve cameras from the entity cache
+        List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
+        Console.WriteLine($"{cameras.Count} cameras loaded");
+
+        // Retrieve video thumbnails for all cameras
+        IEnumerable<VideoThumbnail> thumbnails = await GetVideoThumbnails(engine, cameras);
+
+        foreach (VideoThumbnail thumbnail in thumbnails)
+        {
+            DisplayToConsole(engine, thumbnail);
+        }
     }
-}
-else
-{
-    Console.WriteLine($"logon failed: {state}");
+    else
+    {
+        Console.WriteLine($"logon failed: {state}");
+    }
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
 }
 
-Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
-
-Task LoadCameras()
+Task LoadCameras(Engine engine)
 {
+    Console.WriteLine("Loading cameras...");
+
     var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
     query.EntityTypeFilter.Add(EntityType.Camera);
 
     return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 }
 
-async Task<IEnumerable<Thumbnail>> GetThumbnails(IEnumerable<Camera> cameras)
+async Task<IEnumerable<VideoThumbnail>> GetVideoThumbnails(Engine engine, IEnumerable<Camera> cameras)
 {
+    Console.WriteLine("Retrieving thumbnails...");
+
     var query = (VideoThumbnailQuery)engine.ReportManager.CreateReportQuery(ReportType.Thumbnail);
 
     const int thumbnailWidth = 200;
 
-    foreach (var camera in cameras)
+    foreach (Camera camera in cameras)
     {
         query.AddTimestamp(camera: camera.Guid, timestamp: DateTime.UtcNow.AddSeconds(-1), width: thumbnailWidth);
     }
@@ -77,7 +83,7 @@ async Task<IEnumerable<Thumbnail>> GetThumbnails(IEnumerable<Camera> cameras)
 
     return args.Data.AsEnumerable().Select(CreateFromDataRow).ToList();
 
-    Thumbnail CreateFromDataRow(DataRow row) => new()
+    VideoThumbnail CreateFromDataRow(DataRow row) => new()
     {
         Camera = row.Field<Guid>(VideoThumbnailQuery.CameraColumnName),
         Data = row.Field<byte[]>(VideoThumbnailQuery.ThumbnailColumnName),
@@ -87,7 +93,18 @@ async Task<IEnumerable<Thumbnail>> GetThumbnails(IEnumerable<Camera> cameras)
     };
 }
 
-public class Thumbnail
+void DisplayToConsole(Engine engine, VideoThumbnail videoThumbnail)
+{
+    Console.WriteLine("Thumbnail Details:");
+    Console.WriteLine($"  {"Camera:",-16} {engine.GetEntity(videoThumbnail.Camera).Name}");
+    Console.WriteLine($"  {"Timestamp:",-16} {videoThumbnail.Timestamp.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"  {"Latest Frame:",-16} {videoThumbnail.LatestFrame.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"  {"Size:",-16} {videoThumbnail.Data?.Length ?? 0} bytes");
+    Console.WriteLine($"  {"Context:",-16} {videoThumbnail.Context}");
+    Console.WriteLine(new string('-', 50));
+}
+
+class VideoThumbnail
 {
     public Guid Camera { get; set; }
     public byte[] Data { get; set; }
