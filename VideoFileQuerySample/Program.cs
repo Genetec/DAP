@@ -41,20 +41,7 @@ if (state == ConnectionStateCode.Success)
     // Display video file information
     foreach (VideoFileInfo videoFileInfo in videoFileInfos)
     {
-        Console.WriteLine("Video File Information:");
-        Console.WriteLine($"  {"Camera:",-22} {engine.GetEntity(videoFileInfo.CameraGuid).Name}");
-        Console.WriteLine($"  {"Archive Source:",-22} {engine.GetEntity(videoFileInfo.ArchiveSourceGuid).Name}");
-        Console.WriteLine($"  {"Start Time:",-22} {videoFileInfo.StartTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
-        Console.WriteLine($"  {"End Time:",-22} {videoFileInfo.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
-        Console.WriteLine($"  {"File Path:",-22} {videoFileInfo.FilePath}");
-        Console.WriteLine($"  {"File Size:",-22} {videoFileInfo.FileSize:N0} bytes");
-        Console.WriteLine($"  {"Metadata Path:",-22} {videoFileInfo.MetadataPath}");
-        Console.WriteLine($"  {"Protection Status:",-22} {videoFileInfo.ProtectionStatus}");
-        Console.WriteLine($"  {"Infinite Protection:",-22} {videoFileInfo.InfiniteProtection}");
-        Console.WriteLine($"  {"Drive:",-22} {videoFileInfo.Drive}");
-        Console.WriteLine($"  {"Error:",-22} {videoFileInfo.Error}");
-        Console.WriteLine($"  {"Protection End Date:",-22} {videoFileInfo.ProtectionEndDateTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
-        Console.WriteLine(new string('-', 60));
+        DisplayToConsole(videoFileInfo);
     }
 }
 else
@@ -65,7 +52,6 @@ else
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
-// Load cameras into the entity cache
 Task LoadCameras()
 {
     Console.WriteLine("Loading cameras...");
@@ -76,7 +62,6 @@ Task LoadCameras()
     return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 }
 
-// Retrieve video file information for the given cameras
 async Task<IEnumerable<VideoFileInfo>> GetVideoFileInfos(IEnumerable<Camera> cameras)
 {
     Console.WriteLine("Retrieving video file information...");
@@ -103,6 +88,24 @@ async Task<IEnumerable<VideoFileInfo>> GetVideoFileInfos(IEnumerable<Camera> cam
         Error = row.Field<uint>(VideoFileQuery.ErrorColumnName),
         ProtectionEndDateTime = row.Field<DateTime>(VideoFileQuery.ProtectionEndDateTimeColumnName)
     };
+}
+
+void DisplayToConsole(VideoFileInfo info)
+{
+    Console.WriteLine("Video File Information:");
+    Console.WriteLine($"  {"Camera:",-22} {engine.GetEntity(info.CameraGuid).Name}");
+    Console.WriteLine($"  {"Archive Source:",-22} {engine.GetEntity(info.ArchiveSourceGuid).Name}");
+    Console.WriteLine($"  {"Start Time:",-22} {info.StartTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"  {"End Time:",-22} {info.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"  {"File Path:",-22} {info.FilePath}");
+    Console.WriteLine($"  {"File Size:",-22} {info.FileSize:N0} bytes");
+    Console.WriteLine($"  {"Metadata Path:",-22} {info.MetadataPath}");
+    Console.WriteLine($"  {"Protection Status:",-22} {info.ProtectionStatus}");
+    Console.WriteLine($"  {"Infinite Protection:",-22} {info.InfiniteProtection}");
+    Console.WriteLine($"  {"Drive:",-22} {info.Drive}");
+    Console.WriteLine($"  {"Error:",-22} {info.Error}");
+    Console.WriteLine($"  {"Protection End Date:",-22} {info.ProtectionEndDateTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine(new string('-', 60));
 }
 
 public class VideoFileInfo
