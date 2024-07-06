@@ -16,44 +16,56 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Scripting.Compiler;
 using Genetec.Sdk.Scripting.Compiler.CodeBuilder;
 
-const string server = "localhost";
-const string username = "admin";
-const string password = "";
-
 SdkResolver.Initialize();
 
-using var engine = new Engine();
+await RunSample();
 
-ConnectionStateCode state = await engine.LoginManager.LogOnAsync(server, username, password);
-
-if (state == ConnectionStateCode.Success)
+async Task RunSample()
 {
-    await LoadMacrosIntoEntityCache();
+    const string server = "localhost";
+    const string username = "admin";
+    const string password = "";
 
-    List<Macro> macros = engine.GetEntities(EntityType.Macro).OfType<Macro>().ToList();
-    DisplayMacros(macros);
+    using var engine = new Engine();
 
-    Macro macro = await CreateNewMacro();
-    ExecuteMacro(macro);
+    ConnectionStateCode state = await engine.LoginManager.LogOnAsync(server, username, password);
 
-    DisplayRunningMacros();
+    if (state == ConnectionStateCode.Success)
+    {
+        // Load macros into the entity cache
+        await LoadMacros(engine);
 
-    await Task.Delay(2000); // Wait for 2 seconds
+        // Retrieve macros from the entity cache
+        List<Macro> macros = engine.GetEntities(EntityType.Macro).OfType<Macro>().ToList();
 
-    AbortMacroIfRunning(macro);
+        // Display all macros
+        DisplayMacros(macros);
+
+        // Create a new macro
+        Macro macro = await CreateNewMacro(engine);
+
+        // Execute the new macro
+        ExecuteMacro(macro);
+
+        await Task.Delay(2000); // Let the macro runs for 2 seconds
+
+        // Display running macros
+        DisplayRunningMacros(engine);
+
+        // Abort the macro if it is still running
+        AbortMacro(engine, macro);
+    }
+    else
+    {
+        Console.WriteLine($"Login failed with state: {state}");
+    }
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
 }
-else
-{
-    Console.WriteLine($"Login failed with state: {state}");
-}
-
-Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
 
 void DisplayMacros(List<Macro> macros)
 {
-    Console.WriteLine($"{macros.Count} macros loaded");
-
     foreach (var macro in macros)
     {
         Console.WriteLine($"Macro: {macro.Name}");
@@ -74,7 +86,7 @@ void DisplayMacros(List<Macro> macros)
     }
 }
 
-async Task LoadMacrosIntoEntityCache()
+async Task LoadMacros(Engine engine)
 {
     Console.WriteLine("Loading macros...");
 
@@ -83,15 +95,21 @@ async Task LoadMacrosIntoEntityCache()
     await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 }
 
-async Task<Macro> CreateNewMacro()
+async Task<Macro> CreateNewMacro(Engine engine)
 {
+    Console.WriteLine("Creating a new macro...");
+
     IMacroSourceCodeBuilder builder = CodeBuilderFactory.Create();
     builder.AddProperty(typeof(Guid), "Entity");
     builder.AddProperty(typeof(bool), "Boolean");
     builder.AddProperty(typeof(string), "Text");
     builder.AddProperty(typeof(int), "Number");
+    builder.SetClassAttributeParameters(singleInstance: true, keepRunningAfterExecute: true); // Single instance, keep running after execute
+    builder.SetExecuteMethodContent(string.Empty); // This macro does not do anything, it just executes
 
     string macroSourceCode = builder.Build();
+
+    Console.WriteLine($"Macro source code:\n\n{macroSourceCode}");
 
     Macro macro = await engine.TransactionManager.ExecuteTransactionAsync(() =>
     {
@@ -106,6 +124,8 @@ async Task<Macro> CreateNewMacro()
 
 void ExecuteMacro(Macro macro)
 {
+    Console.WriteLine($"Executing {macro.Name}");
+
     macro.Started += OnMacroOnStarted;
     macro.Completed += OnMacroOnCompleted;
     macro.Aborted += OnMacroOnAborted;
@@ -117,12 +137,35 @@ void ExecuteMacro(Macro macro)
     parameters["Number"].Value = 3;
 
     Guid instanceId = macro.Execute(parameters);
-    Console.WriteLine($"Executing the new macro. Instance ID: {instanceId}");
+    Console.WriteLine($"{macro.Name} started. Instance ID: {instanceId}");
+
+    void OnMacroOnStarted(object sender, MacroEventArgs e)
+    {
+        Console.WriteLine($"{macro.Name} started. Instance ID: {e.InstanceGuid}");
+    }
+
+    void OnMacroOnCompleted(object sender, MacroEventArgs e)
+    {
+        Console.WriteLine($"{macro.Name} completed. Instance ID: {e.InstanceGuid}");
+        if (e.RuntimeException != null)
+        {
+            Console.WriteLine($"Runtime exception: {e.RuntimeException.Message}");
+        }
+    }
+
+    void OnMacroOnAborted(object sender, MacroEventArgs e)
+    {
+        Console.WriteLine($"{macro.Name} aborted. Instance ID: {e.InstanceGuid}");
+        if (e.RuntimeException != null)
+        {
+            Console.WriteLine($"Runtime exception: {e.RuntimeException.Message}");
+        }
+    }
 }
 
-void DisplayRunningMacros()
+void DisplayRunningMacros(Engine engine)
 {
-    Console.WriteLine("\nGetting running macros...");
+    Console.WriteLine("\nRunning macros...");
 
     foreach (MacroInstance instance in engine.GetMacroInstances())
     {
@@ -134,12 +177,12 @@ void DisplayRunningMacros()
     }
 }
 
-void AbortMacroIfRunning(Macro macro)
+void AbortMacro(Engine engine, Macro macro)
 {
     MacroInstance instance = engine.GetMacroInstances().FirstOrDefault(i => i.Entity == macro.Guid);
     if (instance != null)
     {
-        Console.WriteLine("Aborting macro...");
+        Console.WriteLine($"Aborting macro with instance ID: {instance.ExecutionId}");
         macro.AbortInstance(instance.ExecutionId);
     }
     else
@@ -147,33 +190,3 @@ void AbortMacroIfRunning(Macro macro)
         Console.WriteLine("Macro is not running.");
     }
 }
-
-void OnMacroOnStarted(object sender, MacroEventArgs e)
-{
-    var macro = (Macro)engine.GetEntity(e.MacroGuid);
-    Console.WriteLine($"{macro.Name} started. Instance ID: {e.InstanceGuid}");
-}
-
-void OnMacroOnCompleted(object sender, MacroEventArgs e)
-{
-    var macro = (Macro)engine.GetEntity(e.MacroGuid);
-    Console.WriteLine($"{macro.Name} completed. Instance ID: {e.InstanceGuid}");
-
-    if (e.RuntimeException != null)
-    {
-        Console.WriteLine($"Runtime exception: {e.RuntimeException.Message}");
-    }
-}
-
-void OnMacroOnAborted(object sender, MacroEventArgs e)
-{
-    var macro = (Macro)engine.GetEntity(e.MacroGuid);
-    Console.WriteLine($"{macro.Name} aborted. Instance ID: {e.InstanceGuid}");
-
-    if (e.RuntimeException != null)
-    {
-        Console.WriteLine($"Runtime exception: {e.RuntimeException.Message}");
-    }
-}
-
-
