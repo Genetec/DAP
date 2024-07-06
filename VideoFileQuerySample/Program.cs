@@ -16,11 +16,11 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk.Queries.Video;
 
-SdkResolver.Initialize();
-
 const string server = "localhost";
 const string username = "admin";
 const string password = "";
+
+SdkResolver.Initialize();
 
 using var engine = new Engine();
 
@@ -31,11 +31,11 @@ if (state == ConnectionStateCode.Success)
     // Load cameras into the entity cache
     await LoadCameras();
 
-    // Retrieve camera entities from the entity cache
+    // Retrieve cameras from the entity cache
     List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
-    Console.WriteLine($"Loaded {cameras.Count} cameras.");
+    Console.WriteLine($"{cameras.Count} cameras loaded");
 
-    // Get video file information for all cameras
+    // Retrieve video file information for all cameras
     IEnumerable<VideoFileInfo> videoFileInfos = await GetVideoFileInfos(cameras);
 
     // Display video file information
