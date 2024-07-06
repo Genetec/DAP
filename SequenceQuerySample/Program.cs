@@ -114,7 +114,7 @@ async Task<IList<VideoSequence>> GetSequences(Engine engine, IEnumerable<Camera>
     Console.WriteLine(new string('-', 50));
 }
 
-public class VideoSequence
+class VideoSequence
 {
     public Guid CameraGuid { get; set; }
     public Guid ArchiveSourceGuid { get; set; }
