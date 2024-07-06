@@ -23,13 +23,14 @@ if (state == ConnectionStateCode.Success)
     // Load cameras into the entity cache
     await LoadCamerasIntoCache();
 
-    // Get cameras from the entity cache
+    // Retrieve cameras from the entity cache
     List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
     Console.WriteLine($"{cameras.Count} cameras loaded");
 
-    // Retrieve and display camera configurations
+    // Retrieve camera configurations for all cameras
     IList<CameraConfiguration> configurations = await GetCameraConfigurations(cameras);
    
+    // Display camera configurations
     foreach (CameraConfiguration configuration in configurations)
     {
         DisplayToConsole(configuration);
