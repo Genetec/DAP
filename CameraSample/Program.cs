@@ -99,6 +99,7 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
     void DisplayHardwareCapabilities(Camera camera)
     {
         Console.WriteLine("Hardware Capabilities:");
+
         HardwareSpecificCapabilities hardwareCapabilities = camera.HardwareCapabilities;
         if (hardwareCapabilities is AxisCameraCapabilities axisCameraCapabilities)
         {
@@ -289,7 +290,6 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
 
         ICameraRecordingConfiguration config = camera.RecordingConfiguration;
 
-        // IRecordingConfiguration properties
         Console.WriteLine($"Audio Recording: {config.AudioRecording}");
         Console.WriteLine($"Automatic Cleanup: {config.AutomaticCleanup}");
         Console.WriteLine($"Default Manual Recording Time: {config.DefaultManualRecordingTime}");
@@ -298,7 +298,7 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
         Console.WriteLine($"Retention Period: {config.RetentionPeriod.TotalDays} days");
 
         Console.WriteLine("\nScheduled Recording Modes:");
-        foreach (var mode in config.ScheduledRecordingModes)
+        foreach (ScheduledRecordingMode mode in config.ScheduledRecordingModes)
         {
             Console.WriteLine($"  - Schedule: {engine.GetEntity(mode.Schedule)?.Name}, Mode: {mode.Mode}");
         }
