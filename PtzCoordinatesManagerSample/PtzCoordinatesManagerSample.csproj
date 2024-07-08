@@ -19,7 +19,7 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>8</LangVersion>
+		<LangVersion>9</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
@@ -30,7 +30,7 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>8</LangVersion>
+		<LangVersion>9</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
@@ -70,8 +70,7 @@
 			<Certificates Include="Certificates\*.cert" />
 		</ItemGroup>
 		<MakeDir Directories="$(CertOutputPath)" />
-		<Copy SourceFiles="@(Certificates)"
-		      DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
+		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
 	</Target>
 
 	<Import Project="..\Shared\Shared.projitems" Label="Shared" />
