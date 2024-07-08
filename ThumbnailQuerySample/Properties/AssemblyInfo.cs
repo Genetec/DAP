@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Genetec Inc.")]
 [assembly: AssemblyProduct("ThumbnailQuerySample")]
-[assembly: AssemblyCopyright("Copyright ©  Genetec 2024")]
+[assembly: AssemblyCopyright("Copyright © Genetec Inc. 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
