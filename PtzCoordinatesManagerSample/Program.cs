@@ -16,11 +16,11 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Media.Ptz;
 using Genetec.Sdk.Queries;
 
-SdkResolver.Initialize();
-
 const string server = "localhost";
 const string username = "admin";
 const string password = "";
+
+SdkResolver.Initialize();
 
 using var engine = new Engine();
 
@@ -28,7 +28,7 @@ ConnectionStateCode state = await engine.LogOnAsync(server: server, username: us
 
 if (state == ConnectionStateCode.Success)
 {
-    //  Find the first PTZ camera that is running
+    // Find the first PTZ camera that is running
     Camera camera = await FindPtzCamera();
 
     if (camera is not null)
