@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -7,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("LoggerSample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Genetec")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("LoggerSample")]
-[assembly: AssemblyCopyright("Copyright © Genetec 2024")]
+[assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4d27a27e-a287-4366-89dc-e89571b07321")]
+[assembly: Guid("15571f2e-64d8-46a7-aa36-a630d52a5878")]
 
 // Version information for an assembly consists of the following four values:
 //

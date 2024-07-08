@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ThumbnailQuerySample")]
+[assembly: AssemblyTitle("SequenceQuerySample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Genetec Inc.")]
-[assembly: AssemblyProduct("ThumbnailQuerySample")]
+[assembly: AssemblyProduct("SequenceQuerySample")]
 [assembly: AssemblyCopyright("Copyright © Genetec Inc. 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cbfe3a2b-55f7-4865-b1ea-ae5ac613604d")]
+[assembly: Guid("cb4adbb7-6450-4ac5-8e87-efa5b5640709")]
 
 // Version information for an assembly consists of the following four values:
 //

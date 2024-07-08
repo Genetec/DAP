@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}</ProjectGuid>
+    <ProjectGuid>{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-    <AssemblyName>ThumbnailQuerySample</AssemblyName>
+    <AssemblyName>SequenceQuerySample</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Certificates\ThumbnailQuerySample.exe.cert">
+    <None Include="Certificates\SequenceQuerySample.exe.cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
