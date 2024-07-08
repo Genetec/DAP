@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}</ProjectGuid>
+    <ProjectGuid>{A8C67E82-07D3-4E1A-943D-3F36278A086D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-    <AssemblyName>ThumbnailQuerySample</AssemblyName>
+    <AssemblyName>MacroSample</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,8 +40,17 @@
       <HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Genetec.Sdk.Scripting.Compiler">
+      <HintPath>$(GSC_SDK)\Genetec.Sdk.Scripting.Compiler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Genetec.Sdk.Scripting.Interfaces">
+      <HintPath>$(GSC_SDK)\Genetec.Sdk.Scripting.Interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Certificates\ThumbnailQuerySample.exe.cert">
+    <None Include="Certificates\MacroSample.exe.cert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
