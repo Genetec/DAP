@@ -7,18 +7,15 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using System;
+    using Sdk.Diagnostics.Logging.Core;
 
-    public class Thumbnail
+    static class StaticLogger
     {
-        public Guid Camera { get; set; }
-        
-        public byte[] Data { get; set; }
-        
-        public DateTime Timestamp { get; set; }
-        
-        public DateTime LatestFrame { get; set; }
+        private static readonly Logger s_logger = Logger.CreateClassLogger(typeof(StaticLogger));
 
-        public Guid Context { get; set; }
+        public static void LogDebugMessage()
+        {
+            s_logger.TraceDebug("This is a debug message");
+        }
     }
 }
