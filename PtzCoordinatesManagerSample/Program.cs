@@ -44,9 +44,9 @@ if (state == ConnectionStateCode.Success)
         Network network = networks.First();
 
         using var manager = new PtzCoordinatesManager();
-        manager.PtzStarted += (sender, e) => Console.WriteLine($"PTZ started. Coordinates: {e.Coordinates}");
-        manager.PtzStopped += (sender, e) =>  Console.WriteLine($"PTZ stopped. Coordinates: {e.Coordinates}");
-        manager.CoordinatesReceived += (sender, e) => Console.WriteLine($"Coordinates received. Coordinates: {e.Coordinates}");
+        manager.PtzStarted += (sender, e) => Console.WriteLine($"PTZ started. Coordinates: {e.Coordinates}\n");
+        manager.PtzStopped += (sender, e) =>  Console.WriteLine($"PTZ stopped. Coordinates: {e.Coordinates}\n");
+        manager.CoordinatesReceived += (sender, e) => Console.WriteLine($"Coordinates received. Coordinates: {e.Coordinates}\n");
 
         Console.WriteLine($"Initializing PTZ control for camera '{camera.Name}' using network '{network.Name}'.\n");
         manager.Initialize(sdkEngine: engine, cameraGuid: camera.Guid, clientSubnet: network.Guid);
@@ -75,7 +75,7 @@ if (state == ConnectionStateCode.Success)
                 await Task.Delay(2000);  // Wait for 2 seconds before moving to the next preset
             }
 
-            Console.WriteLine($"Completed moving through {presets.Count} presets.");
+            Console.WriteLine($"Completed moving through {presets.Count} presets.\n");
         }
         else
         {
@@ -84,7 +84,7 @@ if (state == ConnectionStateCode.Success)
     }
     else
     {
-        Console.WriteLine("No suitable PTZ camera found. Ensure a PTZ camera is running and supports the GoToPreset command.");
+        Console.WriteLine("No suitable PTZ camera found. Ensure a PTZ camera is running and supports the GoToPreset command.\n");
     }
 }
 else
