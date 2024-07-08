@@ -134,7 +134,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisplayInTileSample", "Disp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomEntitySample", "CustomEntitySample\CustomEntitySample.csproj", "{013897A4-7304-4FEC-BA74-79D77AF3E283}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoFileQuerySample", "VideoFileQuerySample\VideoFileQuerySample.csproj", "{CFF1A177-3345-4C1F-BBD9-5DE1190FB7A0}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequenceQuerySample", "SequenceQuerySample\SequenceQuerySample.csproj", "{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}"
+EndProject
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -378,6 +380,10 @@ Global
 		{013897A4-7304-4FEC-BA74-79D77AF3E283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{013897A4-7304-4FEC-BA74-79D77AF3E283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{013897A4-7304-4FEC-BA74-79D77AF3E283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF1A177-3345-4C1F-BBD9-5DE1190FB7A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF1A177-3345-4C1F-BBD9-5DE1190FB7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF1A177-3345-4C1F-BBD9-5DE1190FB7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF1A177-3345-4C1F-BBD9-5DE1190FB7A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -453,6 +459,7 @@ Global
 		Shared\Shared.projitems*{bd80885d-81e5-44a0-a78f-bcb72ec5fdca}*SharedItemsImports = 4
 		Shared\Shared.projitems*{cb4adbb7-6450-4ac5-8e87-efa5b5640709}*SharedItemsImports = 4
 		Shared\Shared.projitems*{cbfe3a2b-55f7-4865-b1ea-ae5ac613604d}*SharedItemsImports = 4
+		Shared\Shared.projitems*{cff1a177-3345-4c1f-bbd9-5de1190fb7a0}*SharedItemsImports = 4
 		Shared\Shared.projitems*{dd133c7e-1be3-436d-91aa-dd298a30f72e}*SharedItemsImports = 4
 		Shared\Shared.projitems*{e7ecb4d6-1382-4fe3-afff-b47c9cbba888}*SharedItemsImports = 4
 		Shared\Shared.projitems*{ef31e80d-6743-4d64-be6b-c1ae3dad798a}*SharedItemsImports = 4
