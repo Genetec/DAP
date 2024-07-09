@@ -136,6 +136,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessEventMonitoringSample
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserTaskSample", "UserTaskSample\UserTaskSample.csproj", "{5641FD90-74CF-47A6-87A3-45B04EB8872F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaySoundSample", "PlaySoundSample\PlaySoundSample.csproj", "{D85F3E62-D427-4754-B6BF-28E015B64078}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -384,6 +386,10 @@ Global
 		{5641FD90-74CF-47A6-87A3-45B04EB8872F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5641FD90-74CF-47A6-87A3-45B04EB8872F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5641FD90-74CF-47A6-87A3-45B04EB8872F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D85F3E62-D427-4754-B6BF-28E015B64078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D85F3E62-D427-4754-B6BF-28E015B64078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D85F3E62-D427-4754-B6BF-28E015B64078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D85F3E62-D427-4754-B6BF-28E015B64078}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -457,6 +463,7 @@ Global
 		Shared\Shared.projitems*{bd80885d-81e5-44a0-a78f-bcb72ec5fdca}*SharedItemsImports = 5
 		Shared\Shared.projitems*{cb4adbb7-6450-4ac5-8e87-efa5b5640709}*SharedItemsImports = 5
 		Shared\Shared.projitems*{cbfe3a2b-55f7-4865-b1ea-ae5ac613604d}*SharedItemsImports = 5
+		Shared\Shared.projitems*{d85f3e62-d427-4754-b6bf-28e015b64078}*SharedItemsImports = 5
 		Shared\Shared.projitems*{dd133c7e-1be3-436d-91aa-dd298a30f72e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{e7ecb4d6-1382-4fe3-afff-b47c9cbba888}*SharedItemsImports = 5
 		Shared\Shared.projitems*{ef31e80d-6743-4d64-be6b-c1ae3dad798a}*SharedItemsImports = 5
