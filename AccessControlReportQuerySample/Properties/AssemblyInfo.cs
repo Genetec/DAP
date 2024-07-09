@@ -1,18 +1,16 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
-
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VideoSourceFilterSample")]
+[assembly: AssemblyTitle("AccessControlReportQuerySample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Genetec")]
-[assembly: AssemblyProduct("VideoSourceFilterSample")]
-[assembly: AssemblyCopyright("Copyright © Genetec 2023")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("AccessControlReportQuerySample")]
+[assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7eb16455-8e54-4033-b32d-909bcad1609d")]
+[assembly: Guid("1da3d321-ac8a-4f73-aacc-9f81dfbbc257")]
 
 // Version information for an assembly consists of the following four values:
 //
