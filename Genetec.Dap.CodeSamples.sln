@@ -112,6 +112,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CredentialBuilderSample", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThumbnailQuerySample", "ThumbnailQuerySample\ThumbnailQuerySample.csproj", "{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MacroSample", "MacroSample\MacroSample.csproj", "{A8C67E82-07D3-4E1A-943D-3F36278A086D}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlUnitSample", "AccessControlUnitSample\AccessControlUnitSample.csproj", "{7BCE5199-8B5B-4905-8CAA-5ABC3ACAAD00}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventMonitoringSample", "EventMonitoringSample\EventMonitoringSample.csproj", "{534DB081-2747-4FB6-B269-C3EEDBD9F30D}"
@@ -122,19 +124,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomEntitySample", "Custo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DisplayInTileSample", "DisplayInTileSample\DisplayInTileSample.csproj", "{DD133C7E-1BE3-436D-91AA-DD298A30F72E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadgePrinterSample", "BadgePrinterSample\BadgePrinterSample.csproj", "{B1470875-4071-4047-BD8E-712B6DD22F1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BadgePrinterSample", "BadgePrinterSample\BadgePrinterSample.csproj", "{B1470875-4071-4047-BD8E-712B6DD22F1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequenceQuerySample", "SequenceQuerySample\SequenceQuerySample.csproj", "{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SequenceQuerySample", "SequenceQuerySample\SequenceQuerySample.csproj", "{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyConfiguratonSample", "CopyConfiguratonSample\CopyConfiguratonSample.csproj", "{94719A4C-BE85-4BCF-82D7-A9D98F98F028}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticServerSample", "DiagnosticServerSample\DiagnosticServerSample.csproj", "{9DF2D078-ED8F-4E97-B4DE-313C9F3AA71E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiagnosticServerSample", "DiagnosticServerSample\DiagnosticServerSample.csproj", "{9DF2D078-ED8F-4E97-B4DE-313C9F3AA71E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacroSample", "MacroSample\MacroSample.csproj", "{A8C67E82-07D3-4E1A-943D-3F36278A086D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessEventMonitoringSample", "AccessEventMonitoringSample\AccessEventMonitoringSample.csproj", "{7EF1D932-1CF1-4BF7-A900-C7E3F98EB039}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessEventMonitoringSample", "AccessEventMonitoringSample\AccessEventMonitoringSample.csproj", "{7EF1D932-1CF1-4BF7-A900-C7E3F98EB039}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserTaskSample", "UserTaskSample\UserTaskSample.csproj", "{5641FD90-74CF-47A6-87A3-45B04EB8872F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserTaskSample", "UserTaskSample\UserTaskSample.csproj", "{5641FD90-74CF-47A6-87A3-45B04EB8872F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -336,6 +336,10 @@ Global
 		{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBFE3A2B-55F7-4865-B1EA-AE5AC613604D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8C67E82-07D3-4E1A-943D-3F36278A086D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8C67E82-07D3-4E1A-943D-3F36278A086D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8C67E82-07D3-4E1A-943D-3F36278A086D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8C67E82-07D3-4E1A-943D-3F36278A086D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BCE5199-8B5B-4905-8CAA-5ABC3ACAAD00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BCE5199-8B5B-4905-8CAA-5ABC3ACAAD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BCE5199-8B5B-4905-8CAA-5ABC3ACAAD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -372,10 +376,6 @@ Global
 		{9DF2D078-ED8F-4E97-B4DE-313C9F3AA71E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF2D078-ED8F-4E97-B4DE-313C9F3AA71E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF2D078-ED8F-4E97-B4DE-313C9F3AA71E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8C67E82-07D3-4E1A-943D-3F36278A086D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8C67E82-07D3-4E1A-943D-3F36278A086D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8C67E82-07D3-4E1A-943D-3F36278A086D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8C67E82-07D3-4E1A-943D-3F36278A086D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7EF1D932-1CF1-4BF7-A900-C7E3F98EB039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7EF1D932-1CF1-4BF7-A900-C7E3F98EB039}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EF1D932-1CF1-4BF7-A900-C7E3F98EB039}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -446,6 +446,7 @@ Global
 		Shared\Shared.projitems*{80235dd0-e10a-4d5a-b904-3ffaf947ae00}*SharedItemsImports = 5
 		Shared\Shared.projitems*{81b35a77-4551-4f33-866a-95b2e47111ef}*SharedItemsImports = 5
 		Shared\Shared.projitems*{847cf4d4-2b00-4c6a-848a-f0908d705669}*SharedItemsImports = 5
+		Shared\Shared.projitems*{8c2ce84c-ef36-4940-b031-c8a933dbf6eb}*SharedItemsImports = 5
 		Shared\Shared.projitems*{94719a4c-be85-4bcf-82d7-a9d98f98f028}*SharedItemsImports = 4
 		Shared\Shared.projitems*{9683a716-b265-4195-a8d4-4d46095f1013}*SharedItemsImports = 5
 		Shared\Shared.projitems*{9c1fccb7-a08d-4140-bff8-949f036c50aa}*SharedItemsImports = 5

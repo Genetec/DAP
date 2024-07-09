@@ -1,47 +1,79 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+using System;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using Genetec.Dap.CodeSamples;
+using Genetec.Sdk;
+using Genetec.Sdk.Workflows;
+
+SdkResolver.Initialize();
+
+await RunSample();
+
+async Task RunSample()
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Sdk;
+    const string server = "localhost";
+    const string username = "admin";
+    const string password = "";
 
-    class Program
+    // Create two engines for sender and receiver
+    using var sender = new Engine();
+    using var receiver = new Engine();
+
+    // Add request handler to receiver
+    receiver.RequestManager.AddRequestHandler<Request, Response>(OnRequestReceived);
+
+    // Log on both clients
+    ConnectionStateCode[] states = await Task.WhenAll(sender.LogOnAsync(server, username, password), receiver.LogOnAsync(server, username, password));
+
+    // Check if both clients are successfully logged on
+    if (states.All(state => state == ConnectionStateCode.Success))
     {
-        static Program() => SdkResolver.Initialize();
+        Console.WriteLine($"Sending request from {sender.Client.Name} ({sender.Client.Guid}) to {receiver.Client.Name} ({receiver.Client.Guid})");
 
-        static async Task Main()
-        {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
+        // Send request and wait for response asynchronously
+        Response response = await sender.RequestManager.SendRequestAsync<Request, Response>(
+            recipientId: receiver.Client.Guid, // Receiver's client GUID
+            request: new Request { Message = "PING" } // Request instance
+        );
 
-            using var sender = new Engine();
-            using var receiver = new Engine();
-
-            ConnectionStateCode[] states = await Task.WhenAll(sender.LogOnAsync(server, username, password), receiver.LogOnAsync(server, username, password));
-
-            if (states.All(state => state == ConnectionStateCode.Success))
-            {
-                receiver.RequestManager.AddRequestHandler<Request, Response>((request, completion) =>
-                {
-                    Console.WriteLine($"Request received from {completion.SourceApplication}: {request.Message}");
-                    completion.SetResponse(new Response { Reply = "PONG" });
-                });
-
-                Console.WriteLine($"Sending  request to: {receiver.Client.Guid}");
-                Response response = await sender.RequestManager.SendRequestAsync<Request, Response>(receiver.Client.Guid, new Request { Message = "PING" });
-                Console.WriteLine($"Response received: {response.Reply}");
-            }
-            else
-            {
-                Console.WriteLine($"Logon failed: {string.Join(", ", states)}");
-            }
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-        }
+        Console.WriteLine($"Response received: {response.Reply}");
     }
+    else
+    {
+        Console.WriteLine($"Logon failed: {string.Join(", ", states)}");
+    }
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
+
+    // Request handler
+    void OnRequestReceived(Request request, RequestCompletion<Response> completion)
+    {
+        Console.WriteLine($"Request received from {receiver.GetEntity(completion.SourceApplication).Name} ({completion.SourceApplication}): {request.Message}");
+        
+        // Send response
+        completion.SetResponse(new Response { Reply = "PONG" });
+    }
+}
+
+[DataContract]
+public class Request
+{
+    [DataMember]
+    public string Message { get; set; }
+}
+
+[DataContract]
+public class Response
+{
+    [DataMember]
+    public string Reply { get; set; }
 }
