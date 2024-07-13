@@ -142,7 +142,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoFileQuerySample", "Vid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CameraConfigurationSample", "CameraConfigurationSample\CameraConfigurationSample.csproj", "{974DC3A8-D0C0-4D35-9AC8-874DF845465E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaybackSequenceQuerierSample", "PlaybackSequenceQuerierSample\PlaybackSequenceQuerierSample.csproj", "{763D0F67-5661-431A-AB4B-9E0A0DA2B05F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaybackSequenceQuerierSample", "PlaybackSequenceQuerierSample\PlaybackSequenceQuerierSample.csproj", "{763D0F67-5661-431A-AB4B-9E0A0DA2B05F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditTrailsSample", "AuditTrailsSample\AuditTrailsSample.csproj", "{DA6E8970-A284-4E49-8ADD-62B89E148348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -408,6 +410,10 @@ Global
 		{763D0F67-5661-431A-AB4B-9E0A0DA2B05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{763D0F67-5661-431A-AB4B-9E0A0DA2B05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{763D0F67-5661-431A-AB4B-9E0A0DA2B05F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA6E8970-A284-4E49-8ADD-62B89E148348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA6E8970-A284-4E49-8ADD-62B89E148348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA6E8970-A284-4E49-8ADD-62B89E148348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA6E8970-A284-4E49-8ADD-62B89E148348}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -486,6 +492,7 @@ Global
 		Shared\Shared.projitems*{cbfe3a2b-55f7-4865-b1ea-ae5ac613604d}*SharedItemsImports = 5
 		Shared\Shared.projitems*{cff1a177-3345-4c1f-bbd9-5de1190fb7a0}*SharedItemsImports = 5
 		Shared\Shared.projitems*{d85f3e62-d427-4754-b6bf-28e015b64078}*SharedItemsImports = 5
+		Shared\Shared.projitems*{da6e8970-a284-4e49-8add-62b89e148348}*SharedItemsImports = 5
 		Shared\Shared.projitems*{dd133c7e-1be3-436d-91aa-dd298a30f72e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{e7ecb4d6-1382-4fe3-afff-b47c9cbba888}*SharedItemsImports = 5
 		Shared\Shared.projitems*{ef31e80d-6743-4d64-be6b-c1ae3dad798a}*SharedItemsImports = 5
