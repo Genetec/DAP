@@ -71,13 +71,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Remove="Resources\**" />
-		<EmbeddedResource Remove="Resources\**" />
-		<None Remove="Resources\**" />
+	  <PackageReference Include="Prism.Core" Version="8.1.97" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Prism.Core" Version="8.1.97" />
+	  <Resource Include="Resources\AlarmClock.png" />
 	</ItemGroup>
 
 	<Target Name="CopyCertificates" AfterTargets="Build">
