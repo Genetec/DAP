@@ -146,6 +146,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaybackSequenceQuerierSamp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditTrailsSample", "AuditTrailsSample\AuditTrailsSample.csproj", "{DA6E8970-A284-4E49-8ADD-62B89E148348}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTrailsSample", "ActivityTrailsSample\ActivityTrailsSample.csproj", "{D65D1AA2-29BF-4530-AE4C-2992CD04D165}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -414,6 +416,10 @@ Global
 		{DA6E8970-A284-4E49-8ADD-62B89E148348}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA6E8970-A284-4E49-8ADD-62B89E148348}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA6E8970-A284-4E49-8ADD-62B89E148348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D65D1AA2-29BF-4530-AE4C-2992CD04D165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D65D1AA2-29BF-4530-AE4C-2992CD04D165}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D65D1AA2-29BF-4530-AE4C-2992CD04D165}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D65D1AA2-29BF-4530-AE4C-2992CD04D165}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -491,6 +497,7 @@ Global
 		Shared\Shared.projitems*{cb4adbb7-6450-4ac5-8e87-efa5b5640709}*SharedItemsImports = 5
 		Shared\Shared.projitems*{cbfe3a2b-55f7-4865-b1ea-ae5ac613604d}*SharedItemsImports = 5
 		Shared\Shared.projitems*{cff1a177-3345-4c1f-bbd9-5de1190fb7a0}*SharedItemsImports = 5
+		Shared\Shared.projitems*{d65d1aa2-29bf-4530-ae4c-2992cd04d165}*SharedItemsImports = 5
 		Shared\Shared.projitems*{d85f3e62-d427-4754-b6bf-28e015b64078}*SharedItemsImports = 5
 		Shared\Shared.projitems*{da6e8970-a284-4e49-8add-62b89e148348}*SharedItemsImports = 5
 		Shared\Shared.projitems*{dd133c7e-1be3-436d-91aa-dd298a30f72e}*SharedItemsImports = 5
