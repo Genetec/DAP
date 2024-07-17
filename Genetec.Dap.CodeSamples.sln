@@ -148,6 +148,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuditTrailsSample", "AuditT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTrailsSample", "ActivityTrailsSample\ActivityTrailsSample.csproj", "{D65D1AA2-29BF-4530-AE4C-2992CD04D165}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventExtenderSample", "EventExtenderSample\EventExtenderSample.csproj", "{F9F717E1-AED6-4DD0-924C-D2F08D7A2693}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -420,6 +422,10 @@ Global
 		{D65D1AA2-29BF-4530-AE4C-2992CD04D165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D65D1AA2-29BF-4530-AE4C-2992CD04D165}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D65D1AA2-29BF-4530-AE4C-2992CD04D165}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9F717E1-AED6-4DD0-924C-D2F08D7A2693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F717E1-AED6-4DD0-924C-D2F08D7A2693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F717E1-AED6-4DD0-924C-D2F08D7A2693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F717E1-AED6-4DD0-924C-D2F08D7A2693}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -451,6 +457,7 @@ Global
 		{B1470875-4071-4047-BD8E-712B6DD22F1E} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{94719A4C-BE85-4BCF-82D7-A9D98F98F028} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{763D0F67-5661-431A-AB4B-9E0A0DA2B05F} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
+		{F9F717E1-AED6-4DD0-924C-D2F08D7A2693} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
