@@ -36,14 +36,16 @@ async Task RunSample()
         // Retrieve access manager roles from the entity cache
         List<AccessManagerRole> accessManagers = engine.GetEntities(EntityType.Role).OfType<AccessManagerRole>().ToList();
 
+        // Retrieve access granted events from the last 24 hours
         DateTime startDate = DateTime.UtcNow.AddDays(-1);
         DateTime endDate = DateTime.UtcNow;
         IEnumerable<EventType> eventTypes = new[] { EventType.AccessGranted };
 
         // Retrieve access control raw events
-        IEnumerable<AccessControlRawEvent> rawEvents = await GetAccessControlRawEvents(engine, startDate, endDate, eventTypes, accessManagers);
+        IList<AccessControlRawEvent> rawEvents = await GetAccessControlRawEvents(engine, startDate, endDate, eventTypes, accessManagers);
 
         // Display access control raw events
+        Console.WriteLine($"{rawEvents.Count} access control raw events retrieved.");
         foreach (AccessControlRawEvent rawEvent in rawEvents)
         {
             DisplayToConsole(rawEvent);
@@ -66,7 +68,7 @@ Task LoadRoles(Engine engine)
     return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 }
 
-async Task<IEnumerable<AccessControlRawEvent>> GetAccessControlRawEvents(Engine engine, DateTime startDate, DateTime endDate, IEnumerable<EventType> eventTypes, IEnumerable<AccessManagerRole> accessManagers)
+async Task<IList<AccessControlRawEvent>> GetAccessControlRawEvents(Engine engine, DateTime startDate, DateTime endDate, IEnumerable<EventType> eventTypes, IEnumerable<AccessManagerRole> accessManagers)
 {
     var results = new List<AccessControlRawEvent>();
 
@@ -78,6 +80,8 @@ async Task<IEnumerable<AccessControlRawEvent>> GetAccessControlRawEvents(Engine 
 
     foreach (AccessManagerRole accessManager in accessManagers)
     {
+        Console.WriteLine($"Retrieving access control raw events for access manager: {accessManager.Name}");
+
         long lastPosition = 0;
         do
         {
@@ -86,7 +90,7 @@ async Task<IEnumerable<AccessControlRawEvent>> GetAccessControlRawEvents(Engine 
             query.StartingAfterIndexes.Add(new RawEventIndex { AccessManager = accessManager.Guid, Position = lastPosition });
 
             QueryCompletedEventArgs args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            
+
             List<AccessControlRawEvent> batchResults = args.Data.AsEnumerable().Take(query.MaximumResultCount).Select(CreateAccessControlRawEvent).ToList();
             results.AddRange(batchResults);
 
