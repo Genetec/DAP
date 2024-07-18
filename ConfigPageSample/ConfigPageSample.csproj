@@ -74,9 +74,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Remove="Resources\**" />
-		<EmbeddedResource Remove="Resources\**" />
-		<None Remove="Resources\**" />
+	  <Resource Include="Resources\Images\LargeLogo.png" />
+	  <Resource Include="Resources\Images\SmallLogo.png" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

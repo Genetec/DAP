@@ -66,6 +66,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Resource Include="Resources\Icon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
 		<Reference Include="PresentationCore" />
@@ -75,12 +79,6 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Remove="Resources\**" />
-		<EmbeddedResource Remove="Resources\**" />
-		<None Remove="Resources\**" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

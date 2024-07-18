@@ -74,12 +74,6 @@
 		<PackageReference Include="Prism.Core" Version="8.1.97" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Compile Remove="Resources\**" />
-		<EmbeddedResource Remove="Resources\**" />
-		<None Remove="Resources\**" />
-	</ItemGroup>
-
 	<Target Name="CopyCertificates" AfterTargets="Build">
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
