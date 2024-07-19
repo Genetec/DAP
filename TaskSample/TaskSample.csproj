@@ -65,8 +65,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Resources\Icon.png" />
-	  <Content Include="Resources\Thumbnail.png" />
+	  <Resource Include="Resources\Icon.png" />
+	  <Resource Include="Resources\Thumbnail.png" />
 	</ItemGroup>
 	
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
