@@ -146,7 +146,7 @@ namespace Genetec.Dap.CodeSamples
                 VisitDate = row.Field<DateTime>("VisitDate"),
                 MobilePhoneNumber = row.Field<string>("MobilePhoneNumber"),
                 VisitorState = row.Field<VisitorState>("VisitorState"),
-            }).Last();
+            }).LastOrDefault();
         }
 
         static void DisplayArchivedVisitorInfo(ArchivedVisitor archivedVisitor)
