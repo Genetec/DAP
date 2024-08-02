@@ -64,7 +64,6 @@
 		</Reference>
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<Reference Include="Microsoft.CSharp" />
 		<Reference Include="System" />
@@ -75,7 +74,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Certificates\Genetec.Dap.CodeSamples.ControlsSamplePage.cert">
+	  <None Update="Certificates\Genetec.Dap.CodeSamples.StylesSamplePage.cert">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

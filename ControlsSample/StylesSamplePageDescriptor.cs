@@ -14,10 +14,10 @@ namespace Genetec.Dap.CodeSamples
 
         public override string Description => "This page provides samples of the available control styles.";
 
-        public override Guid CategoryId { get; } = Guid.Parse(Sdk.Workspace.Tasks.TaskCategories.Administration);
+        public override Guid CategoryId => CustomTaskCategories.SdkControls;
 
         public override TaskIconColor IconColor => TaskIconColor.DefaultIconColor;
-        
+
         public override bool HasPrivilege() => true;
     }
 }

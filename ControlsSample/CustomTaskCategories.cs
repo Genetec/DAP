@@ -7,24 +7,10 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using Sdk.Workspace.Tasks;
     using System;
 
-    public class SampleModule : Sdk.Workspace.Modules.Module
+    public static class CustomTaskCategories
     {
-        public override void Load()
-        {
-            TaskGroup taskGroup = new(CustomTaskCategories.SdkControls, Guid.Empty, "SDK Samples", null, 100);
-            taskGroup.Initialize(Workspace);
-            Workspace.Tasks.Register(taskGroup);
-
-            CreatePageTask<StylesSamplePage> stylesPage = new();
-            stylesPage.Initialize(Workspace);
-            Workspace.Tasks.Register(stylesPage);
-        }
-
-        public override void Unload()
-        {
-        }
+        public static Guid SdkControls = new("4F72E1E7-DEA8-4DA3-A0C6-90A37D37F146");
     }
 }
