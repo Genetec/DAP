@@ -74,6 +74,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Reference Include="PresentationCore" />
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
@@ -86,8 +90,29 @@
 	  <Resource Include="Resources\Images\SmallLogo.png" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Certificates\Genetec.Dap.CodeSamples.Server.SamplePlugin.cert">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v AddFoldersToAssemblyProbe /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v AddFoldersToAssemblyProbe /t REG_SZ /d &quot;True&quot; /f" />
+	  <Exec Command="REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ServerModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v AddFoldersToAssemblyProbe /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ServerModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v AddFoldersToAssemblyProbe /t REG_SZ /d &quot;True&quot; /f" />
 	</Target>
 
 </Project>

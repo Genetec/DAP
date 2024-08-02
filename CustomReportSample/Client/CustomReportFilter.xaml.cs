@@ -1,12 +1,12 @@
 ﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
 // May be used only in accordance with a valid Source Code License Agreement.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples.Client
 {
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using Sdk.Workspace.Pages;
+    using Genetec.Sdk.Workspace.Pages;
 
     public partial class CustomReportFilter : ReportFilter, INotifyPropertyChanged
     {
