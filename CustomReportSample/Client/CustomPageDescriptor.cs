@@ -1,7 +1,7 @@
 ﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
 // May be used only in accordance with a valid Source Code License Agreement.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples.Client
 {
     using System;
     using System.Windows.Media;
@@ -9,13 +9,11 @@ namespace Genetec.Dap.CodeSamples
     using Genetec.Sdk.Workspace.Pages;
     using Genetec.Sdk.Workspace.Tasks;
 
-    internal class CustomPageDescriptor : PageDescriptor
+    public class CustomPageDescriptor : PageDescriptor
     {
-        public static Guid Id { get; } = new Guid("5923ECF7-E8BF-42D7-9E30-F14EECC49DBA");
-
         public override bool AllowOfflineExecution => false;
 
-        public override Guid CategoryId => new Guid(TaskCategories.Investigation);
+        public override Guid CategoryId => new(TaskCategories.Investigation);
 
         public override string Description => "View custom events that occured on selected entities";
 
@@ -27,6 +25,6 @@ namespace Genetec.Dap.CodeSamples
 
         public override string Name => "Custom report";
 
-        public override Guid Type => Id;
+        public override Guid Type => CustomReportId.Value;
     }
 }

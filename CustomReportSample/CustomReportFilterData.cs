@@ -8,14 +8,19 @@ namespace Genetec.Dap.CodeSamples
     using System.Runtime.Serialization.Json;
     using System.Text;
 
+    /// <summary>
+    /// This class represents the filter data for this custom report sample.
+    /// It is used to pass data from the client to the server when running a custom report.
+    /// </summary>
     [DataContract]
     public class CustomReportFilterData
     {
-        private static readonly DataContractJsonSerializer s_serializer =
-            new DataContractJsonSerializer(typeof(CustomReportFilterData));
+        private static readonly DataContractJsonSerializer s_serializer = new(typeof(CustomReportFilterData));
 
         [DataMember] 
         public string Message { get; set; }
+
+        // Add any additional properties needed for the custom report filter data
 
         public static CustomReportFilterData Deserialize(string value)
         {
