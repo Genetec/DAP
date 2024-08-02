@@ -58,7 +58,7 @@
                     <Button Grid.Row="2" Margin="4" Content="Close" Style="{Styles {x:Static ButtonStyles.Close}}" />
                     <Button Grid.Row="3" Margin="4" Content="Flat" Style="{Styles {x:Static ButtonStyles.Flat}}" />
                     <Button Grid.Row="4" Margin="4" Content="LegacyFlat" Style="{Styles {x:Static ButtonStyles.LegacyFlat}}" />
-                    <Button Grid.Row="5" Margin="4" Content="Frameless" Style="{Styles {x:Static ButtonStyles.Frameless}}" />
+                    <Button Grid.Row="5" Margin="4" Content="Frameless" Foreground="White" Style="{Styles {x:Static ButtonStyles.Frameless}}" />
                     <Button Grid.Row="6" Margin="4" Content="Round" Style="{Styles {x:Static ButtonStyles.Round}}" />
 
 
@@ -106,9 +106,9 @@
                     </Grid.ColumnDefinitions>
 
                     <ToggleButton Grid.Row="0" Margin="4" Content="Default" Style="{Styles {x:Static ToggleButtonStyles.Default}}" />
-                    <ToggleButton Grid.Row="1" Margin="4" Content="ContentOnly" Style="{Styles {x:Static ToggleButtonStyles.ContentOnly}}" />
+                    <ToggleButton Grid.Row="1" Margin="4" Content="ContentOnly" Foreground="White" Style="{Styles {x:Static ToggleButtonStyles.ContentOnly}}" />
                     <ToggleButton Grid.Row="2" Margin="4" Content="Flat" Style="{Styles {x:Static ToggleButtonStyles.Flat}}" />
-                    <ToggleButton Grid.Row="3" Margin="4" Content="Frameless" Style="{Styles {x:Static ToggleButtonStyles.Frameless}}" />
+                    <ToggleButton Grid.Row="3" Margin="4" Content="Frameless" Foreground="White" Style="{Styles {x:Static ToggleButtonStyles.Frameless}}" />
                     <ToggleButton Grid.Row="4" Margin="4" Content="Round" Style="{Styles {x:Static ToggleButtonStyles.Round}}" />
 
 
