@@ -64,6 +64,10 @@
 		</Reference>
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Prism.Core" Version="8.1.97" />
+	</ItemGroup>
 	<ItemGroup>
 		<Reference Include="Microsoft.CSharp" />
 		<Reference Include="System" />

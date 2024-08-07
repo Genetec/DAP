@@ -7,10 +7,14 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using System;
+    using Sdk.Workspace.Pages;
 
-    public static class CustomTaskCategories
+    [Page(typeof(ChartSamplePageDescriptor))]
+    public class ChartSamplePage : Page
     {
-        public static Guid SdkSamples = new("4F72E1E7-DEA8-4DA3-A0C6-90A37D37F146");
+        public ChartSamplePage()
+        {
+            View = new ChartSampleView();
+        }
     }
 }

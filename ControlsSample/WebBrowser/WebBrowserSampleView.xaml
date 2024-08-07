@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Genetec.Dap.CodeSamples.WebBrowserSampleView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:codeSamples="clr-namespace:Genetec.Dap.CodeSamples">
+
+    <UserControl.DataContext>
+        <codeSamples:WebBrowserSampleViewModel />
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="10" Orientation="Horizontal">
+            <Button Command="{Binding GoBackCommand}" Content="Back" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" />
+            <Button Command="{Binding GoForwardCommand}" Content="Forward" Style="{Styles {x:Static ButtonStyles.MiddleSegment}}" />
+            <Button Margin="0,0,5,0" Command="{Binding ReloadCommand}" Content="Refresh" Style="{Styles {x:Static ButtonStyles.RightSegment}}" />
+            <TextBox Width="300" KeyDown="AddressBar_KeyDown" Text="{Binding WebBrowser.Address, Mode=OneWay}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="10,0,10,10">
+            <Label Content="{Binding WebBrowser.Title}" Style="{Styles {x:Static LabelStyles.Normal}}" />
+        </StackPanel>
+
+        <ContentPresenter Grid.Row="2" Content="{Binding WebBrowser}" />
+    </Grid>
+</UserControl>

@@ -8,9 +8,20 @@
 namespace Genetec.Dap.CodeSamples
 {
     using System;
+    using Sdk.Workspace.Pages;
 
-    public static class CustomTaskCategories
+    public class ControlsSamplePageDescriptor : PageDescriptor
     {
-        public static Guid SdkSamples = new("4F72E1E7-DEA8-4DA3-A0C6-90A37D37F146");
+        public override string Name => "Controls Sample";
+
+        public override Guid Type { get; } = new("B59AEC4B-D025-468F-9D58-65B56F96380E");
+
+        public override Guid CategoryId => CustomTaskCategories.SdkSamples;
+
+        public override string Description => "This page provides samples of the available controls.";
+
+        public override TaskIconColor IconColor => TaskIconColor.DefaultIconColor;
+
+        public override bool HasPrivilege() => true;
     }
 }

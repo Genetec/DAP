@@ -7,10 +7,28 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using System;
+    using System.Windows.Controls;
+    using System.Windows.Input;
 
-    public static class CustomTaskCategories
+    public partial class WebBrowserSampleView
     {
-        public static Guid SdkSamples = new("4F72E1E7-DEA8-4DA3-A0C6-90A37D37F146");
+        public WebBrowserSampleView()
+        {
+            InitializeComponent();
+        }
+
+        private void AddressBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                TextBox textBox = (TextBox)sender;
+                Navigate(textBox.Text);
+            }
+        }
+
+        private void Navigate(string address)
+        {
+            (DataContext as WebBrowserSampleViewModel)?.NavigateCommand.Execute(address);
+        }
     }
 }

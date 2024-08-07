@@ -7,14 +7,21 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using System.Windows.Controls;
+    using System;
+    using Sdk.Workspace.Pages;
 
-    
-    public partial class ControlsSamplePageView
+    public class ChartSamplePageDescriptor : PageDescriptor
     {
-        public ControlsSamplePageView()
-        {
-            InitializeComponent();
-        }
+        public override string Name => "Chart Sample";
+
+        public override Guid Type { get; } = new("58FE9C39-5054-458D-9B22-2FD42FE3C224");
+
+        public override string Description => "This page provides a sample of the Chart control.";
+
+        public override Guid CategoryId => CustomTaskCategories.SdkSamples;
+
+        public override TaskIconColor IconColor => TaskIconColor.DefaultIconColor;
+
+        public override bool HasPrivilege() => true;
     }
 }
