@@ -78,6 +78,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="Certificates\Genetec.Dap.CodeSamples.ChartSamplePage.cert">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Certificates\Genetec.Dap.CodeSamples.ControlsSamplePage.cert">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Certificates\Genetec.Dap.CodeSamples.WebBrowserSamplePage.cert">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Certificates\Genetec.Dap.CodeSamples.StylesSamplePage.cert">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
