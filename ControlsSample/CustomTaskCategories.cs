@@ -7,23 +7,10 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using Sdk.Workspace.Tasks;
-    using Sdk;
+    using System;
 
-    public class SampleModule : Sdk.Workspace.Modules.Module
+    public static class CustomTaskCategories
     {
-        public override void Load()
-        {
-            if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
-            {
-                var task = new CreatePageTask<SamplePage>();
-                task.Initialize(Workspace);
-                Workspace.Tasks.Register(task);
-            }
-        }
-
-        public override void Unload()
-        {
-        }
+        public static Guid SdkSamples = new("4F72E1E7-DEA8-4DA3-A0C6-90A37D37F146");
     }
 }

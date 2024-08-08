@@ -7,23 +7,14 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using Sdk.Workspace.Tasks;
-    using Sdk;
+    using Sdk.Workspace.Pages;
 
-    public class SampleModule : Sdk.Workspace.Modules.Module
+    [Page(typeof(StylesSamplePageDescriptor))]
+    public class StylesSamplePage : Page
     {
-        public override void Load()
+        public StylesSamplePage()
         {
-            if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
-            {
-                var task = new CreatePageTask<SamplePage>();
-                task.Initialize(Workspace);
-                Workspace.Tasks.Register(task);
-            }
-        }
-
-        public override void Unload()
-        {
+            View = new StylesSamplePageView();
         }
     }
 }

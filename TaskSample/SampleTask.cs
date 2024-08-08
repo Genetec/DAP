@@ -6,7 +6,6 @@ namespace Genetec.Dap.CodeSamples
     using System;
     using System.Diagnostics;
     using System.Windows.Media.Imaging;
-    using Sdk;
     using Genetec.Sdk.Workspace.Tasks;
 
     public class NotepadTask : Task
@@ -16,18 +15,18 @@ namespace Genetec.Dap.CodeSamples
             Icon = new BitmapImage(new Uri("pack://application:,,,/TaskSample;Component/Resources/Icon.png", UriKind.RelativeOrAbsolute)); 
             Thumbnail = new BitmapImage(new Uri("pack://application:,,,/TaskSample;Component/Resources/Thumbnail.png", UriKind.RelativeOrAbsolute));
             Name = "Launch notepad";
-            Description = "Launch Notepad application. This sample illustrates a Task that executes without opening a page in the Security Desk or Config Tool.";
+            Description = "Launch Notepad application. This sample illustrates a Task that executes without opening a page.";
             CategoryId = new Guid(TaskCategories.Administration);
         }
-
+        
         public override bool CanExecute()
         {
             return true;
         }
 
         public override void Execute()
-        {
-            HideHomePageAfterExecution = false;
+        {  
+            HideHomePageAfterExecution = false;  // Do not hide the home page after the task is executed.
             Process.Start("notepad.exe");
         }
     }

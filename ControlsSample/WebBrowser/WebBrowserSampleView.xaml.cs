@@ -7,23 +7,28 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using Sdk.Workspace.Tasks;
-    using Sdk;
+    using System.Windows.Controls;
+    using System.Windows.Input;
 
-    public class SampleModule : Sdk.Workspace.Modules.Module
+    public partial class WebBrowserSampleView
     {
-        public override void Load()
+        public WebBrowserSampleView()
         {
-            if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
+            InitializeComponent();
+        }
+
+        private void AddressBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
             {
-                var task = new CreatePageTask<SamplePage>();
-                task.Initialize(Workspace);
-                Workspace.Tasks.Register(task);
+                TextBox textBox = (TextBox)sender;
+                Navigate(textBox.Text);
             }
         }
 
-        public override void Unload()
+        private void Navigate(string address)
         {
+            (DataContext as WebBrowserSampleViewModel)?.NavigateCommand.Execute(address);
         }
     }
 }

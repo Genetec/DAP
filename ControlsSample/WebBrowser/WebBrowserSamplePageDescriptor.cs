@@ -7,23 +7,21 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using Sdk.Workspace.Tasks;
-    using Sdk;
+    using System;
+    using Sdk.Workspace.Pages;
 
-    public class SampleModule : Sdk.Workspace.Modules.Module
+    public class WebBrowserSamplePageDescriptor : PageDescriptor
     {
-        public override void Load()
-        {
-            if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
-            {
-                var task = new CreatePageTask<SamplePage>();
-                task.Initialize(Workspace);
-                Workspace.Tasks.Register(task);
-            }
-        }
+        public override string Name => "Web Browser Sample";
 
-        public override void Unload()
-        {
-        }
+        public override Guid Type { get; } = new("F5866920-2AF8-423B-BBE3-5F9A07C28CE9");
+
+        public override Guid CategoryId => CustomTaskCategories.SdkSamples;
+
+        public override string Description => "This page provides a sample of the WebBrowser control.";
+
+        public override TaskIconColor IconColor => TaskIconColor.DefaultIconColor;
+
+        public override bool HasPrivilege() => true;
     }
 }

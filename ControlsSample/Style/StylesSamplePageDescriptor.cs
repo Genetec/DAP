@@ -7,23 +7,21 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using Sdk.Workspace.Tasks;
-    using Sdk;
+    using System;
+    using Sdk.Workspace.Pages;
 
-    public class SampleModule : Sdk.Workspace.Modules.Module
+    public class StylesSamplePageDescriptor : PageDescriptor
     {
-        public override void Load()
-        {
-            if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
-            {
-                var task = new CreatePageTask<SamplePage>();
-                task.Initialize(Workspace);
-                Workspace.Tasks.Register(task);
-            }
-        }
+        public override string Name => "Styles Sample";
 
-        public override void Unload()
-        {
-        }
+        public override Guid Type { get; } = new("99470468-048A-4511-878B-CDDDE2B18AA7");
+
+        public override string Description => "This page provides samples of the available control styles.";
+
+        public override Guid CategoryId => CustomTaskCategories.SdkSamples;
+
+        public override TaskIconColor IconColor => TaskIconColor.DefaultIconColor;
+
+        public override bool HasPrivilege() => true;
     }
 }
