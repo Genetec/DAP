@@ -11,12 +11,20 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="10" Orientation="Horizontal">
-            <Button Command="{Binding GoBackCommand}" Content="Back" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" />
-            <Button Command="{Binding GoForwardCommand}" Content="Forward" Style="{Styles {x:Static ButtonStyles.MiddleSegment}}" />
-            <Button Margin="0,0,5,0" Command="{Binding ReloadCommand}" Content="Refresh" Style="{Styles {x:Static ButtonStyles.RightSegment}}" />
-            <TextBox Width="300" KeyDown="AddressBar_KeyDown" Text="{Binding WebBrowser.Address, Mode=OneWay}" />
-        </StackPanel>
+        <Grid Grid.Row="0" Margin="10" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Command="{Binding GoBackCommand}" Content="Back" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" />
+            <Button Grid.Column="1" Command="{Binding GoForwardCommand}" Content="Forward" Style="{Styles {x:Static ButtonStyles.MiddleSegment}}" />
+            <Button Grid.Column="2" Margin="0,0,5,0" Command="{Binding ReloadCommand}" Content="Refresh" Style="{Styles {x:Static ButtonStyles.RightSegment}}" />
+            <TextBox Grid.Column="3" HorizontalAlignment="Stretch" KeyDown="AddressBar_KeyDown" Text="{Binding WebBrowser.Address, Mode=OneWay}" />
+        </Grid>
+
 
         <StackPanel Grid.Row="1" Margin="10,0,10,10">
             <Label Content="{Binding WebBrowser.Title}" Style="{Styles {x:Static LabelStyles.Normal}}" />

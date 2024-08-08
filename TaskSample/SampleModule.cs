@@ -10,7 +10,7 @@ namespace Genetec.Dap.CodeSamples
     {
         public override void Load()
         {
-            if (Workspace.ApplicationType == ApplicationType.ConfigTool)
+            if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
             {
                 var task = new NotepadTask();
                 task.Initialize(Workspace);
