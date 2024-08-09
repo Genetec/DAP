@@ -97,7 +97,7 @@
                             <Label Grid.Row="0" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Minimum" Style="{Styles {x:Static LabelStyles.Intro}}" />
                             <sdk:SliderTextBox Grid.Row="0" Grid.Column="1" Width="76" Margin="4" HorizontalAlignment="Left" Maximum="100" Minimum="-100" Value="{Binding ElementName=numericUpDown, Path=Minimum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                            <Label Grid.Row="1" Grid.Column="0" Margin="4" VerticalAlignment="Center" Content="Maximum" Style="{Styles {x:Static LabelStyles.Intro}}" />
+                            <Label Grid.Row="1" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Maximum" Style="{Styles {x:Static LabelStyles.Intro}}" />
                             <sdk:SliderTextBox Grid.Row="1" Grid.Column="1" Width="76" Margin="4" HorizontalAlignment="Left" Maximum="100" Minimum="-100" Value="{Binding ElementName=numericUpDown, Path=Maximum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                             <Label Grid.Row="2" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Increment" Style="{Styles {x:Static LabelStyles.Intro}}" />
