@@ -128,7 +128,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BadgePrinterSample", "Badge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SequenceQuerySample", "SequenceQuerySample\SequenceQuerySample.csproj", "{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyConfiguratonSample", "CopyConfiguratonSample\CopyConfiguratonSample.csproj", "{94719A4C-BE85-4BCF-82D7-A9D98F98F028}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CopyConfiguratonSample", "CopyConfiguratonSample\CopyConfiguratonSample.csproj", "{94719A4C-BE85-4BCF-82D7-A9D98F98F028}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiagnosticServerSample", "DiagnosticServerSample\DiagnosticServerSample.csproj", "{9DF2D078-ED8F-4E97-B4DE-313C9F3AA71E}"
 EndProject
@@ -155,6 +155,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlarmActivityQuerySample", "AlarmActivityQuerySample\AlarmActivityQuerySample.csproj", "{F161BFF8-EFF2-4B9B-A907-3AD781EF9C88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlReportQuerySample", "AccessControlReportQuerySample\AccessControlReportQuerySample.csproj", "{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerAlarmSample", "TriggerAlarmSample\TriggerAlarmSample.csproj", "{A154CBF3-0EEE-458F-8341-C0BA9041C6EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -444,6 +446,10 @@ Global
 		{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A154CBF3-0EEE-458F-8341-C0BA9041C6EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A154CBF3-0EEE-458F-8341-C0BA9041C6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A154CBF3-0EEE-458F-8341-C0BA9041C6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A154CBF3-0EEE-458F-8341-C0BA9041C6EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -516,6 +522,7 @@ Global
 		Shared\Shared.projitems*{974dc3a8-d0c0-4d35-9ac8-874df845465e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{9c1fccb7-a08d-4140-bff8-949f036c50aa}*SharedItemsImports = 5
 		Shared\Shared.projitems*{9df2d078-ed8f-4e97-b4de-313c9f3aa71e}*SharedItemsImports = 5
+		Shared\Shared.projitems*{a154cbf3-0eee-458f-8341-c0ba9041c6ee}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a2b97d24-662d-400d-a3e7-1d8760bc8b4b}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a8c67e82-07d3-4e1a-943d-3f36278a086d}*SharedItemsImports = 5
 		Shared\Shared.projitems*{aeb2ec24-97e3-4f60-822b-7be876d97ac8}*SharedItemsImports = 5
