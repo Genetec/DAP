@@ -128,7 +128,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BadgePrinterSample", "Badge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SequenceQuerySample", "SequenceQuerySample\SequenceQuerySample.csproj", "{CB4ADBB7-6450-4AC5-8E87-EFA5B5640709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyConfiguratonSample", "CopyConfiguratonSample\CopyConfiguratonSample.csproj", "{94719A4C-BE85-4BCF-82D7-A9D98F98F028}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CopyConfiguratonSample", "CopyConfiguratonSample\CopyConfiguratonSample.csproj", "{94719A4C-BE85-4BCF-82D7-A9D98F98F028}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiagnosticServerSample", "DiagnosticServerSample\DiagnosticServerSample.csproj", "{9DF2D078-ED8F-4E97-B4DE-313C9F3AA71E}"
 EndProject
@@ -155,6 +155,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlarmActivityQuerySample", "AlarmActivityQuerySample\AlarmActivityQuerySample.csproj", "{F161BFF8-EFF2-4B9B-A907-3AD781EF9C88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlReportQuerySample", "AccessControlReportQuerySample\AccessControlReportQuerySample.csproj", "{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaFileSample", "MediaFileSample\MediaFileSample.csproj", "{10CF5EF2-D30D-4365-9D85-224C50B4A701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -444,6 +446,10 @@ Global
 		{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10CF5EF2-D30D-4365-9D85-224C50B4A701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10CF5EF2-D30D-4365-9D85-224C50B4A701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10CF5EF2-D30D-4365-9D85-224C50B4A701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10CF5EF2-D30D-4365-9D85-224C50B4A701}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -475,6 +481,7 @@ Global
 		{B1470875-4071-4047-BD8E-712B6DD22F1E} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{763D0F67-5661-431A-AB4B-9E0A0DA2B05F} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{F3A36295-A829-43C4-8F81-609BAFF67D27} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
+		{10CF5EF2-D30D-4365-9D85-224C50B4A701} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -485,6 +492,7 @@ Global
 		Shared\Shared.projitems*{08316764-72e6-4a9d-be64-132bf06a303d}*SharedItemsImports = 5
 		Shared\Shared.projitems*{0905d84f-59bc-4a31-bce5-916fec9b169c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{0c0757f1-6a2b-4258-af4e-5a10964e8142}*SharedItemsImports = 5
+		Shared\Shared.projitems*{10cf5ef2-d30d-4365-9d85-224c50b4a701}*SharedItemsImports = 5
 		Shared\Shared.projitems*{16ccb28d-f9a2-489c-9783-d92eee687b71}*SharedItemsImports = 5
 		Shared\Shared.projitems*{177adf02-8114-4594-88d1-ca6fbb92fa7a}*SharedItemsImports = 5
 		Shared\Shared.projitems*{1d9df30c-817e-45af-9071-03edc92429ce}*SharedItemsImports = 5
