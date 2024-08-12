@@ -8,7 +8,6 @@ using Genetec.Sdk.Media.Export;
 SdkResolver.Initialize();
 
 string filePath = ReadFilePath();
-char operation = ReadOperation();
 string password = ReadPassword();
 
 await ProcessFile();
@@ -20,33 +19,22 @@ string ReadFilePath()
 {
     while (true)
     {
-        Console.Write("\nEnter media file path: ");
+        Console.Write("Enter media file path: ");
         string input = Console.ReadLine();
 
         if (File.Exists(input))
         {
-            return input;
+            string extension = Path.GetExtension(input).ToLower();
+            if (extension is ".mp4" or ".g64" or ".g64x" or ".gek")
+            {
+                return input;
+            }
+            Console.WriteLine("Invalid file type. Please enter a .mp4, .g64, .g64x, or .gek file.");
         }
-
-        Console.WriteLine("File not found. Please enter a valid file path.");
-    }
-}
-
-char ReadOperation()
-{
-    while (true)
-    {
-        Console.Write("Enter 'e' to encrypt or 'd' to decrypt: ");
-        char input = Console.ReadKey().KeyChar;
-        Console.WriteLine(); // Move to the next line after operation input
-
-        if (input is not ('e' or 'd'))
+        else
         {
-            Console.WriteLine("Invalid operation. Please enter 'e' or 'd'.");
-            continue;
+            Console.WriteLine("File not found. Please enter a valid file path.");
         }
-
-        return input;
     }
 }
 
@@ -101,12 +89,20 @@ string ReadPassword()
 
 async Task ProcessFile()
 {
+    bool decrypt = Path.GetExtension(filePath).ToLower() == ".gek";
+    Console.WriteLine(decrypt ? "File will be decrypted." : "File will be encrypted.");
+
     using var cryptingManager = new FileCryptingManager();
 
-    FileEncryptionResult result = operation == 'e' ?
-        await cryptingManager.EncryptAsync(filePath, password) : 
-        await cryptingManager.DecryptAsync(filePath, password);
+    var progress = new Progress<int>(percent => Console.Write($"\rProgress: {percent}%"));
+
+    FileEncryptionResult result = decrypt ?
+        await cryptingManager.DecryptAsync(filePath, password, progress):
+        await cryptingManager.EncryptAsync(filePath, password, progress);
+
+    Console.WriteLine(); // Move to a new line after progress reporting
+
     Console.WriteLine(result.Success
-        ? $"{(operation == 'e' ? "Encryption" : "Decryption")} successful. Output file: {result.OutputFile}"
-        : $"{(operation == 'e' ? "Encryption" : "Decryption")} failed.");
+        ? $"{(decrypt ? "Decryption" : "Encryption")} successful. Output file: {result.OutputFile}"
+        : $"{(decrypt ? "Decryption" : "Encryption")} failed.");
 }
