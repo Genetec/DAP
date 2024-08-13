@@ -160,6 +160,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileCryptingManagerSample",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaFileSample", "MediaFileSample\MediaFileSample.csproj", "{F120F4DE-BE87-4C20-B062-6AEA25DBC285}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriggerAlarmSample", "TriggerAlarmSample\TriggerAlarmSample.csproj", "{1B964BA1-C860-449B-BDC0-634295E94288}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -456,6 +458,10 @@ Global
 		{F120F4DE-BE87-4C20-B062-6AEA25DBC285}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F120F4DE-BE87-4C20-B062-6AEA25DBC285}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F120F4DE-BE87-4C20-B062-6AEA25DBC285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B964BA1-C860-449B-BDC0-634295E94288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B964BA1-C860-449B-BDC0-634295E94288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B964BA1-C860-449B-BDC0-634295E94288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B964BA1-C860-449B-BDC0-634295E94288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -501,6 +507,7 @@ Global
 		Shared\Shared.projitems*{0c0757f1-6a2b-4258-af4e-5a10964e8142}*SharedItemsImports = 5
 		Shared\Shared.projitems*{16ccb28d-f9a2-489c-9783-d92eee687b71}*SharedItemsImports = 5
 		Shared\Shared.projitems*{177adf02-8114-4594-88d1-ca6fbb92fa7a}*SharedItemsImports = 5
+		Shared\Shared.projitems*{1b964ba1-c860-449b-bdc0-634295e94288}*SharedItemsImports = 5
 		Shared\Shared.projitems*{1d9df30c-817e-45af-9071-03edc92429ce}*SharedItemsImports = 5
 		Shared\Shared.projitems*{1da3d321-ac8a-4f73-aacc-9f81dfbbc257}*SharedItemsImports = 4
 		Shared\Shared.projitems*{25070840-d9af-497c-902a-ec0fc08638d6}*SharedItemsImports = 5
