@@ -90,11 +90,12 @@ namespace Genetec.Dap.CodeSamples.Server
             m_reportHandlers.Add(ReportQueryType.CameraEvent, videoEventReportHandler);
             m_reportHandlers.Add(ReportQueryType.VideoMotionEvent, videoEventReportHandler);
 
-
             m_reportHandlers.Add(ReportQueryType.HealthEvent, new HealthEventsReportHandler(Engine, role));
             m_reportHandlers.Add(ReportQueryType.HealthStatistics, new HealthStatisticsReportHandler(Engine, role));
 
             m_reportHandlers.Add(ReportQueryType.Custom, new CustomReportHandler(Engine, role));
+
+            ModifyPluginState(new PluginStateEntry("PluginState", "Plugin started"));
         }
 
         protected override void OnPluginStart()
