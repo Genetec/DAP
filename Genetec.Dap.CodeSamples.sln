@@ -156,7 +156,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlarmActivityQuerySample", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlReportQuerySample", "AccessControlReportQuerySample\AccessControlReportQuerySample.csproj", "{1DA3D321-AC8A-4F73-AACC-9F81DFBBC257}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCryptingManagerSample", "FileCryptingManagerSample\FileCryptingManagerSample.csproj", "{4A5A7B92-D9FB-40A2-8025-8F649600118B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileCryptingManagerSample", "FileCryptingManagerSample\FileCryptingManagerSample.csproj", "{4A5A7B92-D9FB-40A2-8025-8F649600118B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaFileSample", "MediaFileSample\MediaFileSample.csproj", "{F120F4DE-BE87-4C20-B062-6AEA25DBC285}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -450,6 +452,10 @@ Global
 		{4A5A7B92-D9FB-40A2-8025-8F649600118B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A5A7B92-D9FB-40A2-8025-8F649600118B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A5A7B92-D9FB-40A2-8025-8F649600118B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F120F4DE-BE87-4C20-B062-6AEA25DBC285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F120F4DE-BE87-4C20-B062-6AEA25DBC285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F120F4DE-BE87-4C20-B062-6AEA25DBC285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F120F4DE-BE87-4C20-B062-6AEA25DBC285}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -482,6 +488,7 @@ Global
 		{763D0F67-5661-431A-AB4B-9E0A0DA2B05F} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{F3A36295-A829-43C4-8F81-609BAFF67D27} = {70BBDAA5-EC10-48FE-8DB8-D360D0489681}
 		{4A5A7B92-D9FB-40A2-8025-8F649600118B} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
+		{F120F4DE-BE87-4C20-B062-6AEA25DBC285} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -537,6 +544,7 @@ Global
 		Shared\Shared.projitems*{dd133c7e-1be3-436d-91aa-dd298a30f72e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{e7ecb4d6-1382-4fe3-afff-b47c9cbba888}*SharedItemsImports = 5
 		Shared\Shared.projitems*{ef31e80d-6743-4d64-be6b-c1ae3dad798a}*SharedItemsImports = 5
+		Shared\Shared.projitems*{f120f4de-be87-4c20-b062-6aea25dbc285}*SharedItemsImports = 5
 		Shared\Shared.projitems*{f161bff8-eff2-4b9b-a907-3ad781ef9c88}*SharedItemsImports = 5
 		Shared\Shared.projitems*{feafca17-7cf4-4d24-aba8-b31d284a963c}*SharedItemsImports = 13
 	EndGlobalSection
