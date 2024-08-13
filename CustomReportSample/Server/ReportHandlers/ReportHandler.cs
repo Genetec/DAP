@@ -64,6 +64,7 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers
             return query.GetNewDataTables().First();
         }
 
+  
         protected virtual async Task ProcessBatch(DataTable table, IAsyncEnumerable<TRecord> batch)
         {
             await foreach (TRecord record in batch)
@@ -74,12 +75,19 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers
             }
         }
 
+        // Map the record properties to the table columns
         protected abstract void FillDataRow(DataRow row, TRecord record);
 
+        // Retrieve the records from the data source (e.g., database, external API)
         protected abstract IAsyncEnumerable<TRecord> GetRecordsAsync(TQuery query);
 
-        protected virtual int GetBatchSize() => 100;
+        protected virtual int GetBatchSize()
+        {
+            // Default batch size for most reports
+            return 100;
+        }
 
+        // Send the query result back to the client (e.g., Security Desk and Config Tool)
         protected void SendQueryResult(ReportQueryReceivedEventArgs args, DataTable result)
         {
             try
@@ -98,6 +106,7 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers
             catch (SdkException ex) when (ex.ErrorCode == SdkError.InvalidOperation)
             {
                 // Handle or log the exception as needed
+                Logger.TraceError(ex, $"An error occured while sending query result: {ex.Message}");
             }
         }
 

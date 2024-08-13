@@ -23,15 +23,19 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.AccessControl
             // TODO: Implement the actual data retrieval logic here.
 
             // This method should:
-            // 1. Parse the ZoneActivityQuery to determine the query parameters (e.g., time range, specific zones, event types)
-            // 2. Use these parameters to fetch relevant records from your data source (e.g., database, external API)
-            // 3. Yield return each ZoneActivityRecord as it's retrieved, allowing for efficient streaming of large datasets
+            // 1. Parse the ZoneActivityQuery to determine the query parameters
+            //    (e.g., time range, zones, event types)
+            // 2. Use these parameters to fetch relevant records from your data source
+            //    (e.g., database, external API)
+            // 3. Yield return each ZoneActivityRecord as it's retrieved,
+            //    allowing for efficient streaming of large datasets
 
             // Consider implementing batched database queries or paginated API calls for large datasets
             // to avoid loading all data into memory at once.
 
-            await Task.Yield(); // Simulates asynchronous work (remove this in actual implementation)
-            yield break; // No records returned in this example (remove this in actual implementation)
+            // For now, we're using placeholder code to demonstrate the structure:
+            await Task.Yield(); // Simulates asynchronous work (remove in actual implementation)
+            yield break; // No records returned in this example (remove in actual implementation)
         }
 
         protected override void FillDataRow(DataRow row, ZoneActivityRecord record)

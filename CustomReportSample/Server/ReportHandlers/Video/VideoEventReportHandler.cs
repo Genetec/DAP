@@ -36,11 +36,22 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Video
 
         protected override async IAsyncEnumerable<VideoEvent> GetRecordsAsync(VideoEventQuery query)
         {
-            // Implement the logic to fetch camera events based on the query received
-            // From the plugin database or external API
+            // TODO: Implement the actual data retrieval logic here.
 
-            await Task.Yield(); // Simulate some asynchronous work
-            yield break; // No events in this example
+            // This method should:
+            // 1. Parse the VideoEventQuery to determine the query parameters
+            //    (e.g., time range, cameras, event types)
+            // 2. Use these parameters to fetch relevant records from your data source
+            //    (e.g., database, external API)
+            // 3. Yield return each VideoEvent as it's retrieved,
+            //    allowing for efficient streaming of large datasets
+
+            // Consider implementing batched database queries or paginated API calls for large datasets
+            // to avoid loading all data into memory at once.
+
+            // For now, we're using placeholder code to demonstrate the structure:
+            await Task.Yield(); // Simulates asynchronous work (remove in actual implementation)
+            yield break; // No records returned in this example (remove in actual implementation)
         }
     }
 }

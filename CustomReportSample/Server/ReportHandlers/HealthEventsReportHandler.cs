@@ -36,9 +36,22 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers
 
         protected override async IAsyncEnumerable<HealthEvent> GetRecordsAsync(HealthEventQuery query)
         {
-            // TODO: Implement the logic to retrieve the health events
-            await Task.Yield(); // Simulates asynchronous work (remove this in actual implementation)
-            yield break; // No records returned in this example (remove this in actual implementation)
+            // TODO: Implement the actual data retrieval logic here.
+
+            // This method should:
+            // 1. Parse the HealthEventQuery to determine the query parameters
+            //    (e.g., time range, event source types, health event types, severities, sources)
+            // 2. Use these parameters to fetch relevant records from your data source
+            //    (e.g., database, external API)
+            // 3. Yield return each HealthEvent as it's retrieved,
+            //    allowing for efficient streaming of large datasets
+
+            // Consider implementing batched database queries or paginated API calls for large datasets
+            // to avoid loading all data into memory at once.
+
+            // For now, we're using placeholder code to demonstrate the structure:
+            await Task.Yield(); // Simulates asynchronous work (remove in actual implementation)
+            yield break; // No records returned in this example (remove in actual implementation)
         }
     }
 }
