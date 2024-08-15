@@ -8,7 +8,7 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ContentControl Grid.Column="0" Margin="10" Content="{Binding CurrentChart}" />
+        <ContentControl Grid.Column="0" Margin="10" Content="{Binding Chart}" />
         <GroupBox Grid.Column="1" Margin="10" Header="Chart Properties">
             <Grid>
                 <Grid.RowDefinitions>

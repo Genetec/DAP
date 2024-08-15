@@ -18,7 +18,7 @@ namespace Genetec.Dap.CodeSamples
     {
         private readonly Dictionary<string, ChartSeries> m_chartData;
         private readonly string[] m_labels = { "Label 1", "Label 2", "Label 3" };
-        private Chart m_currentChart;
+        private Chart m_chart;
         private bool m_disableAnimations;
         private bool m_performanceMode;
         private ChartType m_selectedChartType = ChartType.Bar;
@@ -33,10 +33,10 @@ namespace Genetec.Dap.CodeSamples
             CreateChart();
         }
 
-        public Chart CurrentChart
+        public Chart Chart
         {
-            get => m_currentChart;
-            private set => SetProperty(ref m_currentChart, value);
+            get => m_chart;
+            private set => SetProperty(ref m_chart, value);
         }
 
         public IEnumerable<ChartType> ChartTypes => Enum.GetValues(typeof(ChartType)).Cast<ChartType>();
@@ -58,9 +58,9 @@ namespace Genetec.Dap.CodeSamples
             get => m_disableAnimations;
             set
             {
-                if (SetProperty(ref m_disableAnimations, value) && CurrentChart != null)
+                if (SetProperty(ref m_disableAnimations, value) && Chart != null)
                 {
-                    CurrentChart.DisableAnimations = value;
+                    Chart.DisableAnimations = value;
                 }
             }
         }
@@ -70,9 +70,9 @@ namespace Genetec.Dap.CodeSamples
             get => m_performanceMode;
             set
             {
-                if (SetProperty(ref m_performanceMode, value) && CurrentChart != null)
+                if (SetProperty(ref m_performanceMode, value) && Chart != null)
                 {
-                    CurrentChart.PerformanceMode = value;
+                    Chart.PerformanceMode = value;
                 }
             }
         }
@@ -82,9 +82,9 @@ namespace Genetec.Dap.CodeSamples
             get => m_showChartGrid;
             set
             {
-                if (SetProperty(ref m_showChartGrid, value) && CurrentChart != null)
+                if (SetProperty(ref m_showChartGrid, value) && Chart != null)
                 {
-                    CurrentChart.ShowChartGrid = value;
+                    Chart.ShowChartGrid = value;
                 }
             }
         }
@@ -94,9 +94,9 @@ namespace Genetec.Dap.CodeSamples
             get => m_showChartValue;
             set
             {
-                if (SetProperty(ref m_showChartValue, value) && CurrentChart != null)
+                if (SetProperty(ref m_showChartValue, value) && Chart != null)
                 {
-                    CurrentChart.ShowChartValue = value;
+                    Chart.ShowChartValue = value;
                 }
             }
         }
@@ -106,9 +106,9 @@ namespace Genetec.Dap.CodeSamples
             get => m_showLegend;
             set
             {
-                if (SetProperty(ref m_showLegend, value) && CurrentChart != null)
+                if (SetProperty(ref m_showLegend, value) && Chart != null)
                 {
-                    CurrentChart.ShowLegend = value;
+                    Chart.ShowLegend = value;
                 }
             }
         }
@@ -118,9 +118,9 @@ namespace Genetec.Dap.CodeSamples
             get => m_strokeColor;
             set
             {
-                if (SetProperty(ref m_strokeColor, value) && CurrentChart != null)
+                if (SetProperty(ref m_strokeColor, value) && Chart != null)
                 {
-                    CurrentChart.Stroke = new SolidColorBrush(value);
+                    Chart.Stroke = new SolidColorBrush(value);
                 }
             }
         }
@@ -137,21 +137,13 @@ namespace Genetec.Dap.CodeSamples
 
         private void CreateChart()
         {
-            CurrentChart = ChartFactory.CreateChart(SelectedChartType, m_labels, m_chartData);
-            ApplyChartProperties();
-        }
-
-        private void ApplyChartProperties()
-        {
-            if (CurrentChart != null)
-            {
-                CurrentChart.DisableAnimations = DisableAnimations;
-                CurrentChart.PerformanceMode = PerformanceMode;
-                CurrentChart.ShowChartGrid = ShowChartGrid;
-                CurrentChart.ShowChartValue = ShowChartValue;
-                CurrentChart.ShowLegend = ShowLegend;
-                CurrentChart.Stroke = new SolidColorBrush(StrokeColor);
-            }
+            Chart = ChartFactory.CreateChart(SelectedChartType, m_labels, m_chartData);
+            Chart.DisableAnimations = DisableAnimations;
+            Chart.PerformanceMode = PerformanceMode;
+            Chart.ShowChartGrid = ShowChartGrid;
+            Chart.ShowChartValue = ShowChartValue;
+            Chart.ShowLegend = ShowLegend;
+            Chart.Stroke = new SolidColorBrush(StrokeColor);
         }
     }
 }
