@@ -66,7 +66,7 @@ public class CustomReportHandler : ReportHandler<CustomQuery, CustomReportRecord
             EventId = EventType.CustomEvent,
             EventTimestamp = DateTime.Now,
             Message = filter.Message,
-            SourceId = SdkGuids.Administrator,
+            SourceId = User.AdministratorUserGuid,
             Value = 1
         };
     }
