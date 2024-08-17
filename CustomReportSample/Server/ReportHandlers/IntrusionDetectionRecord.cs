@@ -5,20 +5,19 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples.Server.ReportHandlers
-{
-    using System;
+namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
-    public class IntrusionDetectionRecord
-    {
-        public DateTime Timestamp { get; set; }
-        public int EventType { get; set; }
-        public Guid IntrusionUnitId { get; set; }
-        public Guid IntrusionAreaId { get; set; }
-        public Guid DeviceId { get; set; }
-        public Guid SourceGuid { get; set; }
-        public int OccurrencePeriod { get; set; }
-        public string TimeZoneId { get; set; }
-        public Guid InitiatorId { get; set; }
-    }
+using System;
+
+public class IntrusionDetectionRecord
+{
+    public DateTime Timestamp { get; set; }
+    public int EventType { get; set; }
+    public Guid IntrusionUnitId { get; set; }
+    public Guid IntrusionAreaId { get; set; }
+    public Guid DeviceId { get; set; }
+    public Guid SourceGuid { get; set; }
+    public int OccurrencePeriod { get; set; }
+    public string TimeZoneId { get; set; }
+    public Guid InitiatorId { get; set; }
 }

@@ -5,21 +5,20 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom
+namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
+
+using System;
+using Sdk;
+
+public class CustomReportRecord
 {
-    using System;
-    using Sdk;
+    public Guid SourceId { get; set; }
 
-    public class CustomReportRecord
-    {
-        public Guid SourceId { get; set; }
+    public EventType EventId { get; set; }
 
-        public EventType EventId { get; set; }
+    public string Message { get; set; }
 
-        public string Message { get; set; }
+    public double Value { get; set; }
 
-        public double Value { get; set; }
-
-        public DateTime EventTimestamp { get; set; }
-    }
+    public DateTime EventTimestamp { get; set; }
 }

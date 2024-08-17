@@ -5,117 +5,111 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples.Server.ReportHandlers
+namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Genetec.Dap.CodeSamples;
+using Genetec.Sdk;
+using Genetec.Sdk.Diagnostics.Logging.Core;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.EventsArgs;
+using Genetec.Sdk.Plugin.Queries.Rows.Extensions;
+using Genetec.Sdk.Plugin.Queries.Rows;
+using Genetec.Sdk.Queries;
+
+public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposable where TQuery : ReportQuery
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Genetec.Dap.CodeSamples;
-    using Genetec.Sdk;
-    using Genetec.Sdk.Diagnostics.Logging.Core;
-    using Genetec.Sdk.Entities;
-    using Genetec.Sdk.EventsArgs;
-    using Genetec.Sdk.Queries;
-
-    public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposable where TQuery : ReportQuery
+    protected ReportHandler(IEngine engine, Role role)
     {
-        protected ReportHandler(IEngine engine, Role role)
+        Logger = Logger.CreateInstanceLogger(this);
+        Engine = engine;
+        Role = role;
+    }
+
+    protected Logger Logger { get; }
+    protected IEngine Engine { get; }
+    protected Role Role { get; }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    public async Task HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token)
+    {
+        if (args.Query is TQuery query && IsQuerySupported(query))
         {
-            Logger = Logger.CreateInstanceLogger(this);
-            Engine = engine;
-            Role = role;
-        }
+            IAsyncEnumerable<TRecord> records = GetRecordsAsync(query);
 
-        protected Logger Logger { get; }
-
-        protected IEngine Engine { get; }
-
-        protected Role Role { get; }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public async Task HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token)
-        {
-            if (args.Query is TQuery query && IsQuerySupported(query))
+            await foreach (IAsyncEnumerable<TRecord> batch in records.Buffer(GetBatchSize()).WithCancellation(token))
             {
-                IAsyncEnumerable<TRecord> records = GetRecordsAsync(query);
-
-                await foreach (IAsyncEnumerable<TRecord> batch in records.Buffer(GetBatchSize()).WithCancellation(token))
-                {
-                    DataTable table = CreateDataTable(query);
-                    await ProcessBatch(table, batch);
-                    SendQueryResult(args, table);
-                }
+                DataTable table = CreateDataTable(query);
+                await ProcessBatch(table, batch);
+                SendQueryResult(args, table);
             }
         }
+    }
 
-        protected virtual bool IsQuerySupported(TQuery query) => true;
+    protected virtual bool IsQuerySupported(TQuery query) => true;
 
-        protected virtual DataTable CreateDataTable(TQuery query)
+    protected virtual DataTable CreateDataTable(TQuery query)
+    {
+        return query.GetNewDataTables().First();
+    }
+
+    protected virtual async Task ProcessBatch(DataTable table, IAsyncEnumerable<TRecord> batch)
+    {
+        await foreach (TRecord record in batch)
         {
-            // Default implementation for most reports
-            return query.GetNewDataTables().First();
-        }
-
-  
-        protected virtual async Task ProcessBatch(DataTable table, IAsyncEnumerable<TRecord> batch)
-        {
-            await foreach (TRecord record in batch)
+            if (record is IRow row)
             {
-                DataRow row = table.NewRow();
-                FillDataRow(row, record);
-                table.Rows.Add(row);
+                table.AddIRow(row);
+            }
+            else
+            {
+                DataRow dataRow = table.NewRow();
+                FillDataRow(dataRow, record);
+                table.Rows.Add(dataRow);
             }
         }
+    }
 
-        // Map the record properties to the table columns
-        protected abstract void FillDataRow(DataRow row, TRecord record);
+    protected virtual void FillDataRow(DataRow row, TRecord record)
+    {
+    }
 
-        // Retrieve the records from the data source (e.g., database, external API)
-        protected abstract IAsyncEnumerable<TRecord> GetRecordsAsync(TQuery query);
+    protected abstract IAsyncEnumerable<TRecord> GetRecordsAsync(TQuery query);
 
-        protected virtual int GetBatchSize()
+    protected virtual int GetBatchSize()
+    {
+        return 100; // Default batch size for most reports
+    }
+
+    protected void SendQueryResult(ReportQueryReceivedEventArgs args, DataTable result)
+    {
+        DataSet set = new();
+        set.Tables.Add(result);
+        Engine.ReportManager.SendQueryResult(args.MessageId, new ReportQueryResults(args.Query.ReportQueryType)
         {
-            // Default batch size for most reports
-            return 100;
-        }
+            Results = set,
+            QuerySource = args.QuerySource,
+            ResultSource = Role.Guid,
+            Succeeded = true,
+            WaitForCompletion = false
+        });
+    }
 
-        // Send the query result back to the client (e.g., Security Desk and Config Tool)
-        protected void SendQueryResult(ReportQueryReceivedEventArgs args, DataTable result)
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            try
-            {
-                DataSet set = new();
-                set.Tables.Add(result);
-                Engine.ReportManager.SendQueryResult(args.MessageId, new ReportQueryResults(args.Query.ReportQueryType)
-                {
-                    Results = set,
-                    QuerySource = args.QuerySource,
-                    ResultSource = Role.Guid,
-                    Succeeded = true,
-                    WaitForCompletion = false
-                });
-            }
-            catch (SdkException ex) when (ex.ErrorCode == SdkError.InvalidOperation)
-            {
-                // Handle or log the exception as needed
-                Logger.TraceError(ex, $"An error occured while sending query result: {ex.Message}");
-            }
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Logger.Dispose();
-            }
+            Logger.Dispose();
         }
     }
 }

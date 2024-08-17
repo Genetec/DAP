@@ -5,18 +5,20 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+/// <summary>
+/// Defines the DataTable column names for the custom report.
+/// </summary>
+public static class CustomReportColumnName
 {
-    public static class CustomReportColumnName
-    {
-        public const string SourceId = "SourceId";
+    public const string SourceId = "SourceId";
         
-        public const string EventId = "EventId";
+    public const string EventId = "EventId";
         
-        public const string Message = "Message";
+    public const string Message = "Message";
         
-        public const string Value = "Value";
+    public const string Value = "Value";
         
-        public const string EventTimestamp = "EventTimestamp";
-    }
+    public const string EventTimestamp = "EventTimestamp";
 }

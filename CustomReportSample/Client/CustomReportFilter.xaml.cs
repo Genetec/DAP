@@ -1,73 +1,72 @@
 ﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
 // May be used only in accordance with a valid Source Code License Agreement.
 
-namespace Genetec.Dap.CodeSamples.Client
+namespace Genetec.Dap.CodeSamples.Client;
+
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Genetec.Sdk.Workspace.Pages;
+
+public partial class CustomReportFilter : ReportFilter, INotifyPropertyChanged
 {
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using Genetec.Sdk.Workspace.Pages;
+    private string m_message;
 
-    public partial class CustomReportFilter : ReportFilter, INotifyPropertyChanged
+    public CustomReportFilter()
     {
-        private string m_message;
+        InitializeComponent();
+        DataContext = this;
+    }
 
-        public CustomReportFilter()
+    public string Message
+    {
+        get => m_message;
+        set
         {
-            InitializeComponent();
-            DataContext = this;
-        }
-
-        public string Message
-        {
-            get => m_message;
-            set
+            if (SetProperty(ref m_message, value))
             {
-                if (SetProperty(ref m_message, value))
-                {
-                    OnModified();
-                }
+                OnModified();
             }
         }
+    }
 
-        protected override string FilterName => "Custom filter";
+    protected override string FilterName => "Custom filter";
 
-        protected override bool IsStateValid => !string.IsNullOrEmpty(Message);
+    protected override bool IsStateValid => !string.IsNullOrEmpty(Message);
 
-        protected override string FilterData
+    protected override string FilterData
+    {
+        get
         {
-            get
+            var data = new CustomReportFilterData
             {
-                var data = new CustomReportFilterData
-                {
-                    Message = Message
-                };
-                return data.Serialize();
-            }
-            set
+                Message = Message
+            };
+            return data.Serialize();
+        }
+        set
+        {
+            if (!string.IsNullOrEmpty(value))
             {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    CustomReportFilterData data = CustomReportFilterData.Deserialize(value);
-                    Message = data.Message;
-                }
+                CustomReportFilterData data = CustomReportFilterData.Deserialize(value);
+                Message = data.Message;
             }
         }
+    }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
+    private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
 
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
+        storage = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

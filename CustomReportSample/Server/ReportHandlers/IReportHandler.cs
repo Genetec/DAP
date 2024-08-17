@@ -5,14 +5,13 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples.Server.ReportHandlers
-{
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Genetec.Sdk.EventsArgs;
+namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
-    public interface IReportHandler
-    {
-        Task HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token);
-    }
+using System.Threading;
+using System.Threading.Tasks;
+using Genetec.Sdk.EventsArgs;
+
+public interface IReportHandler
+{
+    Task HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token);
 }

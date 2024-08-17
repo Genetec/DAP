@@ -5,18 +5,17 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.AccessControl
-{
-    using System;
+namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.AccessControl;
 
-    public class ZoneActivityRecord
-    {
-        public DateTime Timestamp { get; set; }
-        public int EventType { get; set; }
-        public int EventId { get; set; }
-        public DateTime TimestampLocal { get; set; }
-        public string TimeZoneId { get; set; }
-        public Guid ZoneId { get; set; }
-        public int OfflinePeriod { get; set; }
-    }
+using System;
+
+public class ZoneActivityRecord
+{
+    public DateTime Timestamp { get; set; }
+    public int EventType { get; set; }
+    public int EventId { get; set; }
+    public DateTime TimestampLocal { get; set; }
+    public string TimeZoneId { get; set; }
+    public Guid ZoneId { get; set; }
+    public int OfflinePeriod { get; set; }
 }

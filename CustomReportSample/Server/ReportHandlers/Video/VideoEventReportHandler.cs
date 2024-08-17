@@ -5,23 +5,23 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Video
-{
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Threading.Tasks;
-    using Genetec.Sdk;
-    using Genetec.Sdk.Entities;
-    using Genetec.Sdk.Queries.Video;
+namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Video;
 
-    public class VideoEventReportHandler : ReportHandler<VideoEventQuery, VideoEvent>
+using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Queries.Video;
+
+public class VideoEventReportHandler : ReportHandler<VideoEventQuery, VideoEvent>
+{
+    public VideoEventReportHandler(IEngine engine, Role role) : base(engine, role)
     {
-        public VideoEventReportHandler(IEngine engine, Role role) : base(engine, role)
-        {
         }
 
-        protected override void FillDataRow(DataRow row, VideoEvent record)
-        {
+    protected override void FillDataRow(DataRow row, VideoEvent record)
+    {
             row[VideoEventQuery.CameraGuidColumnName] = record.CameraGuid;
             row[VideoEventQuery.ArchiveSourceGuidColumnName] = record.ArchiveSourceGuid;
             row[VideoEventQuery.EventTimeColumnName] = record.EventTime;
@@ -34,8 +34,8 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Video
             row[VideoEventQuery.ThumbnailColumnName] = record.Thumbnail;
         }
 
-        protected override async IAsyncEnumerable<VideoEvent> GetRecordsAsync(VideoEventQuery query)
-        {
+    protected override async IAsyncEnumerable<VideoEvent> GetRecordsAsync(VideoEventQuery query)
+    {
             // TODO: Implement the actual data retrieval logic here.
 
             // This method should:
@@ -53,5 +53,4 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Video
             await Task.Yield(); // Simulates asynchronous work (remove in actual implementation)
             yield break; // No records returned in this example (remove in actual implementation)
         }
-    }
 }
