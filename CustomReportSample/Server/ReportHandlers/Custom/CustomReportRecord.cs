@@ -8,17 +8,26 @@
 namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
 
 using System;
-using Sdk;
 
 public class CustomReportRecord
 {
     public Guid SourceId { get; set; }
 
-    public EventType EventId { get; set; }
+    public int EventId { get; set; }
 
     public string Message { get; set; }
 
-    public double Value { get; set; }
-
     public DateTime EventTimestamp { get; set; }
+
+    public decimal Decimal { get; set; }
+
+    public bool Boolean { get; set; }
+
+    public byte[] Picture { get; set; }
+
+    public string Hidden { get; set; }
+
+    public int Numeric { get; set; }
+
+    public TimeSpan Duration { get; set; }
 }

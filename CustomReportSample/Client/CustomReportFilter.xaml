@@ -1,5 +1,31 @@
 ﻿<pages:ReportFilter x:Class="Genetec.Dap.CodeSamples.Client.CustomReportFilter" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:pages="clr-namespace:Genetec.Sdk.Workspace.Pages;assembly=Genetec.Sdk.Workspace" mc:Ignorable="d">
     <Grid>
-        <TextBox MinWidth="150" Margin="4" HorizontalAlignment="Stretch" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Margin="0,5,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Message" Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="0,5" HorizontalAlignment="Stretch" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=True}" />
+
+        <Label Grid.Row="1" Grid.Column="0" Margin="0,5,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Custom Event" Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <ComboBox Grid.Row="1" Grid.Column="1" Margin="0,5" HorizontalAlignment="Stretch" DisplayMemberPath="Name" ItemsSource="{Binding CustomEvents}" SelectedItem="{Binding CustomEvent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="2" Grid.Column="0" Margin="0,5,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Enabled" Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <CheckBox Grid.Row="2" Grid.Column="1" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Enabled}" />
+
+        <Label Grid.Row="3" Grid.Column="0" Margin="0,5,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Decimal" Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <NumericUpDown Grid.Row="3" Grid.Column="1" MinWidth="80" Margin="0,5" HorizontalAlignment="Left" Increment="0.01" Maximum="1000000" Minimum="0" NumberOfDecimalDigits="2" Value="{Binding Decimal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="4" Grid.Column="0" Margin="0,5,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Numeric Value" Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <NumericUpDown Grid.Row="4" Grid.Column="1" MinWidth="80" Margin="0,5" HorizontalAlignment="Left" Increment="1" Maximum="1000000" Minimum="0" NumberOfDecimalDigits="0" Value="{Binding NumericValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
     </Grid>
 </pages:ReportFilter>

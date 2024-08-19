@@ -3,6 +3,7 @@
 
 namespace Genetec.Dap.CodeSamples.Client;
 
+using Genetec.Sdk;
 using Genetec.Sdk.Workspace.Modules;
 using Genetec.Sdk.Workspace.Tasks;
 
@@ -14,7 +15,7 @@ public class SampleModule : Module
     public override void Load()
     {
         // Register the custom report page task for Security Desk only
-        if (Workspace.ApplicationType == Sdk.ApplicationType.SecurityDesk)
+        if (Workspace.ApplicationType == ApplicationType.SecurityDesk)
         {
             var task = new CreatePageTask<CustomReportPage>();
             task.Initialize(Workspace);

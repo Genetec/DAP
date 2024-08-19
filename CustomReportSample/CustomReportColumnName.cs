@@ -18,7 +18,17 @@ public static class CustomReportColumnName
         
     public const string Message = "Message";
         
-    public const string Value = "Value";
+    public const string Numeric = "Numeric";
         
     public const string EventTimestamp = "EventTimestamp";
+
+    public const string Decimal = "Decimal";
+
+    public const string Boolean = "Boolean";
+
+    public const string Picture = "Picture";
+
+    public const string Duration = "Duration";
+
+    public const string Hidden = "Hidden";
 }

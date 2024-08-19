@@ -7,8 +7,8 @@
 
 namespace Genetec.Dap.CodeSamples;
 
+using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
@@ -16,16 +16,23 @@ using System.Text;
 /// This class represents the filter data for this custom report sample.
 /// It is used to pass data from the client to the server when running a custom report.
 /// </summary>
-[DataContract]
 public class CustomReportFilterData
 {
     private static readonly DataContractJsonSerializer s_serializer = new(typeof(CustomReportFilterData));
 
-    [DataMember] 
     public string Message { get; set; }
+  
+    public TimeSpan Duration { get; set; }
+ 
+    public int NumericValue { get; set; }
 
-    // Add any additional properties needed for the custom report filter data
+    public decimal DecimalValue { get; set; }
+    
+    public bool Enabled { get; set; }
 
+    public int? CustomEvent { get; set; }
+
+    // Deserialize the filter data from a JSON string
     public static CustomReportFilterData Deserialize(string value)
     {
         if (string.IsNullOrEmpty(value))
@@ -35,6 +42,7 @@ public class CustomReportFilterData
         return (CustomReportFilterData)s_serializer.ReadObject(stream);
     }
 
+    // Serialize the filter data to a JSON string
     public string Serialize()
     {
         var serializer = new DataContractJsonSerializer(typeof(CustomReportFilterData));

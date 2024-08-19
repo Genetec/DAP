@@ -10,6 +10,8 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using Sdk;
 using Sdk.Entities;
@@ -31,22 +33,32 @@ public class CustomReportHandler : ReportHandler<CustomQuery, CustomReportRecord
     {
         var table = new DataTable();
 
-        table.Columns.Add(CustomReportColumnName.Value, typeof(double));
-        table.Columns.Add(CustomReportColumnName.EventTimestamp, typeof(DateTime));
-        table.Columns.Add(CustomReportColumnName.Message, typeof(string));
         table.Columns.Add(CustomReportColumnName.SourceId, typeof(Guid));
         table.Columns.Add(CustomReportColumnName.EventId, typeof(int));
+        table.Columns.Add(CustomReportColumnName.Message, typeof(string));
+        table.Columns.Add(CustomReportColumnName.Numeric, typeof(int));
+        table.Columns.Add(CustomReportColumnName.EventTimestamp, typeof(DateTime));
+        table.Columns.Add(CustomReportColumnName.Decimal, typeof(decimal));
+        table.Columns.Add(CustomReportColumnName.Boolean, typeof(bool));
+        table.Columns.Add(CustomReportColumnName.Picture, typeof(byte[])).AllowDBNull = true;
+        table.Columns.Add(CustomReportColumnName.Duration, typeof(TimeSpan));
+        table.Columns.Add(CustomReportColumnName.Hidden, typeof(string));
 
         return table;
     }
-   
+
     protected override void FillDataRow(DataRow row, CustomReportRecord record)
     {
-        row[CustomReportColumnName.Value] = record.Value;
-        row[CustomReportColumnName.EventTimestamp] = record.EventTimestamp;
-        row[CustomReportColumnName.Message] = record.Message;
         row[CustomReportColumnName.SourceId] = record.SourceId;
         row[CustomReportColumnName.EventId] = record.EventId;
+        row[CustomReportColumnName.Message] = record.Message;
+        row[CustomReportColumnName.Numeric] = record.Numeric;
+        row[CustomReportColumnName.EventTimestamp] = record.EventTimestamp;
+        row[CustomReportColumnName.Decimal] = record.Decimal;
+        row[CustomReportColumnName.Boolean] = record.Boolean;
+        row[CustomReportColumnName.Picture] = record.Picture;
+        row[CustomReportColumnName.Duration] = record.Duration;
+        row[CustomReportColumnName.Hidden] = record.Hidden;
     }
 
     protected override async IAsyncEnumerable<CustomReportRecord> GetRecordsAsync(CustomQuery query)
@@ -61,13 +73,30 @@ public class CustomReportHandler : ReportHandler<CustomQuery, CustomReportRecord
         await Task.Yield(); // Simulates asynchronous work (remove this in actual implementation)
 
         // This is an example of how to return a record
-        yield return new CustomReportRecord
+
+        foreach (var guid in query.QueryEntities)
         {
-            EventId = EventType.CustomEvent,
-            EventTimestamp = DateTime.Now,
-            Message = filter.Message,
-            SourceId = User.AdministratorUserGuid,
-            Value = 1
-        };
+            yield return new CustomReportRecord
+            {
+                SourceId = guid,
+                EventTimestamp = query.TimeRange.DateTime,
+                Message = filter.Message,
+                Numeric = filter.NumericValue,
+                Decimal = filter.DecimalValue,
+                Boolean = filter.Enabled,
+                Duration = query.TimeRange.TimeSpan,
+                Picture = ConvertImageToByteArray((Engine.GetEntity(guid) as Cardholder)?.Picture),
+                Hidden = "This is the content of the hidden field",
+                EventId = -filter.CustomEvent ?? 0
+            };
+        }
+
+        byte[] ConvertImageToByteArray(Image image)
+        {
+            if (image is null) return null;
+            using MemoryStream stream = new();
+            image.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            return stream.ToArray();
+        }
     }
 }

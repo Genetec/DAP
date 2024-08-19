@@ -7,38 +7,36 @@ using System.Collections.Generic;
 using Genetec.Sdk;
 using Genetec.Sdk.Workspace.Pages;
 
-[Page(typeof(CustomPageDescriptor))]
+[Page(typeof(CustomReportPageDescriptor))]
 public class CustomReportPage : ReportPage
 {
+    private readonly CustomReportFilter m_customReportFilter = new();
+
     public override List<ReportField> Fields { get; } = new()
     {
         new ReportField { Type = ReportFieldType.Entity, Name = CustomReportColumnName.SourceId, DisplayName = "Source", IsSource = true },
         new ReportField { Type = ReportFieldType.DateTime, Name = CustomReportColumnName.EventTimestamp, DisplayName = "Timestamp", IsSource = true },
         new ReportField { Type = ReportFieldType.Event, Name = CustomReportColumnName.EventId, DisplayName = "Event" },
         new ReportField { Type = ReportFieldType.Text, Name = CustomReportColumnName.Message, DisplayName = "Message" },
-        new ReportField { Type = ReportFieldType.Numeric, Name = CustomReportColumnName.Value, DisplayName = "Value" }
+        new ReportField { Type = ReportFieldType.Numeric, Name = CustomReportColumnName.Numeric, DisplayName = "Numeric" },
+        new ReportField { Type = ReportFieldType.Boolean, Name = CustomReportColumnName.Boolean, DisplayName = "Boolean" },
+        new ReportField { Type = ReportFieldType.Decimal, Name = CustomReportColumnName.Decimal, DisplayName = "Decimal" },
+        new ReportField { Type = ReportFieldType.TimeSpan, Name = CustomReportColumnName.Duration, DisplayName = "Duration" },
+        new ReportField { Type = ReportFieldType.Image, Name = CustomReportColumnName.Picture, DisplayName = "Picture", ImageMaxHeight=256, ImageMaxWidth=256, InitialWidth=128 },
+        new ReportField { Type = ReportFieldType.Text, Name = CustomReportColumnName.Hidden, IsVisible = false } // Hidden field
     };
 
+    // Show the tiles
     public override bool SupportsTiles => true;
-
-    private readonly CustomReportFilter m_customReportFilter = new();
 
     protected override ReportFilter CustomFilter => m_customReportFilter;
 
-    protected override bool DisplayEntityFilter => true;
-
+    // Display the time range filter
     protected override bool DisplayTimeRangeFilter => true;
 
-    protected override List<EntityType> EntityTypes { get; } = new() { EntityType.Camera, EntityType.VideoUnit };
+    // Display the entity filter
+    protected override bool DisplayEntityFilter => true;
 
-    protected override void Deserialize(byte[] data)
-    {
-        // Optional: Deserialize your Custom report filter
-    }
-
-    protected override byte[] Serialize()
-    {
-        // Optional: Serialize your Custom report filter
-        return null;
-    }
+    // Entity types that can be selected in the entity filter
+    protected override List<EntityType> EntityTypes { get; } = new() { EntityType.Cardholder };
 }
