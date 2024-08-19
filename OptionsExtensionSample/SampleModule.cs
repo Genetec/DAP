@@ -12,9 +12,9 @@ namespace Genetec.Dap.CodeSamples
         {
             if (Workspace.ApplicationType == ApplicationType.SecurityDesk)
             {
-                var sampleOptionsExtension = new SampleOptionsExtensions();
-                sampleOptionsExtension.Initialize(Workspace);
-                Workspace.Options.Register(sampleOptionsExtension);
+                var extensions = new SampleOptionsExtensions();
+                extensions.Initialize(Workspace);
+                Workspace.Options.Register(extensions);
             }
         }
 
