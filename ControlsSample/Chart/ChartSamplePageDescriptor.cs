@@ -7,23 +7,21 @@
 
 namespace Genetec.Dap.CodeSamples
 {
-    using Sdk.Workspace.Tasks;
-    using Sdk;
+    using System;
+    using Sdk.Workspace.Pages;
 
-    public class SampleModule : Sdk.Workspace.Modules.Module
+    public class ChartSamplePageDescriptor : PageDescriptor
     {
-        public override void Load()
-        {
-            if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
-            {
-                var task = new CreatePageTask<SamplePage>();
-                task.Initialize(Workspace);
-                Workspace.Tasks.Register(task);
-            }
-        }
+        public override string Name => "Chart Sample";
 
-        public override void Unload()
-        {
-        }
+        public override Guid Type { get; } = new("58FE9C39-5054-458D-9B22-2FD42FE3C224");
+
+        public override string Description => "This page provides a sample of the Chart control.";
+
+        public override Guid CategoryId => CustomTaskCategories.SdkSamples;
+
+        public override TaskIconColor IconColor => TaskIconColor.DefaultIconColor;
+
+        public override bool HasPrivilege() => true;
     }
 }

@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Genetec.Dap.CodeSamples.ChartSampleView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Genetec.Sdk.Controls;assembly=Genetec.Sdk.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Genetec.Dap.CodeSamples" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:ChartSampleViewModel />
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ContentControl Grid.Column="0" Margin="10" Content="{Binding Chart}" />
+        <GroupBox Grid.Column="1" Margin="10" Header="Chart Properties">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ComboBox Grid.Row="0" Margin="0,5" ItemsSource="{Binding ChartTypes}" SelectedItem="{Binding SelectedChartType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Grid.Row="1" Margin="0,5" Content="Disable Animations" IsChecked="{Binding DisableAnimations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Grid.Row="2" Margin="0,5" Content="Performance Mode" IsChecked="{Binding PerformanceMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Grid.Row="3" Margin="0,5" Content="Show Chart Grid" IsChecked="{Binding ShowChartGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Grid.Row="4" Margin="0,5" Content="Show Chart Value" IsChecked="{Binding ShowChartValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Grid.Row="5" Margin="0,5" Content="Show Legend" IsChecked="{Binding ShowLegend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Grid Grid.Row="6" Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Stroke Color" Style="{Styles {x:Static LabelStyles.Intro}}" />
+                    <controls:ColorPicker Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" Color="{Binding StrokeColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </Grid>
+        </GroupBox>
+    </Grid>
+
+</UserControl>
