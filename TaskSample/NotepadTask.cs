@@ -18,15 +18,17 @@ namespace Genetec.Dap.CodeSamples
             Description = "Launch Notepad application. This sample illustrates a Task that executes without opening a page.";
             CategoryId = new Guid(TaskCategories.Administration);
         }
-        
+            
         public override bool CanExecute()
         {
+            // This task can be executed at any time.
             return true;
         }
 
         public override void Execute()
         {  
             HideHomePageAfterExecution = false;  // Do not hide the home page after the task is executed.
+            // This task will launch the Notepad application.
             Process.Start("notepad.exe");
         }
     }
