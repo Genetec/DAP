@@ -11,7 +11,7 @@ namespace Genetec.Dap.CodeSamples
 
     public sealed class SampleOptionsExtensions : OptionsExtension
     {
-        public static readonly Guid SampleOptionsSettings = new Guid("4B329744-E082-43F8-8B9D-9043C90D6EEB");
+        public static readonly Guid SampleOptionsSettings = new("4B329744-E082-43F8-8B9D-9043C90D6EEB");
 
         public const string ExtensionName = nameof(SampleOptionsExtensions);
 
@@ -73,16 +73,15 @@ namespace Genetec.Dap.CodeSamples
         protected override void Save()
         {
             User user = Workspace.Sdk.LoggedUser;
-            if (user != null)
+            if (user is not null)
             {
-                var data = new SampleOptionsData
+                user.Settings[SampleOptionsSettings] = new SampleOptionsData
                 {
                     Text = Text,
                     Number = Number,
                     DateTime = DateTime,
                     Color = Color
-                };
-                user.Settings[SampleOptionsSettings] = data.Serialize();
+                }.Serialize();
             }
         }
     }
