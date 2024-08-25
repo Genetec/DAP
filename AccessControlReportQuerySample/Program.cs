@@ -141,8 +141,4 @@ class AccessControlEvent
     public TimeZoneInfo TimeZone { get; set; }
     public OfflinePeriodType OccurrencePeriod { get; set; }
     public Guid? Cardholder { get; set; }
-    string GetEntityName(Engine engine, Guid? entityId)
-    {
-        return engine.GetEntity(entityId.GetValueOrDefault())?.Name;
-    }
 }
