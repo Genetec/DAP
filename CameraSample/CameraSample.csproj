@@ -54,12 +54,17 @@
 		<Reference Include="WindowsBase" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="Certificates\CameraSample.exe.cert">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
 	<Import Project="..\Shared\Shared.projitems" Label="Shared" />
+
+	<Target Name="CopyCertificates" AfterTargets="Build">
+		<PropertyGroup>
+			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
+		</PropertyGroup>
+		<ItemGroup>
+			<Certificates Include="Certificates\*.cert" />
+		</ItemGroup>
+		<MakeDir Directories="$(CertOutputPath)" />
+		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
+	</Target>
 
 </Project>

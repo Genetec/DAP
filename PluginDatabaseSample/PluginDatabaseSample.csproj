@@ -62,12 +62,6 @@
 		<Reference Include="System.Core" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<None Update="Certificates\Genetec.Dap.CodeSamples.BasicPlugin.cert">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
 	<Target Name="CopyCertificates" AfterTargets="Build">
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>

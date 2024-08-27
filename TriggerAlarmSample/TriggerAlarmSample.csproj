@@ -57,12 +57,6 @@
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="Certificates\TriggerAlarmSample.exe.cert">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
 	<Target Name="CopyCertificates" AfterTargets="Build">
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>

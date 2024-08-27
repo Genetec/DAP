@@ -54,12 +54,6 @@
 		<Reference Include="System.Data.DataSetExtensions" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="Certificates\AlarmActivityQuerySample.exe.cert">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
 	<Target Name="CopyCertificates" AfterTargets="Build">
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
