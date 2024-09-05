@@ -164,6 +164,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaFileSample", "MediaFil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriggerAlarmSample", "TriggerAlarmSample\TriggerAlarmSample.csproj", "{1B964BA1-C860-449B-BDC0-634295E94288}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginConfigurationSample", "PluginConfigurationSample\PluginConfigurationSample.csproj", "{32A08749-89F5-4DC9-B420-4495ACCEE80C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -468,6 +470,10 @@ Global
 		{1B964BA1-C860-449B-BDC0-634295E94288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B964BA1-C860-449B-BDC0-634295E94288}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B964BA1-C860-449B-BDC0-634295E94288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32A08749-89F5-4DC9-B420-4495ACCEE80C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32A08749-89F5-4DC9-B420-4495ACCEE80C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32A08749-89F5-4DC9-B420-4495ACCEE80C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32A08749-89F5-4DC9-B420-4495ACCEE80C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
