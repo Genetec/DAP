@@ -5,15 +5,13 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
-{
-    using System.Windows.Controls;
+namespace Genetec.Dap.CodeSamples;
 
-    public partial class CustomConfigPageView : UserControl
-    {
-        public CustomConfigPageView()
-        {
-            InitializeComponent();
-        }
-    }
+using System;
+
+// The CustomActionTypes class contains the unique identifiers for the custom action types used in the sample.
+public static class CustomActionTypes
+{
+    // TODO: Replace with your own unique custom action type GUID
+    public static Guid LaunchEncoderCommand { get; } = new("CD273EDD-97F6-4F1F-A1B4-3A3145801323");
 }
