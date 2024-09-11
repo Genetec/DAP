@@ -166,6 +166,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriggerAlarmSample", "Trigg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginConfigurationSample", "PluginConfigurationSample\PluginConfigurationSample.csproj", "{32A08749-89F5-4DC9-B420-4495ACCEE80C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomIconSample", "CustomIconSample\CustomIconSample.csproj", "{76459A6B-4169-4AFF-905E-B2FE27A0BE72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomActionSample", "CustomActionSample\CustomActionSample.csproj", "{A01F3C84-730B-43E4-8733-60B2F62CEC81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -474,6 +478,14 @@ Global
 		{32A08749-89F5-4DC9-B420-4495ACCEE80C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32A08749-89F5-4DC9-B420-4495ACCEE80C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32A08749-89F5-4DC9-B420-4495ACCEE80C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76459A6B-4169-4AFF-905E-B2FE27A0BE72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76459A6B-4169-4AFF-905E-B2FE27A0BE72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76459A6B-4169-4AFF-905E-B2FE27A0BE72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76459A6B-4169-4AFF-905E-B2FE27A0BE72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A01F3C84-730B-43E4-8733-60B2F62CEC81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A01F3C84-730B-43E4-8733-60B2F62CEC81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A01F3C84-730B-43E4-8733-60B2F62CEC81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A01F3C84-730B-43E4-8733-60B2F62CEC81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -509,6 +521,7 @@ Global
 		{4A5A7B92-D9FB-40A2-8025-8F649600118B} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{F120F4DE-BE87-4C20-B062-6AEA25DBC285} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{32A08749-89F5-4DC9-B420-4495ACCEE80C} = {AAD7589E-062C-4CF0-AF3D-8B86A42AA482}
+		{A01F3C84-730B-43E4-8733-60B2F62CEC81} = {AAD7589E-062C-4CF0-AF3D-8B86A42AA482}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -523,7 +536,7 @@ Global
 		Shared\Shared.projitems*{177adf02-8114-4594-88d1-ca6fbb92fa7a}*SharedItemsImports = 5
 		Shared\Shared.projitems*{1b964ba1-c860-449b-bdc0-634295e94288}*SharedItemsImports = 5
 		Shared\Shared.projitems*{1d9df30c-817e-45af-9071-03edc92429ce}*SharedItemsImports = 5
-		Shared\Shared.projitems*{1da3d321-ac8a-4f73-aacc-9f81dfbbc257}*SharedItemsImports = 4
+		Shared\Shared.projitems*{1da3d321-ac8a-4f73-aacc-9f81dfbbc257}*SharedItemsImports = 5
 		Shared\Shared.projitems*{25070840-d9af-497c-902a-ec0fc08638d6}*SharedItemsImports = 5
 		Shared\Shared.projitems*{2f8a8884-0c43-486e-99a9-7ad133d6a443}*SharedItemsImports = 5
 		Shared\Shared.projitems*{36e0317b-fad0-48c4-9d22-6f3346c2942d}*SharedItemsImports = 5
@@ -537,6 +550,7 @@ Global
 		Shared\Shared.projitems*{649419f6-7e22-419d-bff4-a6674215cfdb}*SharedItemsImports = 5
 		Shared\Shared.projitems*{73543dda-ef56-49e4-a49c-b3f162150038}*SharedItemsImports = 5
 		Shared\Shared.projitems*{763d0f67-5661-431a-ab4b-9e0a0da2b05f}*SharedItemsImports = 5
+		Shared\Shared.projitems*{76459a6b-4169-4aff-905e-b2fe27a0be72}*SharedItemsImports = 5
 		Shared\Shared.projitems*{7687aee3-e8ee-4c60-8b51-261ab1ae4ab5}*SharedItemsImports = 5
 		Shared\Shared.projitems*{7bce5199-8b5b-4905-8caa-5abc3acaad00}*SharedItemsImports = 5
 		Shared\Shared.projitems*{7e86ab23-938e-4384-bdbe-e98d7cc9ca44}*SharedItemsImports = 5
