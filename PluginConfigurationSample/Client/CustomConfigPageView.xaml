@@ -1,0 +1,84 @@
+﻿<UserControl
+    x:Class="Genetec.Dap.CodeSamples.Client.CustomConfigPageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="4"
+            HorizontalAlignment="Right"
+            Content="IP Address"
+            Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <IPAddressTextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="4"
+            HorizontalAlignment="Left"
+            Value="{Binding IPAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="4"
+            HorizontalAlignment="Right"
+            Content="Port"
+            Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <NumericUpDown
+            Grid.Row="1"
+            Grid.Column="1"
+            MinWidth="75"
+            Margin="4"
+            HorizontalAlignment="Left"
+            Maximum="65535"
+            Minimum="1"
+            Value="{Binding Port, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="4"
+            HorizontalAlignment="Right"
+            Content="Username"
+            Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <PasswordBox
+            x:Name="UsernameBox"
+            Grid.Row="2"
+            Grid.Column="1"
+            MinWidth="200"
+            Margin="4"
+            HorizontalAlignment="Left"
+            PasswordChanged="UsernameBox_PasswordChanged" />
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="4"
+            HorizontalAlignment="Right"
+            Content="Password"
+            Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <PasswordBox
+            x:Name="PasswordBox"
+            Grid.Row="3"
+            Grid.Column="1"
+            MinWidth="200"
+            Margin="4"
+            HorizontalAlignment="Left"
+            PasswordChanged="PasswordBox_PasswordChanged" />
+    </Grid>
+</UserControl>
