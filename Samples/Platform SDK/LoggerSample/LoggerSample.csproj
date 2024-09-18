@@ -53,6 +53,6 @@
 		<Reference Include="System.Core" />
 	</ItemGroup>
 
-	<Import Project="..\Shared\Shared.projitems" Label="Shared" />
+	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
 
 </Project>

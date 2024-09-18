@@ -68,6 +68,6 @@
 		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
 	</Target>
 
-	<Import Project="..\Shared\Shared.projitems" Label="Shared" />
+	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
 
 </Project>

@@ -54,7 +54,7 @@
 		<Reference Include="WindowsBase" />
 	</ItemGroup>
 
-	<Import Project="..\Shared\Shared.projitems" Label="Shared" />
+	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
 
 	<Target Name="CopyCertificates" AfterTargets="Build">
 		<PropertyGroup>
