@@ -57,7 +57,7 @@ The `IPluginDatabaseSupport` interface is a crucial component in the plugin arch
 
 The primary purposes of IPluginDatabaseSupport are:
 1. To indicate that a plugin requires database support.
-2. To provide a standardized way for the plugin system to interact with the plugin's database operations.
+2. To provide a standardized way for Security Center to interact with the plugin's database operations.
 
 ## Interface Definition
 
@@ -261,7 +261,7 @@ BEGIN
 END
 ```
 
-## Integration with the Plugin System
+## Integration with Security Center
 
 The `GetSpecificCreationScript` method is typically called by the main application when:
 - Your plugin is being installed for the first time
@@ -331,7 +331,7 @@ public override IEnumerable<DatabaseUpgradeItem> GetDatabaseUpgradeItems()
 
 7. **Error Handling**: Include error handling and logging in your upgrade scripts to make troubleshooting easier.
 
-## Integration with the Plugin System
+## Integration with Security Center
 
 By implementing `DatabaseUpgradeItem`, your plugin integrates with the application's database upgrade mechanism. This allows the system to:
 
@@ -446,7 +446,7 @@ public override void DatabaseCleanup(string name, int retentionPeriod)
 4. **Error Handling**: Implement robust error handling in your cleanup methods.
 5. **Logging**: Log cleanup activities for troubleshooting and auditing purposes.
 
-## Integration with the Plugin System
+## Integration with Security Center
 
 By implementing `DatabaseCleanupThreshold`, your plugin integrates with the application's centralized database maintenance system. This allows administrators to:
 
