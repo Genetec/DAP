@@ -1,0 +1,6 @@
+<Project>
+	<PropertyGroup>
+		<Company>Genetec Inc.</Company>
+		<LangVersion>12</LangVersion>
+	</PropertyGroup>
+</Project>
