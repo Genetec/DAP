@@ -19,14 +19,14 @@ namespace Genetec.Dap.CodeSamples
         /// <summary>
         /// Defines the custom fields to be added in the Monitoring task.
         /// </summary>
-        public override IList<Field> Fields { get; } = new List<Field>
-        {
+        public override IList<Field> Fields { get; } =
+        [
             new(FieldName.Text, typeof(string)) { Title = Resources.Text, IsDisplayable = true },
-            new(FieldName.Numeric, typeof(int)) { Title = Resources.Text, IsDisplayable = true },
-            new(FieldName.Boolean, typeof(bool)) { Title = Resources.Text, IsDisplayable = true },
-            new(FieldName.Decimal, typeof(decimal)) { Title = Resources.Text, IsDisplayable = true },
-            new(FieldName.DateTime, typeof(DateTime)) { Title = Resources.Text, IsDisplayable = true }
-        };
+            new(FieldName.Numeric, typeof(int)) { Title = Resources.Number, IsDisplayable = true },
+            new(FieldName.Boolean, typeof(bool)) { Title = Resources.Boolean, IsDisplayable = true },
+            new(FieldName.Decimal, typeof(decimal)) { Title = Resources.Decimal, IsDisplayable = true },
+            new(FieldName.DateTime, typeof(DateTime)) { Title = Resources.DateTIme, IsDisplayable = true }
+        ];
 
         public override bool Extend(Event @event, FieldsCollection fields)
         {
