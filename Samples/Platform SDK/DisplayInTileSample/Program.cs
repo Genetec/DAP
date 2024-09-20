@@ -8,6 +8,7 @@
 namespace Genetec.Dap.CodeSamples;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Genetec.Sdk;
@@ -59,7 +60,7 @@ class Program
             Console.WriteLine("Searching for online Security Desk applications...");
 
             // Get all online Security Desk applications
-            var securityDeskApps = engine.GetEntities(EntityType.Application)
+            List<Application> securityDeskApps = engine.GetEntities(EntityType.Application)
                 .OfType<Application>()
                 .Where(app => app.ApplicationType == ApplicationType.SecurityDesk && app.IsOnline)
                 .ToList();
@@ -69,7 +70,7 @@ class Program
             Console.WriteLine("Retrieving monitors from Security Desk applications...");
 
             // Get all monitors from these applications
-            var monitors = securityDeskApps.SelectMany(app => app.Monitors)
+            List<int> monitors = securityDeskApps.SelectMany(app => app.Monitors)
                 .Select(engine.GetEntity)
                 .OfType<Monitor>()
                 .Select(monitor => monitor.MonitorId)
@@ -78,7 +79,7 @@ class Program
             Console.WriteLine($"Found {monitors.Count} monitor(s).");
 
             // Display camera on each monitor
-            foreach (var monitor in monitors)
+            foreach (int monitor in monitors)
             {
 
                 string xmlContent = $"""

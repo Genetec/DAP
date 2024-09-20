@@ -37,7 +37,7 @@ class Program
             try
             {
                 var progress = new Progress<double>(percent => Console.WriteLine($"Export progress: {percent}"));
-                var exportedFile = await Export(engine, entity, DateTime.UtcNow.AddMinutes(-5), DateTime.UtcNow, "Export", progress);
+                string exportedFile = await Export(engine, entity, DateTime.UtcNow.AddMinutes(-5), DateTime.UtcNow, "Export", progress);
                 Console.WriteLine($"Video file exported: {exportedFile}");
             }
             catch (Exception ex)

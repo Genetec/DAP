@@ -61,7 +61,7 @@ class Program
 
             IEnumerable<CredentialFormat> formats = accessEvent.Credentials.Select(engine.GetEntity).OfType<Credential>().Select(credential => credential.Format);
 
-            foreach (var format in formats)
+            foreach (CredentialFormat format in formats)
             {
                 yield return format;
             }
@@ -74,7 +74,7 @@ class Program
                 if (engine.GetEntity(accessEvent.AccessPoint) is AccessPoint accessPoint && engine.GetEntity(accessPoint.Device) is Device device)
                 {
                     var accessPointGroup = (AccessPointGroup)engine.GetEntity(accessPoint.AccessPointGroup);
-                    var cardholder = engine.GetEntity(accessEvent.Cardholder);
+                    Entity cardholder = engine.GetEntity(accessEvent.Cardholder);
 
                     foreach (CredentialFormat format in GetCredentialFormats(accessEvent))
                     {

@@ -81,24 +81,24 @@ class Program
 
     static void GenerateAccessMatrixCsv(IEngine engine, ICollection<(AccessPoint AccessPoint, Credential Credential, AccessResult Result)> accessResults, TextWriter textWriter)
     {
-        var accessPoints = accessResults.Select(tuple => tuple.AccessPoint).Distinct().ToList();
+        List<AccessPoint> accessPoints = accessResults.Select(tuple => tuple.AccessPoint).Distinct().ToList();
 
-        var resultLookup = accessResults.ToDictionary(tuple => (tuple.AccessPoint, tuple.Credential), tuple => tuple.Result);
+        Dictionary<(AccessPoint AccessPoint, Credential Credential), AccessResult> resultLookup = accessResults.ToDictionary(tuple => (tuple.AccessPoint, tuple.Credential), tuple => tuple.Result);
 
         textWriter.Write("Credential");
-        foreach (var accessPoint in accessPoints)
+        foreach (AccessPoint accessPoint in accessPoints)
         {
             textWriter.Write($",{engine.GetEntity(accessPoint.AccessPointGroup).Name} ({accessPoint.Name})");
         }
         textWriter.WriteLine();
 
-        foreach (var credential in accessResults.Select(tuple => tuple.Credential).Distinct())
+        foreach (Credential credential in accessResults.Select(tuple => tuple.Credential).Distinct())
         {
             textWriter.Write(credential.Name);
 
-            foreach (var accessPoint in accessPoints)
+            foreach (AccessPoint accessPoint in accessPoints)
             {
-                textWriter.Write(resultLookup.TryGetValue((accessPoint, credential), out var result) ? $",{result}" : ",");
+                textWriter.Write(resultLookup.TryGetValue((accessPoint, credential), out AccessResult result) ? $",{result}" : ",");
             }
 
             textWriter.WriteLine();

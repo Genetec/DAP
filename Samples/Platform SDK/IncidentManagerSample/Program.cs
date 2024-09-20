@@ -40,7 +40,7 @@ class Program
 
             IEnumerable<IncidentData> incidentData = args.Data.AsEnumerable().Select(CreateIncidentData);
 
-            foreach (var data in incidentData)
+            foreach (IncidentData data in incidentData)
             {
                 PrintIncidentDetails(data);
             }
@@ -135,7 +135,7 @@ class Program
         Console.WriteLine($"Attached Data: {data.AttachedData}");
         Console.WriteLine("References:");
 
-        foreach (var reference in data.References)
+        foreach (Guid reference in data.References)
         {
             Console.WriteLine($"- {reference}");
         }

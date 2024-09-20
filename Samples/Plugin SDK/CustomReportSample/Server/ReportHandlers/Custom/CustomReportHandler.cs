@@ -74,7 +74,7 @@ public class CustomReportHandler : ReportHandler<CustomQuery, CustomReportRecord
 
         // This is an example of how to return a record
 
-        foreach (var guid in query.QueryEntities)
+        foreach (Guid guid in query.QueryEntities)
         {
             yield return new CustomReportRecord
             {

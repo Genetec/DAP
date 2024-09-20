@@ -35,7 +35,7 @@ public static class SdkResolver
 
         IEnumerable<(Version Version, string Folder)> GetInstallationFolders()
         {
-            foreach (var root in new[] { @"SOFTWARE\Genetec\Security Center\", @"SOFTWARE\Wow6432Node\Genetec\Security Center\" })
+            foreach (string root in new[] { @"SOFTWARE\Genetec\Security Center\", @"SOFTWARE\Wow6432Node\Genetec\Security Center\" })
             {
                 using RegistryKey key = Registry.LocalMachine.OpenSubKey(root);
                 if (key is null)
@@ -43,7 +43,7 @@ public static class SdkResolver
                     continue;
                 }
 
-                foreach (var name in key.GetSubKeyNames())
+                foreach (string name in key.GetSubKeyNames())
                 {
                     if (Version.TryParse(name, out Version version))
                     {
@@ -69,7 +69,7 @@ public static class SdkResolver
 
     private static Assembly OnAssemblyResolve(object sender, ResolveEventArgs args)
     {
-        foreach (var assemblyFile in GetAssemblyPaths(s_probingPath).Where(File.Exists))
+        foreach (string assemblyFile in GetAssemblyPaths(s_probingPath).Where(File.Exists))
         {
             try
             {

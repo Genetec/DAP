@@ -66,7 +66,7 @@ async Task RunSample()
 
 void DisplayMacros(List<Macro> macros)
 {
-    foreach (var macro in macros)
+    foreach (Macro macro in macros)
     {
         Console.WriteLine($"Macro: {macro.Name}");
         Console.WriteLine($"Description: {macro.Description}");
@@ -74,7 +74,7 @@ void DisplayMacros(List<Macro> macros)
         if (macro.DefaultParameters.Any())
         {
             Console.WriteLine("Parameters:");
-            foreach (var parameter in macro.DefaultParameters)
+            foreach (Macro.MacroParameter parameter in macro.DefaultParameters)
             {
                 Console.WriteLine($"  - Name: {parameter.Name}");
                 Console.WriteLine($"    Type: {parameter.Type.Name}");
@@ -130,7 +130,7 @@ void ExecuteMacro(Macro macro)
     macro.Completed += OnMacroOnCompleted;
     macro.Aborted += OnMacroOnAborted;
 
-    var parameters = macro.DefaultParameters;
+    Macro.ReadOnlyMacroParameterCollection parameters = macro.DefaultParameters;
     parameters["Entity"].Value = Guid.NewGuid();
     parameters["Boolean"].Value = true;
     parameters["Text"].Value = "ABC";

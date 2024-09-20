@@ -59,12 +59,12 @@ class Program
         {
             Console.WriteLine($"Total Number of Custom Events: {events.Count}");
 
-            foreach (var group in events.GroupBy(e => e.SourceEntityType).OrderBy(g => g.Key))
+            foreach (IGrouping<EntityType, CustomEvent> group in events.GroupBy(e => e.SourceEntityType).OrderBy(g => g.Key))
             {
                 Console.WriteLine($"\nSource Entity Type: {group.Key}");
                 Console.WriteLine(new string('-', 30));
 
-                foreach (var customEvent in group.OrderBy(e => e.Id))
+                foreach (CustomEvent customEvent in group.OrderBy(e => e.Id))
                 {
                     Console.WriteLine($"Name: {customEvent.Name}");
                     Console.WriteLine($"  ID: {customEvent.Id}");

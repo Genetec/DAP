@@ -8,6 +8,7 @@
 namespace Genetec.Dap.CodeSamples;
 
 using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
@@ -80,11 +81,11 @@ class Program
         {
             using (args)
             {
-                using var decodedFrame = args.DecodedFrameContent?.GetBitmap();
+                using RgbDecodedFrame decodedFrame = args.DecodedFrameContent?.GetBitmap();
                 if (decodedFrame is null)
                     return;
 
-                using var bitmap = decodedFrame.Bitmap;
+                using Bitmap bitmap = decodedFrame.Bitmap;
                 using var memoryStream = new MemoryStream();
 
                 try

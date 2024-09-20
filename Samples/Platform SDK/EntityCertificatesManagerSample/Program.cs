@@ -85,7 +85,7 @@ class Program
         request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DataEncipherment, false));
         request.CertificateExtensions.Add(new X509BasicConstraintsExtension(false, false, 0, false));
 
-        var certificate = request.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddYears(1));
+        X509Certificate2 certificate = request.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddYears(1));
         byte[] certData = certificate.Export(X509ContentType.Pfx);
 
         return new X509Certificate2(certData, "", X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);

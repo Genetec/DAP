@@ -44,14 +44,14 @@ public class SampleCardholderCredentialReader : CardholderCredentialReader, INot
             }
 
             QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            var existing = result.Data.AsEnumerable().Select(row => row.Field<Guid>(nameof(Guid)));
+            EnumerableRowCollection<Guid> existing = result.Data.AsEnumerable().Select(row => row.Field<Guid>(nameof(Guid)));
 
             foreach (Guid entityId in existing)
             {
                 OnExistingCredentialRetrieved(new ExistingCredentialRetrievedEventArgs(entityId));
             }
 
-            var missing = formats
+            IEnumerable<WiegandStandardCredentialFormat> missing = formats
                 .Except(existing.Select(Workspace.Sdk.GetEntity).OfType<Credential>().Select(credential => credential.Format), new CredentialFormatComparer())
                 .OfType<WiegandStandardCredentialFormat>();
 

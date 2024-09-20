@@ -76,18 +76,18 @@ internal class Program
     {
         var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
         query.EntityTypeFilter.Add(EntityType.Role);
-        var result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+        QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
         return result.Data.AsEnumerable().Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid)))).OfType<ArchiverRole>().FirstOrDefault();
     }
 
     static void PrintSupportedCameras(IVideoUnitManager manager)
     {
-        foreach (var grouping in ListSupportedCameras(manager).GroupBy(productInfo => productInfo.Manufacturer))
+        foreach (IGrouping<string, VideoUnitProductInfo> grouping in ListSupportedCameras(manager).GroupBy(productInfo => productInfo.Manufacturer))
         {
             Console.WriteLine($"Manufacturer: {grouping.Key}");
             Console.WriteLine(new string('-', 20));
 
-            foreach (var productInfo in grouping)
+            foreach (VideoUnitProductInfo productInfo in grouping)
             {
                 Console.WriteLine($"  - Product Type: {productInfo.ProductType}");
                 Console.WriteLine($"    Description: {productInfo.Description}");

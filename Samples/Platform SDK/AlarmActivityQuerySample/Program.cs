@@ -35,8 +35,8 @@ async Task RunSample()
         Guid? specificAlarmId = null; // Set to a specific Guid if you want to filter by alarm ID
         int? specificInstanceId = null; // Set to a specific instance ID if you want to filter by it
         var alarmStates = new[] { AlarmState.Active, AlarmState.AknowledgeRequired }; // Filter by these active and acknowledge required states
-        var startTime = DateTime.Now.AddDays(-7); // Filter by alarms triggered in the last 7 days
-        var endTime = DateTime.Now;
+        DateTime startTime = DateTime.Now.AddDays(-7); // Filter by alarms triggered in the last 7 days
+        DateTime endTime = DateTime.Now;
 
         ICollection<AlarmInstance> alarmInstances = await GetAlarmInstances(
             engine,
@@ -63,7 +63,7 @@ void DisplayAlarmInstances(Engine engine, ICollection<AlarmInstance> alarmInstan
     Console.WriteLine($"Total Alarm Instances: {alarmInstances.Count}");
     Console.WriteLine();
 
-    foreach (var alarm in alarmInstances)
+    foreach (AlarmInstance alarm in alarmInstances)
     {
         DisplayToConsole(alarm);
         Console.WriteLine();

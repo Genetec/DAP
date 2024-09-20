@@ -23,13 +23,13 @@ public class AggregateReportExporter : ReportExporter
 
     public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
     {
-        var exceptions = m_exporters.Select(exporter => exporter.OnDataReady(dataBlock)).Where(result => !result.Success).Select(result => result.Exception).ToList();
+        List<Exception> exceptions = m_exporters.Select(exporter => exporter.OnDataReady(dataBlock)).Where(result => !result.Success).Select(result => result.Exception).ToList();
         return exceptions.Any() ? new QueryExportResult(false, new AggregateException(exceptions)) : new QueryExportResult(true);
     }
 
     public override void OnExportCompleted()
     {
-        foreach (var exporter in m_exporters)
+        foreach (ReportExporter exporter in m_exporters)
         {
             exporter.OnExportCompleted();
         }

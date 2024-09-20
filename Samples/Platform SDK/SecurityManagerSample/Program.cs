@@ -8,6 +8,7 @@
 namespace Genetec.Dap.CodeSamples;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Genetec.Sdk;
@@ -48,15 +49,15 @@ internal class Program
         query.EntityTypeFilter.Add(EntityType.User);
         await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
-        var definitions = engine.SecurityManager.GetPrivilegeDefinitions().ToDictionary(information => information.Id);
+        Dictionary<Guid, PrivilegeDefinitionInformation> definitions = engine.SecurityManager.GetPrivilegeDefinitions().ToDictionary(information => information.Id);
 
         foreach (User user in engine.GetEntities(EntityType.User).OfType<User>())
         {
             Console.WriteLine($"User: {user.Name}");
 
-            foreach (var privilegeInformation in user.Privileges.Where(e => e.State == PrivilegeAccess.Granted))
+            foreach (PrivilegeInformation privilegeInformation in user.Privileges.Where(e => e.State == PrivilegeAccess.Granted))
             {
-                if (definitions.TryGetValue(privilegeInformation.PrivilegeGuid, out var definition) && definition.Type != PrivilegeType.Group)
+                if (definitions.TryGetValue(privilegeInformation.PrivilegeGuid, out PrivilegeDefinitionInformation definition) && definition.Type != PrivilegeType.Group)
                 {
                     Console.WriteLine($"{definition.Description}");
                 }
@@ -66,9 +67,9 @@ internal class Program
 
     static void PrintPrivileges(Engine engine)
     {
-        var definitions = engine.SecurityManager.GetPrivilegeDefinitions().ToDictionary(information => information.Id);
+        Dictionary<Guid, PrivilegeDefinitionInformation> definitions = engine.SecurityManager.GetPrivilegeDefinitions().ToDictionary(information => information.Id);
 
-        foreach (var privilege in definitions.Values.Where(p => p.ParentId == Guid.Empty))
+        foreach (PrivilegeDefinitionInformation privilege in definitions.Values.Where(p => p.ParentId == Guid.Empty))
         {
             PrintPrivilege(privilege, 0);
         }
@@ -77,9 +78,9 @@ internal class Program
         {
             Console.WriteLine($"{new string(' ', depth * 2)}({privilege.Type}) {privilege.Description}");
 
-            foreach (var child in privilege.Children)
+            foreach (Guid child in privilege.Children)
             {
-                if (definitions.TryGetValue(child, out var value))
+                if (definitions.TryGetValue(child, out PrivilegeDefinitionInformation value))
                 {
                     PrintPrivilege(value, depth + 1);
                 }

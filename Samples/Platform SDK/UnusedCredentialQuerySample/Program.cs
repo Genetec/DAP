@@ -33,7 +33,7 @@ class Program
 
         if (status == ConnectionStateCode.Success)
         {
-            var credentialsToDeactivate = await FetchUnusedCredentials(TimeSpan.FromDays(30));
+            List<Credential> credentialsToDeactivate = await FetchUnusedCredentials(TimeSpan.FromDays(30));
                 
             Console.WriteLine($"{credentialsToDeactivate.Count} credentials have not been used in the last 30 days.");
 
@@ -67,7 +67,7 @@ class Program
         {
             await engine.TransactionManager.ExecuteTransactionAsync(() =>
             {
-                foreach (var credential in credentials.Where(credential => credential.Status.State == CredentialState.Active))
+                foreach (Credential credential in credentials.Where(credential => credential.Status.State == CredentialState.Active))
                 {
                     Console.WriteLine($"Deactivating {credential.Name}");
                     credential.Status.Deactivate();
@@ -77,7 +77,7 @@ class Program
 
         async Task PrefetchEntities(IEnumerable<Guid> entityGuids)
         {
-            foreach (var batch in entityGuids.Split(2000))
+            foreach (List<Guid> batch in entityGuids.Split(2000))
             {
                 var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
                 query.EntityGuids.AddRange(batch);

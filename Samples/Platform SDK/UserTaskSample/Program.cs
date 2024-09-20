@@ -33,10 +33,10 @@ class Program
         {
             IEnumerable<PrivateUserTask> privateTasks = engine.UserTaskManager.GetPrivateTasks().OfType<PrivateUserTask>().ToList();
             Console.WriteLine($"Number of private tasks: {privateTasks.Count()}");
-            foreach (var task in privateTasks)
+            foreach (PrivateUserTask task in privateTasks)
             {
                 Console.WriteLine($"Task Name: {task.Name}, Task Type: {GetTaskTypeName(task.TaskType)}");
-                foreach (var item in task.Content.Where(item => item.Type != EntityType.None))
+                foreach (IUserTaskItem item in task.Content.Where(item => item.Type != EntityType.None))
                 {
                     Console.WriteLine($"   Content Item ID: {item.Id}, Type: {item.Type}");
                 }
@@ -46,10 +46,10 @@ class Program
 
             IEnumerable<UserTask> publicTasks = engine.UserTaskManager.GetPublicTasks().OfType<UserTask>().ToList();
             Console.WriteLine($"Number of public tasks: {publicTasks.Count()}");
-            foreach (var task in publicTasks)
+            foreach (UserTask task in publicTasks)
             {
                 Console.WriteLine($"Task Name: {task.Name}, Task Type: {GetTaskTypeName(task.TaskType)}");
-                foreach (var item in task.Content.Where(item => item.Type != EntityType.None))
+                foreach (IUserTaskItem item in task.Content.Where(item => item.Type != EntityType.None))
                 {
                     Console.WriteLine($"   Content Item ID: {item.Id}, Type: {item.Type}");
                 }

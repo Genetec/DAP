@@ -49,7 +49,7 @@ public class HtmlReportExporter : ReportExporter
             foreach (DataRow row in dataBlock.Data.Rows)
             {
                 m_writer.WriteLine("<tr>");
-                foreach (var item in row.ItemArray)
+                foreach (object item in row.ItemArray)
                 {
                     m_writer.WriteLine($"<td>{item}</td>");
                 }

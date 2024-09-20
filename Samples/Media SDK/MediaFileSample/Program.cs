@@ -24,7 +24,7 @@ void RunSample()
         Console.WriteLine($"\nMedia file path: {mediaFile}");
 
         Console.WriteLine("\nUnique Sources:");
-        foreach (var source in mediaFile.UniqueSources)
+        foreach (UniqueSource source in mediaFile.UniqueSources)
         {
             Console.WriteLine($"Collection: {source.Collection} ({source.CollectionName})");
             Console.WriteLine($"Encoder: {source.Encoder} ({source.EncoderName})");
@@ -36,7 +36,7 @@ void RunSample()
         }
 
         Console.WriteLine("Contained Files:");
-        foreach (var file in mediaFile.ContainedFiles)
+        foreach (MediaFile.ContainedFile file in mediaFile.ContainedFiles)
         {
             Console.WriteLine($"Filename: {file.Filename}");
             Console.WriteLine($"Start Time: {file.StartTime}");

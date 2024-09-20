@@ -88,10 +88,10 @@ void CreateOrUpdateCustomEntityType(SystemConfiguration config)
 
     Console.WriteLine($"Creating new Custom Entity Type with ID: {customEntityId}");
 
-    var capabilities = CustomEntityTypeCapabilities.CanBeFederated | 
-                       CustomEntityTypeCapabilities.IsVisible |
-                       CustomEntityTypeCapabilities.CreateDelete | 
-                       CustomEntityTypeCapabilities.MapSupport;
+    CustomEntityTypeCapabilities capabilities = CustomEntityTypeCapabilities.CanBeFederated | 
+                                                CustomEntityTypeCapabilities.IsVisible |
+                                                CustomEntityTypeCapabilities.CreateDelete | 
+                                                CustomEntityTypeCapabilities.MapSupport;
 
     var descriptor = new CustomEntityTypeDescriptor(id, Resources.CustomEntityName, capabilities, new Version(1, 0))
     {
@@ -113,7 +113,7 @@ async Task CreateCustomEntity(Engine engine)
 
     CustomEntity customEntity = await engine.TransactionManager.ExecuteTransactionAsync(() =>
     {
-        var entity = engine.CreateCustomEntity("Custom entity", new Guid(customEntityId));
+        CustomEntity entity = engine.CreateCustomEntity("Custom entity", new Guid(customEntityId));
         entity.RunningState = State.Running;
         return entity;
     });
@@ -143,7 +143,7 @@ async Task DisplayCustomEntities(Engine engine)
         Console.WriteLine("\nCustom Entities:");
         Console.WriteLine(new string('-', 30));
 
-        foreach (var entity in entities)
+        foreach (CustomEntity entity in entities)
         {
             Console.WriteLine($"Name: {entity.Name}");
             Console.WriteLine($"GUID: {entity.Guid}");

@@ -43,11 +43,11 @@ public class SampleModule : Module
     {
         var config = (SystemConfiguration)Workspace.Sdk.GetEntity(SystemConfiguration.SystemConfigurationGuid);
 
-        var capabilities = CustomEntityTypeCapabilities.CanBeFederated |
-                           CustomEntityTypeCapabilities.IsVisible |
-                           CustomEntityTypeCapabilities.MaintenanceMode |
-                           CustomEntityTypeCapabilities.CreateDelete |
-                           CustomEntityTypeCapabilities.MapSupport;
+        CustomEntityTypeCapabilities capabilities = CustomEntityTypeCapabilities.CanBeFederated |
+                                                    CustomEntityTypeCapabilities.IsVisible |
+                                                    CustomEntityTypeCapabilities.MaintenanceMode |
+                                                    CustomEntityTypeCapabilities.CreateDelete |
+                                                    CustomEntityTypeCapabilities.MapSupport;
 
         var descriptor = new CustomEntityTypeDescriptor(AedUnitCustomEntityType.Id, Resources.CustomEntityTypeName,
             capabilities, new Version(1, 0))

@@ -46,7 +46,7 @@ public class RoleConfiguration : INotifyPropertyChanged
         get => m_ipAddress.ToString();
         set
         {
-            if (IPAddress.TryParse(value, out var ipAddress))
+            if (IPAddress.TryParse(value, out IPAddress ipAddress))
             {
                 IPAddress = ipAddress;
             }

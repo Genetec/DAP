@@ -49,7 +49,7 @@ public class AlarmTimelineProvider : TimelineProvider
 
             QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
-            var events = result.Data.AsEnumerable().Select(row =>
+            EnumerableRowCollection<AlarmTimelineEvent> events = result.Data.AsEnumerable().Select(row =>
             {
                 var alarmGuid = row.Field<Guid>(AlarmActivityQuery.AlarmColumnName);
                 var instanceId = row.Field<int>(AlarmActivityQuery.InstanceIdColumnName);

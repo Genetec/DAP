@@ -69,9 +69,9 @@ class Program
             QueryCompletedEventArgs args;
             do
             {
-                var result = args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+                QueryCompletedEventArgs result = args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
-                var camera = result.Data.AsEnumerable().Take(query.PageSize)
+                Camera camera = result.Data.AsEnumerable().Take(query.PageSize)
                     .Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid))))
                     .OfType<Camera>()
                     .FirstOrDefault(camera => camera.IsOverlaySupported && camera.RunningState == State.Running);

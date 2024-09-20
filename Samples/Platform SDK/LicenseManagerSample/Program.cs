@@ -44,7 +44,7 @@ class Program
             Console.WriteLine("License Usage Information:");
 
             Dictionary<string, LicenseUsage> usages = await engine.LicenseManager.GetEveryLicenseItemUsageAsync();
-            foreach (var usage in usages)
+            foreach (KeyValuePair<string, LicenseUsage> usage in usages)
             {
                 Console.WriteLine($"{usage.Key,-40} {usage.Value.CurrentCount} / {usage.Value.MaximumCount}");
             }
