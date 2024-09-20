@@ -182,6 +182,6 @@ class AlarmInstance
     public bool HasSourceCondition { get; set; }
     public byte Priority { get; set; }
     public string DynamicContext { get; set; }
-    public List<Guid> AttachedEntities { get; set; } = new();
-    public List<string> DynamicUrls { get; set; } = new();
+    public List<Guid> AttachedEntities { get; set; } = [];
+    public List<string> DynamicUrls { get; set; } = [];
 }

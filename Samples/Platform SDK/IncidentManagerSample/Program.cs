@@ -114,7 +114,7 @@ class Program
             Timestamp = row.Field<DateTime>(IncidentSdkQuery.IncidentTimestamp),
             Event = row.Field<EventType>(IncidentSdkQuery.EventTypeColumnName),
             LastModifiedBy = row.Field<Guid>(IncidentSdkQuery.ModifiedByColumnName),
-            References = string.IsNullOrEmpty(row.Field<string>(IncidentSdkQuery.GuidReferenceColumnName)) ? new Collection<Guid>() : new Collection<Guid>(row.Field<string>(IncidentSdkQuery.GuidReferenceColumnName).Split(',').Select(Guid.Parse).ToList())
+            References = string.IsNullOrEmpty(row.Field<string>(IncidentSdkQuery.GuidReferenceColumnName)) ? [] : new Collection<Guid>(row.Field<string>(IncidentSdkQuery.GuidReferenceColumnName).Split(',').Select(Guid.Parse).ToList())
         };
     }
 

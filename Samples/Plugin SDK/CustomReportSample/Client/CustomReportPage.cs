@@ -16,8 +16,8 @@ public class CustomReportPage : ReportPage
 {
     private readonly CustomReportFilter m_customReportFilter = new();
 
-    public override List<ReportField> Fields { get; } = new()
-    {
+    public override List<ReportField> Fields { get; } =
+    [
         new ReportField { Type = ReportFieldType.Entity, Name = CustomReportColumnName.SourceId, DisplayName = "Source", IsSource = true },
         new ReportField { Type = ReportFieldType.DateTime, Name = CustomReportColumnName.EventTimestamp, DisplayName = "Timestamp", IsSource = true },
         new ReportField { Type = ReportFieldType.Event, Name = CustomReportColumnName.EventId, DisplayName = "Event" },
@@ -26,9 +26,17 @@ public class CustomReportPage : ReportPage
         new ReportField { Type = ReportFieldType.Boolean, Name = CustomReportColumnName.Boolean, DisplayName = "Boolean" },
         new ReportField { Type = ReportFieldType.Decimal, Name = CustomReportColumnName.Decimal, DisplayName = "Decimal" },
         new ReportField { Type = ReportFieldType.TimeSpan, Name = CustomReportColumnName.Duration, DisplayName = "Duration" },
-        new ReportField { Type = ReportFieldType.Image, Name = CustomReportColumnName.Picture, DisplayName = "Picture", ImageMaxHeight=256, ImageMaxWidth=256, InitialWidth=128 },
-        new ReportField { Type = ReportFieldType.Text, Name = CustomReportColumnName.Hidden, IsVisible = false } // Hidden field
-    };
+        new ReportField
+        {
+            Type = ReportFieldType.Image,
+            Name = CustomReportColumnName.Picture,
+            DisplayName = "Picture",
+            ImageMaxHeight = 256,
+            ImageMaxWidth = 256,
+            InitialWidth = 128
+        },
+        new ReportField { Type = ReportFieldType.Text, Name = CustomReportColumnName.Hidden, IsVisible = false }
+    ];
 
     // Show the tiles
     public override bool SupportsTiles => true;
@@ -42,5 +50,5 @@ public class CustomReportPage : ReportPage
     protected override bool DisplayEntityFilter => true;
 
     // Entity types that can be selected in the entity filter
-    protected override List<EntityType> EntityTypes { get; } = new() { EntityType.Cardholder };
+    protected override List<EntityType> EntityTypes { get; } = [EntityType.Cardholder];
 }

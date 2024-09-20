@@ -127,7 +127,7 @@ public partial class CustomReportFilter : ReportFilter, INotifyPropertyChanged
         }
     }
 
-    public ObservableCollection<CustomEvent> CustomEvents { get; } = new();
+    public ObservableCollection<CustomEvent> CustomEvents { get; } = [];
 
     public event PropertyChangedEventHandler PropertyChanged;
 

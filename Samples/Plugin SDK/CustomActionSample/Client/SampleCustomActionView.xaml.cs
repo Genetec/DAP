@@ -43,7 +43,7 @@ public partial class SampleCustomActionView : CustomActionView, INotifyPropertyC
         });
     }
 
-    public ObservableCollection<EncoderCommandInfo> EncoderCommands { get; } = new();
+    public ObservableCollection<EncoderCommandInfo> EncoderCommands { get; } = [];
 
     public override bool IsStateValid => Camera is not null && EncoderCommand is not null;
 

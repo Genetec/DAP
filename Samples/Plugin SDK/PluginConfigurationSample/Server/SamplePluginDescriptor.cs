@@ -24,9 +24,9 @@ public class SamplePluginDescriptor : PluginDescriptor
 
     public override bool IsSingleInstance => true;
 
-    public override List<string> ApplicationId => new()
-    {
-        "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv", // Allow the plugin to run on a demo system
+    public override List<string> ApplicationId =>
+    [
+        "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv" // Allow the plugin to run on a demo system
         //TODO: Add your SDK certificate application ID
-    };
+    ];
 }

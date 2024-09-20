@@ -16,7 +16,7 @@ public class VCard
         
     public string LastName { get; set; }
         
-    public List<string> Emails { get; } = new List<string>();
+    public List<string> Emails { get; } = [];
         
     public string Note { get; set; }
         
