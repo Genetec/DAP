@@ -1,6 +1,6 @@
 # Contributing to Genetec DAP Code Samples
 
-Thank you for considering contributing to this repository! We welcome contributions from the community to enhance the quality and usefulness of the provided samples and demos.
+Thank you for considering contributing to this repository! We welcome contributions from the community to enhance the quality and usefulness of the provided samples.
 
 ## Ways to Contribute
 
