@@ -14,12 +14,8 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.HealthMonitoring;
 
-public class HealthStatisticsReportHandler : ReportHandler<HealthStatisticsQuery, HealthStatistics>
+public class HealthStatisticsReportHandler(IEngine engine, Role role) : ReportHandler<HealthStatisticsQuery, HealthStatistics>(engine, role)
 {
-    public HealthStatisticsReportHandler(IEngine engine, Role role) : base(engine, role)
-    {
-    }
-
     protected override void FillDataRow(DataRow row, HealthStatistics record)
     {
         row[HealthStatisticsQuery.FailureCountColumnName] = record.FailureCount;

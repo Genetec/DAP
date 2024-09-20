@@ -14,15 +14,9 @@ using System.IO;
 using System.Linq;
 using Sdk.ReportExport;
 
-public class CsvReportExporter : ReportExporter
+public class CsvReportExporter(TextWriter writer) : ReportExporter
 {
     private bool m_headerWritten;
-    private readonly TextWriter m_writer;
-
-    public CsvReportExporter(TextWriter writer)
-    {
-        m_writer = writer;
-    }
 
     public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
     {
@@ -31,17 +25,17 @@ public class CsvReportExporter : ReportExporter
             if (!m_headerWritten)
             {
                 IEnumerable<string> columnNames = dataBlock.Data.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
-                m_writer.WriteLine(string.Join(",", columnNames));
+                writer.WriteLine(string.Join(",", columnNames));
                 m_headerWritten = true;
             }
 
             foreach (DataRow row in dataBlock.Data.Rows)
             {
                 IEnumerable<string> fields = row.ItemArray.Select(field => $"\"{field.ToString().Replace("\"", "\"\"")}\"");
-                m_writer.WriteLine(string.Join(",", fields));
+                writer.WriteLine(string.Join(",", fields));
             }
 
-            m_writer.Flush();
+            writer.Flush();
 
             return new QueryExportResult(true);
         }
@@ -55,7 +49,7 @@ public class CsvReportExporter : ReportExporter
     {
         try
         {
-            m_writer.Close();
+            writer.Close();
         }
         catch
         {
@@ -63,7 +57,7 @@ public class CsvReportExporter : ReportExporter
         }
         finally
         {
-            m_writer.Dispose();
+            writer.Dispose();
         }
     }
 }

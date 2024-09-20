@@ -12,17 +12,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Sdk.Media.Overlay;
 
-public class TimecodeOverlay
+public class TimecodeOverlay(Guid cameraId)
 {
-    private readonly Guid m_cameraId;
     private readonly Guid m_layerId = new Guid("69A64ACE-6DDC-4142-AD04-06690D8591B3");
     private CancellationTokenSource m_cancellationTokenSource;
-    private Task m_task; 
-
-    public TimecodeOverlay(Guid cameraId)
-    {
-        m_cameraId = cameraId;
-    }
+    private Task m_task;
 
     public void Stop()
     {
@@ -40,7 +34,7 @@ public class TimecodeOverlay
 
         m_task = Task.Run(async () =>
         {
-            Overlay overlay = OverlayFactory.Get(m_cameraId, "Timecode");
+            Overlay overlay = OverlayFactory.Get(cameraId, "Timecode");
 
             if (overlay.DrawingSurfaceWidth == 0 || overlay.DrawingSurfaceHeight == 0)
                 overlay.Initialize(1280, 960);

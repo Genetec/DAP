@@ -17,12 +17,8 @@ using Sdk.Plugin.Queries.Rows.Extensions;
 using Sdk.Plugin.Queries.Rows.Trails;
 using Sdk.Queries;
 
-public class AuditTrailsReportHandler : ReportHandler<AuditTrailQuery, AuditTrailRow>
+public class AuditTrailsReportHandler(IEngine engine, Role role) : ReportHandler<AuditTrailQuery, AuditTrailRow>(engine, role)
 {
-    public AuditTrailsReportHandler(IEngine engine, Role role) : base(engine, role)
-    {
-    }
-
     protected override async Task ProcessBatch(DataTable table, IAsyncEnumerable<AuditTrailRow> batch)
     {
         await foreach (AuditTrailRow row in batch)

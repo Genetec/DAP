@@ -13,25 +13,18 @@ using System.IO;
 using System.Linq;
 using Sdk.ReportExport;
 
-public class MarkdownReportExporter : ReportExporter
+public class MarkdownReportExporter(TextWriter writer) : ReportExporter
 {
-    private readonly TextWriter m_writer;
-
-    public MarkdownReportExporter(TextWriter writer)
-    {
-        m_writer = writer;
-    }
-
     public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
     {
         try
         {
-            m_writer.WriteLine($"| {string.Join(" | ", dataBlock.Data.Columns.Cast<DataColumn>().Select(c => c.ColumnName))} |");
-            m_writer.WriteLine($"| {string.Join(" | ", dataBlock.Data.Columns.Cast<DataColumn>().Select(c => "---"))} |");
+            writer.WriteLine($"| {string.Join(" | ", dataBlock.Data.Columns.Cast<DataColumn>().Select(c => c.ColumnName))} |");
+            writer.WriteLine($"| {string.Join(" | ", dataBlock.Data.Columns.Cast<DataColumn>().Select(c => "---"))} |");
 
-            foreach (DataRow row in dataBlock.Data.Rows) m_writer.WriteLine($"| {string.Join(" | ", row.ItemArray.Select(item => item.ToString().Replace("|", "\\|")))} |");
+            foreach (DataRow row in dataBlock.Data.Rows) writer.WriteLine($"| {string.Join(" | ", row.ItemArray.Select(item => item.ToString().Replace("|", "\\|")))} |");
 
-            m_writer.Flush();
+            writer.Flush();
             return new QueryExportResult(true);
         }
         catch (Exception ex)
@@ -44,7 +37,7 @@ public class MarkdownReportExporter : ReportExporter
     {
         try
         {
-            m_writer.Close();
+            writer.Close();
         }
         catch
         {
@@ -52,7 +45,7 @@ public class MarkdownReportExporter : ReportExporter
         }
         finally
         {
-            m_writer.Dispose();
+            writer.Dispose();
         }
     }
 }

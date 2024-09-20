@@ -13,16 +13,10 @@ using System.IO;
 using Sdk.ReportExport;
 using System.Xml;
 
-public class XmlReportExporter : ReportExporter
+public class XmlReportExporter(TextWriter textWriter) : ReportExporter
 {
-    private readonly DataTable m_dataTable;
-    private readonly XmlWriter m_xmlWriter;
-
-    public XmlReportExporter(TextWriter textWriter)
-    {
-        m_xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true });
-        m_dataTable = new DataTable("Results");
-    }
+    private readonly DataTable m_dataTable = new("Results");
+    private readonly XmlWriter m_xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true });
 
     public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
     {

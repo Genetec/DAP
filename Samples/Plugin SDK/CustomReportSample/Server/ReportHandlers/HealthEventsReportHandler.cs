@@ -14,12 +14,8 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.HealthMonitoring;
 
-public class HealthEventsReportHandler : ReportHandler<HealthEventQuery, HealthEvent>
+public class HealthEventsReportHandler(IEngine engine, Role role) : ReportHandler<HealthEventQuery, HealthEvent>(engine, role)
 {
-    public HealthEventsReportHandler(IEngine engine, Role role) : base(engine, role)
-    {
-    }
-
     protected override void FillDataRow(DataRow row, HealthEvent record)
     {
         row[HealthEventQuery.HealthEventIdColumnName] = record.HealthEventId;

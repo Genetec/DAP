@@ -12,17 +12,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Sdk.Media.Overlay;
 
-public class BouncingBallOverlay
+public class BouncingBallOverlay(Guid cameraId)
 {
-    private readonly Guid m_cameraId;
     private readonly Guid m_layerId = new Guid("69A64ACE-6DDC-4142-AD04-06690D8591B3");
     private Task m_task;
     private CancellationTokenSource m_cancellationTokenSource;
-
-    public BouncingBallOverlay(Guid cameraId)
-    {
-        m_cameraId = cameraId;
-    }
 
     public void Stop()
     {
@@ -48,7 +42,7 @@ public class BouncingBallOverlay
                 CanvasWidth = 1280
             };
 
-            Overlay overlay = OverlayFactory.Get(m_cameraId, "Bouncing ball");
+            Overlay overlay = OverlayFactory.Get(cameraId, "Bouncing ball");
 
             if (overlay.DrawingSurfaceWidth == 0 || overlay.DrawingSurfaceHeight == 0)
             {

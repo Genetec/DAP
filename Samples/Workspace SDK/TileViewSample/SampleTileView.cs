@@ -12,12 +12,7 @@ using Sdk.Workspace.Components.TileView;
 
 public class SampleTileView : TileView
 {
-    private readonly SampleTileViewControl m_view;
-        
-    public SampleTileView()
-    {
-        m_view = new SampleTileViewControl();
-    }
+    private readonly SampleTileViewControl m_view = new();
 
     public override UIElement View => m_view;
 }

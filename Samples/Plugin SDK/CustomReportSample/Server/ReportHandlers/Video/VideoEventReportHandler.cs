@@ -14,12 +14,8 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.Video;
 
-public class VideoEventReportHandler : ReportHandler<VideoEventQuery, VideoEvent>
+public class VideoEventReportHandler(IEngine engine, Role role) : ReportHandler<VideoEventQuery, VideoEvent>(engine, role)
 {
-    public VideoEventReportHandler(IEngine engine, Role role) : base(engine, role)
-    {
-        }
-
     protected override void FillDataRow(DataRow row, VideoEvent record)
     {
             row[VideoEventQuery.CameraGuidColumnName] = record.CameraGuid;

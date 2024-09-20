@@ -14,12 +14,8 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.AccessControl;
 
-public class AccessControlReportHandler : ReportHandler<AccessControlReportQuery, AccessControlReportRecord>
+public class AccessControlReportHandler(IEngine engine, Role role) : ReportHandler<AccessControlReportQuery, AccessControlReportRecord>(engine, role)
 {
-    public AccessControlReportHandler(IEngine engine, Role role) : base(engine, role)
-    {
-    }
-
     protected override void FillDataRow(DataRow row, AccessControlReportRecord record)
     {
         row[AccessControlReportQuery.TimestampColumnName] = record.Timestamp;

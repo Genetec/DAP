@@ -14,10 +14,8 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.IntrusionDetection;
 
-public class IntrusionDetectionReportHandler : ReportHandler<IntrusionDetectionReportQuery, IntrusionDetectionRecord>
+public class IntrusionDetectionReportHandler(IEngine engine, Role role) : ReportHandler<IntrusionDetectionReportQuery, IntrusionDetectionRecord>(engine, role)
 {
-    public IntrusionDetectionReportHandler(IEngine engine, Role role) : base(engine, role) { }
-
     protected override void FillDataRow(DataRow row, IntrusionDetectionRecord record)
     {
         row[IntrusionDetectionReportQuery.TimestampUtcColumnName] = record.Timestamp;

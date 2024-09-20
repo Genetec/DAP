@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using Sdk;
 using Sdk.Workspace.Components.TimelineProvider;
 
-public class AlarmTimelineEvent : TimelineEvent
+public class AlarmTimelineEvent(Guid alarmGuid, int instanceId, DateTime dateTime) : TimelineEvent(dateTime)
 {
     private static readonly Size s_size = new Size(16, 16);
 
@@ -26,15 +26,9 @@ public class AlarmTimelineEvent : TimelineEvent
         s_image.Freeze();
     }
 
-    public AlarmTimelineEvent(Guid alarmGuid, int instanceId, DateTime dateTime) : base(dateTime)
-    {
-        AlarmGuid = alarmGuid;
-        InstanceId = instanceId;
-    }
+    public Guid AlarmGuid { get; } = alarmGuid;
 
-    public Guid AlarmGuid { get; }
-
-    public int InstanceId { get; }
+    public int InstanceId { get; } = instanceId;
 
     public override TimelineVisual GetVisual(Rect constraint, double msPerPixel)
     {

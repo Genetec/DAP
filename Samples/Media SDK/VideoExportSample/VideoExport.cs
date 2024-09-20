@@ -18,12 +18,8 @@ using Sdk.Entities;
 using Sdk.Media.Export;
 using File = System.IO.File;
 
-public class VideoExport
+public class VideoExport(IEngine engine)
 {
-    private readonly IEngine m_engine;
-
-    public VideoExport(IEngine engine) => m_engine = engine;
-
     public Task Export(IEnumerable<Camera> cameras, Sdk.Media.DateTimeRange range, string fileName, ExportOption option, IProgress<double> progress = null, CancellationToken cancellationToken = default)
     {
         IEnumerable<CameraExportConfig> configs = cameras.Select(camera => new CameraExportConfig(camera.Guid, Enumerable.Repeat(range, 1)));
@@ -39,7 +35,7 @@ public class VideoExport
         exporter.StatisticsReceived += OnStatisticsReceived;
         try
         {
-            exporter.Initialize(m_engine, Path.GetDirectoryName(fileName));
+            exporter.Initialize(engine, Path.GetDirectoryName(fileName));
             exporter.SetExportFileFormat(option.Format == VideoExportFormat.G64 ? MediaExportFileFormat.G64 : MediaExportFileFormat.G64X);
 
             ExportEndedResult result = await exporter.ExportAsync(configs, option.PlaybackMode, Path.GetFileNameWithoutExtension(fileName), option.IncludeWatermark);
@@ -65,7 +61,7 @@ public class VideoExport
                     using (var converter = new G64ToAsfConverter())
                     {
                         converter.Initialize(
-                            m_engine,
+                            engine,
                             filePath,
                             false,
                             false,
@@ -81,7 +77,7 @@ public class VideoExport
                     using (var converter = new G64ToMp4Converter())
                     {
                         converter.Initialize(
-                            m_engine,
+                            engine,
                             filePath,
                             option.ExportAudio,
                             GetOutputFilePath());
