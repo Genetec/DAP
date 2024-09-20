@@ -12,6 +12,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk.Media.Export;
 
+namespace Genetec.Dap.CodeSamples;
+
 public static class FileCryptingManagerExtensions
 {
     /// <summary>
