@@ -39,7 +39,7 @@ async Task RunSample()
         // Retrieve access granted events from the last 24 hours
         DateTime startDate = DateTime.UtcNow.AddDays(-1);
         DateTime endDate = DateTime.UtcNow;
-        IEnumerable<EventType> eventTypes = new[] { EventType.AccessGranted };
+        IEnumerable<EventType> eventTypes = [EventType.AccessGranted];
 
         // Retrieve access control raw events
         IList<AccessControlRawEvent> rawEvents = await GetAccessControlRawEvents(engine, startDate, endDate, eventTypes, accessManagers);

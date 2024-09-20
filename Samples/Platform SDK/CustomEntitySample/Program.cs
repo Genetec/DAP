@@ -100,7 +100,7 @@ void CreateOrUpdateCustomEntityType(SystemConfiguration config)
         SmallIcon = Icon.SmallIcon,
         LargeIcon = Icon.LargeIcon,
         SingleInstance = false,
-        HierarchicalChildTypes = new[] { EntityType.Camera }
+        HierarchicalChildTypes = [EntityType.Camera]
     };
 
     config.AddOrUpdateCustomEntityType(descriptor);

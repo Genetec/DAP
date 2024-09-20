@@ -32,7 +32,7 @@ async Task RunSample()
     {
         // TOTO: Replace the following GUIDs with the actual GUIDs of the area and cardholder you want to query.
         Guid areaGuid = new Guid("ENTER_AREA_GUID_HERE");
-        Guid[] cardholderGuids = { new("ENTER_CARDHOLDER_GUID_HERE") };
+        Guid[] cardholderGuids = [new("ENTER_CARDHOLDER_GUID_HERE")];
         TimeSpan startOfDay = TimeSpan.FromHours(9); // Start of day: 09:00 AM
         DateTime from = DateTime.Now.AddDays(-1); // Past day
         DateTime to = DateTime.Now;

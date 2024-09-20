@@ -32,8 +32,8 @@ async Task RunSample()
     {
         DateTime from = DateTime.Now.AddDays(-30);
         DateTime to = DateTime.Now;
-        IEnumerable<ApplicationType> applicationTypes = new[] { ApplicationType.Sdk };
-        IEnumerable<Guid> users = new[] { engine.LoggedUser.Guid };
+        IEnumerable<ApplicationType> applicationTypes = [ApplicationType.Sdk];
+        IEnumerable<Guid> users = [engine.LoggedUser.Guid];
         int maximumResultCount = 500;
 
         ICollection<AuditTrail> auditTrails = await GetAuditTrails(engine, from, to, applicationTypes, users, maximumResultCount);

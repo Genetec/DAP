@@ -25,14 +25,14 @@ class Program
 
         using var engine = new Engine();
 
-        engine.SetEventFilter(new[]
-        {
+        engine.SetEventFilter(
+        [
             EventType.UnitConnected,
             EventType.UnitDisconnected,
             EventType.InterfaceOnline,
             EventType.InterfaceOffline,
             EventType.EntityWarning
-        });
+        ]);
 
         engine.EventReceived += (sender, e) =>
         {

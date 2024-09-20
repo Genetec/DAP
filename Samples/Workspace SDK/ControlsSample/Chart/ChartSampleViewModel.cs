@@ -17,7 +17,7 @@ namespace Genetec.Dap.CodeSamples;
 public class ChartSampleViewModel : BindableBase
 {
     private readonly Dictionary<string, ChartSeries> m_chartData;
-    private readonly string[] m_labels = { "Label 1", "Label 2", "Label 3" };
+    private readonly string[] m_labels = ["Label 1", "Label 2", "Label 3"];
     private Chart m_chart;
     private bool m_disableAnimations;
     private bool m_performanceMode;

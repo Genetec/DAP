@@ -35,15 +35,15 @@ async Task RunSample()
 
         // TODO: Define any options required for the copy operation.
         // This array should contain the specific options you need for your copy configuration.
-        CopyConfigOption[] options = { 
+        CopyConfigOption[] options = [ 
             // Add your CopyConfigOption values here
-        };
+        ];
 
         var progress = new Progress<int>(percent => Console.WriteLine($"Progress: {percent}%"));
 
         try
         {
-            CopyConfigResultEventArgs result = await engine.EntityManager.CopyConfigurationAsync(source, new[] { destination }, progress, options);
+            CopyConfigResultEventArgs result = await engine.EntityManager.CopyConfigurationAsync(source, [destination], progress, options);
             DisplayResult(result);
         }
         catch (Exception ex)

@@ -105,7 +105,7 @@ void PrintEntityCache(Engine engine)
 
     int totalEntities = 0;
 
-    foreach (var entityType in Enum.GetValues(typeof(EntityType)).OfType<EntityType>().Except(new[] { EntityType.None, EntityType.ReportTemplate }).OrderBy(type => type.ToString()))
+    foreach (var entityType in Enum.GetValues(typeof(EntityType)).OfType<EntityType>().Except([EntityType.None, EntityType.ReportTemplate]).OrderBy(type => type.ToString()))
     {
         int count = engine.GetEntities(entityType).Count;
         totalEntities += count;
