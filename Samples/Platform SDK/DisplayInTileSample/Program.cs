@@ -81,12 +81,14 @@ class Program
             foreach (var monitor in monitors)
             {
 
-                string xmlContent = $@"
-<TileContentGroup>
-    <Contents>
-        <VideoContent Camera=""{cameraGuid}"" VideoMode=""Live"" />
-    </Contents>
-</TileContentGroup>";
+                string xmlContent = $"""
+
+                                     <TileContentGroup>
+                                         <Contents>
+                                             <VideoContent Camera="{cameraGuid}" VideoMode="Live" />
+                                         </Contents>
+                                     </TileContentGroup>
+                                     """;
 
                 Console.WriteLine($"Displaying camera on monitor ID: {monitor}");
                 engine.ActionManager.DisplayInTile(monitor, xmlContent);

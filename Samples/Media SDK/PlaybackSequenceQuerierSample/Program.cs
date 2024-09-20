@@ -75,7 +75,7 @@ async Task QueryAndDisplayVideoSequence(Camera camera)
         foreach (PlaybackSequence sequence in sequences)
         {
             TimeSpan duration = sequence.Range.EndTime - sequence.Range.StartTime;
-            Console.WriteLine($"  {sequence.Range.StartTime:yyyy-MM-dd HH:mm:ss} to {sequence.Range.EndTime:yyyy-MM-dd HH:mm:ss} (Duration: {duration:hh\\:mm\\:ss})");
+            Console.WriteLine($@"  {sequence.Range.StartTime:yyyy-MM-dd HH:mm:ss} to {sequence.Range.EndTime:yyyy-MM-dd HH:mm:ss} (Duration: {duration:hh\:mm\:ss})");
         }
     }
     else
