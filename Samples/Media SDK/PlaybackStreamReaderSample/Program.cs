@@ -1,58 +1,57 @@
 ﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
 // May be used only in accordance with a valid Source Code License Agreement.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Threading.Tasks;
+using Sdk;
+using Sdk.Entities;
+using Sdk.Media.Reader;
+
+class Program
 {
-    using System;
-    using System.Threading.Tasks;
-    using Sdk;
-    using Sdk.Entities;
-    using Sdk.Media.Reader;
+    static Program() => SdkResolver.Initialize();
 
-    class Program
+    static async Task Main()
     {
-        static Program() => SdkResolver.Initialize();
+        const string server = "localhost";
+        const string username = "admin";
+        const string password = "";
 
-        static async Task Main()
+        using var engine = new Engine();
+
+        ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
+        if (state == ConnectionStateCode.Success)
         {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
+            var camera = (Camera)engine.GetEntity(EntityType.Camera, 1);
 
-            using var engine = new Engine();
-
-            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-            if (state == ConnectionStateCode.Success)
-            {
-                var camera = (Camera)engine.GetEntity(EntityType.Camera, 1);
-
-                await using var reader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid);
-                await reader.ConnectAsync();
-                await reader.SeekAsync(DateTime.UtcNow.AddMinutes(-1));
+            await using var reader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid);
+            await reader.ConnectAsync();
+            await reader.SeekAsync(DateTime.UtcNow.AddMinutes(-1));
                 
-                while (true)
+            while (true)
+            {
+                RawDataContent content = await reader.ReadAsync();
+                if (content is null)
                 {
-                    RawDataContent content = await reader.ReadAsync();
-                    if (content is null)
-                    {
-                        Console.WriteLine("End reached");
-                        break;
-                    }
+                    Console.WriteLine("End reached");
+                    break;
+                }
 
-                    using (content)
-                    {
-                        Console.WriteLine($"Frame time {content.FrameTime}, Format: {content.Format}, Data size: {content.Data.Count}");
-                    }
+                using (content)
+                {
+                    Console.WriteLine($"Frame time {content.FrameTime}, Format: {content.Format}, Data size: {content.Data.Count}");
                 }
             }
-            else
-            {
-                Console.WriteLine($"logon failed: {state}");
-            }
-            
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
         }
+        else
+        {
+            Console.WriteLine($"logon failed: {state}");
+        }
+            
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
 }

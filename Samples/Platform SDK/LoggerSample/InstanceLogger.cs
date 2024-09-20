@@ -5,28 +5,27 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using Sdk.Diagnostics.Logging.Core;
+
+class InstanceLogger : IDisposable
 {
-    using System;
-    using Sdk.Diagnostics.Logging.Core;
+    private readonly Logger m_logger;
 
-    class InstanceLogger : IDisposable
+    public InstanceLogger()
     {
-        private readonly Logger m_logger;
+        m_logger = Logger.CreateInstanceLogger(this);
+    }
 
-        public InstanceLogger()
-        {
-            m_logger = Logger.CreateInstanceLogger(this);
-        }
+    public void Dispose()
+    {
+        m_logger.Dispose();
+    }
 
-        public void Dispose()
-        {
-            m_logger.Dispose();
-        }
-
-        public void LogDebugMessage()
-        {
-            m_logger.TraceDebug("This is a debug message");
-        }
+    public void LogDebugMessage()
+    {
+        m_logger.TraceDebug("This is a debug message");
     }
 }

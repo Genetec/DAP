@@ -5,22 +5,21 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using Genetec.Sdk.Workspace.Pages;
+using Genetec.Sdk.Workspace.Tasks;
+
+public class BackgroundProcessPageDescriptor : PageDescriptor
 {
-    using System;
-    using Genetec.Sdk.Workspace.Pages;
-    using Genetec.Sdk.Workspace.Tasks;
+    public override Guid CategoryId { get; } = new Guid(TaskCategories.Operation);
 
-    public class BackgroundProcessPageDescriptor : PageDescriptor
-    {
-        public override Guid CategoryId { get; } = new Guid(TaskCategories.Operation);
+    public override string Description => "Demonstrate the IBackgroundProcessNotificationService";
 
-        public override string Description => "Demonstrate the IBackgroundProcessNotificationService";
+    public override string Name => "Background Process Service";
 
-        public override string Name => "Background Process Service";
+    public override Guid Type { get; } = new Guid("B94C35AA-D324-4381-A05E-B3A5F24FF487"); // TODO: Replace with a new GUID
 
-        public override Guid Type { get; } = new Guid("B94C35AA-D324-4381-A05E-B3A5F24FF487"); // TODO: Replace with a new GUID
-
-        public override bool AllowOfflineExecution => false;
-    }
+    public override bool AllowOfflineExecution => false;
 }

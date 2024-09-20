@@ -5,81 +5,80 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Threading.Tasks;
+using Sdk;
+using Sdk.Entities;
+using Sdk.Queries;
+
+class Program
 {
-    using System;
-    using System.Threading.Tasks;
-    using Sdk;
-    using Sdk.Entities;
-    using Sdk.Queries;
+    static Program() => SdkResolver.Initialize();
 
-    class Program
+    static async Task Main()
     {
-        static Program() => SdkResolver.Initialize();
+        const string server = "localhost";
+        const string username = "admin";
+        const string password = "";
 
-        static async Task Main()
+        using var engine = new Engine();
+
+        engine.SetEventFilter(new[]
         {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
+            EventType.UnitConnected,
+            EventType.UnitDisconnected,
+            EventType.InterfaceOnline,
+            EventType.InterfaceOffline,
+            EventType.EntityWarning
+        });
 
-            using var engine = new Engine();
+        engine.EventReceived += (sender, e) =>
+        {
+            Entity entity = engine.GetEntity(e.SourceGuid);
 
-            engine.SetEventFilter(new[]
+            switch (e.EventType)
             {
-                EventType.UnitConnected,
-                EventType.UnitDisconnected,
-                EventType.InterfaceOnline,
-                EventType.InterfaceOffline,
-                EventType.EntityWarning
-            });
+                case EventType.UnitConnected:
+                    Console.WriteLine($"{entity.Name} connected.");
+                    break;
+                case EventType.UnitDisconnected:
+                    Console.WriteLine($"{entity.Name} disconnected.");
+                    break;
+                case EventType.InterfaceOnline:
+                    Console.WriteLine($"{entity.Name} interface online.");
+                    break;
+                case EventType.InterfaceOffline:
+                    Console.WriteLine($"{entity.Name} interface offline.");
+                    break;
+                case EventType.EntityWarning:
+                    Console.WriteLine($"{entity.Name} warning.");
+                    break;
+            }     
+        };
 
-            engine.EventReceived += (sender, e) =>
-            {
-                Entity entity = engine.GetEntity(e.SourceGuid);
+        ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-                switch (e.EventType)
-                {
-                    case EventType.UnitConnected:
-                        Console.WriteLine($"{entity.Name} connected.");
-                        break;
-                    case EventType.UnitDisconnected:
-                        Console.WriteLine($"{entity.Name} disconnected.");
-                        break;
-                    case EventType.InterfaceOnline:
-                        Console.WriteLine($"{entity.Name} interface online.");
-                        break;
-                    case EventType.InterfaceOffline:
-                        Console.WriteLine($"{entity.Name} interface offline.");
-                        break;
-                    case EventType.EntityWarning:
-                        Console.WriteLine($"{entity.Name} warning.");
-                        break;
-                }     
-            };
+        if (state == ConnectionStateCode.Success)
+        {
+            await LoadEntities();
 
-            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+            Console.WriteLine($"Listening to events: {string.Join(",", engine.GetEventFilter())}");
+        }
+        else
+        {
+            Console.WriteLine($"Logon failed: {state}");
+        }
 
-            if (state == ConnectionStateCode.Success)
-            {
-                await LoadEntities();
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
 
-                Console.WriteLine($"Listening to events: {string.Join(",", engine.GetEventFilter())}");
-            }
-            else
-            {
-                Console.WriteLine($"Logon failed: {state}");
-            }
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-
-            async Task LoadEntities()
-            {
-                var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-                query.EntityTypeFilter.Add(EntityType.Unit);
-                await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            }
+        async Task LoadEntities()
+        {
+            var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+            query.EntityTypeFilter.Add(EntityType.Unit);
+            await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
         }
     }
 }

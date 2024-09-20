@@ -5,25 +5,24 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using Sdk.Workspace.Tasks;
+using Sdk;
+
+public class SampleModule : Sdk.Workspace.Modules.Module
 {
-    using Sdk.Workspace.Tasks;
-    using Sdk;
-
-    public class SampleModule : Sdk.Workspace.Modules.Module
+    public override void Load()
     {
-        public override void Load()
+        if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
         {
-            if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
-            {
-                var task = new CreatePageTask<SamplePage>();
-                task.Initialize(Workspace);
-                Workspace.Tasks.Register(task);
-            }
+            var task = new CreatePageTask<SamplePage>();
+            task.Initialize(Workspace);
+            Workspace.Tasks.Register(task);
         }
+    }
 
-        public override void Unload()
-        {
-        }
+    public override void Unload()
+    {
     }
 }

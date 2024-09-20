@@ -5,16 +5,15 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
-{
-    using Sdk.Workspace.Pages;
+namespace Genetec.Dap.CodeSamples;
 
-    [Page(typeof(StylesSamplePageDescriptor))]
-    public class StylesSamplePage : Page
+using Sdk.Workspace.Pages;
+
+[Page(typeof(StylesSamplePageDescriptor))]
+public class StylesSamplePage : Page
+{
+    public StylesSamplePage()
     {
-        public StylesSamplePage()
-        {
-            View = new StylesSamplePageView();
-        }
+        View = new StylesSamplePageView();
     }
 }

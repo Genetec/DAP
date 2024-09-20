@@ -5,17 +5,16 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using Sdk.Diagnostics.Logging.Core;
+
+static class StaticLogger
 {
-    using Sdk.Diagnostics.Logging.Core;
+    private static readonly Logger s_logger = Logger.CreateClassLogger(typeof(StaticLogger));
 
-    static class StaticLogger
+    public static void LogDebugMessage()
     {
-        private static readonly Logger s_logger = Logger.CreateClassLogger(typeof(StaticLogger));
-
-        public static void LogDebugMessage()
-        {
-            s_logger.TraceDebug("This is a debug message");
-        }
+        s_logger.TraceDebug("This is a debug message");
     }
 }

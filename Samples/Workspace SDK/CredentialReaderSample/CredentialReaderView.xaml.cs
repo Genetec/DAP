@@ -1,13 +1,12 @@
-﻿namespace Genetec.Dap.CodeSamples
-{
-    using System.Windows.Controls;
+﻿namespace Genetec.Dap.CodeSamples;
 
-    public partial class CredentialReaderView : UserControl
+using System.Windows.Controls;
+
+public partial class CredentialReaderView : UserControl
+{
+    public CredentialReaderView(SampleCredentialReader credentialReader)
     {
-        public CredentialReaderView(SampleCredentialReader credentialReader)
-        {
-            DataContext = credentialReader;
-            InitializeComponent();
-        }
+        DataContext = credentialReader;
+        InitializeComponent();
     }
 }

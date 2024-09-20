@@ -5,13 +5,12 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
-{
-    using System;
+namespace Genetec.Dap.CodeSamples;
 
-    // TODO: Update the GUID in this class with your own custom entity type ID
-    public static class AedUnitCustomEntityType
-    {
-        public static Guid Id { get; } = new("8385D04C-F04A-4125-81E9-D1C66AFDE572");
-    }
+using System;
+
+// TODO: Update the GUID in this class with your own custom entity type ID
+public static class AedUnitCustomEntityType
+{
+    public static Guid Id { get; } = new("8385D04C-F04A-4125-81E9-D1C66AFDE572");
 }

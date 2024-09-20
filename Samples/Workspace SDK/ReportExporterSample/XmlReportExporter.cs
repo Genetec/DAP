@@ -5,65 +5,64 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Data;
+using System.IO;
+using Sdk.ReportExport;
+using System.Xml;
+
+public class XmlReportExporter : ReportExporter
 {
-    using System;
-    using System.Data;
-    using System.IO;
-    using Sdk.ReportExport;
-    using System.Xml;
+    private readonly DataTable m_dataTable;
+    private readonly XmlWriter m_xmlWriter;
 
-    public class XmlReportExporter : ReportExporter
+    public XmlReportExporter(TextWriter textWriter)
     {
-        private readonly DataTable m_dataTable;
-        private readonly XmlWriter m_xmlWriter;
+        m_xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true });
+        m_dataTable = new DataTable("Results");
+    }
 
-        public XmlReportExporter(TextWriter textWriter)
+    public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
+    {
+        try
         {
-            m_xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true });
-            m_dataTable = new DataTable("Results");
-        }
-
-        public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
-        {
-            try
+            if (m_dataTable.Columns.Count == 0)
             {
-                if (m_dataTable.Columns.Count == 0)
+                foreach (DataColumn column in dataBlock.Data.Columns)
                 {
-                    foreach (DataColumn column in dataBlock.Data.Columns)
-                    {
-                        m_dataTable.Columns.Add(column.ColumnName, column.DataType);
-                    }
+                    m_dataTable.Columns.Add(column.ColumnName, column.DataType);
                 }
-
-                foreach (DataRow row in dataBlock.Data.Rows)
-                {
-                    m_dataTable.ImportRow(row);
-                }
-
-                return new QueryExportResult(true);
             }
-            catch (Exception ex)
+
+            foreach (DataRow row in dataBlock.Data.Rows)
             {
-                return new QueryExportResult(false, ex);
+                m_dataTable.ImportRow(row);
             }
+
+            return new QueryExportResult(true);
         }
-
-        public override void OnExportCompleted()
+        catch (Exception ex)
         {
-            try
-            {
-                m_dataTable.WriteXml(m_xmlWriter);
-                m_xmlWriter.Flush();
-            }
-            catch
-            {
-                // Handle the exception if needed
-            }
-            finally
-            {
-                m_xmlWriter.Dispose();
-            }
+            return new QueryExportResult(false, ex);
+        }
+    }
+
+    public override void OnExportCompleted()
+    {
+        try
+        {
+            m_dataTable.WriteXml(m_xmlWriter);
+            m_xmlWriter.Flush();
+        }
+        catch
+        {
+            // Handle the exception if needed
+        }
+        finally
+        {
+            m_xmlWriter.Dispose();
         }
     }
 }

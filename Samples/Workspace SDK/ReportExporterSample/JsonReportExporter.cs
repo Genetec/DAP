@@ -5,53 +5,52 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.IO;
+using Newtonsoft.Json;
+using Sdk.ReportExport;
+
+public class JsonReportExporter : ReportExporter
 {
-    using System;
-    using System.IO;
-    using Newtonsoft.Json;
-    using Sdk.ReportExport;
+    private readonly TextWriter m_writer;
 
-    public class JsonReportExporter : ReportExporter
+    public JsonReportExporter(TextWriter writer)
     {
-        private readonly TextWriter m_writer;
+        m_writer = writer;
+        m_writer.Write("[");
+    }
 
-        public JsonReportExporter(TextWriter writer)
+    public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
+    {
+        try
         {
-            m_writer = writer;
-            m_writer.Write("[");
+            string json = JsonConvert.SerializeObject(dataBlock.Data, Formatting.Indented);
+            m_writer.Write($"{json.TrimEnd(']', '\r', '\n')},");
+            m_writer.Flush();
+            return new QueryExportResult(true);
         }
-
-        public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
+        catch (Exception ex)
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(dataBlock.Data, Formatting.Indented);
-                m_writer.Write($"{json.TrimEnd(']', '\r', '\n')},");
-                m_writer.Flush();
-                return new QueryExportResult(true);
-            }
-            catch (Exception ex)
-            {
-                return new QueryExportResult(false, ex);
-            }
+            return new QueryExportResult(false, ex);
         }
+    }
 
-        public override void OnExportCompleted()
+    public override void OnExportCompleted()
+    {
+        try
         {
-            try
-            {
-                m_writer.Write("]");
-                m_writer.Close();
-            }
-            catch
-            {
-                // Handle the exception if needed
-            }
-            finally
-            {
-                m_writer.Dispose();
-            }
+            m_writer.Write("]");
+            m_writer.Close();
+        }
+        catch
+        {
+            // Handle the exception if needed
+        }
+        finally
+        {
+            m_writer.Dispose();
         }
     }
 }

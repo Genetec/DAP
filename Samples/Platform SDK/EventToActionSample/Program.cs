@@ -1,67 +1,66 @@
 ﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
 // May be used only in accordance with a valid Source Code License Agreement.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Threading.Tasks;
+using Sdk;
+using Sdk.Entities;
+using Sdk.Entities.Collections;
+using Sdk.Entities.CustomEvents;
+
+class Program
 {
-    using System;
-    using System.Threading.Tasks;
-    using Sdk;
-    using Sdk.Entities;
-    using Sdk.Entities.Collections;
-    using Sdk.Entities.CustomEvents;
+    static Program() => SdkResolver.Initialize();
 
-    class Program
+    static async Task Main()
     {
-        static Program() => SdkResolver.Initialize();
+        const string server = "localhost";
+        const string username = "admin";
+        const string password = "";
 
-        static async Task Main()
+        var engine = new Engine();
+
+        ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
+        if (state == ConnectionStateCode.Success)
         {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
+            PrintEventToActions(engine);
+        }
+        else
+        {
+            Console.WriteLine($"Logon failed: {state}");
+        }
 
-            var engine = new Engine();
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
+    }
 
-            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+    private static void PrintEventToActions(Engine engine)
+    {
+        var configuration = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
 
-            if (state == ConnectionStateCode.Success)
+        foreach (EventToAction eventToAction in configuration.EventToActions)
+        {
+            Console.WriteLine($"Id: {eventToAction.Id}");
+
+            if (eventToAction.EventType == EventType.CustomEvent && eventToAction.CustomEventId.HasValue)
             {
-                PrintEventToActions(engine);
+                CustomEvent customEvent = configuration.CustomEventService.GetCustomEvent(eventToAction.CustomEventId.Value);
+                Console.WriteLine($"Event: {customEvent.Name} ({customEvent.SourceEntityType})");
             }
             else
             {
-                Console.WriteLine($"Logon failed: {state}");
+                Console.WriteLine($"Event: {eventToAction.EventType}");
             }
 
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-        }
-
-        private static void PrintEventToActions(Engine engine)
-        {
-            var configuration = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
-
-            foreach (EventToAction eventToAction in configuration.EventToActions)
+            if (!string.IsNullOrEmpty(eventToAction.CustomCondition))
             {
-                Console.WriteLine($"Id: {eventToAction.Id}");
-
-                if (eventToAction.EventType == EventType.CustomEvent && eventToAction.CustomEventId.HasValue)
-                {
-                    CustomEvent customEvent = configuration.CustomEventService.GetCustomEvent(eventToAction.CustomEventId.Value);
-                    Console.WriteLine($"Event: {customEvent.Name} ({customEvent.SourceEntityType})");
-                }
-                else
-                {
-                    Console.WriteLine($"Event: {eventToAction.EventType}");
-                }
-
-                if (!string.IsNullOrEmpty(eventToAction.CustomCondition))
-                {
-                    Console.WriteLine($"Custom Condition: {eventToAction.CustomCondition}");
-                }
-
-                Console.WriteLine($"Action: {eventToAction.Action.Type}");
+                Console.WriteLine($"Custom Condition: {eventToAction.CustomCondition}");
             }
+
+            Console.WriteLine($"Action: {eventToAction.Action.Type}");
         }
     }
 }

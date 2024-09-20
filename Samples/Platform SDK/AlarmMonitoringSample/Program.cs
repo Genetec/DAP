@@ -1,103 +1,102 @@
 ﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
 // May be used only in accordance with a valid Source Code License Agreement.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Threading.Tasks;
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+
+class Program
 {
-    using System;
-    using System.Threading.Tasks;
-    using Genetec.Sdk;
-    using Genetec.Sdk.Entities;
+    static Program() => SdkResolver.Initialize();
 
-    class Program
+    static async Task Main()
     {
-        static Program() => SdkResolver.Initialize();
+        const string server = "localhost";
+        const string username = "admin";
+        const string password = "";
 
-        static async Task Main()
+        using var engine = new Engine();
+
+        engine.AlarmTriggered += OnAlarmTriggered;
+        engine.AlarmAcknowledged += OnAlarmAcknowledged;
+        engine.AlarmInvestigating += OnAlarmInvestigating;
+        engine.AlarmSourceConditionCleared += OnAlarmSourceConditionCleared;
+
+        ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
+        if (state != ConnectionStateCode.Success)
+            Console.WriteLine($"Logon failed: {state}");
+
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
+
+        void OnAlarmTriggered(object sender, AlarmTriggeredEventArgs e)
         {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
+            var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
 
-            using var engine = new Engine();
+            Console.WriteLine("[Alarm Triggered]");
+            Console.WriteLine($"\tName: {alarm.Name}");
+            Console.WriteLine($"\tInstance ID: {e.InstanceId}");
+            Console.WriteLine($"\tTrigger time: {e.TriggerTimestamp}");
+            Console.WriteLine($"\tContext: {e.DynamicAlarmContent?.Context}");
+            Console.WriteLine($"\tTrigger Event: {e.TriggerEvent}");
+            Console.WriteLine($"\tOccurence Period: {e.OfflinePeriod}");
 
-            engine.AlarmTriggered += OnAlarmTriggered;
-            engine.AlarmAcknowledged += OnAlarmAcknowledged;
-            engine.AlarmInvestigating += OnAlarmInvestigating;
-            engine.AlarmSourceConditionCleared += OnAlarmSourceConditionCleared;
-
-            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-            if (state != ConnectionStateCode.Success)
-                Console.WriteLine($"Logon failed: {state}");
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-
-            void OnAlarmTriggered(object sender, AlarmTriggeredEventArgs e)
+            if (engine.GetEntity(e.SourceGuid) is { } entity)
             {
-                var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
-
-                Console.WriteLine("[Alarm Triggered]");
-                Console.WriteLine($"\tName: {alarm.Name}");
-                Console.WriteLine($"\tInstance ID: {e.InstanceId}");
-                Console.WriteLine($"\tTrigger time: {e.TriggerTimestamp}");
-                Console.WriteLine($"\tContext: {e.DynamicAlarmContent?.Context}");
-                Console.WriteLine($"\tTrigger Event: {e.TriggerEvent}");
-                Console.WriteLine($"\tOccurence Period: {e.OfflinePeriod}");
-
-                if (engine.GetEntity(e.SourceGuid) is { } entity)
-                {
-                    Console.WriteLine($"\tSource: {entity.Name}");
-                    Console.WriteLine($"\tSource entity type: {entity.EntityType}");
-                }
-
-                Console.WriteLine(new string('-', 50));
+                Console.WriteLine($"\tSource: {entity.Name}");
+                Console.WriteLine($"\tSource entity type: {entity.EntityType}");
             }
 
-            void OnAlarmAcknowledged(object sender, AlarmAcknowledgedEventArgs e)
+            Console.WriteLine(new string('-', 50));
+        }
+
+        void OnAlarmAcknowledged(object sender, AlarmAcknowledgedEventArgs e)
+        {
+            var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
+
+            Console.WriteLine("[Alarm Acknowledged]");
+            Console.WriteLine($"\tName: {alarm.Name}");
+            Console.WriteLine($"\tInstance ID: {e.InstanceId}");
+            Console.WriteLine($"\tAcknowledged on: {e.AckTime}");
+
+            if (engine.GetEntity(e.AckBy) is { } entity)
             {
-                var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
-
-                Console.WriteLine("[Alarm Acknowledged]");
-                Console.WriteLine($"\tName: {alarm.Name}");
-                Console.WriteLine($"\tInstance ID: {e.InstanceId}");
-                Console.WriteLine($"\tAcknowledged on: {e.AckTime}");
-
-                if (engine.GetEntity(e.AckBy) is { } entity)
-                {
-                    Console.WriteLine($"\tAcknowledged by: {entity.Name}");
-                }
-
-                Console.WriteLine(new string('-', 50));
+                Console.WriteLine($"\tAcknowledged by: {entity.Name}");
             }
 
-            void OnAlarmInvestigating(object sender, AlarmInvestigatingEventArgs e)
+            Console.WriteLine(new string('-', 50));
+        }
+
+        void OnAlarmInvestigating(object sender, AlarmInvestigatingEventArgs e)
+        {
+            var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
+
+            Console.WriteLine("[Alarm Investigating]");
+            Console.WriteLine($"\tName: {alarm.Name}");
+            Console.WriteLine($"\tInstance ID: {e.InstanceId}");
+            Console.WriteLine($"\tInvestigated on: {e.InvestigatedTime}");
+
+            if (engine.GetEntity(e.InvestigatedBy) is { } entity)
             {
-                var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
-
-                Console.WriteLine("[Alarm Investigating]");
-                Console.WriteLine($"\tName: {alarm.Name}");
-                Console.WriteLine($"\tInstance ID: {e.InstanceId}");
-                Console.WriteLine($"\tInvestigated on: {e.InvestigatedTime}");
-
-                if (engine.GetEntity(e.InvestigatedBy) is { } entity)
-                {
-                    Console.WriteLine($"\tInvestigated by: {entity.Name}");
-                }
-
-                Console.WriteLine(new string('-', 50));
+                Console.WriteLine($"\tInvestigated by: {entity.Name}");
             }
 
-            void OnAlarmSourceConditionCleared(object sender, AlarmSourceConditionClearedEventArgs e)
-            {
-                var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
+            Console.WriteLine(new string('-', 50));
+        }
 
-                Console.WriteLine("[Alarm Source Condition Cleared]");
-                Console.WriteLine($"\tName: {alarm.Name}");
-                Console.WriteLine($"\tInstance ID: {e.InstanceId}");
-                Console.WriteLine($"\tAcknowledgement Required: {e.AcknowledgeActionRequired}");
-                Console.WriteLine(new string('-', 50));
-            }
+        void OnAlarmSourceConditionCleared(object sender, AlarmSourceConditionClearedEventArgs e)
+        {
+            var alarm = (Alarm)engine.GetEntity(e.AlarmGuid);
+
+            Console.WriteLine("[Alarm Source Condition Cleared]");
+            Console.WriteLine($"\tName: {alarm.Name}");
+            Console.WriteLine($"\tInstance ID: {e.InstanceId}");
+            Console.WriteLine($"\tAcknowledgement Required: {e.AcknowledgeActionRequired}");
+            Console.WriteLine(new string('-', 50));
         }
     }
 }

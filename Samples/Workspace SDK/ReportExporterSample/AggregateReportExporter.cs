@@ -5,35 +5,33 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Genetec.Sdk.ReportExport;
+
+public class AggregateReportExporter : ReportExporter
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Genetec.Sdk.ReportExport;
+    private readonly List<ReportExporter> m_exporters;
 
-    public class AggregateReportExporter : ReportExporter
+    public AggregateReportExporter(params ReportExporter[] exporters)
     {
-        private readonly List<ReportExporter> m_exporters;
-
-        public AggregateReportExporter(params ReportExporter[] exporters)
-        {
-            m_exporters = exporters.ToList();
-        }
-
-        public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
-        {
-            var exceptions = m_exporters.Select(exporter => exporter.OnDataReady(dataBlock)).Where(result => !result.Success).Select(result => result.Exception).ToList();
-            return exceptions.Any() ? new QueryExportResult(false, new AggregateException(exceptions)) : new QueryExportResult(true);
-        }
-
-        public override void OnExportCompleted()
-        {
-            foreach (var exporter in m_exporters)
-            {
-                exporter.OnExportCompleted();
-            }
-        }
+        m_exporters = exporters.ToList();
     }
 
+    public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
+    {
+        var exceptions = m_exporters.Select(exporter => exporter.OnDataReady(dataBlock)).Where(result => !result.Success).Select(result => result.Exception).ToList();
+        return exceptions.Any() ? new QueryExportResult(false, new AggregateException(exceptions)) : new QueryExportResult(true);
+    }
+
+    public override void OnExportCompleted()
+    {
+        foreach (var exporter in m_exporters)
+        {
+            exporter.OnExportCompleted();
+        }
+    }
 }

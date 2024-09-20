@@ -5,14 +5,13 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+public static class FieldName
 {
-    public static class FieldName
-    {
-        public const string Text = "Text";
-        public const string Numeric = "Numeric";
-        public const string Boolean = "Boolean";
-        public const string Decimal = "Decimal";
-        public const string DateTime = "DateTime";
-    }
+    public const string Text = "Text";
+    public const string Numeric = "Numeric";
+    public const string Boolean = "Boolean";
+    public const string Decimal = "Decimal";
+    public const string DateTime = "DateTime";
 }

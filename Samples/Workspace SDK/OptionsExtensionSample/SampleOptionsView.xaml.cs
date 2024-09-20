@@ -1,13 +1,12 @@
-﻿namespace Genetec.Dap.CodeSamples
-{
-    using System.Windows.Controls;
+﻿namespace Genetec.Dap.CodeSamples;
 
-    public partial class SampleOptionsView : UserControl
+using System.Windows.Controls;
+
+public partial class SampleOptionsView : UserControl
+{
+    public SampleOptionsView(SampleOptionPage page)
     {
-        public SampleOptionsView(SampleOptionPage page)
-        {
-            InitializeComponent();
-            DataContext = page;
-        }
+        InitializeComponent();
+        DataContext = page;
     }
 }
