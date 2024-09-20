@@ -7,6 +7,4 @@
 
 namespace Genetec.Dap.CodeSamples;
 
-public class VoidResponse
-{
-}
+public class VoidResponse;

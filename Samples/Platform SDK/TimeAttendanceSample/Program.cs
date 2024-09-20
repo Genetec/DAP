@@ -79,7 +79,7 @@ async Task<List<TimeAttendance>> GetTimeAndAttendance(Engine engine, Guid area, 
         CardholderGuid = row.Field<Guid>("CardholderGuid"),
         AreaGuid = row.Field<Guid>("AreaGuid"),
         FirstTimeIn = DateTime.SpecifyKind(row.Field<DateTime>("FirstTimeIn"), DateTimeKind.Utc),
-        LastExitTime = row.IsNull("LastExitTime") ? (DateTime?)null : DateTime.SpecifyKind(row.Field<DateTime>("LastExitTime"), DateTimeKind.Utc),
+        LastExitTime = row.IsNull("LastExitTime") ? null : DateTime.SpecifyKind(row.Field<DateTime>("LastExitTime"), DateTimeKind.Utc),
         TotalMinutes = row.Field<int>("TotalMinutes"),
         TotalMinutesInclusive = row.Field<int>("TotalMinutesInclusive")
     };

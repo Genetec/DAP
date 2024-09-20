@@ -8,7 +8,6 @@
 namespace Genetec.Dap.CodeSamples;
 
 using System;
-using Genetec.Sdk.Diagnostics.Logging.Core;
 using Genetec.Sdk.EventsArgs;
 using Genetec.Sdk.Plugin;
 using Genetec.Sdk.Plugin.Interfaces;

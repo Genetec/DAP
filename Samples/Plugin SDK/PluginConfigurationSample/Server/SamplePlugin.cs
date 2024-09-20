@@ -13,7 +13,6 @@ using Genetec.Sdk.Plugin;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Client;
 using Sdk.Workflows;
 using System.Security;
 using Genetec.Dap.CodeSamples;
