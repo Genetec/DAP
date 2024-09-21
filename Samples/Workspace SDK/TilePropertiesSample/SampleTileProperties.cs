@@ -12,7 +12,7 @@ using Sdk.Workspace.Components.TileProperties;
 
 public class SampleTileProperties : TileProperties
 {
-    private readonly SampleTilePropertiesView m_view = new SampleTilePropertiesView();
+    private readonly SampleTilePropertiesView m_view = new();
 
     public override UIElement View => m_view;
 }

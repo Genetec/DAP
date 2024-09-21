@@ -16,7 +16,7 @@ public class SampleTileWidgetBuilder : TileWidgetBuilder
 {
     public override string Name => nameof(SampleTileWidgetBuilder);
 
-    public override Guid UniqueId { get; } = new Guid("AAF2CC2A-A731-4882-98C1-87DF91AC6734");
+    public override Guid UniqueId { get; } = new("AAF2CC2A-A731-4882-98C1-87DF91AC6734");
 
     public override TileWidget CreateView()
     {
@@ -28,5 +28,5 @@ public class SampleTileWidgetBuilder : TileWidgetBuilder
         return context.Content is EntityContent || context.ContentGroup is EntityContentGroup;
     }
 
-    public override string Title  => "Sample Tile Widget";
+    public override string Title => "Sample Tile Widget";
 }

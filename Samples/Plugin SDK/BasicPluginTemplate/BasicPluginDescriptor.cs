@@ -18,7 +18,7 @@ public class BasicPluginDescriptor : PluginDescriptor
     public override string Name => "Basic Plugin";
 
     // TODO: Replace with your own unique plugin GUID
-    public override Guid PluginGuid => new Guid("84E87A98-8AD3-4853-85E3-05C86B9BF90C");
+    public override Guid PluginGuid => new("84E87A98-8AD3-4853-85E3-05C86B9BF90C");
 
     public override string SpecificDefaultConfig => null;
 

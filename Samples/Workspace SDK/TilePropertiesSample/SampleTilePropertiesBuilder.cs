@@ -16,7 +16,7 @@ public class SampleTilePropertiesBuilder : TilePropertiesBuilder
 {
     public override string Name => nameof(SampleTilePropertiesBuilder);
 
-    public override Guid UniqueId { get; } = new Guid("25DD268E-A7AA-41DF-89FF-FAB6C0A74D57");
+    public override Guid UniqueId { get; } = new("25DD268E-A7AA-41DF-89FF-FAB6C0A74D57");
 
     public override TileProperties CreateView()
     {

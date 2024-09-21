@@ -14,7 +14,7 @@ using Sdk.Media.Overlay;
 
 class BouncingBallOverlay(Guid cameraId)
 {
-    private readonly Guid m_layerId = new Guid("69A64ACE-6DDC-4142-AD04-06690D8591B3");
+    private readonly Guid m_layerId = new("69A64ACE-6DDC-4142-AD04-06690D8591B3");
     private Task m_task;
     private CancellationTokenSource m_cancellationTokenSource;
 

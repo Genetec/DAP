@@ -19,7 +19,7 @@ class SampleBadgePrinter : BadgePrinter
 
     public override int Priority => 0;
 
-    public override Guid UniqueId { get; } = new Guid("9D4B5E78-9DE7-40EA-86C2-E70078DDC8D1"); // Replace with your own unique ID
+    public override Guid UniqueId { get; } = new("9D4B5E78-9DE7-40EA-86C2-E70078DDC8D1"); // Replace with your own unique ID
 
     public override bool SupportsDecoding => false;
 

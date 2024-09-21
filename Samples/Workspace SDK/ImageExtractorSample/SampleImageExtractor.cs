@@ -19,7 +19,7 @@ public sealed class SampleImageExtractor : ImageExtractor
 
     public override string Name => "Load from vCard...";
 
-    public override Guid UniqueId { get; } = new Guid("5EDBB0B6-8253-433E-99A1-9021E498437A");
+    public override Guid UniqueId { get; } = new("5EDBB0B6-8253-433E-99A1-9021E498437A");
 
 
     public override ImageSource GetImage()

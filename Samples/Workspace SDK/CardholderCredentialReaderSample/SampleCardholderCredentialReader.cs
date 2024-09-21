@@ -59,7 +59,7 @@ public class SampleCardholderCredentialReader : CardholderCredentialReader, INot
             {
                 foreach (WiegandStandardCredentialFormat format in missing)
                 {
-                    
+
                     Dispatcher.Invoke(() => OnCredentialRetrieved(new CredentialRetrievedEventArgs(format)));
                 }
             });
@@ -68,7 +68,7 @@ public class SampleCardholderCredentialReader : CardholderCredentialReader, INot
 
     public override string Name => nameof(SampleCardholderCredentialReader);
 
-    public override Guid UniqueId { get; } = new Guid("9B28081F-206B-41D4-AC26-B358DD9573EF");
+    public override Guid UniqueId { get; } = new("9B28081F-206B-41D4-AC26-B358DD9573EF");
 
     public override bool IsValid => true;
 

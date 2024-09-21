@@ -59,7 +59,7 @@ public class SampleCredentialReader : CredentialReader, INotifyPropertyChanged
             {
                 foreach (WiegandStandardCredentialFormat format in missing)
                 {
-                    
+
                     Dispatcher.Invoke(() => OnCredentialRetrieved(new CredentialRetrievedEventArgs(format)));
                 }
             });
@@ -68,7 +68,7 @@ public class SampleCredentialReader : CredentialReader, INotifyPropertyChanged
 
     public override string Name => nameof(SampleCredentialReader);
 
-    public override Guid UniqueId { get; } = new Guid("76104935-7793-4529-83D2-061BE6FB072F");
+    public override Guid UniqueId { get; } = new("76104935-7793-4529-83D2-061BE6FB072F");
 
     public override bool IsValid => true;
 

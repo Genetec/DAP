@@ -98,7 +98,7 @@ class Program
         Console.WriteLine("\nPress any key to exit...");
         Console.ReadKey();
 
-        IncidentData CreateIncidentData(DataRow row) => new IncidentData
+        IncidentData CreateIncidentData(DataRow row) => new()
         {
             InstanceGuid = row.Field<Guid>(IncidentSdkQuery.InstanceGuidColumnName),
             Latitude = row.Field<double>(IncidentSdkQuery.LatitudeColumnName),

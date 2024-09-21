@@ -12,7 +12,7 @@ using Sdk.Workspace.Components.TileWidget;
 
 public class SampleTileWidget : TileWidget
 {
-    private readonly SampleTileWidgetView m_view = new SampleTileWidgetView();
+    private readonly SampleTileWidgetView m_view = new();
 
     public override UIElement View => m_view;
 

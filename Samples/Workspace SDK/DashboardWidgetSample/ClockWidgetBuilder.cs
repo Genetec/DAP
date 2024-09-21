@@ -17,7 +17,7 @@ using Sdk.Workspace.Components;
 
 public sealed class ClockWidgetBuilder : DashboardWidgetBuilder
 {
-    public static Guid ClockWidgetTypeId = new Guid("3E27799F-2FE1-44B6-B131-0695D98503DE");
+    public static Guid ClockWidgetTypeId = new("3E27799F-2FE1-44B6-B131-0695D98503DE");
 
     public override string Description => "Simple clock";
 

@@ -41,9 +41,9 @@ public class ClockWidget : DashboardWidget, INotifyPropertyChanged
 
     public override bool IsResizableVertically => false;
 
-    public override Size MaxWidgetSize { get; } = new Size(10, 10);
+    public override Size MaxWidgetSize { get; } = new(10, 10);
 
-    public override Size MinWidgetSize { get; } = new Size(3, 3);
+    public override Size MinWidgetSize { get; } = new(3, 3);
 
     public bool ShowDigitalTime
     {
@@ -56,12 +56,12 @@ public class ClockWidget : DashboardWidget, INotifyPropertyChanged
         get => m_time;
         set => SetProperty(ref m_time, value);
     }
-        
+
     public ICommand ViewDigitalTimeCommand { get; }
 
     public override string WidgetName => "Custom Clock Widget";
 
-    public override Size WidgetSize { get; set; } = new Size(8, 8);
+    public override Size WidgetSize { get; set; } = new(8, 8);
 
     public override Guid WidgetTypeId => ClockWidgetBuilder.ClockWidgetTypeId;
 
@@ -93,7 +93,7 @@ public class ClockWidget : DashboardWidget, INotifyPropertyChanged
     {
         return m_view;
     }
-        
+
     public override void Deserialize(string value)
     {
         ShowDigitalTime = ClockWidgetConfiguration.Deserialize(value).ShowDigitalTime;
@@ -136,5 +136,5 @@ public class ClockWidget : DashboardWidget, INotifyPropertyChanged
         Refresh();
     }
 
-  
+
 }

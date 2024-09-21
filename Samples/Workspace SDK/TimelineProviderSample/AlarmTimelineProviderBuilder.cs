@@ -16,7 +16,7 @@ public class AlarmTimelineProviderBuilder : TimelineProviderBuilder
 
     public override string Title => "Active Alarms";
 
-    public override Guid UniqueId { get; } = new Guid("4765D714-2BD6-42A8-99E3-0A0767C76321");
+    public override Guid UniqueId { get; } = new("4765D714-2BD6-42A8-99E3-0A0767C76321");
 
     public override TimelineProvider CreateProvider()
     {

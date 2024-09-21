@@ -20,7 +20,7 @@ public class SamplePluginDescriptor : PluginDescriptor
     public override string Name => "Sample Plugin Database";
 
     // TODO: Replace with your own unique plugin GUID
-    public override Guid PluginGuid => new Guid("266B2366-26AA-4538-9953-FC435D3063EE");
+    public override Guid PluginGuid => new("266B2366-26AA-4538-9953-FC435D3063EE");
 
     // This plugin does not use a configuration
     public override string SpecificDefaultConfig => null;

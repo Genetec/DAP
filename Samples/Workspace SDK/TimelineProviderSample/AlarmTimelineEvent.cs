@@ -16,7 +16,7 @@ using Sdk.Workspace.Components.TimelineProvider;
 
 public class AlarmTimelineEvent(Guid alarmGuid, int instanceId, DateTime dateTime) : TimelineEvent(dateTime)
 {
-    private static readonly Size s_size = new Size(16, 16);
+    private static readonly Size s_size = new(16, 16);
 
     private static readonly BitmapImage s_image;
 
