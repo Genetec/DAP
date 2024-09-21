@@ -14,7 +14,7 @@ using System.IO;
 using System.Linq;
 using Sdk.ReportExport;
 
-public class CsvReportExporter(TextWriter writer) : ReportExporter
+class CsvReportExporter(TextWriter writer) : ReportExporter
 {
     private bool m_headerWritten;
 

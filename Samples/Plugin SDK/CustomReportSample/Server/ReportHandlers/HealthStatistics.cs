@@ -9,7 +9,7 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
 using System;
 
-public class HealthStatistics
+record HealthStatistics
 {
     public int FailureCount { get; set; }
     public int RtpPacketLoss { get; set; }

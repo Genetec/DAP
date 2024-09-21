@@ -12,21 +12,21 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
 
-[DataContract(Namespace = "")]
+[DataContract]
 public class AedUnitInformation
 {
     private static readonly DataContractSerializer s_serializer = new(typeof(AedUnitInformation));
 
-    [DataMember] 
+    [DataMember]
     public DateTime LastInspectionDate { get; set; }
 
-    [DataMember] 
+    [DataMember]
     public DateTime NextScheduledMaintenance { get; set; }
 
-    [DataMember] 
+    [DataMember]
     public DateTime BatteryExpirationDate { get; set; }
 
-    [DataMember] 
+    [DataMember]
     public DateTime PadExpirationDate { get; set; }
 
     // Deserialize the data from an XML string

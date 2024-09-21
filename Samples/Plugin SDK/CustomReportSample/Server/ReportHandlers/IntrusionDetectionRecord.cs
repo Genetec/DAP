@@ -9,7 +9,7 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
 using System;
 
-public class IntrusionDetectionRecord
+record class IntrusionDetectionRecord
 {
     public DateTime Timestamp { get; set; }
     public int EventType { get; set; }

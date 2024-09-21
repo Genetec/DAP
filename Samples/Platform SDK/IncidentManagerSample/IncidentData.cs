@@ -11,7 +11,7 @@ using System;
 using System.Collections.ObjectModel;
 using Sdk;
 
-public class IncidentData
+record IncidentData
 {
     public Guid InstanceGuid { get; set; }
     public double Latitude { get; set; }

@@ -10,7 +10,7 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Video;
 using System;
 using Genetec.Sdk;
 
-public class VideoEvent
+record VideoEvent
 {
     public Guid CameraGuid { get; set; }
     public Guid ArchiveSourceGuid { get; set; }

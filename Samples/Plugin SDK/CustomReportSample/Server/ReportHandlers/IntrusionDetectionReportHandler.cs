@@ -14,7 +14,7 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.IntrusionDetection;
 
-public class IntrusionDetectionReportHandler(IEngine engine, Role role) : ReportHandler<IntrusionDetectionReportQuery, IntrusionDetectionRecord>(engine, role)
+class IntrusionDetectionReportHandler(IEngine engine, Role role) : ReportHandler<IntrusionDetectionReportQuery, IntrusionDetectionRecord>(engine, role)
 {
     protected override void FillDataRow(DataRow row, IntrusionDetectionRecord record)
     {

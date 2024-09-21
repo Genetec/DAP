@@ -14,7 +14,7 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.HealthMonitoring;
 
-public class HealthEventsReportHandler(IEngine engine, Role role) : ReportHandler<HealthEventQuery, HealthEvent>(engine, role)
+class HealthEventsReportHandler(IEngine engine, Role role) : ReportHandler<HealthEventQuery, HealthEvent>(engine, role)
 {
     protected override void FillDataRow(DataRow row, HealthEvent record)
     {

@@ -17,7 +17,7 @@ using Sdk;
 using Sdk.Entities;
 using Sdk.Queries;
 
-public class CustomReportHandler(IEngine engine, Role role) : ReportHandler<CustomQuery, CustomReportRecord>(engine, role)
+class CustomReportHandler(IEngine engine, Role role) : ReportHandler<CustomQuery, CustomReportRecord>(engine, role)
 {
     // Ensure that the custom report handler only handles the custom report with the specified identifier
     protected override bool IsQuerySupported(CustomQuery query)

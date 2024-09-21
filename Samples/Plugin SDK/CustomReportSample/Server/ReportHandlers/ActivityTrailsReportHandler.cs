@@ -17,7 +17,7 @@ using Sdk.Plugin.Queries.Rows.Extensions;
 using Sdk.Plugin.Queries.Rows.Trails;
 using Sdk.Queries;
 
-public class ActivityTrailsReportHandler(IEngine engine, Role role) : ReportHandler<ActivityTrailsQuery, ActivityTrailRow>(engine, role)
+class ActivityTrailsReportHandler(IEngine engine, Role role) : ReportHandler<ActivityTrailsQuery, ActivityTrailRow>(engine, role)
 {
     protected override async Task ProcessBatch(DataTable table, IAsyncEnumerable<ActivityTrailRow> batch)
     {

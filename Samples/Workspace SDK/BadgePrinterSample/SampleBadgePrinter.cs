@@ -13,7 +13,7 @@ using Genetec.Sdk.Workspace.Services;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Workspace.Components.BadgePrinter;
 
-internal class SampleBadgePrinter : BadgePrinter
+class SampleBadgePrinter : BadgePrinter
 {
     public override string Name => "Badge Printer Sample";
 

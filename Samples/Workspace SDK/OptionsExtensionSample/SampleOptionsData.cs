@@ -13,7 +13,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Media;
 
-[DataContract(Namespace = "")]
+[DataContract]
 public class SampleOptionsData
 {
     [DataMember]
@@ -30,7 +30,7 @@ public class SampleOptionsData
 
     public static SampleOptionsData Deserialize(string data)
     {
-        if (string.IsNullOrEmpty(data)) 
+        if (string.IsNullOrEmpty(data))
             return new SampleOptionsData();
 
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));

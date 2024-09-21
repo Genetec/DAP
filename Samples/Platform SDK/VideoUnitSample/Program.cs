@@ -20,7 +20,7 @@ using Sdk.Queries;
 using Sdk.Workflows;
 using Sdk.Workflows.UnitManager;
 
-internal class Program
+class Program
 {
     static Program() => SdkResolver.Initialize();
 

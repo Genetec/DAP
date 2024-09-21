@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using Sdk.ReportExport;
 
-public class MarkdownReportExporter(TextWriter writer) : ReportExporter
+class MarkdownReportExporter(TextWriter writer) : ReportExporter
 {
     public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
     {

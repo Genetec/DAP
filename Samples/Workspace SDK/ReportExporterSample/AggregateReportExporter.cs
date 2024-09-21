@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Genetec.Sdk.ReportExport;
 
-public class AggregateReportExporter(params ReportExporter[] exporters) : ReportExporter
+class AggregateReportExporter(params ReportExporter[] exporters) : ReportExporter
 {
     private readonly List<ReportExporter> m_exporters = exporters.ToList();
 

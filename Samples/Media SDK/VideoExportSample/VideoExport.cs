@@ -18,7 +18,7 @@ using Sdk.Entities;
 using Sdk.Media.Export;
 using File = System.IO.File;
 
-public class VideoExport(IEngine engine)
+class VideoExport(IEngine engine)
 {
     public Task Export(IEnumerable<Camera> cameras, Sdk.Media.DateTimeRange range, string fileName, ExportOption option, IProgress<double> progress = null, CancellationToken cancellationToken = default)
     {

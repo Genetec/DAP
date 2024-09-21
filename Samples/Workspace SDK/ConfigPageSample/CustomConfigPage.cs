@@ -14,7 +14,7 @@ using Sdk;
 using Sdk.Entities;
 using Sdk.Workspace.Pages;
 
-internal class CustomConfigPage : ConfigPage
+class CustomConfigPage : ConfigPage
 {
     private DateTime m_batteryExpirationDate;
 

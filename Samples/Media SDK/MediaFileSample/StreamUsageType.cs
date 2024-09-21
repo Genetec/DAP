@@ -9,7 +9,7 @@ using System;
 
 namespace Genetec.Dap.CodeSamples;
 
-public static class StreamUsageType
+static class StreamUsageType
 {
     public static readonly Guid Live = new("e30e6525-2202-4502-8101-5a75ee15f04b");
     public static readonly Guid Archiving = new("bac8d8bf-ee2a-41ac-b62c-3c2dd00020a5");

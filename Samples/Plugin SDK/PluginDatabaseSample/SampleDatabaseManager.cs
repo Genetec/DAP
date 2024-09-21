@@ -19,7 +19,7 @@ using Sdk.Plugin.Objects;
 /// Manages database operations for the plugin, including schema creation, cleanup, and upgrades.
 /// Implements DatabaseManager for core functionality and IDisposable for resource management.
 /// </summary>
-public class SampleDatabaseManager : DatabaseManager, IDisposable
+class SampleDatabaseManager : DatabaseManager, IDisposable
 {
     private const string LogsCleanupThreshold = "LogThreshold";
 

@@ -14,7 +14,7 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.AccessControl;
 
-public class AccessControlReportHandler(IEngine engine, Role role) : ReportHandler<AccessControlReportQuery, AccessControlReportRecord>(engine, role)
+class AccessControlReportHandler(IEngine engine, Role role) : ReportHandler<AccessControlReportQuery, AccessControlReportRecord>(engine, role)
 {
     protected override void FillDataRow(DataRow row, AccessControlReportRecord record)
     {

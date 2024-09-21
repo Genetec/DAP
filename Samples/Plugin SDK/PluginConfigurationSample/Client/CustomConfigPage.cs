@@ -19,7 +19,7 @@ using Sdk.Workspace.Pages;
 ///     Represents a custom configuration page for a specific role type.
 ///     This class extends ConfigPage to provide custom configuration options for a role.
 /// </summary>
-internal class CustomConfigPage : ConfigPage
+class CustomConfigPage : ConfigPage
 {
     // Configuration object to handle serialization and deserialization
     private readonly RoleConfiguration m_configuration = new();
@@ -29,7 +29,7 @@ internal class CustomConfigPage : ConfigPage
     private int m_port;
     private SecureString m_password;
     private SecureString m_userName;
-   
+
     private Role m_role; // The role entity being configured
 
     protected override EntityType EntityType => EntityType.Role; // Only show this page for roles

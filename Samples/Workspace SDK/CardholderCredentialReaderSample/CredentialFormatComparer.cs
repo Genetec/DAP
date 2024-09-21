@@ -10,7 +10,7 @@ namespace Genetec.Dap.CodeSamples;
 using System.Collections.Generic;
 using Sdk.Credentials;
 
-public class CredentialFormatComparer : IEqualityComparer<CredentialFormat>
+class CredentialFormatComparer : IEqualityComparer<CredentialFormat>
 {
     public bool Equals(CredentialFormat x, CredentialFormat y)
     {

@@ -14,7 +14,7 @@ using Genetec.Sdk.Media.Export;
 
 namespace Genetec.Dap.CodeSamples;
 
-public static class FileCryptingManagerExtensions
+static class FileCryptingManagerExtensions
 {
     /// <summary>
     /// Encrypts a file asynchronously using the specified password.

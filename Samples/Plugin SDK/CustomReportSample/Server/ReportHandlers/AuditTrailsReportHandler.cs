@@ -17,7 +17,7 @@ using Sdk.Plugin.Queries.Rows.Extensions;
 using Sdk.Plugin.Queries.Rows.Trails;
 using Sdk.Queries;
 
-public class AuditTrailsReportHandler(IEngine engine, Role role) : ReportHandler<AuditTrailQuery, AuditTrailRow>(engine, role)
+class AuditTrailsReportHandler(IEngine engine, Role role) : ReportHandler<AuditTrailQuery, AuditTrailRow>(engine, role)
 {
     protected override async Task ProcessBatch(DataTable table, IAsyncEnumerable<AuditTrailRow> batch)
     {
@@ -62,12 +62,12 @@ public class AuditTrailsReportHandler(IEngine engine, Role role) : ReportHandler
 
         foreach ((AuditTrailModificationType ModificationType, AuditFormat Format, string OldValue, string NewValue, string Description, DateTime Timestamp, EntityType EntityType, string EntityName, string InitiatorName) record in records)
         {
-           yield return new AuditTrailRow(Engine)
-                .SetAuditAttributes(record.ModificationType, record.Format)
-                .SetModification(record.OldValue, record.NewValue, record.Description, record.Timestamp)
-                .SetEntity(record.EntityType, record.EntityName)
-                .SetInitiator(EntityType.User, record.InitiatorName)
-                .SetInitiatorApplication(ApplicationType.SecurityDesk, "Security Desk", Environment.MachineName);
+            yield return new AuditTrailRow(Engine)
+                 .SetAuditAttributes(record.ModificationType, record.Format)
+                 .SetModification(record.OldValue, record.NewValue, record.Description, record.Timestamp)
+                 .SetEntity(record.EntityType, record.EntityName)
+                 .SetInitiator(EntityType.User, record.InitiatorName)
+                 .SetInitiatorApplication(ApplicationType.SecurityDesk, "Security Desk", Environment.MachineName);
         }
     }
 }

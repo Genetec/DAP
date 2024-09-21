@@ -14,7 +14,7 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries;
 
-public class ZoneActivityReportHandler(IEngine engine, Role role) : ReportHandler<ZoneActivityQuery, ZoneActivityRecord>(engine, role)
+class ZoneActivityReportHandler(IEngine engine, Role role) : ReportHandler<ZoneActivityQuery, ZoneActivityRecord>(engine, role)
 {
     protected override async IAsyncEnumerable<ZoneActivityRecord> GetRecordsAsync(ZoneActivityQuery query)
     {

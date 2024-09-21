@@ -14,7 +14,7 @@ using Genetec.Sdk.Media.Export;
 
 namespace Genetec.Dap.CodeSamples;
 
-public static class G64ConverterBaseExtensions
+static class G64ConverterBaseExtensions
 {
     public static async Task<List<string>> ConvertAsync(this G64ConverterBase converter, IProgress<int> progress, CancellationToken token)
     {

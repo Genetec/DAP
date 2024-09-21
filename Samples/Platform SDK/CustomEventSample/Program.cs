@@ -55,7 +55,7 @@ class Program
         Console.WriteLine("Press any key to exit...");
         Console.ReadKey();
 
-        void DisplayCustomEvents(IReadOnlyList<CustomEvent> events)
+        void DisplayCustomEvents(IReadOnlyCollection<CustomEvent> events)
         {
             Console.WriteLine($"Total Number of Custom Events: {events.Count}");
 

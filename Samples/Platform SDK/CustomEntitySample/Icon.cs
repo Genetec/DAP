@@ -10,7 +10,7 @@ namespace Genetec.Dap.CodeSamples;
 using System;
 using System.Windows.Media.Imaging;
 
-public static class Icon
+static class Icon
 {
     private static BitmapImage LoadIcon(string resourceName)
     {

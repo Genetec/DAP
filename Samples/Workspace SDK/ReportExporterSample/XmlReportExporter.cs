@@ -13,7 +13,7 @@ using System.IO;
 using Sdk.ReportExport;
 using System.Xml;
 
-public class XmlReportExporter(TextWriter textWriter) : ReportExporter
+class XmlReportExporter(TextWriter textWriter) : ReportExporter
 {
     private readonly DataTable m_dataTable = new("Results");
     private readonly XmlWriter m_xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = true });

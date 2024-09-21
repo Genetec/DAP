@@ -77,6 +77,7 @@ public static class SdkResolver
             }
             catch
             {
+                // ignored
             }
         }
 

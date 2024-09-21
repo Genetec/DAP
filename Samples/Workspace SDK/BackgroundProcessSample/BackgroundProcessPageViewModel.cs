@@ -15,10 +15,10 @@ using Prism.Commands;
 using Prism.Mvvm;
 using static System.String;
 
-public class BackgroundProcessPageViewModel : BindableBase
+class BackgroundProcessPageViewModel : BindableBase
 {
     private readonly IBackgroundProcessNotificationService m_service;
-        
+
     private string m_notificationMessage;
 
     public BackgroundProcessPageViewModel(IBackgroundProcessNotificationService service)

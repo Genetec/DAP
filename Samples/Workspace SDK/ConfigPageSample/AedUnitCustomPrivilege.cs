@@ -11,7 +11,7 @@ using System;
 using Sdk;
 
 // TODO: Update the GUIDs in this class with your own SDK privilege IDs
-public static class AedUnitCustomPrivilege
+static class AedUnitCustomPrivilege
 {
     public static SdkPrivilege View { get; } = new(new Guid("0896B350-7225-4A53-8DDC-E8365CAE456E"));
 

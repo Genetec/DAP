@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-public class VCardReader
+class VCardReader
 {
     public static VCard ReadVCard(string filePath)
     {

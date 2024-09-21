@@ -7,7 +7,7 @@
 
 namespace Genetec.Dap.CodeSamples;
 
-public static class FieldName
+static class FieldName
 {
     public const string Text = "Text";
     public const string Numeric = "Numeric";

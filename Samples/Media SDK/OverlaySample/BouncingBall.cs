@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Media;
 using Sdk.Media.Overlay;
 
-public class BouncingBall
+class BouncingBall
 {
     public double CanvasWidth = 1290;
 

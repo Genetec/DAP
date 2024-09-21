@@ -144,7 +144,7 @@ void DisplayToConsole(AccessControlRawEvent rawEvent)
     Console.WriteLine();
 }
 
-class AccessControlRawEvent
+record AccessControlRawEvent
 {
     public Guid? SourceGuid { get; set; }
     public Guid? AccessPointGuid { get; set; }

@@ -15,7 +15,7 @@ using Genetec.Sdk;
 using Sdk.Entities;
 using Sdk.Queries;
 
-internal class Program
+class Program
 {
     static Program() => SdkResolver.Initialize();
 

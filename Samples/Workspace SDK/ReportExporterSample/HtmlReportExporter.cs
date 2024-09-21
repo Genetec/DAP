@@ -12,7 +12,7 @@ using System.Data;
 using System.IO;
 using Genetec.Sdk.ReportExport;
 
-public class HtmlReportExporter : ReportExporter
+class HtmlReportExporter : ReportExporter
 {
     private readonly TextWriter m_writer;
     private bool m_tableStarted;

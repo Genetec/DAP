@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Sdk.Media.Overlay;
 
-public class TimecodeOverlay(Guid cameraId)
+class TimecodeOverlay(Guid cameraId)
 {
     private readonly Guid m_layerId = new Guid("69A64ACE-6DDC-4142-AD04-06690D8591B3");
     private CancellationTokenSource m_cancellationTokenSource;
@@ -26,7 +26,7 @@ public class TimecodeOverlay(Guid cameraId)
 
     public void Start()
     {
-        if (m_task is { IsCompleted: false }) 
+        if (m_task is { IsCompleted: false })
             return;
 
         m_cancellationTokenSource = new CancellationTokenSource();

@@ -10,15 +10,15 @@ namespace Genetec.Dap.CodeSamples;
 using System.Collections.Generic;
 using System.Windows.Media;
 
-public class VCard
+class VCard
 {
     public string FirstName { get; set; }
-        
+
     public string LastName { get; set; }
-        
+
     public List<string> Emails { get; } = [];
-        
+
     public string Note { get; set; }
-        
+
     public ImageSource Picture { get; set; }
 }

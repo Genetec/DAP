@@ -12,7 +12,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Sdk.ReportExport;
 
-public class JsonReportExporter : ReportExporter
+class JsonReportExporter : ReportExporter
 {
     private readonly TextWriter m_writer;
 

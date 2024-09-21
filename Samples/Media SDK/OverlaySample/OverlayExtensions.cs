@@ -10,7 +10,7 @@ namespace Genetec.Dap.CodeSamples;
 using System.Threading.Tasks;
 using Sdk.Media.Overlay;
 
-public static class OverlayExtensions
+static class OverlayExtensions
 {
     public static async Task WaitUntilReadyForUpdate(this Overlay overlay)
     {
