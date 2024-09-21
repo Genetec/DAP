@@ -9,7 +9,7 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.AccessControl;
 
 using System;
 
-class ZoneActivityRecord
+record ZoneActivityRecord
 {
     public DateTime Timestamp { get; set; }
     public int EventType { get; set; }

@@ -100,7 +100,7 @@ void DisplayToConsole(Engine engine, TimeAttendance timeAttendance)
     string GetEntityName(Guid entityGuid) => engine.GetEntity(entityGuid)?.Name ?? "Unknown";
 }
 
-class TimeAttendance
+record TimeAttendance
 {
     public DateTime Date { get; set; }
     public Guid CardholderGuid { get; set; }

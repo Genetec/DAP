@@ -10,7 +10,7 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.AccessControl;
 using System;
 using Genetec.Sdk;
 
-class AccessControlReportRecord
+record AccessControlReportRecord
 {
     public DateTime Timestamp { get; set; }
     public EventType EventType { get; set; }

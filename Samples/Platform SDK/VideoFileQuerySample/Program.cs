@@ -108,7 +108,7 @@ void DisplayToConsole(VideoFileInfo info)
     Console.WriteLine(new string('-', 60));
 }
 
-class VideoFileInfo
+record VideoFileInfo
 {
     public Guid CameraGuid { get; set; }
     public Guid ArchiveSourceGuid { get; set; }

@@ -11,7 +11,7 @@ using System;
 using Sdk.Entities.CustomFields;
 using Sdk.Queries;
 
-class ArchivedVisitorData
+record ArchivedVisitorData
 {
     public Guid Guid { get; set; }
     public string FirstName { get; set; }

@@ -9,7 +9,7 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
 using System;
 
-class HealthEvent
+record HealthEvent
 {
     public int HealthEventId { get; set; }
     public int EventSourceTypeId { get; set; }
