@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net481</TargetFrameworks>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-		<AssemblyName>MediaFileSample</AssemblyName>
+		<AssemblyName>BasicMediaPlayer</AssemblyName>
 		<Description>Sample project</Description>
 		<Company>Genetec Inc.</Company>
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>

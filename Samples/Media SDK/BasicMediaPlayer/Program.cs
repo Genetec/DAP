@@ -166,6 +166,5 @@ class Program
         Console.WriteLine("R: Rewind to the beginning");
         Console.WriteLine("I: Toggle statistics overlay");
         Console.WriteLine("M: Toggle audio mute");
-        Console.WriteLine("Escape: Close the player");
     }
 }
