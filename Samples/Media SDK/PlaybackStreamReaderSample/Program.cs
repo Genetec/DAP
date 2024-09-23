@@ -29,21 +29,25 @@ async Task RunSample()
             return;
         }
 
-        // Read the video stream
+        Console.WriteLine("\nReading video stream:");
         await using var videoReader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid);
         await ReadStream(videoReader);
 
-        // Read the audio stream
+        Console.WriteLine("\nReading audio stream:");
         await using var audioReader = PlaybackStreamReader.CreateAudioReader(engine, camera.Guid);
         await ReadStream(audioReader);
 
         // Get the metadata stream. In this example, we are only reading the first metadata stream
-        MetadataStreamInfo metaDataStream = camera.MetadataStreams.FirstOrDefault();
-        if (metaDataStream is not null)
+        MetadataStreamInfo metadataStreamInfo = camera.MetadataStreams.FirstOrDefault();
+        if (metadataStreamInfo is not null)
         {
-            // Read the metadata stream
-            await using var reader = PlaybackStreamReader.CreateReader(engine, camera.Guid, metaDataStream.StreamId);
-            await ReadStream(reader);
+            Console.WriteLine("\nReading metadata stream:");
+            await using var metadataReader = PlaybackStreamReader.CreateReader(engine, camera.Guid, metadataStreamInfo.StreamId);
+            await ReadStream(metadataReader);
+        }
+        else
+        {
+            Console.WriteLine("\nNo metadata stream available");
         }
     }
     else
@@ -70,7 +74,7 @@ async Task RunSample()
             if (content is null)
             {
                 // if the content is null, it means we have reached the end of the stream
-                Console.WriteLine("End reached");
+                Console.WriteLine("  End of stream reached");
                 break;
             }
 
