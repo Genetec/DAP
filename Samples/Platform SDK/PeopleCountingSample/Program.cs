@@ -31,14 +31,14 @@ async Task RunSample()
     if (state == ConnectionStateCode.Success)
     {
         // Load areas into the entity cache
-        await LoadAreas();
+        await LoadAreas(engine);
 
         // Retrieve areas from the entity cache
         IEnumerable<Area> areas = engine.GetEntities(EntityType.Area).OfType<Area>();
 
         foreach (var area in areas)
         {
-            DisplayToConsole(area);
+            DisplayToConsole(engine, area);
         }
     }
     else
@@ -50,7 +50,7 @@ async Task RunSample()
     Console.ReadKey();
 }
 
-async Task LoadAreas()
+async Task LoadAreas(Engine engine)
 {
     Console.WriteLine("Loading areas...");
 
@@ -68,7 +68,7 @@ async Task LoadAreas()
     } while (args.Data.Rows.Count > query.PageSize);
 }
 
-void DisplayToConsole(Area area)
+void DisplayToConsole(Engine engine, Area area)
 {
     Console.WriteLine($"\n{area.Name}");
     Console.WriteLine($"People Count: {area.PeopleCount.Count}");

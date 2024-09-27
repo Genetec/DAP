@@ -31,7 +31,7 @@ async Task RunSample()
     if (loginState == ConnectionStateCode.Success)
     {
         // Load files into the entity cache
-        await LoadFiles();
+        await LoadFiles(engine);
 
         // Get audio files from the entity cache
         IEnumerable<File> audioFiles = engine.GetEntities(EntityType.File).OfType<File>().Where(file => file.FileType == FileType.Audio);
@@ -54,7 +54,7 @@ async Task RunSample()
     Console.ReadKey();
 }
 
-async Task LoadFiles()
+async Task LoadFiles(Engine engine)
 {
     Console.WriteLine("Loading files...");
 
