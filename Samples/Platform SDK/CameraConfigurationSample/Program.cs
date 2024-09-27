@@ -14,35 +14,40 @@ const string password = "";
 
 SdkResolver.Initialize();
 
-using var engine = new Engine();
+await RunSample();
 
-ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-if (state == ConnectionStateCode.Success)
+async Task RunSample()
 {
-    // Load cameras into the entity cache
-    await LoadCamerasIntoCache();
+    using var engine = new Engine();
 
-    // Retrieve cameras from the entity cache
-    List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
-    Console.WriteLine($"{cameras.Count} cameras loaded");
+    ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-    // Retrieve camera configurations for all cameras
-    IList<CameraConfiguration> configurations = await GetCameraConfigurations(cameras);
-   
-    // Display camera configurations
-    foreach (CameraConfiguration configuration in configurations)
+    if (state == ConnectionStateCode.Success)
     {
-        DisplayToConsole(configuration);
-    }
-}
-else
-{
-    Console.WriteLine($"Login failed: {state}");
-}
+        // Load cameras into the entity cache
+        await LoadCamerasIntoCache();
 
-Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
+        // Retrieve cameras from the entity cache
+        List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
+        Console.WriteLine($"{cameras.Count} cameras loaded");
+
+        // Retrieve camera configurations for all cameras
+        IList<CameraConfiguration> configurations = await GetCameraConfigurations(cameras);
+
+        // Display camera configurations
+        foreach (CameraConfiguration configuration in configurations)
+        {
+            DisplayToConsole(configuration);
+        }
+    }
+    else
+    {
+        Console.WriteLine($"Login failed: {state}");
+    }
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
+}
 
 async Task LoadCamerasIntoCache()
 {

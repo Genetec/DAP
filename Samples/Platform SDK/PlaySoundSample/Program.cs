@@ -14,40 +14,45 @@ using Genetec.Sdk.Queries;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 
-const string server = "localhost";
-const string username = "admin";
-const string password = "";
-
 SdkResolver.Initialize();
 
-using var engine = new Engine();
+await RunSample();
 
-ConnectionStateCode loginState = await engine.LogOnAsync(server, username, password);
-
-if (loginState == ConnectionStateCode.Success)
+async Task RunSample()
 {
-    // Load files into the entity cache
-    await LoadFiles();
+    const string server = "localhost";
+    const string username = "admin";
+    const string password = "";
 
-    // Get audio files from the entity cache
-    IEnumerable<File> audioFiles = engine.GetEntities(EntityType.File).OfType<File>().Where(file => file.FileType == FileType.Audio);
+    using var engine = new Engine();
 
-    foreach (File file in audioFiles)
+    ConnectionStateCode loginState = await engine.LogOnAsync(server, username, password);
+
+    if (loginState == ConnectionStateCode.Success)
     {
-        Console.WriteLine($"Playing sound file: {file.Name}");
+        // Load files into the entity cache
+        await LoadFiles();
 
-        engine.ActionManager.PlaySound(UserGroup.AdministratorsUserGroupGuid, file.Guid);
+        // Get audio files from the entity cache
+        IEnumerable<File> audioFiles = engine.GetEntities(EntityType.File).OfType<File>().Where(file => file.FileType == FileType.Audio);
 
-        await Task.Delay(2000); // Wait 2 seconds between each sound
+        foreach (File file in audioFiles)
+        {
+            Console.WriteLine($"Playing sound file: {file.Name}");
+
+            engine.ActionManager.PlaySound(UserGroup.AdministratorsUserGroupGuid, file.Guid);
+
+            await Task.Delay(2000); // Wait 2 seconds between each sound
+        }
     }
-}
-else
-{
-    Console.WriteLine($"Login failed: {loginState}");
-}
+    else
+    {
+        Console.WriteLine($"Login failed: {loginState}");
+    }
 
-Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
+}
 
 async Task LoadFiles()
 {
