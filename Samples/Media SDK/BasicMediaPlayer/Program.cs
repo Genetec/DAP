@@ -6,165 +6,53 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 using System;
-using System.IO;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using Genetec.Sdk.Media;
 
-namespace Genetec.Dap.CodeSamples;
-
-using MediaPlayer = Sdk.Media.MediaPlayer;
-
-class Program
+namespace Genetec.Dap.CodeSamples
 {
-    static Program() => SdkResolver.Initialize();
-
-    [STAThread]
-    static void Main()
+    class Program
     {
-        DisplayControls();
+        static Program() => SdkResolver.Initialize();
 
-        string filePath = ReadFilePath();
-
-        var player = new MediaPlayer();
-        player.OpenFile(filePath);
-
-        var window = new Window
+        [STAThread]
+        static void Main()
         {
-            Width = 800,
-            Height = 600,
-            Background = Brushes.Black,
-            Content = player
-        };
-        window.Loaded += (sender, arg) => player.PlayFile();
-        window.KeyDown += OnKeyDown;
-
-        player.PlayerStateChanged += (sender, arg) => UpdateTitle();
-        player.PlaySpeedChanged += (sender, arg) => UpdateTitle();
-
-        var application = new Application();
-        application.Run(window);
-        player.Dispose();
-
-        void UpdateTitle()
-        {
-            window.Title = $"MediaPlayer - {filePath} - {player.State}" +
-                           $"{(player.PlaySpeed != PlaySpeed.Speed1X ? $" ({player.PlaySpeed})" : "")}";
+            DisplayControls();
+            string filePath = ReadFilePath();
+            var app = new MediaPlayerApp(filePath);
+            app.Run();
         }
 
-        void OnKeyDown(object sender, KeyEventArgs e)
+        private static void DisplayControls()
         {
-            switch (e.Key)
-            {
-                case Key.Space:
-                    TogglePlayPause();
-                    break;
-                case Key.Left:
-                    SeekBackward();
-                    break;
-                case Key.Right:
-                    SeekForward();
-                    break;
-                case Key.Up:
-                    IncreasePlaySpeed();
-                    break;
-                case Key.Down:
-                    DecreasePlaySpeed();
-                    break;
-                case Key.R:
-                    player.Rewind();
-                    break;
-                case Key.I:
-                    player.ShowSpecialOverlay(OverlayType.Statistics);
-                    break;
-                case Key.M:
-                    player.IsAudioEnabled = !player.IsAudioEnabled;
-                    break;
-            }
+            Console.WriteLine("Basic MediaPlayer sample");
+            Console.WriteLine("Space: Play/Pause");
+            Console.WriteLine("Left Arrow: Seek backward by 10 seconds");
+            Console.WriteLine("Right Arrow: Seek forward by 10 seconds");
+            Console.WriteLine("Up Arrow: Increase playback speed");
+            Console.WriteLine("Down Arrow: Decrease playback speed");
+            Console.WriteLine("R: Rewind to the beginning");
+            Console.WriteLine("I: Toggle statistics overlay");
+            Console.WriteLine("M: Toggle audio mute");
         }
 
-        void TogglePlayPause()
+        private static string ReadFilePath()
         {
-            switch (player.State)
+            while (true)
             {
-                case PlayerState.Playing:
-                    player.Pause();
-                    break;
-                case PlayerState.Paused:
-                    player.ResumePlaying();
-                    break;
-                default:
-                    player.PlayFile();
-                    break;
+                Console.Write("Please enter the path to a .g64, .g64x, or .mp4 file: ");
+                string filePath = Console.ReadLine()?.Trim();
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    Console.WriteLine("File path cannot be empty. Please try again.");
+                    continue;
+                }
+                if (!System.IO.File.Exists(filePath))
+                {
+                    Console.WriteLine($"The file {filePath} does not exist. Please try again.");
+                    continue;
+                }
+                return filePath;
             }
         }
-
-        void SeekBackward()
-        {
-            if (player.LastRenderedFrameTime != DateTime.MinValue)
-            {
-                player.Seek(player.LastRenderedFrameTime.AddSeconds(-10));
-            }
-        }
-
-        void SeekForward()
-        {
-            if (player.LastRenderedFrameTime != DateTime.MinValue)
-            {
-                player.Seek(player.LastRenderedFrameTime.AddSeconds(10));
-            }
-        }
-
-        void IncreasePlaySpeed()
-        {
-            int currentIndex = Array.IndexOf(Enum.GetValues(typeof(PlaySpeed)), player.PlaySpeed);
-            if (currentIndex < Enum.GetValues(typeof(PlaySpeed)).Length - 1)
-            {
-                player.PlaySpeed = (PlaySpeed)Enum.GetValues(typeof(PlaySpeed)).GetValue(currentIndex + 1);
-            }
-        }
-
-        void DecreasePlaySpeed()
-        {
-            int currentIndex = Array.IndexOf(Enum.GetValues(typeof(PlaySpeed)), player.PlaySpeed);
-            if (currentIndex > 0)
-            {
-                player.PlaySpeed = (PlaySpeed)Enum.GetValues(typeof(PlaySpeed)).GetValue(currentIndex - 1);
-            }
-        }
-    }
-
-    static string ReadFilePath()
-    {
-        while (true)
-        {
-            Console.Write("Please enter the path to a .g64, .g64x, or .mp4 file: ");
-            string filePath = Console.ReadLine()?.Trim();
-            if (string.IsNullOrEmpty(filePath))
-            {
-                Console.WriteLine("File path cannot be empty. Please try again.");
-                continue;
-            }
-            if (!File.Exists(filePath))
-            {
-                Console.WriteLine($"The file {filePath} does not exist. Please try again.");
-                continue;
-            }
-            return filePath;
-        }
-    }
-
-    static void DisplayControls()
-    {
-        Console.WriteLine("Basic MediaPlayer sample");
-        Console.WriteLine("Space: Play/Pause");
-        Console.WriteLine("Left Arrow: Seek backward by 10 seconds");
-        Console.WriteLine("Right Arrow: Seek forward by 10 seconds");
-        Console.WriteLine("Up Arrow: Increase playback speed");
-        Console.WriteLine("Down Arrow: Decrease playback speed");
-        Console.WriteLine("R: Rewind to the beginning");
-        Console.WriteLine("I: Toggle statistics overlay");
-        Console.WriteLine("M: Toggle audio mute");
     }
 }
