@@ -45,12 +45,18 @@
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="LoggerSample.exe.gconfig">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
