@@ -46,6 +46,9 @@
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.Scripting.Interfaces.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Data.DataSetExtensions" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
@@ -61,13 +64,8 @@
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.Scripting.Interfaces.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="System" />
-		<Reference Include="System.Core" />
-		<Reference Include="System.Data.DataSetExtensions" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
+		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
 	</ItemGroup>
 
 	<Target Name="CopyCertificates" AfterTargets="Build">
