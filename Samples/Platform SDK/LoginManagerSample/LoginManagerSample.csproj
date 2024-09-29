@@ -10,14 +10,6 @@
 		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net481'">
-		<DefineConstants>NETFRAMEWORK_481</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
-		<DefineConstants>NET8_0_WINDOWS</DefineConstants>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<DebugSymbols>true</DebugSymbols>
@@ -27,7 +19,7 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>10</LangVersion>
+		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
@@ -38,7 +30,7 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>10</LangVersion>
+		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
@@ -46,6 +38,8 @@
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
@@ -53,12 +47,8 @@
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="System" />
-		<Reference Include="System.Core" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
+		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
 	</ItemGroup>
 
 	<Target Name="CopyCertificates" AfterTargets="Build">
