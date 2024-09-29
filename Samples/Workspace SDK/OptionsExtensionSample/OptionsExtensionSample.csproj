@@ -47,6 +47,11 @@
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.Controls.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="WindowsBase" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
@@ -62,23 +67,12 @@
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.Controls.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
+		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Resource Include="Resources\Icon.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="System" />
-		<Reference Include="System.Core" />
-		<Reference Include="PresentationCore" />
-		<Reference Include="PresentationFramework" />
-		<Reference Include="WindowsBase" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

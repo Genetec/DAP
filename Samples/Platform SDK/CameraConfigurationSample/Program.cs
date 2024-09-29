@@ -15,43 +15,48 @@ using System.Collections.Generic;
 using Genetec.Sdk.Entities;
 using System.Linq;
 
-const string server = "localhost";
-const string username = "admin";
-const string password = "";
-
 SdkResolver.Initialize();
 
-using var engine = new Engine();
+await RunSample();
 
-ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-if (state == ConnectionStateCode.Success)
+async Task RunSample()
 {
-    // Load cameras into the entity cache
-    await LoadCamerasIntoCache();
+    const string server = "localhost";
+    const string username = "admin";
+    const string password = "";
 
-    // Retrieve cameras from the entity cache
-    List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
-    Console.WriteLine($"{cameras.Count} cameras loaded");
+    using var engine = new Engine();
 
-    // Retrieve camera configurations for all cameras
-    IList<CameraConfiguration> configurations = await GetCameraConfigurations(cameras);
-   
-    // Display camera configurations
-    foreach (CameraConfiguration configuration in configurations)
+    ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
+    if (state == ConnectionStateCode.Success)
     {
-        DisplayToConsole(configuration);
+        // Load cameras into the entity cache
+        await LoadCamerasIntoCache(engine);
+
+        // Retrieve cameras from the entity cache
+        List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
+        Console.WriteLine($"{cameras.Count} cameras loaded");
+
+        // Retrieve camera configurations for all cameras
+        IList<CameraConfiguration> configurations = await GetCameraConfigurations(engine, cameras);
+
+        // Display camera configurations
+        foreach (CameraConfiguration configuration in configurations)
+        {
+            DisplayToConsole(engine, configuration);
+        }
     }
-}
-else
-{
-    Console.WriteLine($"Login failed: {state}");
+    else
+    {
+        Console.WriteLine($"Login failed: {state}");
+    }
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
 }
 
-Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
-
-async Task LoadCamerasIntoCache()
+async Task LoadCamerasIntoCache(Engine engine)
 {
     Console.WriteLine("Loading cameras...");
 
@@ -60,7 +65,7 @@ async Task LoadCamerasIntoCache()
     await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 }
 
-async Task<IList<CameraConfiguration>> GetCameraConfigurations(IEnumerable<Camera> cameras)
+async Task<IList<CameraConfiguration>> GetCameraConfigurations(Engine engine, IEnumerable<Camera> cameras)
 {
     Console.WriteLine("Retrieving camera configurations...");
 
@@ -96,7 +101,7 @@ async Task<IList<CameraConfiguration>> GetCameraConfigurations(IEnumerable<Camer
     };
 }
 
-void DisplayToConsole(CameraConfiguration config)
+void DisplayToConsole(Engine engine, CameraConfiguration config)
 {
     Console.WriteLine("Camera Configuration:");
     Console.WriteLine($"Camera:               {engine.GetEntity(config.Guid).Name}");
