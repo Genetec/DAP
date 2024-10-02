@@ -49,8 +49,11 @@
 			<Private>True</Private>
 		</Reference>
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
-		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -67,7 +70,7 @@
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
-
+	
 	<Target Name="CopyCertificates" AfterTargets="Build">
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
