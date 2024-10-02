@@ -18,6 +18,7 @@ using Genetec.Sdk.Workspace.Pages;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk.Entities;
 using Monitor = Sdk.Workspace.Monitors.Monitor;
+using Genetec.Sdk.Workspace.Services;
 
 // This attribute associates the page with its descriptor
 [Page(typeof(SampleTilePageDescriptor))]
@@ -75,21 +76,14 @@ public class SampleTilePage : TilePage
         // Create a 2x2 grid pattern for the tiles
         Pattern = TilePattern.Create(2, 2);
 
+        IContentBuilderService builderService = Workspace.Services.Get<IContentBuilderService>();
+
         // Populate each tile with a camera's video content
         for (int index = 0; index < cameras.Count; index++)
         {
-            // Create video content for the camera
-            var videoContent = new VideoContent(cameras[index].Guid);
-            videoContent.Initialize(Workspace);
-            videoContent.VideoMode = VideoMode.Live; // Set to live video mode
-
-            // Create a content group and add the video content to it
-            var contentGroup = new ContentGroup();
-            contentGroup.Initialize(Workspace);
-            contentGroup.Contents.Add(videoContent);
-
-            // Assign the content group to the tile state
-            States[index].Content = contentGroup;
+            // Create a content group for the camera using the content builder service
+            ContentGroup context = builderService.Build(cameras[index].Guid);
+            States[index].Content = context;
         }
     }
 }
