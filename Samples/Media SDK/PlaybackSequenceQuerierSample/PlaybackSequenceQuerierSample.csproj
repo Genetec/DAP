@@ -49,11 +49,11 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<Reference Include="Genetec.Sdk">
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.dll</HintPath>
-			<Private>False</Private>
+			<Private>True</Private>
 		</Reference>
 		<Reference Include="Genetec.Sdk.Media">
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.Media.dll</HintPath>
-			<Private>False</Private>
+			<Private>True</Private>
 		</Reference>
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
 		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
