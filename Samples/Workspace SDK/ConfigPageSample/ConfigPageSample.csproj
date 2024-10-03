@@ -9,6 +9,7 @@
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
 		<OutputType>Library</OutputType>
 		<UseWPF>true</UseWPF>
+		<GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">

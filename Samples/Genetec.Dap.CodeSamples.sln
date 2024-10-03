@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D4CFB78-1DDF-442B-BB0F-6B119C559603}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Directory.build.props = Directory.build.props
 		Directory.build.targets = Directory.build.targets
 	EndProjectSection
 EndProject
@@ -179,7 +180,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchiverRoleSample", "Platf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleSample", "Platform SDK\ScheduleSample\ScheduleSample.csproj", "{B70DF3AD-A97F-4274-A1F2-409392E6EC97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartitionSample", "Platform SDK\PartitionSample\PartitionSample.csproj", "{B8B75848-AB94-4635-BD38-50DB9EDAC7E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartitionSample", "Platform SDK\PartitionSample\PartitionSample.csproj", "{08B69AD1-8104-4889-A7C6-9C9136D0C02C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -507,10 +508,10 @@ Global
 		{B70DF3AD-A97F-4274-A1F2-409392E6EC97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B70DF3AD-A97F-4274-A1F2-409392E6EC97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B70DF3AD-A97F-4274-A1F2-409392E6EC97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8B75848-AB94-4635-BD38-50DB9EDAC7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8B75848-AB94-4635-BD38-50DB9EDAC7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8B75848-AB94-4635-BD38-50DB9EDAC7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8B75848-AB94-4635-BD38-50DB9EDAC7E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B69AD1-8104-4889-A7C6-9C9136D0C02C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B69AD1-8104-4889-A7C6-9C9136D0C02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B69AD1-8104-4889-A7C6-9C9136D0C02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B69AD1-8104-4889-A7C6-9C9136D0C02C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -596,12 +597,13 @@ Global
 		{601327C9-6058-4B6C-B69F-D9080E8C31B1} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{E0690536-46BF-4966-8D5D-C5A47769EB52} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{B70DF3AD-A97F-4274-A1F2-409392E6EC97} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
-		{B8B75848-AB94-4635-BD38-50DB9EDAC7E8} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{08B69AD1-8104-4889-A7C6-9C9136D0C02C} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{08b69ad1-8104-4889-a7c6-9c9136d0c02c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{0bd3aa34-ca7e-452d-a791-d62c17b19713}*SharedItemsImports = 5
 		Shared\Shared.projitems*{0c921097-8e94-42cf-b50d-349d4a77b704}*SharedItemsImports = 5
 		Shared\Shared.projitems*{100afe97-6a43-4d06-af99-7f2bbeef17fd}*SharedItemsImports = 5
@@ -639,7 +641,6 @@ Global
 		Shared\Shared.projitems*{acc4a188-b29c-4a1d-88f5-9e2909de7b1b}*SharedItemsImports = 5
 		Shared\Shared.projitems*{b2a61c59-f4bf-4a4a-973b-9380e3bb4e72}*SharedItemsImports = 5
 		Shared\Shared.projitems*{b70df3ad-a97f-4274-a1f2-409392e6ec97}*SharedItemsImports = 5
-		Shared\Shared.projitems*{b8b75848-ab94-4635-bd38-50db9edac7e8}*SharedItemsImports = 5
 		Shared\Shared.projitems*{b8f6538a-582c-4d99-bc46-7908785779d5}*SharedItemsImports = 5
 		Shared\Shared.projitems*{bbf48177-99de-4ee3-bea5-8e69f7b46d81}*SharedItemsImports = 5
 		Shared\Shared.projitems*{bc792e0f-d089-4c3e-953e-2f9d327a550f}*SharedItemsImports = 5

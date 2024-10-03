@@ -7,10 +7,10 @@
 
 namespace Genetec.Dap.CodeSamples;
 
-using Sdk.Workspace.Pages;
-
-[Page(typeof(SamplePageDescriptor))]
-public class SamplePage : Page
+public partial class SampleTilePageView
 {
-    public SamplePage() => View = new SamplePageView();
+    public SampleTilePageView()
+    {
+        InitializeComponent();
+    }
 }
