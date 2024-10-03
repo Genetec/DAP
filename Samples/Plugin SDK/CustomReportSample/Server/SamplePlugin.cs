@@ -32,8 +32,8 @@ public class SamplePlugin : Plugin
     private readonly Dictionary<ReportQueryType, IReportHandler> m_reportHandlers = new();
 
     // Returns the supported queries for this plugin.
-    public sealed override List<ReportQueryType> SupportedQueries => new()
-    {
+    public sealed override List<ReportQueryType> SupportedQueries =>
+    [
         ReportQueryType.ActivityTrails,
         ReportQueryType.AuditTrails,
         ReportQueryType.CardholderActivity,
@@ -50,10 +50,10 @@ public class SamplePlugin : Plugin
         ReportQueryType.HealthEvent,
         ReportQueryType.HealthStatistics,
         ReportQueryType.Custom
-    };
+    ];
 
     // Returns the supported custom reports for this plugin.
-    public override List<Guid> SupportedCustomReports => new() { CustomReportId.Value };
+    public override List<Guid> SupportedCustomReports => [CustomReportId.Value];
 
     protected override void Dispose(bool disposing)
     {

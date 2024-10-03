@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-public static class AsyncEnumerableExtensions
+static class AsyncEnumerableExtensions
 {
     /// <summary>
     /// Buffers the elements of the <see cref="IAsyncEnumerable{T}"/> into chunks of a specified size.

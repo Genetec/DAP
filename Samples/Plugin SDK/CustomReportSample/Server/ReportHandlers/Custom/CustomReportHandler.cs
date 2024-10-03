@@ -17,12 +17,8 @@ using Sdk;
 using Sdk.Entities;
 using Sdk.Queries;
 
-public class CustomReportHandler : ReportHandler<CustomQuery, CustomReportRecord>
+class CustomReportHandler(IEngine engine, Role role) : ReportHandler<CustomQuery, CustomReportRecord>(engine, role)
 {
-    public CustomReportHandler(IEngine engine, Role role) : base(engine, role)
-    {
-    }
-
     // Ensure that the custom report handler only handles the custom report with the specified identifier
     protected override bool IsQuerySupported(CustomQuery query)
     {
@@ -74,7 +70,7 @@ public class CustomReportHandler : ReportHandler<CustomQuery, CustomReportRecord
 
         // This is an example of how to return a record
 
-        foreach (var guid in query.QueryEntities)
+        foreach (Guid guid in query.QueryEntities)
         {
             yield return new CustomReportRecord
             {

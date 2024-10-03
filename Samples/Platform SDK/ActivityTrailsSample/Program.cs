@@ -32,9 +32,9 @@ async Task RunSample()
     {
         DateTime from = DateTime.Now.AddDays(-30);
         DateTime to = DateTime.Now;
-        IEnumerable<ActivityType> activities = new [] { ActivityType.UserLoggedOn, ActivityType.UserLogonFailed };
-        IEnumerable<ApplicationType> applicationTypes = new [] { ApplicationType.Sdk };
-        IEnumerable<Guid> initiators = new[] { engine.LoggedUser.Guid };
+        IEnumerable<ActivityType> activities = [ActivityType.UserLoggedOn, ActivityType.UserLogonFailed];
+        IEnumerable<ApplicationType> applicationTypes = [ApplicationType.Sdk];
+        IEnumerable<Guid> initiators = [engine.LoggedUser.Guid];
         int maximumResultCount = 500;
 
         ICollection<ActivityTrail> activityTrails = await GetActivityTrails(engine, from, to, activities, applicationTypes, initiators, maximumResultCount);

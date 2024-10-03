@@ -48,7 +48,7 @@ async Task RunSample()
             ReportType.ElevatorActivity,
             ReportType.VisitorActivity
         };
-  
+
         foreach (ReportType reportType in reportTypes)
         {
             List<AccessControlEvent> activities = await GetActivities(engine, reportType, from, to, maxResultCount, entity);
@@ -126,7 +126,7 @@ void DisplayToConsole(Engine engine, List<AccessControlEvent> activities)
     string GetEntityName(Guid? entityId) => engine.GetEntity(entityId.GetValueOrDefault())?.Name;
 }
 
-class AccessControlEvent
+record AccessControlEvent
 {
     public DateTime Timestamp { get; set; }
     public Guid? Unit { get; set; }

@@ -24,10 +24,12 @@ public class SamplePlugin : Plugin
         
     protected override void OnPluginStart()
     {
-        CustomActionTypeDescriptor descriptor = new(CustomActionTypes.LaunchEncoderCommand, "Launch encoder command");
-        descriptor.Description = "Launches an encoder command on a camera";
-        descriptor.SupportedActionUsage = ActionUsage.All;
-        descriptor.HandleByServer = true;
+        CustomActionTypeDescriptor descriptor = new(CustomActionTypes.LaunchEncoderCommand, "Launch encoder command") 
+        { 
+            Description = "Launches an encoder command on a camera",
+            SupportedActionUsage = ActionUsage.All,
+            HandleByServer = true 
+        };
         descriptor.SetIcon(Properties.Resources.SmallLogo);
 
         var config = (SystemConfiguration)Engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
