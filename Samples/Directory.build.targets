@@ -1,6 +1,7 @@
 <Project>
 	<PropertyGroup>
 		<Company>Genetec Inc.</Company>
+		<AssemblyCopyright>Copyright © Genetec Inc. 2024</AssemblyCopyright>
 		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 </Project>

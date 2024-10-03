@@ -9,6 +9,7 @@
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
 		<OutputType>Library</OutputType>
 		<UseWPF>true</UseWPF>
+		<GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
@@ -81,6 +82,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Prism.Core" Version="8.1.97" />
+	  <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
