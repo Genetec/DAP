@@ -1,12 +1,14 @@
-﻿<UserControl x:Class="Genetec.Dap.CodeSamples.SamplePageView" 
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl
+    x:Class="Genetec.Dap.CodeSamples.SamplePageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Label HorizontalAlignment="Center" 
-           VerticalAlignment="Center" 
-           HorizontalContentAlignment="Center" 
-           Content="Page Sample" 
-           FontSize="16" 
-           Style="{Styles {x:Static LabelStyles.Normal}}" />
+    <Label
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        HorizontalContentAlignment="Center"
+        Content="Page Sample"
+        FontSize="16"
+        Style="{Styles {x:Static LabelStyles.Normal}}" />
 
 </UserControl>
