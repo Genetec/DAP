@@ -7,6 +7,8 @@
 
 using System;
 
+namespace Genetec.Dap.CodeSamples;
+
 static class StreamUsage
 {
     public static readonly Guid Live = new("E30E6525-2202-4502-8101-5A75EE15F04B");
