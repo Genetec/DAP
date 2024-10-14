@@ -1,88 +1,91 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Sdk.Entities;
+using Sdk.Workspace.Options;
+
+public sealed class SampleOptionsExtensions : OptionsExtension
 {
-    using System;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using Sdk.Entities;
-    using Sdk.Workspace.Options;
+    public static readonly Guid SampleOptionsSettings = new("4B329744-E082-43F8-8B9D-9043C90D6EEB");
 
-    public sealed class SampleOptionsExtensions : OptionsExtension
+    public const string ExtensionName = nameof(SampleOptionsExtensions);
+
+    public string Text
     {
-        public static readonly Guid SampleOptionsSettings = new("4B329744-E082-43F8-8B9D-9043C90D6EEB");
+        get => (string)this[nameof(Text)];
+        set => this[nameof(Text)] = value;
+    }
 
-        public const string ExtensionName = nameof(SampleOptionsExtensions);
+    public int Number
+    {
+        get => (int)this[nameof(Number)];
+        set => this[nameof(Number)] = value;
+    }
 
-        public string Text
+    public DateTime DateTime
+    {
+        get => (DateTime)this[nameof(DateTime)];
+        set => this[nameof(DateTime)] = value;}
+
+    public Color Color
+    {
+        get => (Color)this[nameof(Color)];
+        set => this[nameof(Color)] = value;
+    }
+
+    public override ImageSource Icon => new BitmapImage(new Uri("pack://application:,,,/OptionsExtensionSample;component/Resources/Icon.png", UriKind.RelativeOrAbsolute));
+
+    public override string Name => ExtensionName;
+
+    public override string Title => Properties.Resources.SampleOptionsTitle;
+
+    public SampleOptionsExtensions()
+    {
+        RegisterProperty(nameof(Text), typeof(string), default(string));
+        RegisterProperty(nameof(Number), typeof(int), default(int));
+        RegisterProperty(nameof(DateTime), typeof(DateTime), default(DateTime));
+        RegisterProperty(nameof(Color), typeof(Color), default(Color));
+    }
+
+    protected override void Initialize()
+    {
+        AddOptionPage(new SampleOptionPage(this));
+    }
+
+    protected override void Load()
+    {
+        User user = Workspace.Sdk.LoggedUser;
+        if (user != null)
         {
-            get => (string)this[nameof(Text)];
-            set => this[nameof(Text)] = value;
+            SampleOptionsData data = SampleOptionsData.Deserialize(user.Settings[SampleOptionsSettings]);
+            Text = data.Text;
+            Number = data.Number;
+            DateTime = data.DateTime;
+            Color = data.Color;
         }
+    }
 
-        public int Number
+    protected override void Save()
+    {
+        User user = Workspace.Sdk.LoggedUser;
+        if (user is not null)
         {
-            get => (int)this[nameof(Number)];
-            set => this[nameof(Number)] = value;
-        }
-
-        public DateTime DateTime
-        {
-            get => (DateTime)this[nameof(DateTime)];
-            set => this[nameof(DateTime)] = value;}
-
-        public Color Color
-        {
-            get => (Color)this[nameof(Color)];
-            set => this[nameof(Color)] = value;
-        }
-
-        public override ImageSource Icon => new BitmapImage(new Uri("pack://application:,,,/OptionsExtensionSample;component/Resources/Icon.png", UriKind.RelativeOrAbsolute));
-
-        public override string Name => ExtensionName;
-
-        public override string Title => Properties.Resources.SampleOptionsTitle;
-
-        public SampleOptionsExtensions()
-        {
-            RegisterProperty(nameof(Text), typeof(string), default(string));
-            RegisterProperty(nameof(Number), typeof(int), default(int));
-            RegisterProperty(nameof(DateTime), typeof(DateTime), default(DateTime));
-            RegisterProperty(nameof(Color), typeof(Color), default(Color));
-        }
-
-        protected override void Initialize()
-        {
-            AddOptionPage(new SampleOptionPage(this));
-        }
-
-        protected override void Load()
-        {
-            User user = Workspace.Sdk.LoggedUser;
-            if (user != null)
+            user.Settings[SampleOptionsSettings] = new SampleOptionsData
             {
-                SampleOptionsData data = SampleOptionsData.Deserialize(user.Settings[SampleOptionsSettings]);
-                Text = data.Text;
-                Number = data.Number;
-                DateTime = data.DateTime;
-                Color = data.Color;
-            }
-        }
-
-        protected override void Save()
-        {
-            User user = Workspace.Sdk.LoggedUser;
-            if (user is not null)
-            {
-                user.Settings[SampleOptionsSettings] = new SampleOptionsData
-                {
-                    Text = Text,
-                    Number = Number,
-                    DateTime = DateTime,
-                    Color = Color
-                }.Serialize();
-            }
+                Text = Text,
+                Number = Number,
+                DateTime = DateTime,
+                Color = Color
+            }.Serialize();
         }
     }
 }

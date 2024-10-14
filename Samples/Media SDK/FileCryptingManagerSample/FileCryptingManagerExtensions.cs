@@ -12,7 +12,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk.Media.Export;
 
-public static class FileCryptingManagerExtensions
+namespace Genetec.Dap.CodeSamples;
+
+static class FileCryptingManagerExtensions
 {
     /// <summary>
     /// Encrypts a file asynchronously using the specified password.

@@ -7,7 +7,9 @@
 
 using System;
 
-public static class StreamMediaType
+namespace Genetec.Dap.CodeSamples;
+
+static class StreamMediaType
 {
     public static readonly Guid Legacy = new("E5FDCEF3-0A63-4615-A2A2-BB34C892FB97");
     public static readonly Guid Video = new("4A0425E9-5F15-4675-83EB-2777CE199CB3");
