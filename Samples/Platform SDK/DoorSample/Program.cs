@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Genetec.Dap.CodeSamples;
@@ -26,9 +27,7 @@ async Task RunSample()
     if (state == ConnectionStateCode.Success)
     {
         await LoadDoors(engine);
-
         IEnumerable<Door> doors = engine.GetEntities(EntityType.Door).OfType<Door>();
-
         DisplayDoorInformation(engine, doors);
     }
     else
@@ -51,197 +50,209 @@ void DisplayDoorInformation(Engine engine, IEnumerable<Door> doors)
 {
     foreach (Door door in doors)
     {
-        Console.WriteLine($"\nDoor Name: {door.Name}");
-        Console.WriteLine($"Door ID: {door.Guid}");
-        Console.WriteLine($"Access Permission Level: {door.AccessPermissionLevel}");
-        Console.WriteLine($"Is Locked: {door.IsLocked}");
-        Console.WriteLine($"Is Open: {door.IsOpen}");
-        Console.WriteLine($"Door Lock Device: {GetEntityName(door.DoorLockDevice)}");
-        Console.WriteLine($"Auto Unlock Override Active: {door.AutoUnlockOverride?.IsUnlocking}");
-        Console.WriteLine($"Auto Unlock Override Start Time: {door.AutoUnlockOverride?.StartTime}");
-        Console.WriteLine($"Auto Unlock Override End Time: {door.AutoUnlockOverride?.EndTime}");
-        Console.WriteLine($"Re-lock Delay in Seconds: {door.RelockDelayInSeconds}");
-        Console.WriteLine($"Extended Entry Time in Seconds: {door.ExtendedEntryTimeInSeconds}");
-        Console.WriteLine($"Extended Grant Time in Seconds: {door.ExtendedGrantTimeInSeconds}");
-        Console.WriteLine($"Standard Entry Time in Seconds: {door.StandardEntryTimeInSeconds}");
-        Console.WriteLine($"Standard Grant Time in Seconds: {door.StandardGrantTimeInSeconds}");
-        Console.WriteLine($"Re-lock on Close: {door.RelockOnClose}");
-        Console.WriteLine($"Maintenance Mode Active: {door.MaintenanceModeActive}");
-        Console.WriteLine($"Ignore Access Events When Unlocked By Schedule: {door.IgnoreAccessEventsWhenUnlockedBySchedule}");
-        Console.WriteLine($"Ignore Door Open Too Long Event When Unlocked By Schedule: {door.IgnoreDoorOpenTooLongEventWhenUnlockedBySchedule}");
-        Console.WriteLine($"Preferred Unit: {GetEntityName(door.PreferredUnit)}");
-        Console.WriteLine($"Preferred Interface: {GetEntityName(door.PreferredInterface)}");
-        Console.WriteLine($"Two Person Rule Active: {door.TwoPersonRule?.IsActive}");
-        Console.WriteLine($"Door Forced Active: {door.DoorForced?.IsActive}");
-        Console.WriteLine($"Door Forced Buzzer Behavior: {door.DoorForced?.BuzzerBehavior}");
-        Console.WriteLine($"Door Held Active: {door.DoorHeld?.IsActive}");
-        Console.WriteLine($"Door Held Buzzer Behavior: {door.DoorHeld?.BuzzerBehavior}");
-        Console.WriteLine($"Visitor Escort Maximum Delay: {door.VisitorEscort?.MaximumDelayBetweenCardPresentations}");
+        Console.WriteLine($"\n=================== DOOR: {door.Name} ===================\n");
 
-        DisplayDoorSideDetails(door.DoorSideIn);
-
-        DisplayDoorSideDetails(door.DoorSideOut);
-
-        DisplayAccessRules();
-
+        DisplayBasicInfo();
+        DisplayStatus();
+        DisplayTimingConfig();
+        DisplayAutoUnlock();
         DisplaySchedules();
-
+        DisplayAccessRules();
+        DisplayDoorSides();
         DisplayConnections();
 
-        Console.WriteLine(new string('-', 20));
+        Console.WriteLine("=======================================================\n");
 
-        void DisplayAccessRules()
+        void DisplayBasicInfo()
         {
-            var records = door.FetchAccessRulesForSide(AccessRuleSide.None);
-            foreach (var record in records)
+            Console.WriteLine("BASIC INFORMATION");
+            Console.WriteLine($"  Door ID: {door.Guid}");
+            Console.WriteLine($"  Access Permission Level: {door.AccessPermissionLevel}");
+            Console.WriteLine($"  Door Lock Device: {GetEntityName(door.DoorLockDevice)}");
+            Console.WriteLine($"  Preferred Unit: {GetEntityName(door.PreferredUnit)}");
+            Console.WriteLine();
+        }
+
+        void DisplayStatus()
+        {
+            Console.WriteLine("CURRENT STATUS");
+            Console.WriteLine($"  Locked: {door.IsLocked}");
+            Console.WriteLine($"  Open: {door.IsOpen}");
+            Console.WriteLine($"  Maintenance Mode: {door.MaintenanceModeActive}");
+            Console.WriteLine($"  Two Person Rule Active: {door.TwoPersonRule?.IsActive}");
+            Console.WriteLine();
+        }
+
+        void DisplayTimingConfig()
+        {
+            Console.WriteLine("TIMING CONFIGURATION");
+            Console.WriteLine($"  Re-lock Delay: {door.RelockDelayInSeconds} seconds");
+            Console.WriteLine($"  Standard Entry Time: {door.StandardEntryTimeInSeconds} seconds");
+            Console.WriteLine($"  Extended Entry Time: {door.ExtendedEntryTimeInSeconds} seconds");
+            Console.WriteLine($"  Standard Grant Time: {door.StandardGrantTimeInSeconds} seconds");
+            Console.WriteLine($"  Extended Grant Time: {door.ExtendedGrantTimeInSeconds} seconds");
+            Console.WriteLine($"  Re-lock on Close: {door.RelockOnClose}");
+            Console.WriteLine();
+        }
+
+        void DisplayAutoUnlock()
+        {
+            if (door.AutoUnlockOverride != null)
             {
-                Console.WriteLine($"Access Rule: {GetEntityName(record.Id)} Side: {record.Side}");
+                Console.WriteLine("AUTO UNLOCK OVERRIDE");
+                Console.WriteLine($"  Active: {door.AutoUnlockOverride.IsUnlocking}");
+                Console.WriteLine($"  Start Time: {door.AutoUnlockOverride.StartTime}");
+                Console.WriteLine($"  End Time: {door.AutoUnlockOverride.EndTime}");
+                Console.WriteLine();
             }
         }
 
         void DisplaySchedules()
         {
+            Console.WriteLine("SCHEDULES");
+
             if (door.UnlockSchedules.Any())
             {
+                Console.WriteLine("  Unlock Schedules:");
                 foreach (var schedule in door.UnlockSchedules.Select(engine.GetEntity).OfType<Schedule>())
                 {
-                    Console.WriteLine($"Unlock Schedule: {schedule.Name}");
+                    Console.WriteLine($"    • {schedule.Name}");
                 }
             }
 
             if (door.UnlockExceptionSchedules.Any())
             {
+                Console.WriteLine("  Exception Schedules:");
                 foreach (var schedule in door.UnlockExceptionSchedules.Select(engine.GetEntity).OfType<Schedule>())
                 {
-                    Console.WriteLine($"Unlock Exception Schedule: {schedule.Name}");
+                    Console.WriteLine($"    • {schedule.Name}");
                 }
             }
+            Console.WriteLine();
         }
 
-        void DisplayConnections()
+        void DisplayAccessRules()
         {
-            DisplayConnectionType(AccessPointType.Rex, "Rex Connections");
-            DisplayConnectionType(AccessPointType.DoorSensor, "Door Sensor Connections");
-            DisplayConnectionType(AccessPointType.PullStation, "Pull Station Connections");
-            DisplayConnectionType(AccessPointType.DoorLock, "Door Lock Connections");
-            DisplayConnectionType(AccessPointType.Buzzer, "Buzzer Connections");
-            DisplayConnectionType(AccessPointType.LockSensor, "Lock Sensor Connections");
-
-            void DisplayConnectionType(AccessPointType type, string header)
+            Console.WriteLine("ACCESS RULES");
+            ReadOnlyCollection<AccessRuleRecord> records = door.FetchAccessRulesForSide(AccessRuleSide.None);
+            foreach (AccessRuleRecord record in records)
             {
-                var connections = door.GetConnections(type);
-                if (connections.Any())
-                {
-                    Console.WriteLine($"{header}:");
-                    foreach (var entity in connections.Select(engine.GetEntity))
-                    {
-                        Console.WriteLine($"    Name: {entity?.Name}");
-                    }
-                }
+                Console.WriteLine($"  • {GetEntityName(record.Id)} (Side: {record.Side})");
             }
+            Console.WriteLine();
         }
 
-        void DisplayDoorSideDetails(Door.DoorSide doorSide)
+        void DisplayDoorSides()
         {
-            Console.WriteLine($"    Access Point Side: {doorSide.AccessPointSide}");
-
-            if (doorSide.Reader != null)
-            {
-                Console.WriteLine($"    Reader Access Point: {doorSide.Reader.Name}");
-                Console.WriteLine($"        Access Point Type: {doorSide.Reader.AccessPointType}");
-
-                Console.WriteLine("        Cameras Associated with Reader:");
-                foreach (var cameraGuid in doorSide.Reader.Cameras)
-                {
-                    Console.WriteLine($"            Camera: {GetEntityName(cameraGuid)}");
-                }
-
-                if (engine.GetEntity(doorSide.Reader.Device) is Reader reader)
-                {
-                    DisplayDeviceInformation(reader);
-                }
-            }
-
-            if (doorSide.Rex != null)
-            {
-                Console.WriteLine($"    Rex Access Point: {doorSide.Rex.Name}");
-                Console.WriteLine($"        Access Point Type: {doorSide.Rex.AccessPointType}");
-
-                if (engine.GetEntity(doorSide.Rex.Device) is Device device)
-                {
-                    DisplayDeviceInformation(device);
-                }
-            }
-
-            if (doorSide.EntrySensor != null)
-            {
-                Console.WriteLine($"    Entry Sensor Access Point: {doorSide.EntrySensor.Name}");
-                Console.WriteLine($"        Access Point Type: {doorSide.EntrySensor.AccessPointType}");
-
-                if (engine.GetEntity(doorSide.EntrySensor.Device) is Device device)
-                {
-                    DisplayDeviceInformation(device);
-                }
-            }
-        }
-
-        void DisplayDeviceInformation(Device device)
-        {
-            Console.WriteLine($"Name: {device.Name}");
-            Console.WriteLine($"Physical name: {device.PhysicalName}");
-            Console.WriteLine($"Unique ID: {device.UniqueId}");
-            Console.WriteLine($"Online: {device.IsOnline}");
-            Console.WriteLine($"        Device Type: {device.DeviceType}");
-
-            if (device.InterfaceModule != Guid.Empty)
-            {
-                Console.WriteLine($"        Interface Module: {GetEntityName(device.InterfaceModule)}");
-            }
-
-            if (device.Unit != Guid.Empty)
-            {
-                Console.WriteLine($"        Unit: {GetEntityName(device.Unit)}");
-            }
-
-            switch (device)
-            {
-                case InputDevice inputDevice:
-                    Console.WriteLine($"State: {inputDevice.State}");
-                    try
-                    {
-                        DisplayDeviceSettings(inputDevice.InputDeviceSettings);
-                    }
-                    catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                    {
-                    }
-                    break;
-
-                case OutputDevice outputDevice:
-                    Console.WriteLine($"State: {outputDevice.State}");
-                    try
-                    {
-                        DisplayDeviceSettings(outputDevice.OutputDeviceSettings);
-                    }
-                    catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                    {
-                    }
-                    break;
-
-                case Reader reader:
-                    try
-                    {
-                        DisplayReaderInformation(reader);
-                        DisplayDeviceSettings(reader.ReaderSettings);
-                    }
-                    catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                    {
-                    }
-                    break;
-            }
-
+            Console.WriteLine("DOOR SIDE DETAILS");
+            DisplayDoorSide("ENTRY SIDE", door.DoorSideIn);
+            DisplayDoorSide("EXIT SIDE", door.DoorSideOut);
             Console.WriteLine();
 
-            void DisplayReaderInformation(Reader reader)
+            void DisplayDoorSide(string sideLabel, Door.DoorSide doorSide)
+            {
+                Console.WriteLine($"  {sideLabel} ({doorSide.AccessPointSide})");
+
+                if (doorSide.Reader != null)
+                {
+                    Console.WriteLine($"    Reader: {doorSide.Reader.Name}");
+                    Console.WriteLine($"      Type: {doorSide.Reader.AccessPointType}");
+
+                    if (doorSide.Reader.Cameras.Any())
+                    {
+                        Console.WriteLine("      Associated Cameras:");
+                        foreach (var cameraGuid in doorSide.Reader.Cameras)
+                        {
+                            Console.WriteLine($"        • {GetEntityName(cameraGuid)}");
+                        }
+                    }
+
+                    if (engine.GetEntity(doorSide.Reader.Device) is Reader reader)
+                    {
+                        DisplayDevice(reader);
+                    }
+                }
+
+                if (doorSide.Rex != null)
+                {
+                    Console.WriteLine($"    REX: {doorSide.Rex.Name}");
+                    Console.WriteLine($"      Type: {doorSide.Rex.AccessPointType}");
+
+                    if (engine.GetEntity(doorSide.Rex.Device) is Device device)
+                    {
+                        DisplayDevice(device);
+                    }
+                }
+
+                if (doorSide.EntrySensor != null)
+                {
+                    Console.WriteLine($"    Entry Sensor: {doorSide.EntrySensor.Name}");
+                    Console.WriteLine($"      Type: {doorSide.EntrySensor.AccessPointType}");
+
+                    if (engine.GetEntity(doorSide.EntrySensor.Device) is Device device)
+                    {
+                        DisplayDevice(device);
+                    }
+                }
+            }
+
+            void DisplayDevice(Device device)
+            {
+                Console.WriteLine($"      DEVICE DETAILS: {device.Name}");
+                Console.WriteLine($"        Physical Name: {device.PhysicalName}");
+                Console.WriteLine($"        Unique ID: {device.UniqueId}");
+                Console.WriteLine($"        Online: {device.IsOnline}");
+                Console.WriteLine($"        Device Type: {device.DeviceType}");
+
+                if (device.InterfaceModule != Guid.Empty)
+                {
+                    Console.WriteLine($"        Interface Module: {GetEntityName(device.InterfaceModule)}");
+                }
+
+                if (device.Unit != Guid.Empty)
+                {
+                    Console.WriteLine($"        Unit: {GetEntityName(device.Unit)}");
+                }
+
+                switch (device)
+                {
+                    case InputDevice inputDevice:
+                        Console.WriteLine($"        State: {inputDevice.State}");
+                        try
+                        {
+                            DisplayDeviceSettings(inputDevice.InputDeviceSettings);
+                        }
+                        catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
+                        {
+                        }
+                        break;
+
+                    case OutputDevice outputDevice:
+                        Console.WriteLine($"        State: {outputDevice.State}");
+                        try
+                        {
+                            DisplayDeviceSettings(outputDevice.OutputDeviceSettings);
+                        }
+                        catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
+                        {
+                        }
+                        break;
+
+                    case Reader reader:
+                        try
+                        {
+                            DisplayReaderInfo(reader);
+                            DisplayDeviceSettings(reader.ReaderSettings);
+                        }
+                        catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
+                        {
+                        }
+                        break;
+                }
+                Console.WriteLine();
+            }
+
+            void DisplayReaderInfo(Reader reader)
             {
                 Console.WriteLine($"        Reader Mode: {reader.CardAndPinMode}");
                 Console.WriteLine($"        Card and PIN Timeout: {reader.CardAndPinTimeout}");
@@ -252,145 +263,137 @@ void DisplayDoorInformation(Engine engine, IEnumerable<Door> doors)
             {
                 switch (settings)
                 {
-                    case SMCInputDeviceSettings smcInputSettings:
-                        DisplaySmcInputDeviceSettings(smcInputSettings);
+                    case SMCInputDeviceSettings smcSettings:
+                        DisplaySmcInputSettings(smcSettings);
                         break;
 
-                    case HIDInputDeviceSettings hidInputSettings:
-                        DisplayHIDInputDeviceSettings(hidInputSettings);
+                    case HIDInputDeviceSettings hidSettings:
+                        DisplayHidInputSettings(hidSettings);
                         break;
 
-                    case SMCOutputDeviceSettings smcOutputSettings:
-                        DisplaySmcOutputDeviceSettings(smcOutputSettings);
+                    case SMCOutputDeviceSettings smcSettings:
+                        DisplaySmcOutputSettings(smcSettings);
                         break;
 
-                    case HIDOutputDeviceSettings hidOutputSettings:
-                        DisplayHIDOutputDeviceSettings(hidOutputSettings);
+                    case HIDOutputDeviceSettings hidSettings:
+                        DisplayHidOutputSettings(hidSettings);
                         break;
 
-                    case SMCReaderSettings smcReaderSettings:
-                        DisplaySmcReaderSettings(smcReaderSettings);
+                    case SMCReaderSettings smcSettings:
+                        DisplaySmcReaderSettings(smcSettings);
                         break;
 
-                    case HIDReaderSettings hidReaderSettings:
-                        DisplayHIDReaderSettings(hidReaderSettings);
+                    case HIDReaderSettings hidSettings:
+                        DisplayHidReaderSettings(hidSettings);
                         break;
+                }
+            }
+
+            void DisplaySmcInputSettings(SMCInputDeviceSettings settings)
+            {
+                Console.WriteLine("        SMC Input Settings:");
+                try
+                {
+                    Console.WriteLine($"          Debounce: {settings.Debounce}");
+                }
+                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
+                {
+                    Console.WriteLine("          Debounce: N/A");
+                }
+                Console.WriteLine($"          Input Contact Type: {settings.InputContactType}");
+                Console.WriteLine($"          Shunted: {settings.Shunted}");
+            }
+
+            void DisplayHidInputSettings(HIDInputDeviceSettings settings)
+            {
+                Console.WriteLine("        HID Input Settings:");
+                try
+                {
+                    Console.WriteLine($"          Debounce: {settings.Debounce}");
+                    Console.WriteLine($"          Normal High: {settings.NormalHigh}");
+                    Console.WriteLine($"          Normal Low: {settings.NormalLow}");
+                    Console.WriteLine($"          Active High: {settings.ActiveHigh}");
+                    Console.WriteLine($"          Active Low: {settings.ActiveLow}");
+                }
+                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
+                {
+                    Console.WriteLine($"          {ex.Message}");
+                }
+            }
+
+            void DisplaySmcOutputSettings(SMCOutputDeviceSettings settings)
+            {
+                Console.WriteLine("        SMC Output Settings:");
+                Console.WriteLine($"          Output Contact Type: {settings.OutputContactType}");
+            }
+
+            void DisplayHidOutputSettings(HIDOutputDeviceSettings settings)
+            {
+                Console.WriteLine("        HID Output Settings:");
+                try
+                {
+                    Console.WriteLine($"          Minimum Time: {settings.MinimumTime}");
+                }
+                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
+                {
+                    Console.WriteLine($"          Minimum Time: N/A");
                 }
             }
 
             void DisplaySmcReaderSettings(SMCReaderSettings settings)
             {
-                Console.WriteLine("  Reader Settings (SMC):");
-                Console.WriteLine($"    Keypad mode: {settings.KeypadMode}");
-                Console.WriteLine($"    Led drive mode: {settings.LedDriveMode}");
+                Console.WriteLine("        SMC Reader Settings:");
+                Console.WriteLine($"          Keypad Mode: {settings.KeypadMode}");
+                Console.WriteLine($"          LED Drive Mode: {settings.LedDriveMode}");
 
                 if (settings.LedDriveMode == LedDriveMode.CustomOSDP)
                 {
-                    Console.WriteLine($"    OSDP baud rate: {settings.OSDPBaudRate}");
-                    Console.WriteLine($"    OSDP Tracing: {settings.Tracing}");
-                    Console.WriteLine($"    OSDP Smart Card: {settings.SmartCard}");
-                    Console.WriteLine($"    OSDP Address: {settings.Address}");
-                    Console.WriteLine($"    OSDP Secured: {settings.Secured}");
+                    Console.WriteLine($"          OSDP Baud Rate: {settings.OSDPBaudRate}");
+                    Console.WriteLine($"          OSDP Tracing: {settings.Tracing}");
+                    Console.WriteLine($"          OSDP Smart Card: {settings.SmartCard}");
+                    Console.WriteLine($"          OSDP Address: {settings.Address}");
+                    Console.WriteLine($"          OSDP Secured: {settings.Secured}");
                 }
 
-                Console.WriteLine($"    Shunted: {settings.Shunted}");
-                Console.WriteLine($"    Wiegand pulses: {settings.WiegandPulses}");
-                Console.WriteLine($"    Trim zero bits: {settings.TrimZeroBits}");
-                Console.WriteLine($"    Format to nibble array: {settings.FormatToNibbleArray}");
-                Console.WriteLine($"    Allow bi-directional mag decode: {settings.AllowBidirectionalMagDecode}");
-                Console.WriteLine($"    Allow northern mag decode: {settings.AllowNorthernMagDecode}");
-                Console.WriteLine($"    Casi 1-Wire F2F: {settings.Casi1WireF2F}");
-                Console.WriteLine($"    Supervised: {settings.Supervised}");
-                Console.WriteLine($"    Inputs come from reader: {settings.InputsComeFromReader}");
+                Console.WriteLine($"          Shunted: {settings.Shunted}");
+                Console.WriteLine($"          Wiegand Pulses: {settings.WiegandPulses}");
+                Console.WriteLine($"          Trim Zero Bits: {settings.TrimZeroBits}");
+                Console.WriteLine($"          Format to Nibble Array: {settings.FormatToNibbleArray}");
+                Console.WriteLine($"          Allow Bi-directional Mag Decode: {settings.AllowBidirectionalMagDecode}");
+                Console.WriteLine($"          Allow Northern Mag Decode: {settings.AllowNorthernMagDecode}");
+                Console.WriteLine($"          Casi 1-Wire F2F: {settings.Casi1WireF2F}");
+                Console.WriteLine($"          Supervised: {settings.Supervised}");
+                Console.WriteLine($"          Inputs Come From Reader: {settings.InputsComeFromReader}");
             }
 
-            void DisplaySmcOutputDeviceSettings(SMCOutputDeviceSettings settings)
+            void DisplayHidReaderSettings(HIDReaderSettings settings)
             {
-                Console.WriteLine("  Output Device Settings (SMC):");
-                Console.WriteLine($"    Output contact type: {settings.OutputContactType}");
+                Console.WriteLine("        HID Reader Settings:");
+                Console.WriteLine($"          Reader Type: {settings.ReaderType}");
             }
+        }
 
-            void DisplaySmcInputDeviceSettings(SMCInputDeviceSettings settings)
+        void DisplayConnections()
+        {
+            Console.WriteLine("CONNECTIONS");
+            DisplayConnectionGroup(AccessPointType.Rex, "REX Devices");
+            DisplayConnectionGroup(AccessPointType.DoorSensor, "Door Sensors");
+            DisplayConnectionGroup(AccessPointType.PullStation, "Pull Stations");
+            DisplayConnectionGroup(AccessPointType.DoorLock, "Door Locks");
+            DisplayConnectionGroup(AccessPointType.Buzzer, "Buzzers");
+            DisplayConnectionGroup(AccessPointType.LockSensor, "Lock Sensors");
+            Console.WriteLine();
+
+            void DisplayConnectionGroup(AccessPointType type, string header)
             {
-                Console.WriteLine("  Input Device Settings (SMC):");
-                try
+                List<Guid> connections = door.GetConnections(type);
+                if (connections.Any())
                 {
-                    Console.WriteLine($"    Debounce: {settings.Debounce}");
-                }
-                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                {
-                    Console.WriteLine("    Debounce: N/A");
-                }
-
-                Console.WriteLine($"    Input contact type: {settings.InputContactType}");
-                Console.WriteLine($"    Shunted: {settings.Shunted}");
-            }
-
-            void DisplayHIDReaderSettings(HIDReaderSettings settings)
-            {
-                Console.WriteLine("  Reader Settings (HID):");
-                Console.WriteLine($"    Reader type: {settings.ReaderType}");
-            }
-
-            void DisplayHIDOutputDeviceSettings(HIDOutputDeviceSettings settings)
-            {
-                Console.WriteLine("  Output Device Settings (HID):");
-                try
-                {
-                    Console.WriteLine($"    Minimum time: {settings.MinimumTime}");
-                }
-                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                {
-                    Console.WriteLine($"    Minimum time: {ex.Message}");
-                }
-            }
-
-            void DisplayHIDInputDeviceSettings(HIDInputDeviceSettings settings)
-            {
-                Console.WriteLine("  Input Device Settings (HID):");
-                try
-                {
-                    Console.WriteLine($"    Debounce: {settings.Debounce}");
-                }
-                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                {
-                    Console.WriteLine("    Debounce: N/A");
-                }
-
-                try
-                {
-                    Console.WriteLine($"    Normal high: {settings.NormalHigh}");
-                }
-                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                {
-                    Console.WriteLine("    Normal high: N/A");
-                }
-
-                try
-                {
-                    Console.WriteLine($"    Normal low: {settings.NormalLow}");
-                }
-                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                {
-                    Console.WriteLine("    Normal low: N/A");
-                }
-
-                try
-                {
-                    Console.WriteLine($"    Active high: {settings.ActiveHigh}");
-                }
-                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                {
-                    Console.WriteLine("    Active high: N/A");
-                }
-
-                try
-                {
-                    Console.WriteLine($"    Active low: {settings.ActiveLow}");
-                }
-                catch (SdkException ex) when (ex.ErrorCode == SdkError.CannotGetProperty)
-                {
-                    Console.WriteLine("    Active low: N/A");
+                    Console.WriteLine($"  {header}:");
+                    foreach (var entity in connections.Select(engine.GetEntity))
+                    {
+                        Console.WriteLine($"    • {entity?.Name}");
+                    }
                 }
             }
         }
