@@ -618,6 +618,7 @@ Global
 		Shared\Shared.projitems*{165c2f92-ffa4-482f-8bc2-23b744c72465}*SharedItemsImports = 5
 		Shared\Shared.projitems*{19ffa6fd-3390-464e-81fe-a0cd180312e8}*SharedItemsImports = 5
 		Shared\Shared.projitems*{1ab79a3f-8006-42ea-93a3-978b1d31ca64}*SharedItemsImports = 5
+		Shared\Shared.projitems*{1b6927f5-54fd-47bd-85b9-8c82fc85b4d7}*SharedItemsImports = 5
 		Shared\Shared.projitems*{1bff8a9c-5f1b-447a-82c4-5640790a7e2b}*SharedItemsImports = 5
 		Shared\Shared.projitems*{1eda0b9a-b2c2-493c-a895-35964392b33f}*SharedItemsImports = 5
 		Shared\Shared.projitems*{2ca92bc9-856a-4173-87d4-416852f35c9f}*SharedItemsImports = 5
@@ -645,6 +646,7 @@ Global
 		Shared\Shared.projitems*{880c6c9d-b583-450f-964c-362261a9f5dd}*SharedItemsImports = 5
 		Shared\Shared.projitems*{8bf55332-9888-46a0-8d60-c31b9db52534}*SharedItemsImports = 5
 		Shared\Shared.projitems*{922bd855-deed-44e2-ba08-71dd92df1f2d}*SharedItemsImports = 5
+		Shared\Shared.projitems*{a377c035-e10f-41f0-b6c7-0d0bcb60d4b9}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a6b95578-7844-480b-8051-056b4949e446}*SharedItemsImports = 5
 		Shared\Shared.projitems*{ac2530de-ed8e-431d-9cb3-f868193331de}*SharedItemsImports = 5
 		Shared\Shared.projitems*{acc4a188-b29c-4a1d-88f5-9e2909de7b1b}*SharedItemsImports = 5
@@ -668,6 +670,7 @@ Global
 		Shared\Shared.projitems*{f3d8a13f-b371-4ec9-820d-00e05fdb8e27}*SharedItemsImports = 5
 		Shared\Shared.projitems*{f494418c-c69c-4410-b897-18539a93b02e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{f8e1fd6d-1853-4189-96a9-85948e80c1bf}*SharedItemsImports = 5
+		Shared\Shared.projitems*{f902968f-31ca-403d-ae19-bdf507dc2ad0}*SharedItemsImports = 5
 		Shared\Shared.projitems*{f9ce3032-4276-48ee-9328-206857a6736e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{feafca17-7cf4-4d24-aba8-b31d284a963c}*SharedItemsImports = 13
 	EndGlobalSection
