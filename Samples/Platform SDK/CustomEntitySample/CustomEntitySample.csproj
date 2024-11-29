@@ -61,6 +61,11 @@
 	  <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Resource Include="Resources\LargeIcon.png" />
+	  <Resource Include="Resources\SmallIcon.png" />
+	</ItemGroup>
+
 	<Target Name="CopyCertificates" AfterTargets="Build">
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>

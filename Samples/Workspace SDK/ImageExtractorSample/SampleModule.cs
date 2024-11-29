@@ -7,6 +7,8 @@ namespace Genetec.Dap.CodeSamples
 
     public class SampleModule : Module
     {
+        static SampleModule() => AssemblyResolver.Initialize();
+
         public override void Load()
         {
             var component = new SampleImageExtractor();
