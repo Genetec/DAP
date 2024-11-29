@@ -12,6 +12,8 @@ using Genetec.Sdk.Workspace.Modules;
 
 public class SampleModule : Module
 {
+    static SampleModule() => AssemblyResolver.Initialize();
+
     public override void Load()
     {
         if (Workspace.ApplicationType is ApplicationType.ConfigTool or ApplicationType.SecurityDesk)

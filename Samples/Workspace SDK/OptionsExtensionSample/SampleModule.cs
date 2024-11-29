@@ -10,17 +10,19 @@ namespace Genetec.Dap.CodeSamples;
 using Sdk;
 using Sdk.Workspace.Modules;
 
-public class SampleModule : Module
-{
-    public override void Load()
+    public class SampleModule : Module
     {
-        if (Workspace.ApplicationType == ApplicationType.SecurityDesk)
+        static SampleModule() => AssemblyResolver.Initialize();
+
+        public override void Load()
         {
-            var extensions = new SampleOptionsExtensions();
-            extensions.Initialize(Workspace);
-            Workspace.Options.Register(extensions);
+            if (Workspace.ApplicationType == ApplicationType.SecurityDesk)
+            {
+                var extensions = new SampleOptionsExtensions();
+                extensions.Initialize(Workspace);
+                Workspace.Options.Register(extensions);
+            }
         }
-    }
 
     public override void Unload()
     {

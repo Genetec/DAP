@@ -13,12 +13,16 @@ using System.Threading.Tasks;
 using Genetec.Dap.CodeSamples;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
+using Genetec.Sdk.Entities.Roles;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk.Queries.Video;
 
 SdkResolver.Initialize();
 
 await RunSample();
+
+Console.WriteLine("Press any key to exit...");
+Console.ReadKey();
 
 async Task RunSample()
 {
@@ -30,33 +34,26 @@ async Task RunSample()
 
     ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-    if (state == ConnectionStateCode.Success)
-    {
-        // Load cameras into the entity cache
-        await LoadCameras(engine);
-
-        // Retrieve cameras from the entity cache
-        List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
-        Console.WriteLine($"{cameras.Count} cameras loaded");
-
-        // Retrieve video sequences for all cameras in the last 24 hours
-        IList<VideoSequence> sequences = await GetSequences(engine, cameras);
-
-        Console.WriteLine($"Retrieved {sequences.Count} video sequences.");
-
-        // Display the video sequences
-        foreach (VideoSequence sequence in sequences)
-        {
-            DisplayToConsole(sequence);
-        }
-    }
-    else
+    if (state != ConnectionStateCode.Success)
     {
         Console.WriteLine($"logon failed: {state}");
+        return;
     }
 
-    Console.WriteLine("Press any key to exit...");
-    Console.ReadKey();
+    await LoadCameras(engine);
+
+    List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
+
+    Console.WriteLine($"{cameras.Count} cameras loaded");
+
+    IList<VideoSequence> videoSequences = await GetVideoSequences(engine, cameras);
+
+    Console.WriteLine($"Retrieved {videoSequences.Count} video sequences.");
+
+    foreach (VideoSequence sequence in videoSequences)
+    {
+        DisplayToConsole(engine, sequence);
+    }
 }
 
 Task LoadCameras(Engine engine)
@@ -69,12 +66,12 @@ Task LoadCameras(Engine engine)
     return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 }
 
-async Task<IList<VideoSequence>> GetSequences(Engine engine, IEnumerable<Camera> cameras)
+async Task<IList<VideoSequence>> GetVideoSequences(Engine engine, IEnumerable<Camera> cameras)
 {
     Console.WriteLine("Retrieving video sequences in the last 24 hours...");
 
     var query = (SequenceQuery)engine.ReportManager.CreateReportQuery(ReportType.VideoSequence);
-    query.TimeRange.SetTimeRange(DateTime.Now.AddDays(-1), DateTime.Now);
+    query.TimeRange.SetTimeRange(TimeSpan.FromDays(1));
     query.Cameras.AddRange(cameras.Select(camera => camera.Guid));
 
     QueryCompletedEventArgs args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
@@ -97,21 +94,62 @@ async Task<IList<VideoSequence>> GetSequences(Engine engine, IEnumerable<Camera>
     };
 }
 
- void DisplayToConsole(VideoSequence info)
+void DisplayToConsole(Engine engine, VideoSequence info)
 {
     Console.WriteLine("Video Sequence Information:");
-    Console.WriteLine($"{"Camera GUID:",-25} {info.CameraGuid}");
-    Console.WriteLine($"{"Archive Source GUID:",-25} {info.ArchiveSourceGuid}");
-    Console.WriteLine($"{"Start Time (UTC):",-25} {info.StartTime:yyyy-MM-dd HH:mm:ss}");
-    Console.WriteLine($"{"End Time (UTC):",-25} {info.EndTime:yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"{"Camera:",-25} {GetEntityName(info.CameraGuid)}");
+    Console.WriteLine($"{"Archive Source:",-25} {GetEntityName(info.ArchiveSourceGuid)}");
+    Console.WriteLine($"{"Start Time:",-25} {info.StartTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"{"End Time:",-25} {info.EndTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
     Console.WriteLine($"{"Capabilities:",-25} {info.Capabilities}");
     Console.WriteLine($"{"Time Zone:",-25} {info.TimeZone}");
-    Console.WriteLine($"{"Encoder GUID:",-25} {info.EncoderGuid}");
-    Console.WriteLine($"{"Usage GUID:",-25} {info.UsageGuid}");
-    Console.WriteLine($"{"Origin GUID:",-25} {info.OriginGuid}");
-    Console.WriteLine($"{"Media Type GUID:",-25} {info.MediaTypeGuid}");
-    Console.WriteLine($"{"Origin Type:",-25} {info.OriginType}");
+    Console.WriteLine($"{"Encoder:",-25} {GetEntityName(info.EncoderGuid)}");
+    Console.WriteLine($"{"Usage GUID:",-25} {GetStreamUsageName(info.UsageGuid)}");
+    Console.WriteLine($"{"Origin GUID:",-25} {GetEntityName(info.OriginGuid)}");
+    Console.WriteLine($"{"Media Type:",-25} {GetMediaTypeName(info.MediaTypeGuid)}");
+    Console.WriteLine($"{"Origin Type:",-25} {(OriginType)info.OriginType}");
     Console.WriteLine(new string('-', 50));
+
+    string GetEntityName(Guid entityId) => engine.GetEntity(entityId) switch
+    {
+        Agent agent => engine.GetEntity(agent.RoleId)?.Name,
+        Entity entity => entity.Name,
+        _ => null
+    };
+
+    string GetMediaTypeName(Guid mediaTypeGuid)
+    {
+        if (mediaTypeGuid == MediaTypes.Video) return "Video";
+        if (mediaTypeGuid == MediaTypes.AudioIn) return "Audio In";
+        if (mediaTypeGuid == MediaTypes.AudioOut) return "Audio Out";
+        if (mediaTypeGuid == MediaTypes.Metadata) return "Metadata";
+        if (mediaTypeGuid == MediaTypes.Ptz) return "Ptz";
+        if (mediaTypeGuid == MediaTypes.AgentPtz) return "Agent Ptz";
+        if (mediaTypeGuid == MediaTypes.OverlayUpdate) return "Overlay Update";
+        if (mediaTypeGuid == MediaTypes.OverlayStream) return "Overlay Stream";
+        if (mediaTypeGuid == MediaTypes.EncryptionKey) return "Encryption Key";
+        if (mediaTypeGuid == MediaTypes.CollectionEvents) return "Collection Events";
+        if (mediaTypeGuid == MediaTypes.ArchiverEvents) return "Archiver Events";
+        if (mediaTypeGuid == MediaTypes.OnvifAnalyticsStream) return "Onvif Analytics Stream";
+        if (mediaTypeGuid == MediaTypes.BoschVcaStream) return "Bosch VCA Stream";
+        if (mediaTypeGuid == MediaTypes.FusionStream) return "Fusion Stream";
+        if (mediaTypeGuid == MediaTypes.FusionStreamEvents) return "Fusion Stream Events";
+        if (mediaTypeGuid == MediaTypes.OriginalVideo) return "Original Video";
+        if (mediaTypeGuid == MediaTypes.Block) return "Block";
+        return "Unknown";
+    }
+
+    static string GetStreamUsageName(Guid streamUsage)
+    {
+        if (streamUsage == StreamUsage.Live) return "Live";
+        if (streamUsage == StreamUsage.Archiving) return "Archiving";
+        if (streamUsage == StreamUsage.Export) return "Export";
+        if (streamUsage == StreamUsage.HighRes) return "High Resolution";
+        if (streamUsage == StreamUsage.LowRes) return "Low Resolution";
+        if (streamUsage == StreamUsage.Remote) return "Remote";
+        if (streamUsage == StreamUsage.EdgePlayback) return "Edge Playback";
+        return "Unknown";
+    }
 }
 
 class VideoSequence
