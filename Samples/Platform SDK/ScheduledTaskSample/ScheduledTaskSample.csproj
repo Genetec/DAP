@@ -3,12 +3,11 @@
 	<PropertyGroup>
 		<TargetFrameworks>net481</TargetFrameworks>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-		<AssemblyName>ImageExtractorSample</AssemblyName>
+		<AssemblyName>ScheduledTaskSample</AssemblyName>
 		<Description>Sample project</Description>
 		<Company>Genetec Inc.</Company>
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
-		<OutputType>Library</OutputType>
-		<GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
+		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
@@ -39,15 +38,8 @@
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="Genetec.Sdk.Workspace">
-			<HintPath>$(GSC_SDK)\Genetec.Sdk.Workspace.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
-		<Reference Include="PresentationCore" />
-		<Reference Include="PresentationFramework" />
-		<Reference Include="WindowsBase" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
@@ -55,20 +47,8 @@
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<Reference Include="Genetec.Sdk.Workspace">
-			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.Workspace.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
 		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Resource Include="Resources\Icon.png" />
 	</ItemGroup>
 
 	<Target Name="CopyCertificates" AfterTargets="Build">
@@ -80,10 +60,6 @@
 		</ItemGroup>
 		<MakeDir Directories="$(CertOutputPath)" />
 		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
-	</Target>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v AddFoldersToAssemblyProbe /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v AddFoldersToAssemblyProbe /t REG_SZ /d &quot;True&quot; /f" />
 	</Target>
 
 	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
