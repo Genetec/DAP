@@ -16,7 +16,7 @@ using Sdk.Entities;
 /// <summary>
 /// Provides extension methods for the Entity class and its derivatives to enhance their functionality with reactive programming patterns.
 /// </summary>
-public static class EntityExtensions
+static class EntityExtensions
 {
     /// <summary>
     /// Creates an observable sequence from the FieldsChanged event of an entity.

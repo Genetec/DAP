@@ -37,13 +37,13 @@ public partial class SampleCustomActionView : CustomActionView, INotifyPropertyC
         SelectCameraCommand = new DelegateCommand(() =>
         {
             // Federated cameras are not supported for this action.
-            List<Guid> cameras = Workspace.Services.Get<IDialogService>().ShowEntityBrowserDialog(new EntityTypeCollection(new[] { EntityType.Camera }), null, false, SelectionMode.Single);
+            List<Guid> cameras = Workspace.Services.Get<IDialogService>().ShowEntityBrowserDialog(new EntityTypeCollection([EntityType.Camera]), null, false, SelectionMode.Single);
 
             Camera = Workspace.Sdk.GetEntity(cameras.FirstOrDefault()) as Camera;
         });
     }
 
-    public ObservableCollection<EncoderCommandInfo> EncoderCommands { get; } = new();
+    public ObservableCollection<EncoderCommandInfo> EncoderCommands { get; } = [];
 
     public override bool IsStateValid => Camera is not null && EncoderCommand is not null;
 

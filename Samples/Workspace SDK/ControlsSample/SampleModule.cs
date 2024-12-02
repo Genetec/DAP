@@ -5,31 +5,30 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using Sdk.Workspace.Tasks;
+using System;
+
+public class SampleModule : Sdk.Workspace.Modules.Module
 {
-    using Sdk.Workspace.Tasks;
-    using System;
-
-    public class SampleModule : Sdk.Workspace.Modules.Module
-    {
-        public override void Load()
-        {           
-            RegisterTask(new TaskGroup(CustomTaskCategories.SdkSamples, Guid.Empty, "SDK Samples", null, int.MaxValue));
-            RegisterTask(new CreatePageTask<StylesSamplePage>(isSingleton: true));
-            RegisterTask(new CreatePageTask<ControlsSamplePage>(isSingleton: true));
-            RegisterTask(new CreatePageTask<ChartSamplePage>(isSingleton: true));
-            RegisterTask(new CreatePageTask<WebBrowserSamplePage>(isSingleton: false));
+    public override void Load()
+    {           
+        RegisterTask(new TaskGroup(CustomTaskCategories.SdkSamples, Guid.Empty, "SDK Samples", null, int.MaxValue));
+        RegisterTask(new CreatePageTask<StylesSamplePage>(isSingleton: true));
+        RegisterTask(new CreatePageTask<ControlsSamplePage>(isSingleton: true));
+        RegisterTask(new CreatePageTask<ChartSamplePage>(isSingleton: true));
+        RegisterTask(new CreatePageTask<WebBrowserSamplePage>(isSingleton: false));
             
-            //Initialize the task and register it
-            void RegisterTask(Task task)
-            {
-                task.Initialize(Workspace);
-                Workspace.Tasks.Register(task);
-            }
-        }
-
-        public override void Unload()
+        //Initialize the task and register it
+        void RegisterTask(Task task)
         {
+            task.Initialize(Workspace);
+            Workspace.Tasks.Register(task);
         }
+    }
+
+    public override void Unload()
+    {
     }
 }

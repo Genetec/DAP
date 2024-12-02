@@ -32,7 +32,7 @@ async Task RunSample()
     {
         // TOTO: Replace the following GUIDs with the actual GUIDs of the area and cardholder you want to query.
         Guid areaGuid = new Guid("ENTER_AREA_GUID_HERE");
-        Guid[] cardholderGuids = { new("ENTER_CARDHOLDER_GUID_HERE") };
+        Guid[] cardholderGuids = [new("ENTER_CARDHOLDER_GUID_HERE")];
         TimeSpan startOfDay = TimeSpan.FromHours(9); // Start of day: 09:00 AM
         DateTime from = DateTime.Now.AddDays(-1); // Past day
         DateTime to = DateTime.Now;
@@ -79,7 +79,7 @@ async Task<List<TimeAttendance>> GetTimeAndAttendance(Engine engine, Guid area, 
         CardholderGuid = row.Field<Guid>("CardholderGuid"),
         AreaGuid = row.Field<Guid>("AreaGuid"),
         FirstTimeIn = DateTime.SpecifyKind(row.Field<DateTime>("FirstTimeIn"), DateTimeKind.Utc),
-        LastExitTime = row.IsNull("LastExitTime") ? (DateTime?)null : DateTime.SpecifyKind(row.Field<DateTime>("LastExitTime"), DateTimeKind.Utc),
+        LastExitTime = row.IsNull("LastExitTime") ? null : DateTime.SpecifyKind(row.Field<DateTime>("LastExitTime"), DateTimeKind.Utc),
         TotalMinutes = row.Field<int>("TotalMinutes"),
         TotalMinutesInclusive = row.Field<int>("TotalMinutesInclusive")
     };
@@ -100,7 +100,7 @@ void DisplayToConsole(Engine engine, TimeAttendance timeAttendance)
     string GetEntityName(Guid entityGuid) => engine.GetEntity(entityGuid)?.Name ?? "Unknown";
 }
 
-class TimeAttendance
+record TimeAttendance
 {
     public DateTime Date { get; set; }
     public Guid CardholderGuid { get; set; }

@@ -5,48 +5,47 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+class Program
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
+    static Program() => SdkResolver.Initialize();
 
-    class Program
+    static async Task Main()
     {
-        static Program() => SdkResolver.Initialize();
-
-        static async Task Main()
-        {
-            using var cancellationTokenSource = new CancellationTokenSource();
+        using var cancellationTokenSource = new CancellationTokenSource();
             
-            // Handle Ctrl+C to cancel the loop
-            Console.CancelKeyPress += (sender, eventArgs) =>
-            {
-                eventArgs.Cancel = true;
-                cancellationTokenSource.Cancel();
-            };
-
-            try
-            {
-                await LogDebugMessage(cancellationTokenSource.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                // Ignore task canceled
-            }
-        }
-
-        static async Task LogDebugMessage(CancellationToken token)
+        // Handle Ctrl+C to cancel the loop
+        Console.CancelKeyPress += (sender, eventArgs) =>
         {
-            using var logger = new InstanceLogger();
+            eventArgs.Cancel = true;
+            cancellationTokenSource.Cancel();
+        };
 
-            while (!token.IsCancellationRequested)
-            {
-                logger.LogDebugMessage();
-                StaticLogger.LogDebugMessage();
+        try
+        {
+            await LogDebugMessage(cancellationTokenSource.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            // Ignore task canceled
+        }
+    }
 
-                await Task.Delay(1000, token);
-            }
+    static async Task LogDebugMessage(CancellationToken token)
+    {
+        using var logger = new InstanceLogger();
+
+        while (!token.IsCancellationRequested)
+        {
+            logger.LogDebugMessage();
+            StaticLogger.LogDebugMessage();
+
+            await Task.Delay(1000, token);
         }
     }
 }

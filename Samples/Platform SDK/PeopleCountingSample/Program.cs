@@ -32,7 +32,7 @@ if (state == ConnectionStateCode.Success)
     // Retrieve areas from the entity cache
     IEnumerable<Area> areas = engine.GetEntities(EntityType.Area).OfType<Area>();
 
-    foreach (var area in areas)
+    foreach (Area area in areas)
     {
         DisplayToConsole(area);
     }
