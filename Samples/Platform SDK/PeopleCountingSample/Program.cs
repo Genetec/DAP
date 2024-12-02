@@ -14,38 +14,43 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk;
 using Genetec.Sdk.Queries;
 
-const string server = "localhost";
-const string username = "admin";
-const string password = "";
-
 SdkResolver.Initialize();
 
-using var engine = new Engine();
+await RunSample();
 
-ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-if (state == ConnectionStateCode.Success)
+async Task RunSample()
 {
-    // Load areas into the entity cache
-    await LoadAreas();
+    const string server = "localhost";
+    const string username = "admin";
+    const string password = "";
 
-    // Retrieve areas from the entity cache
-    IEnumerable<Area> areas = engine.GetEntities(EntityType.Area).OfType<Area>();
+    using var engine = new Engine();
 
-    foreach (var area in areas)
+    ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
+    if (state == ConnectionStateCode.Success)
     {
-        DisplayToConsole(area);
+        // Load areas into the entity cache
+        await LoadAreas(engine);
+
+        // Retrieve areas from the entity cache
+        IEnumerable<Area> areas = engine.GetEntities(EntityType.Area).OfType<Area>();
+
+        foreach (var area in areas)
+        {
+            DisplayToConsole(engine, area);
+        }
     }
-}
-else
-{
-    Console.WriteLine($"Logon failed: {state}");
+    else
+    {
+        Console.WriteLine($"Logon failed: {state}");
+    }
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
 }
 
-Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
-
-async Task LoadAreas()
+async Task LoadAreas(Engine engine)
 {
     Console.WriteLine("Loading areas...");
 
@@ -63,7 +68,7 @@ async Task LoadAreas()
     } while (args.Data.Rows.Count > query.PageSize);
 }
 
-void DisplayToConsole(Area area)
+void DisplayToConsole(Engine engine, Area area)
 {
     Console.WriteLine($"\n{area.Name}");
     Console.WriteLine($"People Count: {area.PeopleCount.Count}");
