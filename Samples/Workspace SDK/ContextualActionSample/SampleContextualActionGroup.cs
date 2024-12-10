@@ -16,7 +16,7 @@ public class SampleContextualActionGroup : ContextualActionGroup
 {
     public SampleContextualActionGroup()
     {
-        Name = "Sample Contextual Action Group";
+        Name = "Sample Contextual action group";
         Icon = CreateIcon();
 
         ImageSource CreateIcon()

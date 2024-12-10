@@ -18,7 +18,7 @@ public class SampleContextualAction : ContextualAction
 {
     public SampleContextualAction()
     {
-        Name = "Sample Contextual Action";
+        Name = "Sample contextual action";
         Icon = new BitmapImage(new Uri("pack://application:,,,/ConfigPageSample;component/Resources/Images/SmallLogo.png"));
     }
 
