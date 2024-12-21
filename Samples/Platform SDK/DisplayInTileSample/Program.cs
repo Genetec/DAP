@@ -25,7 +25,7 @@ async Task RunSample()
     const string password = "";
 
     // Replace with your actual camera GUID
-    Guid cameraGuid = Guid.Parse("our-camera-guid-here");
+    Guid cameraGuid = Guid.Parse("your-camera-guid-here");
 
     using var engine = new Engine();
 
