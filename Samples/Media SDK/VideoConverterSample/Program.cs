@@ -20,7 +20,7 @@ string filePath = ReadFilePath();
 await ProcessFile(filePath);
 
 Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
+Console.ReadKey(true);
 
 string ReadFilePath()
 {
@@ -74,7 +74,7 @@ async Task ProcessFile(string filePath)
     Console.WriteLine("\nConverting to ASF...");
     try
     {
-        string convertedFile = await ConvertToAsp(filePath, true, new Progress<(int Percent, string Message)>(ReportProgress), cancellationTokenSource.Token);
+        string convertedFile = await ConvertToAsf(filePath, true, new Progress<(int Percent, string Message)>(ReportProgress), cancellationTokenSource.Token);
         Console.WriteLine($"\nConversion to ASF completed: {convertedFile}");
     }
     catch (OperationCanceledException)
@@ -108,7 +108,7 @@ async Task<string> ConvertToMp4(string filePath, bool exportAudio = true, IProgr
     return (await converter.ConvertAsync(progress, token)).FirstOrDefault();
 }
 
-async Task<string> ConvertToAsp(string filePath, bool exportAudio = true, IProgress<(int Percent, string Message)> progress = default, CancellationToken token = default)
+async Task<string> ConvertToAsf(string filePath, bool exportAudio = true, IProgress<(int Percent, string Message)> progress = default, CancellationToken token = default)
 {
     using var converter = new G64ToAsfConverter();
 

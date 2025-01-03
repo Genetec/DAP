@@ -18,11 +18,7 @@ namespace Genetec.Dap.CodeSamples
     {
         public static async Task<List<string>> ConvertAsync(this G64ConverterBase converter, IProgress<(int Percent, string Message)> progress, CancellationToken token)
         {
-            token.Register(() =>
-            {
-                converter.CancelConversion(true);
-            });
-
+            using CancellationTokenRegistration registration = token.Register(Cancel);
             ConversionFinishedEventArgs args = null;
 
             converter.ProgressChanged += OnProgressChanged;
@@ -60,6 +56,12 @@ namespace Genetec.Dap.CodeSamples
             void OnProgressChanged(object sender, ProgressChangedEventArgs e) => progress?.Report((e.ProgressPercentage, null));
 
             void OnConversionFinished(object sender, ConversionFinishedEventArgs e) => args = e;
+
+            void Cancel()
+            {
+                Console.Write("\rCancelling conversion...");
+                converter.CancelConversion(true);
+            }
         }
     }
 }
