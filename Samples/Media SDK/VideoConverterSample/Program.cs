@@ -16,8 +16,8 @@ using File = System.IO.File;
 
 SdkResolver.Initialize();
 
-string filePath = ReadFilePath();
-await ProcessFile(filePath);
+string mediaFile = ReadFilePath();
+await ProcessFile(mediaFile);
 
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey(true);
@@ -48,12 +48,14 @@ async Task ProcessFile(string filePath)
 {
     var cancellationTokenSource = new CancellationTokenSource();
 
-    _ = Task.Run(() =>
+    Console.WriteLine("Press Ctrl+C to cancel the conversion.");
+
+    Console.CancelKeyPress += (sender, args) =>
     {
-        Console.WriteLine("Press any key to cancel the conversion...");
-        Console.ReadKey(true);
+        Console.WriteLine("\nCancellation requested.");
+        args.Cancel = true; // Prevents the process from terminating
         cancellationTokenSource.Cancel();
-    });
+    };
 
     Console.WriteLine("Converting to MP4...");
     try
