@@ -5,26 +5,11 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples.Client;
+namespace Genetec.Dap.CodeSamples;
 
-using Genetec.Sdk;
-using Genetec.Sdk.Workspace.Modules;
+using System;
 
-public class SampleModule : Module
+public static class CustomEntityTypeId
 {
-    static SampleModule() => AssemblyResolver.Initialize();
-
-    public override void Load()
-    {
-        if (Workspace.ApplicationType is ApplicationType.ConfigTool or ApplicationType.SecurityDesk)
-        {
-            SampleCustomActionBuilder builder = new();
-            builder.Initialize(Workspace);
-            Workspace.Components.Register(builder);
-        }
-    }
-
-    public override void Unload()
-    {
-    }
+    public static readonly Guid Id = new("8385D04C-F04A-4125-81E9-D1C66AFDE572"); // TODO: Replace this GUID with your own custom entity GUID.
 }

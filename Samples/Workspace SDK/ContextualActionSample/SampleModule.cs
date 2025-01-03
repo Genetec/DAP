@@ -5,22 +5,29 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples.Client;
+namespace Genetec.Dap.CodeSamples;
 
-using Genetec.Sdk;
-using Genetec.Sdk.Workspace.Modules;
+using Sdk;
+using Sdk.Workspace.Modules;
+using Sdk.Workspace.Services;
 
 public class SampleModule : Module
 {
-    static SampleModule() => AssemblyResolver.Initialize();
-
     public override void Load()
     {
         if (Workspace.ApplicationType is ApplicationType.ConfigTool or ApplicationType.SecurityDesk)
         {
-            SampleCustomActionBuilder builder = new();
-            builder.Initialize(Workspace);
-            Workspace.Components.Register(builder);
+            IContextualActionsService contextualActionsService = Workspace.Services.Get<IContextualActionsService>();
+
+            // Register the contextual action group
+            var actionGroup = new SampleContextualActionGroup();
+            actionGroup.Initialize(Workspace);
+            contextualActionsService.Register(actionGroup);
+
+            // Register the contextual action
+            var action = new SampleContextualAction();
+            action.Initialize(Workspace);
+            contextualActionsService.Register(action);
         }
     }
 
