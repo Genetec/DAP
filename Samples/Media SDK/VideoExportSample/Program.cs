@@ -39,18 +39,36 @@ static async Task RunSample()
         return;
     }
 
-    var camera = engine.GetEntity(new Guid(cameraGuid)) as Camera;
-    if (camera == null)
+    if (engine.GetEntity(new Guid(cameraGuid)) is not Camera camera)
     {
         Console.WriteLine($"Camera {cameraGuid} not found");
         return;
     }
 
+    using var cancellationTokenSource = new CancellationTokenSource();
+
+    Console.CancelKeyPress += (sender, e) =>
+    {
+        Console.WriteLine("Cancelling export");
+        e.Cancel = true;
+        cancellationTokenSource.Cancel();
+    };
+
     try
     {
-        var progress = new Progress<double>(percent => Console.WriteLine($"Export progress: {percent}"));
-        string exportedFile = await Export(engine: engine, camera: camera, startTime: DateTime.UtcNow.AddMinutes(-5), endTime: DateTime.UtcNow, fileName: "Export", progress: progress);
+        var progress = new Progress<double>(percent => Console.WriteLine($"Export progress: {percent}%"));
+
+        // Export the last 5 minutes of video (using UTC timestamps)
+        DateTime endTime = DateTime.UtcNow;
+        DateTime startTime = endTime.AddMinutes(-5);
+        const string fileName = "Export";
+
+        string exportedFile = await Export(engine, camera, startTime, endTime, fileName, progress, cancellationTokenSource.Token);
         Console.WriteLine($"Video file exported: {exportedFile}");
+    }
+    catch (OperationCanceledException)
+    {
+        Console.WriteLine("Export cancelled");
     }
     catch (Exception ex)
     {
@@ -64,13 +82,14 @@ static async Task<string> Export(Engine engine, Camera camera, DateTime startTim
     exporter.StatisticsReceived += OnStatisticsReceived;
     try
     {
-        exporter.Initialize(engine, Environment.CurrentDirectory);
-        exporter.SetExportFileFormat(MediaExportFileFormat.G64X); // Export to G64X format
+        exporter.Initialize(sdkEngine: engine, destinationFolder: Environment.CurrentDirectory);
+        exporter.SetExportFileFormat(format: MediaExportFileFormat.G64X); // G64X is Genetec's proprietary format that preserves metadata and supports encryption
 
         var config = new CameraExportConfig(camera.Guid, Enumerable.Repeat(new Genetec.Sdk.Media.DateTimeRange(startTime, endTime), 1));
 
-        using CancellationTokenRegistration registration = cancellationToken.Register(() => exporter.CancelExport(true));
-        ExportEndedResult result = await exporter.ExportAsync(config, PlaybackMode.AllAtOnce, Path.GetFileNameWithoutExtension(fileName), false);
+        using CancellationTokenRegistration registration = cancellationToken.Register(() => exporter.CancelExport(deleteExportFiles: true));
+
+        ExportEndedResult result = await exporter.ExportAsync(cameraExportConfig: config, playbackMode: PlaybackMode.AllAtOnce, exportName: Path.GetFileNameWithoutExtension(fileName), includeWatermark: false);
 
         return result.ExceptionDetails != null ? throw result.ExceptionDetails : result.ExportFileList.FirstOrDefault();
     }
