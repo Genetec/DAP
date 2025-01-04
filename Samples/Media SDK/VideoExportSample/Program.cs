@@ -56,15 +56,18 @@ static async Task RunSample()
 
     try
     {
-        var progress = new Progress<double>(percent => Console.WriteLine($"Export progress: {percent}%"));
+        var progress = new Progress<double>(percent => Console.Write($"\rExport progress: {percent,6:F2}%"));
 
         // Export the last 5 minutes of video (using UTC timestamps)
         DateTime endTime = DateTime.UtcNow;
         DateTime startTime = endTime.AddMinutes(-5);
         const string fileName = "Export";
 
+        Console.WriteLine($"Exporting video from {startTime:yyyy-MM-dd HH:mm:ss} to {endTime:yyyy-MM-dd HH:mm:ss} UTC");
+
         string exportedFile = await Export(engine, camera, startTime, endTime, fileName, progress, cancellationTokenSource.Token);
-        Console.WriteLine($"Video file exported: {exportedFile}");
+
+        Console.WriteLine($"\nVideo file exported: {exportedFile}");
     }
     catch (OperationCanceledException)
     {
