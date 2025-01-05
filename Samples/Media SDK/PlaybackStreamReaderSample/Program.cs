@@ -11,23 +11,25 @@ SdkResolver.Initialize();
 
 await RunSample();
 
-Console.WriteLine("Press any key to exit...");
+Console.Write("Press any key to exit...");
 Console.ReadKey(true);
 
 async Task RunSample()
 {
-    const string server = "localhost";
-    const string username = "admin";
-    const string password = "";
-    const string cameraGuid = "00000001-0000-babe-0000-26551ec56587"; // Replace with your camera's GUID
+    const string server = "localhost";  // Specify the IP address or hostname of your Security Center server.
+    const string username = "admin";    // Enter the username for Security Center authentication.
+    const string password = "";         // Provide the corresponding password for the specified username.
+    const string cameraGuid = "";       // Enter the GUID of the camera to access its stream.
 
     using var engine = new Engine();
+    engine.LogonStatusChanged += (_, args) => Console.Write($"\rConnection status: {args.Status}".PadRight(Console.WindowWidth));
+    engine.LogonFailed += (_, args) => Console.WriteLine($"\rError: {args.FormattedErrorMessage}".PadRight(Console.WindowWidth));
+    engine.LoggedOn += (_, args) => Console.WriteLine($"\rConnected to {args.ServerName}".PadRight(Console.WindowWidth));
 
     ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
     if (state != ConnectionStateCode.Success)
     {
-        Console.WriteLine($"logon failed: {state}");
         return;
     }
 
@@ -39,69 +41,74 @@ async Task RunSample()
 
     using var cancellationTokenSource = new CancellationTokenSource();
 
-    Console.CancelKeyPress += (sender, e) =>
+    Console.CancelKeyPress += (_, e) =>
     {
-        Console.WriteLine("Cancelling...");
+        Console.WriteLine("\nCancelling...");
         e.Cancel = true;
         cancellationTokenSource.Cancel();
     };
 
     try
     {
-        Console.WriteLine($"Reading video stream from camera: {camera.Name}");
-        await using var videoReader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid);
-        await ReadStream(videoReader, cancellationTokenSource.Token);
-
-        Console.WriteLine("\nReading audio stream...");
-        await using var audioReader = PlaybackStreamReader.CreateAudioReader(engine, camera.Guid);
-        await ReadStream(audioReader, cancellationTokenSource.Token);
-
-        Console.WriteLine("\nReading metadata stream...");
-        // Get the metadata stream. In this example, we are only reading the first metadata stream
-        MetadataStreamInfo metadataStreamInfo = camera.MetadataStreams.FirstOrDefault();
-        if (metadataStreamInfo is not null)
-        {
-            Console.WriteLine("\nReading metadata stream:");
-            await using var metadataReader = PlaybackStreamReader.CreateReader(engine, camera.Guid, metadataStreamInfo.StreamId);
-            await ReadStream(metadataReader, cancellationTokenSource.Token);
-        }
-        else
-        {
-            Console.WriteLine("\nNo metadata stream available");
-        }
+        await ReadVideoStream(cancellationTokenSource.Token);
+        await ReadAudioStream(cancellationTokenSource.Token);
+        await ReadMetadataStream(cancellationTokenSource.Token);
     }
     catch (OperationCanceledException)
     {
         Console.WriteLine("Read cancelled");
     }
 
-    // Method to open and read from a stream
-    async Task ReadStream(PlaybackStreamReader reader, CancellationToken token = default)
+    async Task ReadVideoStream(CancellationToken cancellationToken)
     {
-        // Connect to the stream
-        await reader.ConnectAsync(token);
+        Console.WriteLine($"\nReading video stream from camera: {camera.Name}");
+        await using var reader = PlaybackStreamReader.CreateVideoReader(engine, camera.Guid);
+        await ReadStream(reader, cancellationToken);
+    }
 
-        // Seek to one minute ago
-        await reader.SeekAsync(DateTime.UtcNow.AddMinutes(-5), token);
+    async Task ReadAudioStream(CancellationToken cancellationToken)
+    {
+        Console.WriteLine($"\nReading audio stream from camera: {camera.Name}");
+        await using var reader = PlaybackStreamReader.CreateAudioReader(engine, camera.Guid);
+        await ReadStream(reader, cancellationToken);
+    }
+
+    async Task ReadMetadataStream(CancellationToken cancellationToken)
+    {
+        MetadataStreamInfo metadataStreamInfo = camera.MetadataStreams.FirstOrDefault();
+        Console.WriteLine($"\nReading metadata stream from camera: {camera.Name}");
+        if (metadataStreamInfo is not null)
+        {
+            await using var reader = PlaybackStreamReader.CreateReader(engine, camera.Guid, metadataStreamInfo.StreamId);
+            await ReadStream(reader, cancellationToken);
+        }
+        else
+        {
+            Console.WriteLine("No metadata stream available");
+        }
+    }
+
+    async Task ReadStream(PlaybackStreamReader reader, CancellationToken cancellationToken)
+    {
+        await reader.ConnectAsync(cancellationToken);
+        await reader.SeekAsync(DateTime.UtcNow.AddMinutes(-5), cancellationToken);
+
+        var (frames, bytes, start) = (0, 0L, DateTime.Now);
 
         while (true)
         {
-            // Read data from the stream
-            RawDataContent content = await reader.ReadAsync(token);
-            if (content is null)
+            RawDataContent rawDataContent = await reader.ReadAsync(cancellationToken);
+            if (rawDataContent is null)
             {
-                // if the content is null, it means we have reached the end of the stream
-                Console.WriteLine("End of stream reached");
+                Console.Write("\rEnd of stream reached".PadRight(Console.WindowWidth));
                 break;
             }
 
-            using (content)
+            using (rawDataContent)
             {
-                // Get the MediaType name
-                string mediaTypeName = GetMediaTypeName(content.MediaType);
-
-                // Output frame information
-                Console.Write($"\rFrame time: {content.FrameTime:HH:mm:ss.fff} | Format: {content.Format,8} | Type: {mediaTypeName,-12} | Size: {content.Data.Count,8:N0} bytes");
+                frames++;
+                bytes += rawDataContent.Data.Count;
+                Console.Write($"\r{rawDataContent.FrameTime:HH:mm:ss.fff} | {GetMediaTypeName(rawDataContent.MediaType),-12} | {rawDataContent.Format,8} | Size: {rawDataContent.Data.Count,6:N0} B | Avg: {bytes / frames,6:N0} B | FPS: {frames / (DateTime.Now - start).TotalSeconds,5:N1}".PadRight(Console.WindowWidth));
             }
         }
     }
