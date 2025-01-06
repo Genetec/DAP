@@ -191,6 +191,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoorSample", "Platform SDK\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContextualActionSample", "Workspace SDK\ContextualActionSample\ContextualActionSample.csproj", "{96D6D310-6E0B-497A-8F96-A11FEF3CB618}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioTransmitterSample", "Media SDK\AudioTransmitterSample\AudioTransmitterSample.csproj", "{BF50B632-B94D-40B4-8EC9-D85115D6B0F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -533,6 +535,10 @@ Global
 		{96D6D310-6E0B-497A-8F96-A11FEF3CB618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96D6D310-6E0B-497A-8F96-A11FEF3CB618}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96D6D310-6E0B-497A-8F96-A11FEF3CB618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF50B632-B94D-40B4-8EC9-D85115D6B0F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF50B632-B94D-40B4-8EC9-D85115D6B0F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF50B632-B94D-40B4-8EC9-D85115D6B0F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF50B632-B94D-40B4-8EC9-D85115D6B0F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -622,6 +628,7 @@ Global
 		{43433976-4DD7-46CD-B7C4-80BF6947B560} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{44B059DD-D16C-4A66-97E2-045D98608537} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{96D6D310-6E0B-497A-8F96-A11FEF3CB618} = {B4C33C9C-21DF-4775-BE7A-60019B42445C}
+		{BF50B632-B94D-40B4-8EC9-D85115D6B0F5} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -674,6 +681,7 @@ Global
 		Shared\Shared.projitems*{bbf48177-99de-4ee3-bea5-8e69f7b46d81}*SharedItemsImports = 5
 		Shared\Shared.projitems*{bc792e0f-d089-4c3e-953e-2f9d327a550f}*SharedItemsImports = 5
 		Shared\Shared.projitems*{be6ff206-f656-4e9d-84ea-29cfe680fb37}*SharedItemsImports = 5
+		Shared\Shared.projitems*{bf50b632-b94d-40b4-8ec9-d85115d6b0f5}*SharedItemsImports = 5
 		Shared\Shared.projitems*{c0e3ef1d-7f9f-4140-81b5-6b4f5f9f9632}*SharedItemsImports = 5
 		Shared\Shared.projitems*{c30ac2f8-dcf2-4bfe-8553-049a93f1c30c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{c4cdde73-8c18-4db4-876d-3ea72e4acd03}*SharedItemsImports = 5
