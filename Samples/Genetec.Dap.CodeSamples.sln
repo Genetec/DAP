@@ -49,6 +49,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTrailsSample", "Platform SDK\ActivityTrailsSample\ActivityTrailsSample.csproj", "{BC792E0F-D089-4C3E-953E-2F9D327A550F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform SDK", "Platform SDK", "{4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.md = ReadMe.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlRawEventQuerySample", "Platform SDK\AccessControlRawEventQuerySample\AccessControlRawEventQuerySample.csproj", "{1EDA0B9A-B2C2-493C-A895-35964392B33F}"
 EndProject
@@ -184,7 +187,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CredentialBuilderSample", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportExporterSample", "Platform SDK\ReportExporterSample\ReportExporterSample.csproj", "{43433976-4DD7-46CD-B7C4-80BF6947B560}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoorSample", "Platform SDK\DoorSample\DoorSample.csproj", "{44B059DD-D16C-4A66-97E2-045D98608537}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoorSample", "Platform SDK\DoorSample\DoorSample.csproj", "{44B059DD-D16C-4A66-97E2-045D98608537}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContextualActionSample", "Workspace SDK\ContextualActionSample\ContextualActionSample.csproj", "{96D6D310-6E0B-497A-8F96-A11FEF3CB618}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoConverterSample", "Media SDK\VideoConverterSample\VideoConverterSample.csproj", "{12022CB5-0053-4BB9-B548-1137C0E25A0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -524,6 +531,14 @@ Global
 		{44B059DD-D16C-4A66-97E2-045D98608537}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44B059DD-D16C-4A66-97E2-045D98608537}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44B059DD-D16C-4A66-97E2-045D98608537}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96D6D310-6E0B-497A-8F96-A11FEF3CB618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96D6D310-6E0B-497A-8F96-A11FEF3CB618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96D6D310-6E0B-497A-8F96-A11FEF3CB618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96D6D310-6E0B-497A-8F96-A11FEF3CB618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12022CB5-0053-4BB9-B548-1137C0E25A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12022CB5-0053-4BB9-B548-1137C0E25A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12022CB5-0053-4BB9-B548-1137C0E25A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12022CB5-0053-4BB9-B548-1137C0E25A0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -612,6 +627,8 @@ Global
 		{8BF55332-9888-46A0-8D60-C31B9DB52534} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{43433976-4DD7-46CD-B7C4-80BF6947B560} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{44B059DD-D16C-4A66-97E2-045D98608537} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{96D6D310-6E0B-497A-8F96-A11FEF3CB618} = {B4C33C9C-21DF-4775-BE7A-60019B42445C}
+		{12022CB5-0053-4BB9-B548-1137C0E25A0A} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -621,6 +638,7 @@ Global
 		Shared\Shared.projitems*{0bd3aa34-ca7e-452d-a791-d62c17b19713}*SharedItemsImports = 5
 		Shared\Shared.projitems*{0c921097-8e94-42cf-b50d-349d4a77b704}*SharedItemsImports = 5
 		Shared\Shared.projitems*{100afe97-6a43-4d06-af99-7f2bbeef17fd}*SharedItemsImports = 5
+		Shared\Shared.projitems*{12022cb5-0053-4bb9-b548-1137c0e25a0a}*SharedItemsImports = 5
 		Shared\Shared.projitems*{150a002a-6dd3-4905-a340-0698f551b34d}*SharedItemsImports = 5
 		Shared\Shared.projitems*{165c2f92-ffa4-482f-8bc2-23b744c72465}*SharedItemsImports = 5
 		Shared\Shared.projitems*{19ffa6fd-3390-464e-81fe-a0cd180312e8}*SharedItemsImports = 5
