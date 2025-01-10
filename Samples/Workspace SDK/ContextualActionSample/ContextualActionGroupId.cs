@@ -7,15 +7,9 @@
 
 namespace Genetec.Dap.CodeSamples;
 
-using Sdk.Media.Export;
+using System;
 
-public struct ExportOption
+public static class ContextualActionGroupId
 {
-    public VideoExportFormat Format { get; set; }
-
-    public PlaybackMode PlaybackMode { get; set; }
-
-    public bool IncludeWatermark { get; set; }
-
-    public bool ExportAudio { get; set; }
+    public static readonly Guid SampleContextualActionGroupId = new("B1655393-06A2-45BB-9830-8DEAC5FA2DE9"); // TODO: Replace this GUID with your own contextual action group GUID.
 }
