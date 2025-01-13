@@ -5,29 +5,28 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using Genetec.Sdk.Diagnostics.Logging;
+using Genetec.Sdk.Diagnostics.Logging.Core;
+
+static class StaticLogger
 {
-    using Genetec.Sdk.Diagnostics.Logging;
-    using Genetec.Sdk.Diagnostics.Logging.Core;
+    private static readonly Logger s_logger = Logger.CreateClassLogger(typeof(StaticLogger));
 
-    static class StaticLogger
+    public static void LogDebugMessage()
     {
-        private static readonly Logger s_logger = Logger.CreateClassLogger(typeof(StaticLogger));
+        s_logger.TraceDebug("This is a debug message");
+    }
 
-        public static void LogDebugMessage()
-        {
-            s_logger.TraceDebug("This is a debug message");
-        }
-
-        /// <summary>
-        /// Executes a static debug method and returns a result message.
-        /// </summary>
-        /// <returns>A string containing the output message of this sample static debug method.</returns>
-        [DebugMethod(Description = "Executes a sample static debug method", DisplayName = "Sample Static Debug Method", IsHidden = false, IsSecured = false)]
-        [UserCommand("Genetec.Dap.Samples")]
-        public static string ExecuteSampleDebugMethod()
-        {
-            return "This is the result of executing the sample static debug method.";
-        }
+    /// <summary>
+    /// Executes a static debug method and returns a result message.
+    /// </summary>
+    /// <returns>A string containing the output message of this sample static debug method.</returns>
+    [DebugMethod(Description = "Executes a sample static debug method", DisplayName = "Sample Static Debug Method", IsHidden = false, IsSecured = false)]
+    [UserCommand("Genetec.Dap.Samples")]
+    public static string ExecuteSampleDebugMethod()
+    {
+        return "This is the result of executing the sample static debug method.";
     }
 }
