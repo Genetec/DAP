@@ -193,6 +193,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContextualActionSample", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoConverterSample", "Media SDK\VideoConverterSample\VideoConverterSample.csproj", "{12022CB5-0053-4BB9-B548-1137C0E25A0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoleSample", "Platform SDK\RoleSample\RoleSample.csproj", "{8FCAE802-F16B-4A97-A0B7-4169F0D99AB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -539,6 +541,10 @@ Global
 		{12022CB5-0053-4BB9-B548-1137C0E25A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12022CB5-0053-4BB9-B548-1137C0E25A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12022CB5-0053-4BB9-B548-1137C0E25A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FCAE802-F16B-4A97-A0B7-4169F0D99AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FCAE802-F16B-4A97-A0B7-4169F0D99AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FCAE802-F16B-4A97-A0B7-4169F0D99AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FCAE802-F16B-4A97-A0B7-4169F0D99AB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -629,6 +635,7 @@ Global
 		{44B059DD-D16C-4A66-97E2-045D98608537} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{96D6D310-6E0B-497A-8F96-A11FEF3CB618} = {B4C33C9C-21DF-4775-BE7A-60019B42445C}
 		{12022CB5-0053-4BB9-B548-1137C0E25A0A} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
+		{8FCAE802-F16B-4A97-A0B7-4169F0D99AB9} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -671,6 +678,7 @@ Global
 		Shared\Shared.projitems*{788e1362-7fad-483d-9e8f-50855fb860fc}*SharedItemsImports = 5
 		Shared\Shared.projitems*{880c6c9d-b583-450f-964c-362261a9f5dd}*SharedItemsImports = 5
 		Shared\Shared.projitems*{8bf55332-9888-46a0-8d60-c31b9db52534}*SharedItemsImports = 5
+		Shared\Shared.projitems*{8fcae802-f16b-4a97-a0b7-4169f0d99ab9}*SharedItemsImports = 5
 		Shared\Shared.projitems*{922bd855-deed-44e2-ba08-71dd92df1f2d}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a377c035-e10f-41f0-b6c7-0d0bcb60d4b9}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a6b95578-7844-480b-8051-056b4949e446}*SharedItemsImports = 5
