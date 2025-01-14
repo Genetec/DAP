@@ -103,6 +103,8 @@ namespace Genetec.Dap.CodeSamples
 
         private void CreateCustomPrivileges()
         {
+            const string applicationPrivilegesGroup = "38ACC600-4A32-44ff-8DF5-0797D888930B";
+
             Guid privilegeGroupId = Guid.Parse("864E018E-8B50-41B7-80F5-4F1BB2BBED6E");
 
             Workspace.Sdk.SecurityManager.RegisterPrivileges(new List<PrivilegeRegistration>
@@ -113,7 +115,7 @@ namespace Genetec.Dap.CodeSamples
                     details: "AED Unit",
                     priority: 2,
                     icon: null,
-                    parentId: Guid.Parse("38ACC600-4A32-44ff-8DF5-0797D888930B")),
+                    parentId: Guid.Parse(applicationPrivilegesGroup)),
                 new(id: AedUnitCustomPrivilege.View,
                     type: PrivilegeType.Entity,
                     description: "View AED unit properties",
