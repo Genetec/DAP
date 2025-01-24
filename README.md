@@ -22,7 +22,7 @@ Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the pro
    -   `GSC_SDK_CORE`: Points to the location of the Genetec SDK for .NET 8
    
 - **Development Tools**:
-   - **Visual Studio**: Ensure you have Visual Studio 2022 (or later) installed.
+   - **Visual Studio**: Ensure you have Visual Studio 2022 version 17.6 (or later) installed.
    - **.NET Framework 4.8.1**: The sample projects can be built using .NET Framework 4.8.1, which is supported by all versions of Security Center.
    - **.NET 8**: The sample projects can be built using .NET 8, but only with **Security Center SDK 5.12.2 or later**.
 
