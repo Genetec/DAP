@@ -1,67 +1,82 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Genetec.Dap.CodeSamples;
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Entities.Collections;
+using Genetec.Sdk.Entities.CustomEvents;
+
+const string server = "localhost";
+const string username = "admin";
+const string password = "";
+
+SdkResolver.Initialize();
+await RunSample();
+
+Console.Write("Press any key to exit...");
+Console.ReadKey(true);
+
+async Task RunSample()
 {
-    using System;
-    using System.Threading.Tasks;
-    using Sdk;
-    using Sdk.Entities;
-    using Sdk.Entities.Collections;
-    using Sdk.Entities.CustomEvents;
+    using var engine = new Engine();
 
-    class Program
+    ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+
+    if (state != ConnectionStateCode.Success)
     {
-        static Program() => SdkResolver.Initialize();
+        Console.WriteLine($"Logon failed: {state}");
+        return;
+    }
 
-        static async Task Main()
+    PrintEventToActions();
+
+    void PrintEventToActions()
+    {
+        var configuration = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
+        Console.WriteLine("Event to Actions:");
+
+        if (!configuration.EventToActions.Any())
         {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
+            Console.WriteLine("No event to actions found.");
+            return;
+        }
 
-            var engine = new Engine();
+        foreach (EventToAction eventToAction in configuration.EventToActions)
+        {
+            Console.WriteLine(new string('-', 50));
+            PrintEventToActionDetails(eventToAction);
+            Console.WriteLine();
+        }
 
-            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+        void PrintEventToActionDetails(EventToAction eventToAction)
+        {
+            Console.WriteLine($"Id: {eventToAction.Id}");
 
-            if (state == ConnectionStateCode.Success)
+            if (eventToAction.EventType == EventType.CustomEvent && eventToAction.CustomEventId.HasValue)
             {
-                PrintEventToActions(engine);
+                CustomEvent customEvent = configuration.CustomEventService.GetCustomEvent(eventToAction.CustomEventId.Value);
+                Console.WriteLine($"Event: {customEvent.Name} ({customEvent.SourceEntityType})");
             }
             else
             {
-                Console.WriteLine($"Logon failed: {state}");
+                Console.WriteLine($"Event: {eventToAction.EventType}");
             }
 
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-        }
+            Console.WriteLine($"Action: {eventToAction.Action.Type}");
 
-        private static void PrintEventToActions(Engine engine)
-        {
-            var configuration = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
+            Entity recipient = engine.GetEntity(eventToAction.Action.Recipient);
+            Console.WriteLine(recipient != null ? $"Recipient: {recipient.Name}" : "Recipient: None");
 
-            foreach (EventToAction eventToAction in configuration.EventToActions)
-            {
-                Console.WriteLine($"Id: {eventToAction.Id}");
+            Console.WriteLine(!string.IsNullOrEmpty(eventToAction.CustomCondition)
+                ? $"Custom Condition: {eventToAction.CustomCondition}"
+                : "Custom Condition: None");
 
-                if (eventToAction.EventType == EventType.CustomEvent && eventToAction.CustomEventId.HasValue)
-                {
-                    CustomEvent customEvent = configuration.CustomEventService.GetCustomEvent(eventToAction.CustomEventId.Value);
-                    Console.WriteLine($"Event: {customEvent.Name} ({customEvent.SourceEntityType})");
-                }
-                else
-                {
-                    Console.WriteLine($"Event: {eventToAction.EventType}");
-                }
-
-                if (!string.IsNullOrEmpty(eventToAction.CustomCondition))
-                {
-                    Console.WriteLine($"Custom Condition: {eventToAction.CustomCondition}");
-                }
-
-                Console.WriteLine($"Action: {eventToAction.Action.Type}");
-            }
+            Entity schedule = engine.GetEntity(eventToAction.Action.Schedule) as Schedule;
+            Console.WriteLine(schedule != null ? $"Schedule: {schedule.Name}" : "Schedule: Always");
         }
     }
 }
