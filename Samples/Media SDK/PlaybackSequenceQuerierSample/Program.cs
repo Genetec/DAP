@@ -1,9 +1,5 @@
 ﻿// Copyright 2024 Genetec Inc.
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+// Licensed under the Apache License, Version 2.0
 
 using System;
 using System.Collections.Generic;
@@ -14,64 +10,94 @@ using Genetec.Sdk.Queries;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Media.Reader;
+using System.Threading;
+using DateTimeRange = Genetec.Sdk.Media.DateTimeRange;
 
 SdkResolver.Initialize();
 
 await RunSample();
 
+Console.Write("Press any key to exit...");
+Console.ReadKey(true);
+
 async Task RunSample()
 {
-    const string server = "localhost";
-    const string username = "admin";
-    const string password = "";
+    // Connection parameters for your Security Center server
+    const string server = "localhost";  // Specify the IP address or hostname of your Security Center server.
+    const string username = "admin";    // Enter the username for Security Center authentication.
+    const string password = "";         // Provide the corresponding password for the specified username.
 
+    // The Engine class is the main entry point for SDK operations.
+    // It manages the connection to Security Center and provides access to the system's entities.
     using var engine = new Engine();
 
+    // Set up event handlers to monitor connection status
+    engine.LogonStatusChanged += (_, args) => Console.Write($"\rConnection status: {args.Status}".PadRight(Console.WindowWidth));
+    engine.LogonFailed += (_, args) => Console.WriteLine($"\rError: {args.FormattedErrorMessage}".PadRight(Console.WindowWidth));
+    engine.LoggedOn += (_, args) => Console.WriteLine($"\rConnected to {args.ServerName}".PadRight(Console.WindowWidth));
+
+    // Attempt to connect to the Security Center server
     ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
-    if (state == ConnectionStateCode.Success)
+    if (state != ConnectionStateCode.Success)
     {
-        // Load cameras into the entity cache
-        await LoadCameras();
-
-        // Retrieve cameras from the entity cache
-        List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
-
-        Console.WriteLine($"{cameras.Count} cameras loaded");
-
-        // Query and display video sequences for each camera
-        foreach (Camera camera in cameras)
-        {
-            await QueryAndDisplayVideoSequence(camera);
-        }
-    }
-    else
-    {
-        Console.WriteLine($"Login failed: {state}");
+        return;
     }
 
-    Console.WriteLine("Press any key to exit...");
-    Console.ReadKey();
+    // Load cameras into the entity cache
+    await LoadCameras();
 
+    // Get the list of cameras from the entity cache
+    List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
+
+    Console.WriteLine($"\r{cameras.Count} cameras loaded".PadRight(Console.WindowWidth));
+
+    // Set up cancellation support
+    using var cancellationTokenSource = new CancellationTokenSource();
+
+    Console.CancelKeyPress += (_, e) =>
+    {
+        Console.WriteLine("Cancelling...");
+        e.Cancel = true;
+        cancellationTokenSource.Cancel();
+    };
+
+    // Define the time range for video sequence query (last 24 hours)
+    var timeRange = new DateTimeRange(DateTime.Now.AddDays(-1), DateTime.Now);
+
+    // Query each camera for video sequences
+    foreach (Camera camera in cameras)
+    {
+        Console.WriteLine($"\nQuerying {camera.Name} (ID: {camera.Guid}) for video sequences in the last 24 hours:");
+        await QueryAndDisplayVideoSequence(camera, timeRange, cancellationTokenSource.Token);
+    }
+
+    // LoadCameras uses the EntityConfigurationQuery to retrieve camera information
+    // This is more efficient than loading all entities when we only need cameras
     async Task LoadCameras()
     {
-        Console.WriteLine("Loading cameras...");
+        Console.Write("Loading cameras...");
 
+        // Create a query specifically for entity configuration
         var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+
+        // Filter the query to only return camera entities
         query.EntityTypeFilter.Add(EntityType.Camera);
+
+        // Execute the query asynchronously
         await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
     }
 
-    async Task QueryAndDisplayVideoSequence(Camera camera)
+    // QueryAndDisplayVideoSequence uses the PlaybackSequenceQuerier to find recorded video segments
+    // This helps identify when video recordings are available for a camera
+    async Task QueryAndDisplayVideoSequence(Camera camera, DateTimeRange timeRange, CancellationToken token = default)
     {
-        Console.WriteLine($"\nQuerying {camera.Name} (ID: {camera.Guid}) for video sequences in the last 24 hours:");
-
+        // Create a video querier for the specific camera
+        // The querier helps find video sequences (recordings) for a given time range
         await using var reader = PlaybackSequenceQuerier.CreateVideoQuerier(engine, camera.Guid);
 
-        // Query video sequences in the last 24 hours
-        var timeRange = new Genetec.Sdk.Media.DateTimeRange(DateTime.Now.AddDays(-1), DateTime.Now);
-
-        List<PlaybackSequence> sequences = await reader.QuerySequencesAsync(timeRange);
+        // Query for sequences within our time range
+        List<PlaybackSequence> sequences = await reader.QuerySequencesAsync(timeRange, token);
 
         if (sequences.Any())
         {
@@ -89,5 +115,4 @@ async Task RunSample()
 
         Console.WriteLine(new string('-', 50));
     }
-
 }

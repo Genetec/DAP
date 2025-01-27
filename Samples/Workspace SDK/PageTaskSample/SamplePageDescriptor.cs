@@ -35,7 +35,7 @@ public class SamplePageDescriptor : PageDescriptor
     public override bool HasPrivilege()
     {
         // TODO: Implement proper privilege checking logic
-        // Example: return CurrentUser.HasRequiredPermission("AccessSamplePage");
+        // Example: return m_sdk.LoggedUser?.HasPrivilege(SdkPrivilege.SystemTask) == true;
         return true;
     }
 }
