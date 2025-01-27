@@ -195,6 +195,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoConverterSample", "Med
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomReportQuerySample", "Platform SDK\CustomReportQuerySample\CustomReportQuerySample.csproj", "{B1522DA2-4650-43F6-816A-8D56E8314B21}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTransmitterSample", "Media SDK\AudioTransmitterSample\AudioTransmitterSample.csproj", "{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -545,6 +547,10 @@ Global
 		{B1522DA2-4650-43F6-816A-8D56E8314B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1522DA2-4650-43F6-816A-8D56E8314B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1522DA2-4650-43F6-816A-8D56E8314B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -678,6 +684,7 @@ Global
 		Shared\Shared.projitems*{788e1362-7fad-483d-9e8f-50855fb860fc}*SharedItemsImports = 5
 		Shared\Shared.projitems*{880c6c9d-b583-450f-964c-362261a9f5dd}*SharedItemsImports = 5
 		Shared\Shared.projitems*{8bf55332-9888-46a0-8d60-c31b9db52534}*SharedItemsImports = 5
+		Shared\Shared.projitems*{91c084b0-bc1a-41c7-a6e3-e1556b8fe0d3}*SharedItemsImports = 5
 		Shared\Shared.projitems*{922bd855-deed-44e2-ba08-71dd92df1f2d}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a377c035-e10f-41f0-b6c7-0d0bcb60d4b9}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a6b95578-7844-480b-8051-056b4949e446}*SharedItemsImports = 5
