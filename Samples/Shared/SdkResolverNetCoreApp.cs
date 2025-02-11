@@ -1,11 +1,4 @@
-﻿// Copyright 2024 Genetec Inc.
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
-#if NETCOREAPP
+﻿#if NETCOREAPP
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -18,57 +11,43 @@ using System.Runtime.Loader;
 using Microsoft.Win32;
 using System.Collections.Concurrent;
 
-public class SdkResolver : AssemblyLoadContext
+public static class SdkResolver
 {
     private static readonly string s_probingPath = GetProbingPath();
-    private static readonly SdkResolver s_instance = new();
+    private static readonly AssemblyDependencyResolver s_dependencyResolver = new(Path.Combine(s_probingPath, "Genetec.Sdk.dll"));
     private static readonly ConcurrentDictionary<string, Assembly> s_loadedAssemblies = new();
     private static readonly HashSet<string> s_assemblyResolutionInProgress = new();
 
     public static void Initialize()
     {
-        Default.Resolving += OnAssemblyResolve;
-    }
-
-    protected override Assembly Load(AssemblyName assemblyName)
-    {
-        return ResolveAssembly(assemblyName);
+        AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
     }
 
     private static Assembly OnAssemblyResolve(AssemblyLoadContext context, AssemblyName assemblyName)
     {
-        return s_instance.ResolveAssembly(assemblyName);
-    }
-
-    private Assembly ResolveAssembly(AssemblyName assemblyName)
-    {
         if (s_loadedAssemblies.TryGetValue(assemblyName.Name, out Assembly loadedAssembly))
         {
-            return loadedAssembly;
+            return loadedAssembly; // Assembly already loaded
         }
 
         if (!s_assemblyResolutionInProgress.Add(assemblyName.Name))
         {
-            return null; // Prevent recursive resolution
+            return null; // Recursive resolution detected
         }
 
         try
         {
-            foreach (var assemblyFile in GetAssemblyPaths(s_probingPath, assemblyName).Where(File.Exists))
+            string assemblyPath = s_dependencyResolver.ResolveAssemblyToPath(assemblyName);
+            if (File.Exists(assemblyPath) && TryLoadAssembly(assemblyPath, out Assembly resolveAssembly))
             {
-                try
+                return resolveAssembly;
+            }
+
+            foreach (string assemblyFile in GetAssemblyPaths(s_probingPath, assemblyName).Where(File.Exists))
+            {
+                if (TryLoadAssembly(assemblyFile, out resolveAssembly))
                 {
-                    Assembly assembly = LoadFromAssemblyPath(assemblyFile);
-                    s_loadedAssemblies[assemblyName.Name] = assembly;
-                    return assembly;
-                }
-                catch (BadImageFormatException)
-                {
-                    // Skip assemblies that are not compatible
-                }
-                catch (Exception)
-                {
-                    // Log the exception if needed
+                    return resolveAssembly;
                 }
             }
         }
@@ -78,6 +57,28 @@ public class SdkResolver : AssemblyLoadContext
         }
 
         return null;
+
+        bool TryLoadAssembly(string assemblyPath, out Assembly resolveAssembly)
+        {
+            try
+            {
+                resolveAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
+                s_loadedAssemblies[assemblyName.Name] = resolveAssembly;
+                return true;
+            }
+            catch (Exception)
+            {
+            }
+
+            resolveAssembly = default;
+            return false;
+        }
+
+        static IEnumerable<string> GetAssemblyPaths(string probingPath, AssemblyName assemblyName)
+        {
+            yield return Path.Combine(probingPath, $"{assemblyName.Name}.dll");
+            yield return Path.Combine(probingPath, $"{assemblyName.Name}.exe");
+        }
     }
 
     private static string GetProbingPath()
@@ -113,23 +114,17 @@ public class SdkResolver : AssemblyLoadContext
                         continue;
                     }
 
-                    if (subKey.GetValue("Installation Path") is string path) //SDK installation PATH
+                    if (subKey.GetValue("Installation Path") is string path)
                     {
                         yield return (version, path);
                     }
-                    else if (subKey.GetValue("InstallDir") is string dir) //Security Center installation PATH
+                    else if (subKey.GetValue("InstallDir") is string dir)
                     {
                         yield return (version, dir);
                     }
                 }
             }
         }
-    }
-
-    private static IEnumerable<string> GetAssemblyPaths(string probingPath, AssemblyName assemblyName)
-    {
-        yield return Path.Combine(probingPath, $"{assemblyName.Name}.dll");
-        yield return Path.Combine(probingPath, $"{assemblyName.Name}.exe");
     }
 }
 
