@@ -173,8 +173,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TileWidgetSample", "Workspa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimelineProviderSample", "Workspace SDK\TimelineProviderSample\TimelineProviderSample.csproj", "{1F5E7D1D-5E67-444D-890E-B47917EF5CF1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicMediaPlayer", "Media SDK\BasicMediaPlayer\BasicMediaPlayer.csproj", "{601327C9-6058-4B6C-B69F-D9080E8C31B1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchiverRoleSample", "Platform SDK\ArchiverRoleSample\ArchiverRoleSample.csproj", "{E0690536-46BF-4966-8D5D-C5A47769EB52}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleSample", "Platform SDK\ScheduleSample\ScheduleSample.csproj", "{B70DF3AD-A97F-4274-A1F2-409392E6EC97}"
@@ -198,6 +196,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTransmitterSample", "Media SDK\AudioTransmitterSample\AudioTransmitterSample.csproj", "{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoleSample", "Platform SDK\RoleSample\RoleSample.csproj", "{29891581-DA9A-4D2B-81E7-570143BC5475}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayerSample", "Media SDK\MediaPlayerSample\MediaPlayerSample.csproj", "{C0A9B844-811D-460A-B8DD-C9EEF7969C91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -505,10 +505,6 @@ Global
 		{1F5E7D1D-5E67-444D-890E-B47917EF5CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F5E7D1D-5E67-444D-890E-B47917EF5CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F5E7D1D-5E67-444D-890E-B47917EF5CF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{601327C9-6058-4B6C-B69F-D9080E8C31B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{601327C9-6058-4B6C-B69F-D9080E8C31B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{601327C9-6058-4B6C-B69F-D9080E8C31B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{601327C9-6058-4B6C-B69F-D9080E8C31B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E0690536-46BF-4966-8D5D-C5A47769EB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E0690536-46BF-4966-8D5D-C5A47769EB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0690536-46BF-4966-8D5D-C5A47769EB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -557,6 +553,10 @@ Global
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0A9B844-811D-460A-B8DD-C9EEF7969C91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0A9B844-811D-460A-B8DD-C9EEF7969C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0A9B844-811D-460A-B8DD-C9EEF7969C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0A9B844-811D-460A-B8DD-C9EEF7969C91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -637,7 +637,6 @@ Global
 		{90D795C0-F1EE-4241-B203-CFCCE67E1E76} = {B4C33C9C-21DF-4775-BE7A-60019B42445C}
 		{2DCB1676-1B36-4813-9D24-FD63B5407763} = {B4C33C9C-21DF-4775-BE7A-60019B42445C}
 		{1F5E7D1D-5E67-444D-890E-B47917EF5CF1} = {B4C33C9C-21DF-4775-BE7A-60019B42445C}
-		{601327C9-6058-4B6C-B69F-D9080E8C31B1} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{E0690536-46BF-4966-8D5D-C5A47769EB52} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{B70DF3AD-A97F-4274-A1F2-409392E6EC97} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{08B69AD1-8104-4889-A7C6-9C9136D0C02C} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
@@ -650,6 +649,7 @@ Global
 		{B1522DA2-4650-43F6-816A-8D56E8314B21} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{29891581-DA9A-4D2B-81E7-570143BC5475} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{C0A9B844-811D-460A-B8DD-C9EEF7969C91} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -685,7 +685,6 @@ Global
 		Shared\Shared.projitems*{5a217bbf-eafa-4f52-b81a-02c4232da68e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{5a3ca774-e381-4e87-b8d9-091644b52222}*SharedItemsImports = 5
 		Shared\Shared.projitems*{5d7b3be5-9b6a-4723-a316-78918ade866a}*SharedItemsImports = 5
-		Shared\Shared.projitems*{601327c9-6058-4b6c-b69f-d9080e8c31b1}*SharedItemsImports = 5
 		Shared\Shared.projitems*{62ff8f2f-fe3a-4c9e-ab42-fc58184971e0}*SharedItemsImports = 5
 		Shared\Shared.projitems*{63c46961-ccb1-4dd1-a292-8cf1de362f94}*SharedItemsImports = 5
 		Shared\Shared.projitems*{691fb77e-e114-49bf-8fcf-c0957696e305}*SharedItemsImports = 5
@@ -706,6 +705,7 @@ Global
 		Shared\Shared.projitems*{bbf48177-99de-4ee3-bea5-8e69f7b46d81}*SharedItemsImports = 5
 		Shared\Shared.projitems*{bc792e0f-d089-4c3e-953e-2f9d327a550f}*SharedItemsImports = 5
 		Shared\Shared.projitems*{be6ff206-f656-4e9d-84ea-29cfe680fb37}*SharedItemsImports = 5
+		Shared\Shared.projitems*{c0a9b844-811d-460a-b8dd-c9eef7969c91}*SharedItemsImports = 5
 		Shared\Shared.projitems*{c0e3ef1d-7f9f-4140-81b5-6b4f5f9f9632}*SharedItemsImports = 5
 		Shared\Shared.projitems*{c30ac2f8-dcf2-4bfe-8553-049a93f1c30c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{c4cdde73-8c18-4db4-876d-3ea72e4acd03}*SharedItemsImports = 5
