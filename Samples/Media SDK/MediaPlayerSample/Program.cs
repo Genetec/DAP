@@ -1,22 +1,21 @@
-﻿// Copyright 2024 Genetec Inc.
-// Licensed under the Apache License, Version 2.0
-
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Genetec.Sdk.Media;
-
-namespace Genetec.Dap.CodeSamples;
-
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Sdk;
-using Sdk.Entities;
-using Sdk.Queries;
+using Microsoft.Win32;
 using Application = System.Windows.Application;
-using MediaPlayer = Sdk.Media.MediaPlayer;
+using Camera = Genetec.Sdk.Entities.Camera;
+using MediaPlayer = Genetec.Sdk.Media.MediaPlayer;
+
+namespace Genetec.Dap.CodeSamples;
+
+using Sdk;
+using Sdk.Queries;
 
 class Program
 {
@@ -24,9 +23,9 @@ class Program
 
     static async Task Main()
     {
-        const string server = "localhost";
-        const string username = "admin";
-        const string password = "";
+        const string server = "localhost";  // TODO: Update with your Security Center server IP address or hostname
+        const string username = "admin";    // TODO: Update with your Security Center username
+        const string password = "";         // TODO: Update with your Security Center password
 
         using var engine = new Engine();
 
@@ -40,13 +39,6 @@ class Program
 
         await LoadCameras(engine);
 
-        var camera = engine.GetEntities(EntityType.Camera).OfType<Camera>().FirstOrDefault();
-        if (camera is null)
-        {
-            Console.WriteLine("No camera found");
-            return;
-        }
-
         DisplayControls();
 
         var thread = new Thread(RunWpfApplication);
@@ -56,9 +48,11 @@ class Program
 
         void RunWpfApplication()
         {
-            var player = new MediaPlayer();
+            MediaPlayer player = new();
+            CancellationTokenSource cts = new();
+            Camera currentCamera = null;
 
-            var window = new Window { Width = 800, Height = 600, Background = Brushes.Black, Content = player };
+            Window window = new() { Width = 800, Height = 600, Background = Brushes.Black, Content = player };
             window.Loaded += OnLoaded;
             window.KeyDown += OnKeyDown;
 
@@ -66,48 +60,95 @@ class Program
             player.PlaySpeedChanged += (sender, arg) => UpdateTitle();
             player.LivePlaybackModeToggled += (sender, arg) => UpdateTitle();
 
-            var application = new Application();
+            Application application = new();
             application.Run(window);
             player.Dispose();
 
-            void OnLoaded(object sender, RoutedEventArgs arg)
-            {
-                player.Initialize(engine, camera.Guid, StreamingType.Live);
-                player.PlayLive();
-            }
+            void OnLoaded(object sender, RoutedEventArgs arg) => _ = CycleCameras(cts.Token);
 
             void UpdateTitle()
             {
-                window.Title = $"MediaPlayer - {camera.Name} - {player.State}" +
-                               $"{(player.PlaySpeed != PlaySpeed.Speed1X ? $" ({player.PlaySpeed})" : "")}" +
-                               $" ({(player.IsPlayingLiveStream ? "live" : "playback")})";
+                window.Title = $"MediaPlayer - {currentCamera?.Name} - {player.State}{(player.PlaySpeed != PlaySpeed.Speed1X ? $" ({player.PlaySpeed})" : "")} ({(player.IsPlayingLiveStream ? "live" : "playback")})";
+            }
 
+            async Task CycleCameras(CancellationToken token)
+            {
+                Console.WriteLine("Starting camera cycling...");
+
+                while (true)
+                {
+                    List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
+
+                    for (int i = 0; i < cameras.Count; i++)
+                    {
+                        // Get current camera
+                        var currentItem = cameras[i];
+
+                        // Get next camera index (wrap around to beginning if at the end)
+                        var nextIndex = (i + 1) % cameras.Count;
+                        var nextItem = cameras[nextIndex];
+
+                        if (currentCamera is null)
+                        {
+                            currentCamera = currentItem;
+                            // Initialize the player with the first camera in the sequence
+                            player.Initialize(engine, currentCamera.Guid, StreamingType.Live);
+                            player.PlayLive();
+                        }
+                        else
+                        {
+                            currentCamera = currentItem;
+                            // Switch to the next camera in the sequence
+                            player.SwitchToNextVideoInSequence();
+                        }
+
+                        // Prepare the next camera in the sequence
+                        player.PrepareNextVideoInSequence(engine, nextItem.Guid, Guid.Empty, StreamingType.Live, null);
+
+                        await Task.Delay(5000, token); // Wait 5 seconds before switching to the next camera
+                    }
+                }
             }
 
             void OnKeyDown(object sender, KeyEventArgs e)
             {
                 switch (e.Key)
                 {
+                    case Key.O:
+                        StopCameraCycling();
+                        OpenFile();
+                        break;
                     case Key.Space:
+                        StopCameraCycling();
                         TogglePlayPause();
                         break;
                     case Key.Left:
+                        StopCameraCycling();
                         SeekBackward();
                         break;
                     case Key.Right:
+                        StopCameraCycling();
                         SeekForward();
                         break;
                     case Key.Up:
+                        StopCameraCycling();
                         IncreasePlaySpeed();
                         break;
                     case Key.Down:
+                        StopCameraCycling();
                         DecreasePlaySpeed();
                         break;
                     case Key.R:
+                        StopCameraCycling();
                         player.Rewind();
                         break;
                     case Key.L:
+                        StopCameraCycling();
+                        Console.WriteLine("Playing live stream...");
                         player.PlayLive();
+                        break;
+                    case Key.C:
+                        ToggleCameraCycling();
                         break;
                     case Key.I:
                         player.ShowSpecialOverlay(OverlayType.Statistics);
@@ -131,10 +172,34 @@ class Program
                 }
             }
 
+            void ToggleCameraCycling()
+            {
+                if (cts is null || cts.IsCancellationRequested)
+                {
+                    cts = new CancellationTokenSource();
+                    _ = CycleCameras(cts.Token);
+                }
+                else
+                {
+                    StopCameraCycling();
+                }
+            }
+
+            void StopCameraCycling()
+            {
+                if (cts is null || cts.IsCancellationRequested)
+                    return;
+
+                Console.WriteLine("Stopping camera cycling...");
+                cts.Cancel();
+
+            }
+
             void SeekBackward()
             {
                 if (player.LastRenderedFrameTime != DateTime.MinValue)
                 {
+                    Console.WriteLine("Seeking backward by 10 seconds...");
                     player.Seek(player.LastRenderedFrameTime.AddSeconds(-10));
                 }
             }
@@ -146,6 +211,7 @@ class Program
 
                 if (player.LastRenderedFrameTime != DateTime.MinValue)
                 {
+                    Console.WriteLine("Seeking forward by 10 seconds...");
                     player.Seek(player.LastRenderedFrameTime.AddSeconds(10));
                 }
             }
@@ -158,6 +224,7 @@ class Program
                 int currentIndex = Array.IndexOf(Enum.GetValues(typeof(PlaySpeed)), player.PlaySpeed);
                 if (currentIndex < Enum.GetValues(typeof(PlaySpeed)).Length - 1)
                 {
+                    Console.WriteLine("Increasing playback speed...");
                     player.PlaySpeed = (PlaySpeed)Enum.GetValues(typeof(PlaySpeed)).GetValue(currentIndex + 1);
                 }
             }
@@ -170,15 +237,22 @@ class Program
                 int currentIndex = Array.IndexOf(Enum.GetValues(typeof(PlaySpeed)), player.PlaySpeed);
                 if (currentIndex > 0)
                 {
+                    Console.WriteLine("Decreasing playback speed...");
                     player.PlaySpeed = (PlaySpeed)Enum.GetValues(typeof(PlaySpeed)).GetValue(currentIndex - 1);
                 }
             }
-        }
-    }
 
-    private static void UpdateTitle(object sender, EventArgs e)
-    {
-        throw new NotImplementedException();
+            void OpenFile()
+            {
+                OpenFileDialog openFileDialog = new();
+                openFileDialog.Filter = "Video files (*.mp4;*..g64;*..g64x)|*.mp4;*.g64;*..g64x|All files (*.*)|*.*";
+                if (openFileDialog.ShowDialog().GetValueOrDefault())
+                {
+                    player.OpenFile(openFileDialog.FileName);
+                    player.PlayFile();
+                }
+            }
+        }
     }
 
     static Task LoadCameras(Engine engine)
@@ -203,6 +277,7 @@ class Program
         Console.WriteLine("R: Rewind");
         Console.WriteLine("I: Toggle statistics overlay");
         Console.WriteLine("M: Toggle audio mute");
+        Console.WriteLine("C: Toggle camera cycling");
         Console.WriteLine();
     }
 }
