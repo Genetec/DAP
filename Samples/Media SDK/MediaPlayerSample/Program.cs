@@ -73,45 +73,6 @@ class Program
                 window.Title = $"MediaPlayer - {currentCamera?.Name} - {player.State}{(player.PlaySpeed != PlaySpeed.Speed1X ? $" ({player.PlaySpeed})" : "")} ({(player.IsPlayingLiveStream ? "live" : "playback")})";
             }
 
-            async Task CycleCameras(CancellationToken token)
-            {
-                Console.WriteLine("Starting camera cycling...");
-
-                while (true)
-                {
-                    List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
-
-                    for (int i = 0; i < cameras.Count; i++)
-                    {
-                        // Get current camera
-                        var currentItem = cameras[i];
-
-                        // Get next camera index (wrap around to beginning if at the end)
-                        var nextIndex = (i + 1) % cameras.Count;
-                        var nextItem = cameras[nextIndex];
-
-                        if (currentCamera is null)
-                        {
-                            currentCamera = currentItem;
-                            // Initialize the player with the first camera in the sequence
-                            player.Initialize(engine, currentCamera.Guid, StreamingType.Live);
-                            player.PlayLive();
-                        }
-                        else
-                        {
-                            currentCamera = currentItem;
-                            // Switch to the next camera in the sequence
-                            player.SwitchToNextVideoInSequence();
-                        }
-
-                        // Prepare the next camera in the sequence
-                        player.PrepareNextVideoInSequence(engine, nextItem.Guid, Guid.Empty, StreamingType.Live, null);
-
-                        await Task.Delay(5000, token); // Wait 5 seconds before switching to the next camera
-                    }
-                }
-            }
-
             void OnKeyDown(object sender, KeyEventArgs e)
             {
                 switch (e.Key)
@@ -158,6 +119,10 @@ class Program
                     case Key.M:
                         player.IsAudioEnabled = !player.IsAudioEnabled;
                         break;
+                    case Key.N:
+                        StopCameraCycling();
+                        SwitchToNextCamera();
+                        break;
                 }
             }
 
@@ -194,7 +159,6 @@ class Program
 
                 Console.WriteLine("Stopping camera cycling...");
                 cts.Cancel();
-
             }
 
             void SeekBackward()
@@ -254,6 +218,126 @@ class Program
                     player.PlayFile();
                 }
             }
+
+            async Task CycleCameras(CancellationToken token)
+            {
+                Console.WriteLine("Starting camera cycling...");
+
+                while (true)
+                {
+                    // Retrieve an ordered list of cameras.
+                    List<Camera> cameras = engine.GetEntities(EntityType.Camera)
+                        .OfType<Camera>()
+                        .OrderBy(camera => camera.Name)
+                        .ToList();
+
+                    if (cameras.Count == 0)
+                    {
+                    }
+                    else
+                    {
+                        if (cameras.Count == 1)
+                        {
+                            if (currentCamera == null || currentCamera.Guid != cameras[0].Guid)
+                            {
+                                currentCamera = cameras[0];
+                                player.Initialize(engine, currentCamera.Guid, StreamingType.Live);
+                                player.PlayLive();
+                            }
+                        }
+                        else
+                        {
+                            int currentIndex = currentCamera != null ? cameras.IndexOf(currentCamera) : -1;
+                            if (currentIndex == -1)
+                            {
+                                // No valid current camera found: initialize with the first camera.
+                                currentCamera = cameras[0];
+                                player.Initialize(engine, currentCamera.Guid, StreamingType.Live);
+                                player.PlayLive();
+
+                                // Prepare the next camera (camera at index 1).
+                                int nextIndex = 1;
+                                player.PrepareNextVideoInSequence(engine, cameras[nextIndex].Guid, Guid.Empty, StreamingType.Live, null);
+                            }
+                            else
+                            {
+                                // Determine the next camera and the one after that.
+                                int nextIndex = (currentIndex + 1) % cameras.Count;
+                                Camera nextCamera = cameras[nextIndex];
+                                int nextNextIndex = (nextIndex + 1) % cameras.Count;
+
+                                // Switch to the next camera.
+                                player.SwitchToNextVideoInSequence();
+
+                                // Prepare the camera after the next camera.
+                                player.PrepareNextVideoInSequence(engine, cameras[nextNextIndex].Guid, Guid.Empty, StreamingType.Live, null);
+
+                                // Update the current camera reference.
+                                currentCamera = nextCamera;
+                            }
+                        }
+
+                        // More than one camera exists.
+                    }
+
+                    // If there's only one camera, ensure that this camera is playing.
+                    await Task.Delay(5000, token); // Wait 5 seconds before switching
+                }
+            }
+
+            void SwitchToNextCamera()
+            {
+                // Retrieve an ordered list of cameras.
+                List<Camera> cameras = engine.GetEntities(EntityType.Camera)
+                    .OfType<Camera>()
+                    .OrderBy(camera => camera.Name)
+                    .ToList();
+
+                if (cameras.Count == 0)
+                    return;
+
+                // If there's only one camera, ensure that this camera is playing.
+                if (cameras.Count == 1)
+                {
+                    if (currentCamera == null || currentCamera.Guid != cameras[0].Guid)
+                    {
+                        currentCamera = cameras[0];
+                        player.Initialize(engine, currentCamera.Guid, StreamingType.Live);
+                        player.PlayLive();
+                    }
+                    return;
+                }
+
+                // More than one camera exists.
+                int currentIndex = currentCamera != null ? cameras.IndexOf(currentCamera) : -1;
+                if (currentIndex == -1)
+                {
+                    // No valid current camera found: initialize with the first camera.
+                    currentCamera = cameras[0];
+                    player.Initialize(engine, currentCamera.Guid, StreamingType.Live);
+                    player.PlayLive();
+
+                    // Prepare the next camera (camera at index 1).
+                    int nextIndex = 1;
+                    player.PrepareNextVideoInSequence(engine, cameras[nextIndex].Guid, Guid.Empty, StreamingType.Live, null);
+                }
+                else
+                {
+                    // Determine the next camera and the one after that.
+                    int nextIndex = (currentIndex + 1) % cameras.Count;
+                    Camera nextCamera = cameras[nextIndex];
+                    int nextNextIndex = (nextIndex + 1) % cameras.Count;
+
+                    // Switch to the next camera.
+                    player.SwitchToNextVideoInSequence();
+
+                    // Prepare the camera after the next camera.
+                    player.PrepareNextVideoInSequence(engine, cameras[nextNextIndex].Guid, Guid.Empty, StreamingType.Live, null);
+
+                    // Update the current camera reference.
+                    currentCamera = nextCamera;
+                }
+            }
         }
     }
 
@@ -271,15 +355,26 @@ class Program
     {
         Console.WriteLine("Keyboard Controls:");
         Console.WriteLine();
-        Console.WriteLine("Space: Play/Pause");
-        Console.WriteLine("Left Arrow: Seek backward by 10 seconds");
-        Console.WriteLine("Right Arrow: Seek forward by 10 seconds");
-        Console.WriteLine("Up Arrow: Increase playback speed");
-        Console.WriteLine("Down Arrow: Decrease playback speed");
-        Console.WriteLine("R: Rewind");
-        Console.WriteLine("I: Toggle statistics overlay");
-        Console.WriteLine("M: Toggle audio mute");
-        Console.WriteLine("C: Toggle camera cycling");
+
+        Console.WriteLine("Playback Controls:");
+        Console.WriteLine("  Space: Play/Pause");
+        Console.WriteLine("  R: Rewind/Reverse");
+        Console.WriteLine("  M: Toggle audio mute");
+        Console.WriteLine("  O: Open video file");
+        Console.WriteLine();
+
+        Console.WriteLine("Navigation Controls:");
+        Console.WriteLine("  Left Arrow: Seek backward by 10 seconds");
+        Console.WriteLine("  Right Arrow: Seek forward by 10 seconds");
+        Console.WriteLine("  Up Arrow: Increase playback speed");
+        Console.WriteLine("  Down Arrow: Decrease playback speed");
+        Console.WriteLine();
+
+        Console.WriteLine("Camera Controls:");
+        Console.WriteLine("  L: Switch to live mode");
+        Console.WriteLine("  C: Toggle camera cycling");
+        Console.WriteLine("  N: Switch to next camera");
+        Console.WriteLine("  I: Toggle statistics overlay");
         Console.WriteLine();
     }
 }
