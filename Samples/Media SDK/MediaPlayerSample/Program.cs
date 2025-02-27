@@ -1,21 +1,23 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using Genetec.Sdk.Media;
+﻿// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using Genetec.Sdk;
+using Genetec.Sdk.Media;
+using Genetec.Sdk.Queries;
 using Microsoft.Win32;
 using Application = System.Windows.Application;
 using Camera = Genetec.Sdk.Entities.Camera;
 using MediaPlayer = Genetec.Sdk.Media.MediaPlayer;
 
 namespace Genetec.Dap.CodeSamples;
-
-using Sdk;
-using Sdk.Queries;
 
 class Program
 {
