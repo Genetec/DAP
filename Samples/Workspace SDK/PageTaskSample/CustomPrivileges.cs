@@ -2,7 +2,7 @@
 
 namespace Genetec.Dap.CodeSamples;
 
-class CustomPrivileges
+public static class CustomPrivileges
 {
     public static Guid SamplePagePrivilege { get; } = new("FB7EF0E7-93C1-4946-A673-6FA914A34AD0"); // TODO: Replace with your own unique privilege GUID
 

@@ -4,7 +4,6 @@
 namespace Genetec.Dap.CodeSamples;
 
 using System;
-using Genetec.Sdk.Workspace;
 using Sdk.Workspace.Pages;
 
 public class SamplePageDescriptor : PageDescriptor
