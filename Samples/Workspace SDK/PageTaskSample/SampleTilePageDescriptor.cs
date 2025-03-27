@@ -35,7 +35,7 @@ public class SampleTilePageDescriptor : PageDescriptor
     public override TaskIconColor IconColor => TaskIconColor.VideoIconColor;
 
     // Determines if this page can be accessed when the user is offline
-    // Set to false as this page likely requires live camera feeds
+    // Set to false as this page requires live camera feeds
     public override bool AllowOfflineExecution => false;
 
     // Checks if the current user has the necessary privileges to access this page
@@ -43,8 +43,6 @@ public class SampleTilePageDescriptor : PageDescriptor
     public override bool HasPrivilege()
     {
         // TODO: Implement proper privilege checking logic
-        // Example:
-        // return CurrentUser.HasPermission(Permissions.AccessVideoFeeds);
-        return true; // Currently allows all users to access the page
+        return m_sdk.SecurityManager.IsPrivilegeGranted(CustomPrivileges.SampleTilePagePrivilege);
     }
 }
