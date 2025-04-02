@@ -1,9 +1,5 @@
 ﻿// Copyright 2024 Genetec Inc.
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+// Licensed under the Apache License, Version 2.0
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -30,12 +26,14 @@ public class SamplePageDescriptor : PageDescriptor
     // DefaultIconColor is used for general-purpose pages
     public override TaskIconColor IconColor => TaskIconColor.DefaultIconColor;
 
+    // Determines if this page can be accessed when the user is offline
+    public override bool AllowOfflineExecution => false;
+
     // Checks if the current user has the necessary privileges to access this page
     // Currently allows all users access; should be replaced with actual privilege checking
     public override bool HasPrivilege()
     {
         // TODO: Implement proper privilege checking logic
-        // Example: return m_sdk.LoggedUser?.HasPrivilege(SdkPrivilege.SystemTask) == true;
-        return true;
+        return m_sdk.SecurityManager.IsPrivilegeGranted(CustomPrivileges.SamplePagePrivilege);
     }
 }
