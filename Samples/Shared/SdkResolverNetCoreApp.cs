@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP
+#if NETCOREAPP
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -85,13 +85,36 @@ public static class SdkResolver
     {
         string sdkFolder = Environment.GetEnvironmentVariable("GSC_SDK_CORE");
 
-        return Directory.Exists(sdkFolder)
-            ? sdkFolder
-            : GetInstallationFolders()
-                .OrderBy(tuple => tuple.Version)
-                .Select(tuple => Path.Combine(tuple.Folder, "net8.0-windows"))
-                .Where(Directory.Exists)
-                .LastOrDefault();
+        if (Directory.Exists(sdkFolder))
+        {
+            return sdkFolder;
+        }
+
+        // Get installation folders ordered by version
+        var orderedFolders = GetInstallationFolders()
+            .OrderBy(tuple => tuple.Version)
+            .ToList();
+
+        // Try to find folders in order of preference
+        foreach (var (_, folder) in orderedFolders)
+        {
+            // Check for net8.0-windows first
+            string net8Path = Path.Combine(folder, "net8.0-windows");
+            if (Directory.Exists(net8Path))
+            {
+                return net8Path;
+            }
+
+            // Then check for net6.0-windows
+            string net6Path = Path.Combine(folder, "net6.0-windows");
+            if (Directory.Exists(net6Path))
+            {
+                return net6Path;
+            }
+        }
+
+        // If neither is found, return null or a default path
+        return null;
     }
 
     private static IEnumerable<(Version Version, string Folder)> GetInstallationFolders()
