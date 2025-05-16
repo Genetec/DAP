@@ -92,7 +92,7 @@ public static class SdkResolver
 
         // Get installation folders ordered by version
         var orderedFolders = GetInstallationFolders()
-            .OrderBy(tuple => tuple.Version)
+            .OrderByDescending(tuple => tuple.Version)
             .ToList();
 
         // Try to find folders in order of preference
