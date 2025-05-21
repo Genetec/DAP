@@ -52,7 +52,13 @@ async Task RunSample()
     await BuildAndDisplayCredential(credentialBuilder, "Keypad Credential", new KeypadCredentialFormat(credentialCode: 12345));
     await BuildAndDisplayCredential(credentialBuilder, "Raw Card Credential", new RawCardCredentialFormat(rawData: "1234", bitLength: 32));
 
-    var fascN75Dict = new Dictionary<string, string> { { FascN75BitCardCredentialFormat.AGENCY_CODE_FIELD_NAME, "16383" }, { FascN75BitCardCredentialFormat.SYSTEM_CODE_FIELD_NAME, "16383" }, { FascN75BitCardCredentialFormat.CREDENTIAL_NUMBER_FIELD_NAME, "1234" }, { FascN75BitCardCredentialFormat.EXP_DATE_FIELD_NAME, "9999" } };
+    var fascN75Dict = new Dictionary<string, string>
+    {
+        { FascN75BitCardCredentialFormat.AGENCY_CODE_FIELD_NAME, "16383" },
+        { FascN75BitCardCredentialFormat.SYSTEM_CODE_FIELD_NAME, "16383" },
+        { FascN75BitCardCredentialFormat.CREDENTIAL_NUMBER_FIELD_NAME, "1234" },
+        { FascN75BitCardCredentialFormat.EXP_DATE_FIELD_NAME, "9999" }
+    };
 
     await BuildAndDisplayCredential(credentialBuilder, "FascN 75-Bit Card Credential", new FascN75BitCardCredentialFormat(fascN75Dict));
 
