@@ -69,7 +69,7 @@ By using the Plugin SDK, developers can create powerful, deeply integrated solut
    -   `GSC_SDK`: Points to the location of the Genetec SDK for .NET Framework 4.8.1
    -   `GSC_SDK_CORE`: Points to the location of the Genetec SDK for .NET 8
 3.  Clone this repository to your local machine.
-4.  Open the solution in Visual Studio.
+4.  Open the solution in Visual Studio **as an Adminstrator**.
 5.  Build the BasicPluginTemplate project.
 
 ## Creating a Plugin
