@@ -41,16 +41,16 @@ async Task RunSample()
 
     ICredentialBuilder credentialBuilder = engine.EntityManager.GetCredentialBuilder();
 
-    await BuildAndDisplayCredential(credentialBuilder, "Standard Wiegand Credential", new WiegandStandardCredentialFormat(facility: 1, cardId: 2));
-    await BuildAndDisplayCredential(credentialBuilder, "H10306 Wiegand Credential", new WiegandH10306CredentialFormat(facility: 1, cardId: 2));
-    await BuildAndDisplayCredential(credentialBuilder, "H10304 Wiegand Credential", new WiegandH10304CredentialFormat(facility: 1, cardId: 2));
-    await BuildAndDisplayCredential(credentialBuilder, "H10302 Wiegand Credential", new WiegandH10302CredentialFormat(cardId: 1));
-    await BuildAndDisplayCredential(credentialBuilder, "CSN32 Wiegand Credential", new WiegandCsn32CredentialFormat(cardId: 12345));
-    await BuildAndDisplayCredential(credentialBuilder, "48-Bit Corporate 1000 Wiegand Credential", new Wiegand48BitCorporate1000CredentialFormat(companyId: 1, cardId: 2));
-    await BuildAndDisplayCredential(credentialBuilder, "Corporate 1000 Wiegand Credential", new WiegandCorporate1000CredentialFormat(companyId: 1, cardId: 2));
-    await BuildAndDisplayCredential(credentialBuilder, "License Plate Credential", new LicensePlateCredentialFormat(licensePlate: "12345"));
-    await BuildAndDisplayCredential(credentialBuilder, "Keypad Credential", new KeypadCredentialFormat(credentialCode: 12345));
-    await BuildAndDisplayCredential(credentialBuilder, "Raw Card Credential", new RawCardCredentialFormat(rawData: "1234", bitLength: 32));
+    await BuildAndDisplayCredential("Standard Wiegand Credential", new WiegandStandardCredentialFormat(facility: 1, cardId: 2));
+    await BuildAndDisplayCredential("H10306 Wiegand Credential", new WiegandH10306CredentialFormat(facility: 1, cardId: 2));
+    await BuildAndDisplayCredential("H10304 Wiegand Credential", new WiegandH10304CredentialFormat(facility: 1, cardId: 2));
+    await BuildAndDisplayCredential("H10302 Wiegand Credential", new WiegandH10302CredentialFormat(cardId: 1));
+    await BuildAndDisplayCredential("CSN32 Wiegand Credential", new WiegandCsn32CredentialFormat(cardId: 12345));
+    await BuildAndDisplayCredential("48-Bit Corporate 1000 Wiegand Credential", new Wiegand48BitCorporate1000CredentialFormat(companyId: 1, cardId: 2));
+    await BuildAndDisplayCredential("Corporate 1000 Wiegand Credential", new WiegandCorporate1000CredentialFormat(companyId: 1, cardId: 2));
+    await BuildAndDisplayCredential("License Plate Credential", new LicensePlateCredentialFormat(licensePlate: "12345"));
+    await BuildAndDisplayCredential("Keypad Credential", new KeypadCredentialFormat(credentialCode: 12345));
+    await BuildAndDisplayCredential("Raw Card Credential", new RawCardCredentialFormat(rawData: "1234", bitLength: 32));
 
     var fascN75Dict = new Dictionary<string, string>
     {
@@ -60,7 +60,7 @@ async Task RunSample()
         { FascN75BitCardCredentialFormat.EXP_DATE_FIELD_NAME, "9999" }
     };
 
-    await BuildAndDisplayCredential(credentialBuilder, "FascN 75-Bit Card Credential", new FascN75BitCardCredentialFormat(fascN75Dict));
+    await BuildAndDisplayCredential("FascN 75-Bit Card Credential", new FascN75BitCardCredentialFormat(fascN75Dict));
 
     var fascN200Dict = new Dictionary<string, string>
     {
@@ -76,9 +76,9 @@ async Task RunSample()
         { FascN200BitCardCredentialFormat.LRC_FIELD_NAME, "F" }
     };
 
-    await BuildAndDisplayCredential(credentialBuilder, "FascN 200-Bit Card Credential", new FascN200BitCardCredentialFormat(fascN200Dict));
+    await BuildAndDisplayCredential("FascN 200-Bit Card Credential", new FascN200BitCardCredentialFormat(fascN200Dict));
 
-    async Task BuildAndDisplayCredential(ICredentialBuilder credentialBuilder, string name, CredentialFormat format)
+    async Task BuildAndDisplayCredential(string name, CredentialFormat format)
     {
         Console.WriteLine($"Creating credential with format: {format.UniqueId}.");
 
@@ -169,5 +169,4 @@ async Task RunSample()
 
         Console.WriteLine();
     }
-
 }
