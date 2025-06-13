@@ -1,8 +1,5 @@
-﻿// Copyright 2025 Genetec Inc.
-// Licensed under the Apache License, Version 2.0
-
-// This sample demonstrates how to transmit audio to a Security Center camera
-// using the AudioTransmitter class. It generates and transmits a simple sine wave tone.
+// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0. See the LICENSE file.
 
 using System;
 using System.Threading.Tasks;
