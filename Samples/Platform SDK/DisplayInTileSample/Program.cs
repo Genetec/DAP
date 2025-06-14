@@ -87,6 +87,7 @@ async Task RunSample()
         foreach (var monitor in monitors)
         {
 
+            // Build the XML with doubled quotes so backslashes aren't needed
             string xmlContent = $@"
 <TileContentGroup>
     <Contents>
