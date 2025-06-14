@@ -40,7 +40,7 @@ By using the Plugin SDK, developers can create powerful, deeply integrated solut
 - Genetec Security Center SDK
 - Visual Studio 2022
 ## Getting Started
-1.  Install the latest Genetec Security Center SDK. This will creates the necessary environment variables automatically.
+1.  Install the latest Genetec Security Center SDK. This will create the necessary environment variables automatically.
    -   `GSC_SDK`: Points to the location of the Genetec SDK for .NET Framework 4.8.1
    -   `GSC_SDK_CORE`: Points to the location of the Genetec SDK for .NET 8
 3.  Clone this repository to your local machine.
