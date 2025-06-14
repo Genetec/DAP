@@ -1,4 +1,7 @@
-﻿using Genetec.Sdk.Entities;
+// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0. See the LICENSE file.
+
+using Genetec.Sdk.Entities;
 using Genetec.Sdk;
 using System;
 using System.Threading.Tasks;

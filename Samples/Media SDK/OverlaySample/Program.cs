@@ -1,4 +1,7 @@
-﻿using Genetec.Dap.CodeSamples;
+// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0. See the LICENSE file.
+
+using Genetec.Dap.CodeSamples;
 using Genetec.Sdk.Media.Overlay;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk;

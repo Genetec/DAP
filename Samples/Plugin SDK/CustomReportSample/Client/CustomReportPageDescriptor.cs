@@ -1,5 +1,5 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+// Copyright 2024 Genetec Inc.
+// Licensed under the Apache License, Version 2.0. See the LICENSE file.
 
 namespace Genetec.Dap.CodeSamples.Client;
 
@@ -16,7 +16,7 @@ public class CustomReportPageDescriptor : PageDescriptor
 
     public override Guid CategoryId => new(TaskCategories.Investigation);
 
-    public override string Description => "View custom events that occured on selected entities";
+    public override string Description => "View custom events that occurred on selected entities";
 
     public override ImageSource Icon { get; } = new BitmapImage(new Uri("pack://application:,,,/CustomReportSample;component/Resources/Images/SmallLogo.png"));
 
