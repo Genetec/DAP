@@ -1,13 +1,10 @@
 ﻿// Copyright 2024 Genetec Inc.
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Dap.CodeSamples;
 using Genetec.Sdk;
@@ -21,40 +18,62 @@ SdkResolver.Initialize();
 
 await RunSample();
 
+Console.WriteLine("Press any key to exit...");
+Console.ReadKey(true);
+
 async Task RunSample()
 {
-    const string server = "localhost";
-    const string username = "admin";
-    const string password = "";
+    // Connection parameters for your Security Center server
+    const string server = "localhost";  // Specify the IP address or hostname of your Security Center server.
+    const string username = "admin";    // Enter the username for Security Center authentication.
+    const string password = "";         // Provide the corresponding password for the specified username.
 
     using var engine = new Engine();
 
-    ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
+    engine.LoginManager.LogonStatusChanged += (sender, args) => Console.WriteLine($"Logon status: {args.Status}");
+    engine.LoginManager.LogonFailed += (sender, e) => Console.WriteLine($"Logon Failed | Error Message: {e.FormattedErrorMessage} | Error Code: {e.FailureCode}");
 
-    if (state == ConnectionStateCode.Success)
+    // Set up cancellation support
+    using var cancellationTokenSource = new CancellationTokenSource();
+    Console.CancelKeyPress += (_, e) =>
     {
-        // Load all cameras into the entity cache
-        await LoadCameras(engine);
+        Console.WriteLine("Cancelling...");
+        e.Cancel = true;
+        cancellationTokenSource.Cancel();
+    };
 
-        // Retrieve all cameras from the entity cache
-        IEnumerable<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>();
+    Console.WriteLine($"Logging to {server}... Press Ctrl+C to cancel");
 
-        DisplayCameraInformation(engine, cameras);
-    }
-    else
+    ConnectionStateCode state = await engine.LoginManager.LogOnAsync(server, username, password, cancellationTokenSource.Token);
+    if (state != ConnectionStateCode.Success)
     {
-        Console.WriteLine($"Logon failed: {state}");
+        Console.WriteLine($"logon failed: {state}");
+        return;
     }
 
-    Console.WriteLine("Press any key to exit...");
-    Console.ReadKey();
+    // Load all cameras into the entity cache
+    await LoadCameras(engine);
+
+    // Retrieve all cameras from the entity cache
+    IEnumerable<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>();
+
+    DisplayCameraInformation(engine, cameras);
 }
 
 async Task LoadCameras(Engine engine)
 {
     var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
     query.EntityTypeFilter.Add(EntityType.Camera);
-    await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+    query.DownloadAllRelatedData = true;
+    query.Page = 1;
+    query.PageSize = 50;
+
+    QueryCompletedEventArgs args;
+    do
+    {
+        args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+        query.Page++;
+    } while (args.Data.Rows.Count >= query.PageSize);
 }
 
 void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
@@ -81,6 +100,8 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
         DisplayCameraRecordingConfiguration(camera);
 
         DisplayCameraStreams(camera);
+
+        DisplayVideoUnit(camera);
     }
 
     void DisplayScheduledVideoAttributes(Camera camera)
@@ -311,5 +332,113 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
         Console.WriteLine($"Encryption Type: {config.EncryptionType}");
 
         Console.WriteLine(new string('-', 40));
+    }
+
+    void DisplayVideoUnit(Camera camera)
+    {
+        if (engine.GetEntity(camera.Unit) is VideoUnit videoUnit)
+        {
+            Console.WriteLine($"Video Unit: {videoUnit.Name}");
+            Console.WriteLine(new string('-', 40));
+
+            Console.WriteLine("IDENTITY INFORMATION:");
+            Console.WriteLine("  Type: Video unit");
+            Console.WriteLine($"  Name: {videoUnit.Name}");
+            if (!string.IsNullOrEmpty(videoUnit.Description))
+                Console.WriteLine($"  Description: {videoUnit.Description}");
+
+            Console.WriteLine($"  Manufacturer: {videoUnit.Manufacturer}");
+            Console.WriteLine($"  Product type: {videoUnit.Model}");
+            Console.WriteLine($"  MAC address: {videoUnit.MacAddress}");
+            Console.WriteLine($"  Firmware version: {videoUnit.HardwareVersion}");
+
+            Console.WriteLine($"  SSL: {(videoUnit.SecureConnection ? "Yes" : "No")}");
+            Console.WriteLine(new string('-', 30));
+
+            Console.WriteLine("NETWORK PROPERTIES:");
+            Console.WriteLine($"  IP address: {(videoUnit.Dhcp ? "Obtain network settings dynamically (DHCP)" : "Specific settings")}");
+            Console.WriteLine($"  Local IP: {videoUnit.IPAddress}");
+            Console.WriteLine($"  Subnet mask: {videoUnit.SubnetMask}");
+            Console.WriteLine($"  Gateway: {videoUnit.Gateway}");
+            Console.WriteLine($"  Command port: {videoUnit.CommandPort}");
+            Console.WriteLine($"  Hostname: {videoUnit.Hostname}");
+
+            Console.WriteLine("  Authentication:");
+            if (!string.IsNullOrEmpty(videoUnit.Username))
+            {
+                Console.WriteLine($"    Username: {videoUnit.Username}");
+                Console.WriteLine("    Password: ********");
+            }
+            Console.WriteLine($"    HTTPS: {(videoUnit.SecureConnection ? "Yes" : "No")}");
+            Console.WriteLine(new string('-', 30));
+
+            if (videoUnit.HardwareConfiguration != null &&
+                videoUnit.HardwareConfiguration.ConfigurationType != HardwareConfigurationType.None)
+            {
+                Console.WriteLine("HARDWARE CONFIGURATION:");
+                Console.WriteLine($"  Type: {videoUnit.HardwareConfiguration.ConfigurationType}");
+
+                if (videoUnit.HardwareConfiguration.CodecConfig != null &&
+                    videoUnit.HardwareConfiguration.CodecConfig.Any())
+                {
+                    Console.WriteLine("  Codec Configurations:");
+                    foreach (var codec in videoUnit.HardwareConfiguration.CodecConfig)
+                    {
+                        Console.WriteLine($"    - {codec}");
+                    }
+                }
+                Console.WriteLine(new string('-', 30));
+            }
+
+            Console.WriteLine("PERIPHERALS:");
+            DisplayVideoInputs(videoUnit);
+            DisplayVideoOutputs(videoUnit);
+            DisplayAudioInputs(videoUnit);
+            DisplayAudioOutputs(videoUnit);
+        }
+
+        void DisplayVideoInputs(VideoUnit unit)
+        {
+            Console.WriteLine("Video Inputs:");
+            var videoInputs = unit.Devices.Select(engine.GetEntity).OfType<VideoUnitInputDevice>();
+            foreach (var input in videoInputs)
+            {
+                Console.WriteLine($"  Input: {input.Name} | Default State: {input.DefaultState}");
+            }
+            Console.WriteLine(new string('-', 30));
+        }
+
+        void DisplayVideoOutputs(VideoUnit unit)
+        {
+            Console.WriteLine("Video Outputs:");
+            var videoOutputs = unit.Devices.Select(engine.GetEntity).OfType<VideoUnitOutputDevice>();
+            foreach (var output in videoOutputs)
+            {
+                Console.WriteLine($"  Output: {output.Name} | Default State: {output.DefaultState}");
+            }
+            Console.WriteLine(new string('-', 30));
+        }
+
+        void DisplayAudioInputs(VideoUnit unit)
+        {
+            Console.WriteLine("Audio Inputs:");
+            var audioInputs = unit.Devices.Select(engine.GetEntity).OfType<AudioInputDevice>();
+            foreach (var input in audioInputs)
+            {
+                Console.WriteLine($"  Input: {input.Name} | Bitrate: {input.Bitrate} | Channels: {input.Channel} | Format: {input.DataFormat} | Sampling Rate: {input.SamplingRate} | Sampling Bits: {input.SampleBits}");
+            }
+            Console.WriteLine(new string('-', 30));
+        }
+
+        void DisplayAudioOutputs(VideoUnit unit)
+        {
+            Console.WriteLine("Audio Outputs:");
+            var audioOutputs = unit.Devices.Select(engine.GetEntity).OfType<AudioOutputDevice>();
+            foreach (var output in audioOutputs)
+            {
+                Console.WriteLine($"  Output: {output.Name} | Volume: {output.Volume}");
+            }
+            Console.WriteLine(new string('-', 30));
+        }
     }
 }
