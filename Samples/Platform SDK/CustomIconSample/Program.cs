@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Drawing;
+// Licensed under the Apache License, Version 2.0
+
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
