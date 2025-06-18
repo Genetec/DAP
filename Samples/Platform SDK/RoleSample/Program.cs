@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+// Licensed under the Apache License, Version 2.0
+
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
