@@ -43267,7 +43267,7 @@
 							]
 						},
 						{
-							"name": "Get zones' GUIDs",
+							"name": "Get zones",
 							"id": "26277955-2d678c32-277f-4947-b7f8-bb2d66663183",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
