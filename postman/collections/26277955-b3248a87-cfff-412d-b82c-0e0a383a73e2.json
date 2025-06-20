@@ -40824,7 +40824,7 @@
 							]
 						},
 						{
-							"name": "Get users' GUIDs",
+							"name": "Get users",
 							"id": "26277955-afab8931-4d41-412c-918d-8222a8117ce2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -41505,7 +41505,7 @@
 					"name": "User groups",
 					"item": [
 						{
-							"name": "Get user groups' GUIDs",
+							"name": "Get user groups",
 							"id": "26277955-86ce9296-91ac-4f6e-b8ac-2be59e112f75",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -42022,7 +42022,7 @@
 							]
 						},
 						{
-							"name": "Get user tasks' GUIDs",
+							"name": "Get user tasks",
 							"id": "26277955-72afcfb8-9437-428c-91bb-d89284e3b634",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
