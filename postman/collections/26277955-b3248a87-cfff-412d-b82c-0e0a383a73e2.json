@@ -29709,7 +29709,7 @@
 							"response": [
 								{
 									"id": "26277955-85afa651-3e9a-4811-8427-6cafc3993874",
-									"name": "Get credential's GUIDs",
+									"name": "Get credentials",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -38451,7 +38451,7 @@
 							]
 						},
 						{
-							"name": "Get networks' GUIDs",
+							"name": "Get networks",
 							"id": "26277955-3c19ed67-3878-4a93-bdb5-c295875ccaab",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -38780,7 +38780,7 @@
 							"response": []
 						},
 						{
-							"name": "Get roles' GUIDs",
+							"name": "Get roles",
 							"id": "26277955-af19790a-3758-4acb-948c-0196b362f3a8",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -38979,7 +38979,7 @@
 							]
 						},
 						{
-							"name": "Get routes' GUIDs",
+							"name": "Get routes",
 							"id": "26277955-f8a3e52c-74da-4391-a6c8-e5a62c16e84e",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
