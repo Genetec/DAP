@@ -42111,7 +42111,7 @@
 					"name": "Video units",
 					"item": [
 						{
-							"name": "Get video units' GUIDs",
+							"name": "Get video units",
 							"id": "26277955-f21ce99e-9e87-46ba-ab71-68739ec34cee",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -42448,7 +42448,7 @@
 							]
 						},
 						{
-							"name": "Get visitors' GUIDs",
+							"name": "Get visitors",
 							"id": "26277955-caafbf11-83ef-4c09-a9e1-dd667601c0ef",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
