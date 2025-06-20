@@ -18856,10 +18856,7 @@
 							"script": {
 								"id": "9b46f207-0327-4a88-bd4d-b686575accca",
 								"exec": [
-									"pm.variables.set(\"title\", \"{{$randomLoremWords}}\");\r",
-									"pm.variables.set(\"notes\", \"{{$randomLoremParagraphs}}\");\r",
-									"const formattedRandomPastDate = new Date(pm.variables.replaceIn(\"{{$randomDatePast}}\")).toISOString();\r",
-									"pm.variables.set(\"timestamp\", formattedRandomPastDate);"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
