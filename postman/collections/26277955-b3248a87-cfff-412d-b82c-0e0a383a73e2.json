@@ -19211,7 +19211,7 @@
 							"script": {
 								"id": "acd42ae2-4cf4-420d-8c48-2cce33f2b903",
 								"exec": [
-									"pm.variables.set(\"category\", \"{{$randomColor}}\");"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
