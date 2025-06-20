@@ -45404,19 +45404,16 @@
 									],
 									"variable": [
 										{
-											"id": "e8fe4db0-5f60-4bae-8a87-d244188fbe0a",
 											"key": "customEventId",
 											"value": "",
 											"description": "The custom event Id"
 										},
 										{
-											"id": "f7d5a204-2dea-4ad2-b57c-48bc8d1aad8a",
 											"key": "entityId",
 											"value": "",
 											"description": "The source entity GUID"
 										},
 										{
-											"id": "bc31b4da-25f8-44f5-87e3-8f97bf5de055",
 											"key": "message",
 											"value": "",
 											"description": "The message to be added to the custom event"
