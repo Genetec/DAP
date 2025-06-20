@@ -39957,7 +39957,7 @@
 							]
 						},
 						{
-							"name": "Get servers' GUIDs",
+							"name": "Get servers",
 							"id": "26277955-8b652d7a-493a-418f-b831-4014d12199a6",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -40381,7 +40381,7 @@
 							"id": "26277955-7ad9ed94-9ead-43f2-be1e-33996385a21e"
 						},
 						{
-							"name": "Get stream' GUIDs",
+							"name": "Get streams",
 							"id": "26277955-db18affa-20dc-42a9-a076-b310a9f4a3c5",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
