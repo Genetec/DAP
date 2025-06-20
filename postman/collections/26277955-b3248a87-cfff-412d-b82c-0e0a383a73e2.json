@@ -29667,7 +29667,7 @@
 							]
 						},
 						{
-							"name": "Get credential's GUIDs",
+							"name": "Get credentials",
 							"event": [
 								{
 									"listen": "prerequest",
