@@ -39154,7 +39154,7 @@
 							]
 						},
 						{
-							"name": "Get schedules' GUIDs",
+							"name": "Get schedules",
 							"id": "26277955-2a4b4b91-6d12-4a96-b4a5-ef7d4414d470",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -39445,7 +39445,7 @@
 					"name": "Scheduled tasks",
 					"item": [
 						{
-							"name": "Get scheduled tasks' GUIDs",
+							"name": "Get scheduled tasks",
 							"id": "26277955-8fc1ab92-3373-4b2f-ba26-e2cd4df318cc",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
