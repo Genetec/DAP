@@ -44434,11 +44434,12 @@
 						{
 							"listen": "prerequest",
 							"script": {
+								"id": "7515bac5-d7fa-474f-a746-318f794227ee",
 								"exec": [
 									"pm.sendRequest()"
 								],
 								"type": "text/javascript",
-								"id": "7515bac5-d7fa-474f-a746-318f794227ee"
+								"packages": {}
 							}
 						}
 					],
@@ -44460,7 +44461,6 @@
 							],
 							"variable": [
 								{
-									"id": "6dab2828-3b0a-444a-9719-ef6986237c0c",
 									"key": "entityId",
 									"value": "",
 									"description": "Entity GUID or logical ID"
@@ -45304,13 +45304,11 @@
 									],
 									"variable": [
 										{
-											"id": "9c622ce3-90ee-4dc0-974d-458772d0c752",
 											"key": "customEventId",
 											"value": "",
 											"description": "The custom event Id"
 										},
 										{
-											"id": "36a9c150-be95-4602-8bb8-671231e5076b",
 											"key": "entityId",
 											"value": "",
 											"description": "The source entity GUID or logical ID"
