@@ -46445,25 +46445,21 @@
 							],
 							"variable": [
 								{
-									"id": "cfefbaf9-e33c-4c8a-9ac0-835d4686ec00",
 									"key": "entityType",
 									"value": "",
 									"description": "Type of the entity on which the custom field will be created.\n\n- AccessRule\n- Alarm\n- Application\n- Area\n- Camera\n- Cardholder\n- CardholderGroup\n- Credential\n- Door\n- Elevator\n- Schedule\n- Unit\n- User\n- UserGroup\n- Visitor\n- Zone\n- CashRegister\n- LprUnit\n- Patroller\n- Permit\n- HotlistRule\n- OvertimeRule\n- PermitRule\n- IntrusionArea\n- IntrusionUnit\n- Asset\n- VideoUnit\n- Sequence\n- TilePlugin\n- LprMlpiRule\n- CustomEntity"
 								},
 								{
-									"id": "bbeb52e4-555e-429b-a67f-c45c7db50e67",
 									"key": "name",
 									"value": null,
 									"description": "Name of the custom field to create. \nThe name must be unique for a given entityType."
 								},
 								{
-									"id": "abc157e4-4af1-4654-a125-ff2b27a80710",
 									"key": "dataType",
 									"value": null,
 									"description": "Data type of the custom field as follows:\n- Text\n- Numeric\n- Boolean\n- DateTime\n- Decimal\n- Image\n- Entity\n- Date"
 								},
 								{
-									"id": "fa0f04b8-a712-471d-b9d0-944b6dc31946",
 									"key": "defaultValue",
 									"value": null,
 									"description": "(Optional) Default value of the custom field.\nDo not specify a default value for data type is Image and Entity."
