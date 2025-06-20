@@ -46008,7 +46008,7 @@
 							"variable": [
 								{
 									"key": "threatLevel",
-									"value": "caa8207f-2b3c-4c16-9fdb-24e9c355b2a9",
+									"value": "",
 									"description": "The GUID or logical ID of the threat level"
 								}
 							]
