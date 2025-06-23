@@ -145,33 +145,30 @@ async Task RunSample()
             Console.WriteLine($"      Rotation: {mapObject.Rotation}");
             Console.WriteLine($"      ZIndex: {mapObject.ZIndex}");
 
+            // Display relative dimensions if applicable
             if (mapObject is MapRelativeObject mapRelativeObject)
             {
-
-                Console.WriteLine($"      Relative Height: {mapRelativeObject.RelativeHeight}");
-                Console.WriteLine($"      Relative Width: {mapRelativeObject.RelativeWidth}");
+                Console.WriteLine($"      Relative Dimensions:");
+                Console.WriteLine($"        Height: {mapRelativeObject.RelativeHeight}");
+                Console.WriteLine($"        Width: {mapRelativeObject.RelativeWidth}");
             }
 
+            // Display action type if executable
             if (mapObject.CanExecuteAction)
             {
                 Console.WriteLine($"      Action Type: {mapObject.ActionType}");
             }
 
-            if (mapObject.LinkedEntity != Guid.Empty)
-            {
-                Console.WriteLine($"      Linked Entity: {engine.GetEntity(mapObject.LinkedEntity)?.Name ?? "Unknown"}");
-            }
-            else
-            {
-                Console.WriteLine("      LinkedEntity: None");
-            }
+            // Display linked entity
+            Console.WriteLine($"      Linked Entity: {(mapObject.LinkedEntity != Guid.Empty ? engine.GetEntity(mapObject.LinkedEntity)?.Name ?? "Unknown" : "None")}");
 
+            // Display links
             if (mapObject.Links.Any())
             {
                 Console.WriteLine("      Links:");
                 foreach (Uri link in mapObject.Links)
                 {
-                    Console.WriteLine($"        Link: {link}");
+                    Console.WriteLine($"        {link}");
                 }
             }
             else
@@ -179,6 +176,7 @@ async Task RunSample()
                 Console.WriteLine("      Links: None");
             }
 
+            // Display specific properties based on object type
             DisplaySpecificMapObjectProperties(mapObject);
         }
     }
@@ -188,103 +186,111 @@ async Task RunSample()
         switch (mapObject)
         {
             case AreaMapObject m:
-                Console.WriteLine($"      Identity: {engine.GetEntity(m.Identity)?.Name ?? "Unknown"}");
-                Console.WriteLine($"      Altitude: {m.Altitude}");
-                Console.WriteLine($"      Block Field Of View: {m.BlockFieldOfView}");
-                Console.WriteLine($"      Block Field Of View Using Altitude: {m.BlockFieldOfViewUsingAltitude}");
-                Console.WriteLine($"      Opacity: {m.Opacity}");
-                Console.WriteLine($"      Border Color: {m.BorderColor}");
-                Console.WriteLine($"      Background: {m.Background}");
-                Console.WriteLine($"      Border Thickness: {m.BorderThickness}");
+                Console.WriteLine($"      Area Properties:");
+                Console.WriteLine($"        Identity: {engine.GetEntity(m.Identity)?.Name ?? "Unknown"}");
+                Console.WriteLine($"        Altitude: {m.Altitude}");
+                Console.WriteLine($"        Block Field Of View: {m.BlockFieldOfView}");
+                Console.WriteLine($"        Block Field Of View Using Altitude: {m.BlockFieldOfViewUsingAltitude}");
+                Console.WriteLine($"        Opacity: {m.Opacity}");
+                Console.WriteLine($"        Border Color: {m.BorderColor}");
+                Console.WriteLine($"        Background: {m.Background}");
+                Console.WriteLine($"        Border Thickness: {m.BorderThickness}");
                 break;
 
             case CameraMapObject m:
-                Console.WriteLine($"      Altitude: {m.Altitude}");
-                Console.WriteLine($"      Angle Of View: {m.AngleOfView}");
-                Console.WriteLine($"      Distance: {m.Distance}");
-                Console.WriteLine($"      FovColor: {m.FovColor}");
-                Console.WriteLine($"      Max Distance: {m.MaxDistance}");
-                Console.WriteLine($"      Offset: {m.Offset}");
-                Console.WriteLine($"      Hardware Offset: {m.HardwareOffsest}");
-                Console.WriteLine($"      Zoom: {m.Zoom}");
-                Console.WriteLine($"      Is Reversed: {m.IsReversed}");
-                Console.WriteLine($"      Show Field Of View: {m.ShowFieldOfView}");
+                Console.WriteLine($"      Camera Properties:");
+                Console.WriteLine($"        Altitude: {m.Altitude}");
+                Console.WriteLine($"        Angle Of View: {m.AngleOfView}");
+                Console.WriteLine($"        Distance: {m.Distance}");
+                Console.WriteLine($"        FovColor: {m.FovColor}");
+                Console.WriteLine($"        Max Distance: {m.MaxDistance}");
+                Console.WriteLine($"        Offset: {m.Offset}");
+                Console.WriteLine($"        Hardware Offset: {m.HardwareOffsest}");
+                Console.WriteLine($"        Zoom: {m.Zoom}");
+                Console.WriteLine($"        Is Reversed: {m.IsReversed}");
+                Console.WriteLine($"        Show Field Of View: {m.ShowFieldOfView}");
                 break;
 
             case EllipseMapObject m:
-                Console.WriteLine($"      Altitude: {m.Altitude}");
-                Console.WriteLine($"      Height: {m.RelativeHeight}");
-                Console.WriteLine($"      Width: {m.RelativeWidth}");
-                Console.WriteLine($"      Background: {m.Background}");
-                Console.WriteLine($"      Border Color: {m.BorderColor}");
-                Console.WriteLine($"      Border Thickness: {m.BorderThickness}");
-                Console.WriteLine($"      Opacity: {m.Opacity}");
-                Console.WriteLine($"      BlockFieldOfView: {m.BlockFieldOfView}");
-                Console.WriteLine($"      BlockFieldOfViewUsingAltitude: {m.BlockFieldOfViewUsingAltitude}");
+                Console.WriteLine($"      Ellipse Properties:");
+                Console.WriteLine($"        Altitude: {m.Altitude}");
+                Console.WriteLine($"        Dimensions:");
+                Console.WriteLine($"          Height: {m.RelativeHeight}");
+                Console.WriteLine($"          Width: {m.RelativeWidth}");
+                Console.WriteLine($"        Background: {m.Background}");
+                Console.WriteLine($"        Border Color: {m.BorderColor}");
+                Console.WriteLine($"        Border Thickness: {m.BorderThickness}");
+                Console.WriteLine($"        Opacity: {m.Opacity}");
+                Console.WriteLine($"        Block Field Of View: {m.BlockFieldOfView}");
+                Console.WriteLine($"        Block Field Of View Using Altitude: {m.BlockFieldOfViewUsingAltitude}");
 
                 if (m.Points.Any())
                 {
-                    Console.WriteLine($"      Points: {m.Points.Count}");
+                    Console.WriteLine($"        Points:");
                     foreach (var point in m.Points)
                     {
-                        Console.WriteLine($"        Point: X={point.X}, Y={point.Y}");
+                        Console.WriteLine($"          X={point.X}, Y={point.Y}");
                     }
                 }
                 break;
 
             case PolygonMapObject m:
-                Console.WriteLine($"      Altitude: {m.Altitude}");
-                Console.WriteLine($"      Background: {m.Background}");
-                Console.WriteLine($"      Border Color: {m.BorderColor}");
-                Console.WriteLine($"      Border Thickness: {m.BorderThickness}");
-                Console.WriteLine($"      BlockFieldOfView: {m.BlockFieldOfView}");
-                Console.WriteLine($"      BlockFieldOfViewUsingAltitude: {m.BlockFieldOfViewUsingAltitude}");
-                Console.WriteLine($"      Is Poly Line: {m.IsPolyline}");
-                Console.WriteLine($"      Opacity: {m.Opacity}");
+                Console.WriteLine($"      Polygon Properties:");
+                Console.WriteLine($"        Altitude: {m.Altitude}");
+                Console.WriteLine($"        Background: {m.Background}");
+                Console.WriteLine($"        Border Color: {m.BorderColor}");
+                Console.WriteLine($"        Border Thickness: {m.BorderThickness}");
+                Console.WriteLine($"        Block Field Of View: {m.BlockFieldOfView}");
+                Console.WriteLine($"        Block Field Of View Using Altitude: {m.BlockFieldOfViewUsingAltitude}");
+                Console.WriteLine($"        Is Polyline: {m.IsPolyline}");
+                Console.WriteLine($"        Opacity: {m.Opacity}");
 
                 if (m.Points.Any())
                 {
-                    Console.WriteLine($"      Points: {m.Points.Count}");
+                    Console.WriteLine($"        Points:");
                     foreach (var point in m.Points)
                     {
-                        Console.WriteLine($"        Point: X={point.X}, Y={point.Y}");
+                        Console.WriteLine($"          X={point.X}, Y={point.Y}");
                     }
                 }
                 break;
 
             case RectangleMapObject m:
-                Console.WriteLine($"      Altitude: {m.Altitude}");
-                Console.WriteLine($"      Background: {m.Background}");
-                Console.WriteLine($"      BlockFieldOfView: {m.BlockFieldOfView}");
-                Console.WriteLine($"      BlockFieldOfViewUsingAltitude: {m.BlockFieldOfViewUsingAltitude}");
-                Console.WriteLine($"      Opacity: {m.Opacity}");
+                Console.WriteLine($"      Rectangle Properties:");
+                Console.WriteLine($"        Altitude: {m.Altitude}");
+                Console.WriteLine($"        Background: {m.Background}");
+                Console.WriteLine($"        Block Field Of View: {m.BlockFieldOfView}");
+                Console.WriteLine($"        Block Field Of View Using Altitude: {m.BlockFieldOfViewUsingAltitude}");
+                Console.WriteLine($"        Opacity: {m.Opacity}");
 
                 if (m.Points.Any())
                 {
-                    Console.WriteLine($"      Points: {m.Points.Count}");
+                    Console.WriteLine($"        Points:");
                     foreach (var point in m.Points)
                     {
-                        Console.WriteLine($"        Point: X={point.X}, Y={point.Y}");
+                        Console.WriteLine($"          X={point.X}, Y={point.Y}");
                     }
                 }
 
-                Console.WriteLine($"      Border Color: {m.BorderColor}");
-                Console.WriteLine($"      Border Thickness: {m.BorderThickness}");
+                Console.WriteLine($"        Border Color: {m.BorderColor}");
+                Console.WriteLine($"        Border Thickness: {m.BorderThickness}");
                 break;
 
             case TextBlockMapObject m:
-                Console.WriteLine($"      Background: {m.Background}");
-                Console.WriteLine($"      BorderColor: {m.BorderColor}");
-                Console.WriteLine($"      BorderThickness: {m.BorderThickness}");
-                Console.WriteLine($"      Opacity: {m.Opacity}");
-                Console.WriteLine($"      FontFamily: {m.FontFamily}");
-                Console.WriteLine($"      FontIsBold: {m.FontIsBold}");
-                Console.WriteLine($"      FontIsItalic: {m.FontIsItalic}");
-                Console.WriteLine($"      FontIsUnderline: {m.FontIsUnderline}");
-                Console.WriteLine($"      FontSize: {m.FontSize}");
-                Console.WriteLine($"      Foreground: {m.Foreground}");
-                Console.WriteLine($"      Text: {m.Text}");
-                Console.WriteLine($"      TextAlignment: {m.TextAlignment}");
+                Console.WriteLine($"      TextBlock Properties:");
+                Console.WriteLine($"        Background: {m.Background}");
+                Console.WriteLine($"        Border Color: {m.BorderColor}");
+                Console.WriteLine($"        Border Thickness: {m.BorderThickness}");
+                Console.WriteLine($"        Opacity: {m.Opacity}");
+                Console.WriteLine($"        Font:");
+                Console.WriteLine($"          Family: {m.FontFamily}");
+                Console.WriteLine($"          Bold: {m.FontIsBold}");
+                Console.WriteLine($"          Italic: {m.FontIsItalic}");
+                Console.WriteLine($"          Underline: {m.FontIsUnderline}");
+                Console.WriteLine($"          Size: {m.FontSize}");
+                Console.WriteLine($"        Foreground: {m.Foreground}");
+                Console.WriteLine($"        Text: {m.Text}");
+                Console.WriteLine($"        Alignment: {m.TextAlignment}");
                 break;
         }
     }
