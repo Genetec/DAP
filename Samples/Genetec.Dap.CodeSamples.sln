@@ -199,6 +199,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTransmitterSample", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoleSample", "Platform SDK\RoleSample\RoleSample.csproj", "{29891581-DA9A-4D2B-81E7-570143BC5475}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapSample", "Platform SDK\MapSample\MapSample.csproj", "{4CCE9A32-95D2-43BB-93F5-43C7CE5A283A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -557,6 +559,10 @@ Global
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CCE9A32-95D2-43BB-93F5-43C7CE5A283A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CCE9A32-95D2-43BB-93F5-43C7CE5A283A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CCE9A32-95D2-43BB-93F5-43C7CE5A283A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CCE9A32-95D2-43BB-93F5-43C7CE5A283A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -648,7 +654,9 @@ Global
 		{96D6D310-6E0B-497A-8F96-A11FEF3CB618} = {B4C33C9C-21DF-4775-BE7A-60019B42445C}
 		{12022CB5-0053-4BB9-B548-1137C0E25A0A} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{B1522DA2-4650-43F6-816A-8D56E8314B21} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3} = {00000000-0000-0000-0000-000000000000}
 		{29891581-DA9A-4D2B-81E7-570143BC5475} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{4CCE9A32-95D2-43BB-93F5-43C7CE5A283A} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -680,6 +688,7 @@ Global
 		Shared\Shared.projitems*{49dd7bd3-5b24-447e-8a92-bfdd5ac14676}*SharedItemsImports = 5
 		Shared\Shared.projitems*{4b3f497a-f949-4e53-94d9-7004ef077870}*SharedItemsImports = 5
 		Shared\Shared.projitems*{4bb53bcc-58d5-4cb5-8c69-5237018d81ff}*SharedItemsImports = 5
+		Shared\Shared.projitems*{4cce9a32-95d2-43bb-93f5-43c7ce5a283a}*SharedItemsImports = 5
 		Shared\Shared.projitems*{544f00a8-8bea-4591-86da-5bd489c3315c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{5a217bbf-eafa-4f52-b81a-02c4232da68e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{5a3ca774-e381-4e87-b8d9-091644b52222}*SharedItemsImports = 5
