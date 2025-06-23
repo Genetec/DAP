@@ -37,6 +37,6 @@ async Task RunSample()
     Map officeMap = officeArea.CreateMap(new DocumentMapCreationInfo(filePath: filePath, documentType: MapDocumentTypes.Image, zoomLevel: 1));
 
     var singaporeArea = (Area)engine.CreateEntity("Singapore", EntityType.Area);
-    Map singaporeMap = officeArea.CreateMap(new GeographicalMapCreationInfo(MapProviders.Bing));
+    Map singaporeMap = singaporeArea.CreateMap(new GeographicalMapCreationInfo(MapProviders.Bing));
     singaporeMap.DefaultView = new GeoView(new GeoCoordinate(1.3521, 103.8198, 15.0), 1);
 }
