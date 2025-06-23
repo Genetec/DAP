@@ -38,6 +38,8 @@
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
 		<Reference Include="WindowsBase" />
@@ -66,13 +68,13 @@
 	</Target>
 
 	<ItemGroup>
-	  <None Remove="OfficeFloor.png" />
+		<None Remove="OfficeFloor.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="OfficeFloor.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+		<Content Include="OfficeFloor.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>
