@@ -43,7 +43,7 @@ async Task RunSample()
         {
             Console.WriteLine("Enrolling video unit from Generic RTSP stream...");
 
-            var uri = new Uri("rtsp://example.com:554/mystream/live"); // TODO: Replace with your RTSP stream URI
+            var uri = new Uri("rtsp://127.0.0.1:554/mystream/live"); // TODO: Replace with your RTSP stream URI
 
             // Create the AddVideoUnitInfo object without duplicating IP/port
             AddVideoUnitInfo addVideoUnitInfo = new(videoUnitProductInfo: productInfo,

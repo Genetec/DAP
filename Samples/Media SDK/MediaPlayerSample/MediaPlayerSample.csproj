@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net481</TargetFrameworks>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-		<AssemblyName>BasicMediaPlayer</AssemblyName>
+		<AssemblyName>MediaPlayerSample</AssemblyName>
 		<Description>Sample project</Description>
 		<Company>Genetec Inc.</Company>
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
@@ -54,15 +54,26 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<Reference Include="Genetec.Sdk">
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.dll</HintPath>
-			<Private>True</Private>
+			<Private>False</Private>
 		</Reference>
 		<Reference Include="Genetec.Sdk.Media">
 			<HintPath>$(GSC_SDK_CORE)\Genetec.Sdk.Media.dll</HintPath>
-			<Private>True</Private>
+			<Private>False</Private>
 		</Reference>
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
 		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
 	</ItemGroup>
+
+	<Target Name="CopyCertificates" AfterTargets="Build">
+		<PropertyGroup>
+			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
+		</PropertyGroup>
+		<ItemGroup>
+			<Certificates Include="Certificates\*.cert" />
+		</ItemGroup>
+		<MakeDir Directories="$(CertOutputPath)" />
+		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
+	</Target>
 
 	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
 
