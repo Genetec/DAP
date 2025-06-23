@@ -1,18 +1,19 @@
 ﻿// Copyright 2024 Genetec Inc.
 // Licensed under the Apache License, Version 2.0 (the "License");
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Genetec.Dap.CodeSamples;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Video;
 using Genetec.Sdk.Entities.Video.HardwareSpecific;
 using Genetec.Sdk.Entities.Video.HardwareSpecific.Axis;
+using Genetec.Sdk.Entities.Video.HardwareSpecific.Hanwha;
 using Genetec.Sdk.Queries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 SdkResolver.Initialize();
 
@@ -93,6 +94,8 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
 
         DisplayHardwareConfiguration(camera);
 
+        DisplayCodecConfiguration(camera);
+
         DisplayDigitalZoomPresets(camera);
 
         DisplayScheduledVideoAttributes(camera);
@@ -122,14 +125,19 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
         Console.WriteLine("Hardware Capabilities:");
 
         HardwareSpecificCapabilities hardwareCapabilities = camera.HardwareCapabilities;
-        if (hardwareCapabilities is AxisCameraCapabilities axisCameraCapabilities)
+        switch (hardwareCapabilities)
         {
-            Console.WriteLine($"  Supported Image Rotations: {axisCameraCapabilities.SupportedImageRotations}");
-            Console.WriteLine($"  Tamper Detection Supported: {axisCameraCapabilities.TamperDetectionSupported}");
-        }
-        else
-        {
-            Console.WriteLine("  No hardware capabilities found.");
+            case AxisCameraCapabilities axisCameraCapabilities:
+                Console.WriteLine($"  Supported Image Rotations: {axisCameraCapabilities.SupportedImageRotations}");
+                Console.WriteLine($"  Tamper Detection Supported: {axisCameraCapabilities.TamperDetectionSupported}");
+                break;
+            case HanwhaCameraCapabilities hanwhaCameraCapabilities:
+                Console.WriteLine($"  WiseStream Supported: {hanwhaCameraCapabilities.WiseStreamSupported}");
+                Console.WriteLine($"  WiseStream III Supported: {hanwhaCameraCapabilities.WiseStreamIIISupported}");
+                break;
+            default:
+                Console.WriteLine("  No hardware capabilities found.");
+                break;
         }
         Console.WriteLine(new string('-', 30));
     }
@@ -138,18 +146,66 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
     {
         Console.WriteLine("Hardware Configuration:");
         HardwareSpecificConfiguration hardwareConfiguration = camera.GetHardwareConfiguration();
-        if (hardwareConfiguration is AxisCameraConfiguration axisCameraConfiguration)
+        switch (hardwareConfiguration)
         {
-            Console.WriteLine($"  Image Rotation: {axisCameraConfiguration.ImageRotation}");
-            Console.WriteLine($"  Tamper Duration Threshold: {axisCameraConfiguration.TamperDurationThreshold}");
-            Console.WriteLine($"  Dark Image Detection Enabled: {axisCameraConfiguration.DarkImageDetectionEnabled}");
-            Console.WriteLine($"  Tamper Detection Enabled: {axisCameraConfiguration.TamperDetectionEnabled}");
-        }
-        else
-        {
-            Console.WriteLine("  No hardware configuration found.");
+            case AxisCameraConfiguration axisCameraConfiguration:
+                Console.WriteLine($"  Image Rotation: {axisCameraConfiguration.ImageRotation}");
+                Console.WriteLine($"  Tamper Duration Threshold: {axisCameraConfiguration.TamperDurationThreshold}");
+                Console.WriteLine($"  Dark Image Detection Enabled: {axisCameraConfiguration.DarkImageDetectionEnabled}");
+                Console.WriteLine($"  Tamper Detection Enabled: {axisCameraConfiguration.TamperDetectionEnabled}");
+                break;
+
+            case HanwhaCameraConfiguration hanwhaCameraConfiguration:
+                Console.WriteLine($"  WiseStream Mode: {hanwhaCameraConfiguration.WiseStreamMode}");
+                Console.WriteLine($"  WiseStream III Enabled: {hanwhaCameraConfiguration.WiseStreamIIIEnabled}");
+                break;
+            default:
+                Console.WriteLine("  No hardware configuration found.");
+                break;
         }
         Console.WriteLine(new string('-', 30));
+    }
+
+    void DisplayCodecConfiguration(Camera camera)
+    {
+        var config = camera.GetHardwareConfiguration();
+        var capabilities = camera.HardwareCapabilities;
+
+        if (config == null || capabilities == null)
+        {
+            Console.WriteLine("Camera does not support hardware codec configuration.");
+            return;
+        }
+
+        Console.WriteLine("Current Codec Configuration:");
+        for (int i = 0; i < config.CodecConfig.Length; i++)
+        {
+            Console.WriteLine($"  Stream {i}: {config.CodecConfig[i]}");
+        }
+
+
+        Console.WriteLine();
+        Console.WriteLine("Supported Codecs by Stream:");
+        CodecChangeCapabilities codecCapabilities = capabilities.CodecChangeCapabilities;
+
+        if (codecCapabilities.CodecCapabilitiesByStream != null)
+        {
+            for (int i = 0; i < codecCapabilities.CodecCapabilitiesByStream.Length; i++)
+            {
+                var supported = codecCapabilities.CodecCapabilitiesByStream[i];
+                Console.WriteLine($"  Stream {i}: {string.Join(", ", supported)}");
+            }
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Maximum Streams Per Codec:");
+        if (codecCapabilities?.CodecCapabilities != null)
+        {
+            foreach (var kvp in codecCapabilities.CodecCapabilities)
+            {
+                Console.WriteLine($"  {kvp.Key}: max {kvp.Value} streams");
+            }
+        }
     }
 
     void DisplayPtz(Camera camera)
