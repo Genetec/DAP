@@ -37447,6 +37447,164 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get parking zone",
+							"id": "26277955-91778d20-d430-4c82-8d56-b047074f3ab5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity/:permit",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity",
+										":permit"
+									],
+									"variable": [
+										{
+											"id": "b7bccd24-4ba9-4ab8-ab54-9f30091e08aa",
+											"key": "permit",
+											"value": "",
+											"description": "The GUID or logical ID of the permit"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "26277955-64899fa3-b868-40f1-a501-4d68d296aa6e",
+									"name": "Get permit",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/entity/:permit",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"entity",
+												":permit"
+											],
+											"variable": [
+												{
+													"key": "permit",
+													"value": "dcbe8a91-3ef2-4eee-b6c9-e7f0c4dd9003",
+													"description": "The GUID or logical ID of the permit"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "2194"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/json"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 12 Jan 2025 04:56:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"EnableTextEditor\": true,\n            \"AttributeDelimiter\": \";\",\n            \"Attributes\": [\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"Category\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PlateState\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PlateNumber\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": \"yyyy-MM-dd\",\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"EffectiveDate\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": \"yyyy-MM-dd\",\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"ExpiryDate\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PermitID\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                }\n            ],\n            \"ContentFilePath\": \"\",\n            \"Polygons\": [],\n            \"Application\": \"00000000-0000-0000-0000-000000000000\",\n            \"Behaviors\": [],\n            \"EventToActions\": [],\n            \"IsNewlyCreated\": false,\n            \"CreatedOn\": \"2025-01-12T04:56:25Z\",\n            \"EffectiveCreationTime\": \"2025-01-12T04:56:25Z\",\n            \"IsOwnedByPlugin\": false,\n            \"CustomFields\": [],\n            \"Description\": \"\",\n            \"EntitySubType\": 0,\n            \"EntityType\": \"Permit\",\n            \"Guid\": \"dcbe8a91-3ef2-4eee-b6c9-e7f0c4dd9003\",\n            \"HiddenFromUI\": false,\n            \"HierarchicalChildren\": [],\n            \"HierarchicalParents\": [],\n            \"IsDisposed\": false,\n            \"IsInMaintenance\": false,\n            \"IsMaintenanceSupported\": false,\n            \"IsOnline\": true,\n            \"LinkedMaps\": [],\n            \"LogicalId\": null,\n            \"ModifiedOn\": \"2025-01-12T12:56:50.5626598+08:00\",\n            \"MaintenanceEndTime\": null,\n            \"MaintenanceReason\": null,\n            \"Name\": \"Vonborough\",\n            \"OwnerRole\": \"00000000-0000-0000-0000-000000000000\",\n            \"OwnerRoleType\": \"None\",\n            \"RunningState\": \"Running\",\n            \"SupportedCustomEvents\": [],\n            \"SupportedEvents\": [\n                \"EntityWarning\",\n                \"FusionRecordUpdatedEvent\",\n                \"LprHit\"\n            ],\n            \"Synchronised\": false\n        },\n        \"ObsoletedMembers\": [\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.CustomFields\",\n                \"Message\": \"Please use the CustomFieldsAsync and/or the CustomFieldService\"\n            },\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.ModifiedOn\",\n                \"Message\": \"Use an AuditTrailQuery instead.\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Query permits Copy",
+							"id": "26277955-23aa0f40-9bd4-4a95-b210-58bd5bc58719",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/report/EntityConfiguration?q=EntityTypes@Permit,Page={{page}},PageSize={{pageSize}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"report",
+										"EntityConfiguration"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "EntityTypes@Permit,Page={{page}},PageSize={{pageSize}}",
+											"description": "- **page:** (optional) The page number to retrieve in the paginated results.\n- **pageSize:** (optional) The number of results to include per page."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "26277955-ca8a05ae-781e-42c0-856d-3354975d435f",
+									"name": "Query permits",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/report/EntityConfiguration?q=EntityTypes@Permit,Page={{page}},PageSize={{pageSize}}",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"report",
+												"EntityConfiguration"
+											],
+											"query": [
+												{
+													"key": "q",
+													"value": "EntityTypes@Permit,Page={{page}},PageSize={{pageSize}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "279"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/json"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 12 Jan 2025 04:57:29 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": [\n            {\n                \"Guid\": \"dcbe8a91-3ef2-4eee-b6c9-e7f0c4dd9003\"\n            }\n        ]\n    }\n}"
+								}
+							]
 						}
 					],
 					"id": "26277955-26c7ad20-8ffd-4efb-8080-4dcefa8ffe8e",
