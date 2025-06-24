@@ -35327,7 +35327,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{floor}},UnlockSchedules@{{schedule}}",
+									"raw": "{{url}}/entity?q=entity={{floor}},UnlockExceptionSchedules@{{schedule}}",
 									"host": [
 										"{{url}}"
 									],
@@ -35337,7 +35337,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{floor}},UnlockSchedules@{{schedule}}"
+											"value": "entity={{floor}},UnlockExceptionSchedules@{{schedule}}"
 										}
 									]
 								}
