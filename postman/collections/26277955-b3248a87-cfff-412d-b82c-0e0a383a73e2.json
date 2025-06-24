@@ -36070,7 +36070,7 @@
 							]
 						},
 						{
-							"name": "Get macros",
+							"name": "Query macros",
 							"id": "26277955-1c24d42d-be93-4e89-9355-45fa4a20d345",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -36100,7 +36100,7 @@
 							"response": [
 								{
 									"id": "26277955-c4ce3d46-bd1b-4a3c-a60a-b724935d6156",
-									"name": "Get macros",
+									"name": "Query macros",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -37043,8 +37043,7 @@
 											"variable": [
 												{
 													"key": "map",
-													"value": "",
-													"description": "Map GUID or logical ID"
+													"value": ""
 												}
 											]
 										}
