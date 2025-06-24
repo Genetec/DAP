@@ -45069,7 +45069,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/entity?q=entity={{entity}},Name={{name}}",
+							"raw": "{{url}}/entity?q=entity={{entity}},LogicalId={{logicalId}}",
 							"host": [
 								"{{url}}"
 							],
@@ -45079,8 +45079,8 @@
 							"query": [
 								{
 									"key": "q",
-									"value": "entity={{entity}},Name={{name}}",
-									"description": "- **entity:** Entity GUID or logical ID\n- **name:** The new name for the entity"
+									"value": "entity={{entity}},LogicalId={{logicalId}}",
+									"description": "- **entity:** Entity GUID\n- **logicalId:** Logical ID (integer)"
 								}
 							]
 						},
