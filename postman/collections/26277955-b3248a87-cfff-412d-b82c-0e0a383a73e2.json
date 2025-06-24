@@ -29781,7 +29781,7 @@
 							]
 						},
 						{
-							"name": "Get credentials",
+							"name": "Query credentials",
 							"event": [
 								{
 									"listen": "prerequest",
@@ -29823,7 +29823,7 @@
 							"response": [
 								{
 									"id": "26277955-85afa651-3e9a-4811-8427-6cafc3993874",
-									"name": "Get credentials",
+									"name": "Query credentials",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
