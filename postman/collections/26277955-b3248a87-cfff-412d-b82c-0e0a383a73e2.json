@@ -28465,8 +28465,6 @@
 									"script": {
 										"id": "92bc6720-a3f7-43cf-abf9-d86bc970c483",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomCity}}\");\r",
-											"pm.variables.set(\"email\", \"{{$randomEmail}}\");\r",
 											""
 										],
 										"type": "text/javascript",
@@ -28477,8 +28475,11 @@
 									"listen": "test",
 									"script": {
 										"id": "750e6bdc-f7a8-4c68-8765-826e7e55a0cf",
-										"exec": [],
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
