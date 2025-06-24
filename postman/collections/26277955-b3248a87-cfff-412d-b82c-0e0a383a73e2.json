@@ -27165,7 +27165,7 @@
 							"response": [
 								{
 									"id": "26277955-beff8b40-7f84-4efc-8de6-41c35e18f3e4",
-									"name": "Get camera sequences",
+									"name": "Query camera sequences",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -27737,7 +27737,7 @@
 							]
 						},
 						{
-							"name": "Get cardholders",
+							"name": "Query cardholders",
 							"event": [
 								{
 									"listen": "prerequest",
