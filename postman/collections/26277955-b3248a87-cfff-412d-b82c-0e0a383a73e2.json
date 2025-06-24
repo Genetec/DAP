@@ -20185,7 +20185,7 @@
 							"response": []
 						},
 						{
-							"name": "Add access rule Copy",
+							"name": "Remove access rule",
 							"id": "26277955-0d3c1a1b-5a04-4450-bebf-b672ec10d4fe",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
