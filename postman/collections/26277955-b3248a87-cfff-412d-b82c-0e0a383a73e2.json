@@ -37918,7 +37918,7 @@
 							"response": []
 						},
 						{
-							"name": "Add LPR camera",
+							"name": "Get LPR camera information",
 							"id": "26277955-d08efe29-d86c-4b09-8956-8147204f967a",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
