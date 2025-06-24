@@ -37256,7 +37256,7 @@
 							]
 						},
 						{
-							"name": "Get monitors",
+							"name": "Query monitors",
 							"id": "26277955-5cb76abb-8658-46b6-aa77-6ad27d6883c7",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -37285,7 +37285,7 @@
 							"response": [
 								{
 									"id": "26277955-fd6daba6-ad88-4355-bdfc-b669d967593c",
-									"name": "Get monitors",
+									"name": "Query monitors",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
