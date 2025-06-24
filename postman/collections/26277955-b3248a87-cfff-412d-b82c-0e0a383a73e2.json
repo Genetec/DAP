@@ -38897,7 +38897,7 @@
 							"response": []
 						},
 						{
-							"name": "Get roles",
+							"name": "Query roles",
 							"id": "26277955-af19790a-3758-4acb-948c-0196b362f3a8",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -38927,7 +38927,7 @@
 							"response": [
 								{
 									"id": "26277955-8bfae84e-905e-4126-bfc2-494706449c3f",
-									"name": "Get roles",
+									"name": "Query roles",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
