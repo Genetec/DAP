@@ -29003,7 +29003,7 @@
 							]
 						},
 						{
-							"name": "Get cash registers",
+							"name": "Query cash registers",
 							"id": "26277955-376e84df-ce60-41ce-9498-9774640964a3",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
