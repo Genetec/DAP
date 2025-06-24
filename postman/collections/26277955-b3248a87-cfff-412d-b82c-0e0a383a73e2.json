@@ -34479,7 +34479,7 @@
 									"script": {
 										"id": "8c0174c5-15f2-4eff-a136-ba979cb5679c",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomCity}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
