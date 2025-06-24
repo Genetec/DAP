@@ -25788,6 +25788,18 @@
 									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"Guid\": \"fce93c6e-8e53-4f6b-97d7-bf2c5fa2a1b5\"\n        }\n    }\n}"
 								}
 							]
+						},
+						{
+							"name": "New Request",
+							"id": "26277955-2de881ce-9809-4568-bc8b-dc7fb2a30db0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-bc18b637-11fd-4a2d-86c3-aa2c753b7d99",
