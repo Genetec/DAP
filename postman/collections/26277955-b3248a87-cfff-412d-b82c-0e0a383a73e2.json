@@ -35289,6 +35289,33 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Remove unlock schedule Copy",
+							"id": "26277955-353074ee-9546-41b6-acaa-99b1a4a99048",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{floor}},UnlockSchedules-{{schedule}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{floor}},UnlockSchedules-{{schedule}}"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-d21f4492-c8b7-4f37-b723-9c5c9818f819"
