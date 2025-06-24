@@ -37912,7 +37912,8 @@
 											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **accessPoint:** Access point GUID or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Removes an LPR camera access point from the parking zone."
 							},
 							"response": []
 						}
