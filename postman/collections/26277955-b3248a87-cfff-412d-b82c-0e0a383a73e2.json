@@ -23243,7 +23243,7 @@
 							]
 						},
 						{
-							"name": "Get analog monitors",
+							"name": "Query analog monitors",
 							"id": "26277955-c63e2bc6-2a06-4ff6-b672-b3392f3817db",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -23611,7 +23611,7 @@
 							]
 						},
 						{
-							"name": "Get ALPR units",
+							"name": "Query ALPR units",
 							"id": "26277955-69d57e05-b6e2-44f3-9462-1e6f51ad0970",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
