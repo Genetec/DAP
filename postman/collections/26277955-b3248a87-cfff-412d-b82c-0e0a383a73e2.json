@@ -20118,7 +20118,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{accessPoint}},DisableReader()"
+											"value": "entity={{accessPoint}},DisableReader()",
+											"description": "**accessPoint:** Access point Guid or logical ID"
 										}
 									]
 								}
@@ -20145,7 +20146,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{accessPoint}},EnableReader()"
+											"value": "entity={{accessPoint}},EnableReader()",
+											"description": "**accessPoint:** Access point Guid or logical ID"
 										}
 									]
 								}
