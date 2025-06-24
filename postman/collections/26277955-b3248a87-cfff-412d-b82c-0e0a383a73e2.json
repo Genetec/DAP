@@ -37529,7 +37529,7 @@
 							]
 						},
 						{
-							"name": "Query permits Copy",
+							"name": "Query parking zones",
 							"id": "26277955-23aa0f40-9bd4-4a95-b210-58bd5bc58719",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
