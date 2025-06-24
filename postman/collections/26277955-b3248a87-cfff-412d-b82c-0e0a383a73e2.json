@@ -20064,7 +20064,8 @@
 											"description": "- **accessPoint:** Access point Guid or logical ID\n- **device:** Device Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Assign a device to an access point. The device can be an input, output, or reader."
 							},
 							"response": []
 						},
