@@ -45060,6 +45060,87 @@
 					]
 				},
 				{
+					"name": "Rename entity Copy",
+					"id": "26277955-fa993268-bb21-4d1c-8afa-16f3fdb535b4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/entity?q=entity={{entity}},Name={{name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"entity"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "entity={{entity}},Name={{name}}",
+									"description": "- **entity:** Entity GUID or logical ID\n- **name:** The new name for the entity"
+								}
+							]
+						},
+						"description": "Rename an entity."
+					},
+					"response": [
+						{
+							"id": "26277955-2a53dafa-7bea-4cc1-99f3-54bfc2ac87d6",
+							"name": "Rename entity",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity=LogicalID(Door,1),Name=NewName",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity=LogicalID(Door,1),Name=NewName"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/json",
+									"enabled": true
+								},
+								{
+									"key": "Server",
+									"value": "Microsoft-HTTPAPI/2.0",
+									"enabled": true
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 May 2023 03:37:21 GMT",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\"\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "Get entity name and type",
 					"id": "26277955-a971eb3e-2a83-4104-a095-260d3cb21f94",
 					"protocolProfileBehavior": {
