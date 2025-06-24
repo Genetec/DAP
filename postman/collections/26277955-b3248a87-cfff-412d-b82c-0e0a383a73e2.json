@@ -37538,7 +37538,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/report/EntityConfiguration?q=EntityTypes@Permit,Page={{page}},PageSize={{pageSize}}",
+									"raw": "{{url}}/report/EntityConfiguration?q=EntityTypes@ParkingZone,Page={{page}},PageSize={{pageSize}}",
 									"host": [
 										"{{url}}"
 									],
@@ -37549,7 +37549,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "EntityTypes@Permit,Page={{page}},PageSize={{pageSize}}",
+											"value": "EntityTypes@ParkingZone,Page={{page}},PageSize={{pageSize}}",
 											"description": "- **page:** (optional) The page number to retrieve in the paginated results.\n- **pageSize:** (optional) The number of results to include per page."
 										}
 									]
