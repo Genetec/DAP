@@ -38394,7 +38394,7 @@
 							]
 						},
 						{
-							"name": "Get output behaviors",
+							"name": "Query output behaviors",
 							"id": "26277955-049eb070-ada5-41eb-bc2b-c011ca782dcf",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -38423,7 +38423,7 @@
 							"response": [
 								{
 									"id": "26277955-fd537734-1d58-4e1b-b0e1-77270d73e4fb",
-									"name": "Get output behaviors",
+									"name": "Query output behaviors",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
