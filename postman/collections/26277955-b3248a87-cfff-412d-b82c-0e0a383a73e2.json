@@ -38376,7 +38376,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{entity}},GetPartitions()"
+											"value": "entity={{entity}},GetPartitions()",
+											"description": "- **entity:** Entity GUID or logical ID"
 										}
 									]
 								},
@@ -38644,7 +38645,7 @@
 										{
 											"key": "q",
 											"value": "entity={{partition}},UserAccesses",
-											"description": "- **partition:** Partition ID or logical ID"
+											"description": "- **partition:** Partition GUID or logical ID"
 										}
 									]
 								},
