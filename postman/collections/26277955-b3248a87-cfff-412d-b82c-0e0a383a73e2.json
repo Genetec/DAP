@@ -37824,7 +37824,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{parkingZone}},DeleteMap()"
+											"value": "entity={{parkingZone}},DeleteMap()",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID"
 										}
 									]
 								}
