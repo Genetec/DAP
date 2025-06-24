@@ -24272,7 +24272,7 @@
 							]
 						},
 						{
-							"name": "Get areas",
+							"name": "Query areas",
 							"id": "26277955-88edcc13-2539-4234-809d-541a9b7d5d8b",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -24302,7 +24302,7 @@
 							"response": [
 								{
 									"id": "26277955-edeb90a0-b870-4cd6-89c6-522f8739a5b0",
-									"name": "Get areas",
+									"name": "Query areas",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
