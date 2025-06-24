@@ -34873,7 +34873,7 @@
 					"name": "Files",
 					"item": [
 						{
-							"name": "Get files",
+							"name": "Query files",
 							"id": "26277955-28b88a75-d56e-4869-b400-e5fb9314c005",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
