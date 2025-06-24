@@ -33212,9 +33212,8 @@
 									],
 									"variable": [
 										{
-											"id": "63bdd7e9-f16f-4ae5-a422-8ab3f3cbe58c",
 											"key": "door",
-											"value": null,
+											"value": "89713115-418f-4798-ad24-4998366378da",
 											"description": "Door GUID or logical ID"
 										}
 									]
@@ -37711,7 +37710,7 @@
 					"name": "Partitions",
 					"item": [
 						{
-							"name": "Get partition",
+							"name": "Query partition",
 							"id": "26277955-0febfc4a-787a-44c4-9b38-91b2f113510f",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -37823,7 +37822,7 @@
 							"response": [
 								{
 									"id": "26277955-290b6cc9-6b7d-44bb-9380-1d25e8ae9f80",
-									"name": "Get partitions",
+									"name": "Query partitions",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
