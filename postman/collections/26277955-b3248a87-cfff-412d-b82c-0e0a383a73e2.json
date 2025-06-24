@@ -37198,80 +37198,6 @@
 					"name": "Monitors",
 					"item": [
 						{
-							"name": "Get monitor",
-							"id": "26277955-d8bae318-5a84-4279-a867-29aa8bc604f8",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{url}}/entity/:monitor",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"entity",
-										":monitor"
-									],
-									"variable": [
-										{
-											"key": "monitor",
-											"value": "",
-											"description": "Monitor GUID or logical ID"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"id": "26277955-08dcdfdd-5b2d-4c07-882b-569a84c7d478",
-									"name": "Get monitor",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{url}}/entity/:monitor",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"entity",
-												":monitor"
-											],
-											"variable": [
-												{
-													"key": "monitor",
-													"value": ""
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Content-Type",
-											"value": "text/json"
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 12 Jun 2025 10:37:49 GMT"
-										}
-									],
-									"cookie": [],
-									"responseTime": null,
-									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"MonitorId\": 1,\n            \"Application\": \"f17b51af-0c57-4650-893a-4393923dbc46\",\n            \"Behaviors\": [],\n            \"EventToActions\": [],\n            \"IsNewlyCreated\": false,\n            \"CreatedOn\": \"2025-05-30T05:48:48Z\",\n            \"IsOwnedByPlugin\": false,\n            \"CustomFields\": [],\n            \"Description\": \"\",\n            \"EntitySubType\": 0,\n            \"EntityType\": \"Monitor\",\n            \"Guid\": \"13de165d-0cf5-467c-a4cb-6015d29ccdb4\",\n            \"HiddenFromUI\": false,\n            \"HierarchicalChildren\": [],\n            \"HierarchicalParents\": [],\n            \"IsDisposed\": false,\n            \"IsInMaintenance\": false,\n            \"IsMaintenanceSupported\": false,\n            \"IsOnline\": false,\n            \"LinkedMaps\": [],\n            \"LogicalId\": 66,\n            \"ModifiedOn\": \"2025-06-12T18:37:49.1655074+08:00\",\n            \"MaintenanceEndTime\": null,\n            \"MaintenanceReason\": null,\n            \"Name\": \"ALAFLEUR02 - SecurityDesk - B\",\n            \"OwnerRole\": \"00000000-0000-0000-0000-000000000000\",\n            \"OwnerRoleType\": \"None\",\n            \"RunningState\": \"NotRunning\",\n            \"SupportedCustomEvents\": [],\n            \"SupportedEvents\": [\n                \"EntityWarning\",\n                \"FusionRecordUpdatedEvent\"\n            ],\n            \"Synchronised\": false\n        },\n        \"ObsoletedMembers\": [\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.CustomFields\",\n                \"Message\": \"Please use the CustomFieldsAsync and/or the CustomFieldService\"\n            },\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.ModifiedOn\",\n                \"Message\": \"Use an AuditTrailQuery instead.\"\n            }\n        ]\n    }\n}"
-								}
-							]
-						},
-						{
 							"name": "Query monitors",
 							"id": "26277955-5cb76abb-8658-46b6-aa77-6ad27d6883c7",
 							"protocolProfileBehavior": {
@@ -37343,6 +37269,80 @@
 									"cookie": [],
 									"responseTime": null,
 									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": [\n            {\n                \"Guid\": \"0fe42ef7-1bab-426a-8ea1-9a1444ccd690\"\n            },\n            {\n                \"Guid\": \"13de165d-0cf5-467c-a4cb-6015d29ccdb4\"\n            },\n            {\n                \"Guid\": \"ba3a8e79-171a-4dc9-99d9-172859d11ed3\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get monitor",
+							"id": "26277955-d8bae318-5a84-4279-a867-29aa8bc604f8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity/:monitor",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity",
+										":monitor"
+									],
+									"variable": [
+										{
+											"key": "monitor",
+											"value": "",
+											"description": "Monitor GUID or logical ID"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "26277955-08dcdfdd-5b2d-4c07-882b-569a84c7d478",
+									"name": "Get monitor",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/entity/:monitor",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"entity",
+												":monitor"
+											],
+											"variable": [
+												{
+													"key": "monitor",
+													"value": ""
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/json"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 12 Jun 2025 10:37:49 GMT"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"MonitorId\": 1,\n            \"Application\": \"f17b51af-0c57-4650-893a-4393923dbc46\",\n            \"Behaviors\": [],\n            \"EventToActions\": [],\n            \"IsNewlyCreated\": false,\n            \"CreatedOn\": \"2025-05-30T05:48:48Z\",\n            \"IsOwnedByPlugin\": false,\n            \"CustomFields\": [],\n            \"Description\": \"\",\n            \"EntitySubType\": 0,\n            \"EntityType\": \"Monitor\",\n            \"Guid\": \"13de165d-0cf5-467c-a4cb-6015d29ccdb4\",\n            \"HiddenFromUI\": false,\n            \"HierarchicalChildren\": [],\n            \"HierarchicalParents\": [],\n            \"IsDisposed\": false,\n            \"IsInMaintenance\": false,\n            \"IsMaintenanceSupported\": false,\n            \"IsOnline\": false,\n            \"LinkedMaps\": [],\n            \"LogicalId\": 66,\n            \"ModifiedOn\": \"2025-06-12T18:37:49.1655074+08:00\",\n            \"MaintenanceEndTime\": null,\n            \"MaintenanceReason\": null,\n            \"Name\": \"ALAFLEUR02 - SecurityDesk - B\",\n            \"OwnerRole\": \"00000000-0000-0000-0000-000000000000\",\n            \"OwnerRoleType\": \"None\",\n            \"RunningState\": \"NotRunning\",\n            \"SupportedCustomEvents\": [],\n            \"SupportedEvents\": [\n                \"EntityWarning\",\n                \"FusionRecordUpdatedEvent\"\n            ],\n            \"Synchronised\": false\n        },\n        \"ObsoletedMembers\": [\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.CustomFields\",\n                \"Message\": \"Please use the CustomFieldsAsync and/or the CustomFieldService\"\n            },\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.ModifiedOn\",\n                \"Message\": \"Use an AuditTrailQuery instead.\"\n            }\n        ]\n    }\n}"
 								}
 							]
 						},
