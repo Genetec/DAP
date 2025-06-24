@@ -25826,7 +25826,24 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity/:asset",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity",
+										":asset"
+									],
+									"variable": [
+										{
+											"key": "asset",
+											"value": "",
+											"description": "Asset GUID or logical ID"
+										}
+									]
+								}
 							},
 							"response": []
 						}
