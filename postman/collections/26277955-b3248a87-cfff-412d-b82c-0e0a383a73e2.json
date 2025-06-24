@@ -37413,7 +37413,7 @@
 									"script": {
 										"id": "0ea253f9-a532-4f30-9147-3218776a8f06",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomCity}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -37461,7 +37461,7 @@
 									"script": {
 										"id": "4cc7f87d-5634-4537-9752-a0ca85f38661",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomCity}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
