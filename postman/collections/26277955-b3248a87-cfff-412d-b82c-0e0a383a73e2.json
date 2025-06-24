@@ -45060,7 +45060,7 @@
 					]
 				},
 				{
-					"name": "Rename entity Copy",
+					"name": "Set logical ID",
 					"id": "26277955-fa993268-bb21-4d1c-8afa-16f3fdb535b4",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
