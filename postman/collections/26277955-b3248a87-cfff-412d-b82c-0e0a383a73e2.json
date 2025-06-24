@@ -27779,7 +27779,7 @@
 							"response": [
 								{
 									"id": "26277955-9818682b-f36a-4cd6-88eb-b770ed44b692",
-									"name": "Get cardholders",
+									"name": "Query cardholders",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -28561,7 +28561,7 @@
 							]
 						},
 						{
-							"name": "Get cardholder groups",
+							"name": "Query cardholder groups",
 							"id": "26277955-3b9680fb-703c-414d-a25d-a9f0049260bf",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
