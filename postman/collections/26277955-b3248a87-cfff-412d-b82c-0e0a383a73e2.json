@@ -35318,7 +35318,7 @@
 							"response": []
 						},
 						{
-							"name": "Add unlock schedule Copy",
+							"name": "Add unlock exception schedule",
 							"id": "26277955-14e7c3a7-8dcd-4b3e-9559-aba62dda0f82",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
