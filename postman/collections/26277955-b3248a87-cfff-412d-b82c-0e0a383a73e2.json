@@ -35538,7 +35538,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{intrusionArea}},Arm()"
+											"value": "entity={{intrusionArea}},Arm()",
+											"description": "**intrusionArea:** Intrusion area GUID or logical ID"
 										}
 									]
 								}
@@ -35787,7 +35788,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{intrusionArea}},SetArmingStateAndRaiseEvent({{armingState}})"
+											"value": "entity={{intrusionArea}},SetArmingStateAndRaiseEvent({{armingState}})",
+											"description": "- **intrusionArea:** Intrusion area GUID or logical ID"
 										}
 									]
 								},
