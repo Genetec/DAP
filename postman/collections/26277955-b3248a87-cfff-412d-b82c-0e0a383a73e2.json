@@ -26224,7 +26224,7 @@
 							"id": "26277955-57bc2785-e11a-4345-aeec-8e0bb08f088d"
 						},
 						{
-							"name": "Get cameras",
+							"name": "Query cameras",
 							"id": "26277955-f1c7330b-37d5-4ad0-8849-e53839a81e2d",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -26254,7 +26254,7 @@
 							"response": [
 								{
 									"id": "26277955-22f22ad6-8741-43f8-ba48-d521afc6ea8a",
-									"name": "Get cameras",
+									"name": "Query cameras",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
