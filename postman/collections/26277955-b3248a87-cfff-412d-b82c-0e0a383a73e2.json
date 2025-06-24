@@ -19948,7 +19948,8 @@
 											"description": "- **accessPoint:** Access point Guid or logical ID\n- **cardholderGroup:** Cardholder group Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Add a cardholder group to an access point."
 							},
 							"response": []
 						},
