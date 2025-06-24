@@ -20157,7 +20157,7 @@
 							"response": []
 						},
 						{
-							"name": "New Request",
+							"name": "Add access rule",
 							"id": "26277955-b05f7580-1fb5-4b50-bbed-94fa0013f03d",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
