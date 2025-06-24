@@ -19891,7 +19891,7 @@
 										}
 									]
 								},
-								"description": "Attach a camera to an access point."
+								"description": "Add a camera to an access point."
 							},
 							"response": []
 						},
@@ -19949,7 +19949,7 @@
 										}
 									]
 								},
-								"description": "Add a cardholder group to an access point."
+								"description": "Add a camera to an access point."
 							},
 							"response": []
 						},
