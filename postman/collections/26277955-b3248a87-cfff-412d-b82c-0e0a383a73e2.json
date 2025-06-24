@@ -41789,12 +41789,7 @@
 									"script": {
 										"id": "135bdfa3-d411-45a1-a881-6c64775285d2",
 										"exec": [
-											"let firstName = pm.variables.replaceIn(\"{{$randomFirstName}}\")\r",
-											"let lastName = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
-											"pm.variables.set(\"name\", `${firstName} ${lastName}`);\r",
-											"pm.variables.set(\"firstName\", firstName);\r",
-											"pm.variables.set(\"lastName\", lastName);\r",
-											"pm.variables.set(\"email\", \"{{$randomEmail}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
