@@ -20097,6 +20097,18 @@
 								"description": "Unassign a device from an access point."
 							},
 							"response": []
+						},
+						{
+							"name": "New Request",
+							"id": "26277955-b5adb581-01a9-4466-8421-4e3903aa615d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-b319ee4d-2205-4efe-8e81-af17e0dbd324",
