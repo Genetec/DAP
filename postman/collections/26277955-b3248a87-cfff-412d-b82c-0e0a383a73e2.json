@@ -19814,7 +19814,7 @@
 							"response": [
 								{
 									"id": "26277955-71c5b7f2-8a43-48eb-a386-90c6f6dbaffe",
-									"name": "Get access points",
+									"name": "Query access points",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
