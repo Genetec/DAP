@@ -20475,7 +20475,7 @@
 							"response": [
 								{
 									"id": "26277955-ca1983ab-1a2b-40a0-a632-55ac20fb41e4",
-									"name": "Get access rules",
+									"name": "Query access rules",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
