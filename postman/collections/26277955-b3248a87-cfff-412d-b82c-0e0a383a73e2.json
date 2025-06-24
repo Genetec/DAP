@@ -37110,7 +37110,7 @@
 							"response": [
 								{
 									"id": "26277955-8abcebf5-974d-4bfb-b18c-c73075ec4efa",
-									"name": "Get maps",
+									"name": "Query maps",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
