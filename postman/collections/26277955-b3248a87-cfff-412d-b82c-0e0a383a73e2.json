@@ -21045,7 +21045,7 @@
 						}
 					],
 					"id": "26277955-4b8b4e01-66c4-4834-a237-68e467a0ec5c",
-					"description": "An access rule entity defines a list of cardholders to whom access is either granted or denied based on a schedule. Access rules can be applied to secured areas and doors for entries and exits, or to intrusion detection areas for arming and disarming."
+					"description": "An access rule entity defines a list of cardholders to whom access is either granted or denied based on a schedule. Access rules can be applied to secured areas and doors for entries and exits."
 				},
 				{
 					"name": "Alarms",
