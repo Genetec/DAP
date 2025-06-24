@@ -20105,8 +20105,50 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{accessPoint}},DisableReader()",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{accessPoint}},DisableReader()"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Disable reader Copy",
+							"id": "26277955-de71a960-89eb-4a64-8c96-be84af6dae5a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{accessPoint}},DisableReader()",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{accessPoint}},DisableReader()"
+										}
+									]
+								}
 							},
 							"response": []
 						}
