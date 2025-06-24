@@ -20276,9 +20276,7 @@
 									"script": {
 										"id": "d6948d4a-934b-4bfd-897d-8bb95c04ea72",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomWord}}\");\r",
-											"pm.variables.set(\"startTime\", new Date().toISOString());\r",
-											"pm.variables.set(\"endTime\", new Date(new Date().getTime() + (24 * 60 * 60 * 1000)).toISOString());"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
