@@ -37243,8 +37243,7 @@
 											"variable": [
 												{
 													"key": "monitor",
-													"value": "",
-													"description": "Monitor GUID or logical ID"
+													"value": ""
 												}
 											]
 										}
@@ -37458,7 +37457,7 @@
 										{
 											"key": "q",
 											"value": "entity=NewEntity(ParkingZone),Name={{name}},Guid",
-											"description": "**name:** The name of the parking zone"
+											"description": "**name:** Name of the parking zone"
 										}
 									]
 								}
@@ -37642,7 +37641,7 @@
 										{
 											"key": "permit",
 											"value": "",
-											"description": "The GUID or logical ID of the permit"
+											"description": "Permit Guid or logical ID"
 										}
 									]
 								}
@@ -37666,8 +37665,7 @@
 											"variable": [
 												{
 													"key": "permit",
-													"value": "dcbe8a91-3ef2-4eee-b6c9-e7f0c4dd9003",
-													"description": "The GUID or logical ID of the permit"
+													"value": ""
 												}
 											]
 										}
