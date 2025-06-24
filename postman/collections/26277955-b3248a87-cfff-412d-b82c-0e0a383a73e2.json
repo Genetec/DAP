@@ -23828,7 +23828,7 @@
 							]
 						},
 						{
-							"name": "Get applications",
+							"name": "Query applications",
 							"id": "26277955-491f3bfa-47f8-4f57-9bf8-22fa2161cca2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -23857,7 +23857,7 @@
 							"response": [
 								{
 									"id": "26277955-332694cc-b8dc-4f14-8642-1371c4cab33b",
-									"name": "Get applications",
+									"name": "Query applications",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
