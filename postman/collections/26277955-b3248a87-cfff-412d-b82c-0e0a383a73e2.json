@@ -20123,7 +20123,7 @@
 										}
 									]
 								},
-								"description": "Disables the reader associated with the door side.\nThis API is only allowed on door sides."
+								"description": "Disables the reader associated with the door side.\nThis API is only allowed on access points of type \"CardReader\"."
 							},
 							"response": []
 						},
