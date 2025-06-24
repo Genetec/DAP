@@ -40764,34 +40764,6 @@
 							]
 						},
 						{
-							"name": "Assign to Access Manager role",
-							"id": "26277955-abad2560-337d-4db9-b0a7-8d3a89fad9e0",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{url}}/action?q=MoveAccessControlUnit({{unit}},{{role}})",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"action"
-									],
-									"query": [
-										{
-											"key": "q",
-											"value": "MoveAccessControlUnit({{unit}},{{role}})",
-											"description": "- **unit:** Unit GUID or logical ID\n- **role:** Access Manager role GUID or logical ID"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Get unit",
 							"id": "26277955-8cad5aba-3e29-486b-b9be-fd609b552ffe",
 							"protocolProfileBehavior": {
@@ -40842,6 +40814,34 @@
 											"key": "q",
 											"value": "EntityTypes@Unit,Page={{page}},PageSize={{pageSize}}",
 											"description": "- **page:** (optional) The page number to retrieve in the paginated results.\n- **pageSize:** (optional) The number of results to include per page."
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assign to Access Manager role",
+							"id": "26277955-abad2560-337d-4db9-b0a7-8d3a89fad9e0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/action?q=MoveAccessControlUnit({{unit}},{{role}})",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"action"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "MoveAccessControlUnit({{unit}},{{role}})",
+											"description": "- **unit:** Unit GUID or logical ID\n- **role:** Access Manager role GUID or logical ID"
 										}
 									]
 								}
