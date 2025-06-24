@@ -20470,7 +20470,8 @@
 											"description": "- **accessRuleType:** Permanent or Temporary\n- **page:** (optional) The page number to retrieve in the paginated results.\n- **pageSize:** (optional) The number of results to include per page."
 										}
 									]
-								}
+								},
+								"description": "Retrieve the access rules list using pagination."
 							},
 							"response": [
 								{
