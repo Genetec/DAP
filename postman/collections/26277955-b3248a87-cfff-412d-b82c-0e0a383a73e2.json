@@ -38469,7 +38469,7 @@
 										{
 											"key": "q",
 											"value": "entity={{partition}},AddMember({{entity}})",
-											"description": "- **partition:** Partition ID or logical ID\n- **entity:** Entity GUID or logical ID of the member to add"
+											"description": "- **partition:** Partition GUID or logical ID\n- **entity:** Entity GUID or logical ID of the member to add"
 										}
 									]
 								},
@@ -38504,7 +38504,7 @@
 										{
 											"key": "q",
 											"value": "entity={{partition}},RemoveMember({{entity}})",
-											"description": "- **partition:** Partition ID or logical ID\n- **entity:** Entity GUID or logical ID of the member to remove"
+											"description": "- **partition:** Partition GUID or logical ID\n- **entity:** Entity GUID or logical ID of the member to remove"
 										}
 									]
 								},
@@ -38539,7 +38539,7 @@
 										{
 											"key": "q",
 											"value": "entity={{partition}},Members",
-											"description": "- **partition:** Partition ID or logical ID"
+											"description": "- **partition:** Partition GUID or logical ID"
 										}
 									]
 								},
@@ -38574,7 +38574,7 @@
 										{
 											"key": "q",
 											"value": "entity={{partition}},AddUserAccess({{user}})",
-											"description": "- **partition:** Partition ID or logical ID\n- **user:** User GUID or logical ID of the user to add"
+											"description": "- **partition:** Partition GUID or logical ID\n- **user:** User GUID or logical ID of the user to add"
 										}
 									]
 								},
@@ -38609,7 +38609,7 @@
 										{
 											"key": "q",
 											"value": "entity={{partition}},RemoveUserAccess({{user}})",
-											"description": "- **partition:** Partition ID or logical ID\n- **user:** User GUID or logical ID of the user to remove"
+											"description": "- **partition:** Partition GUID or logical ID\n- **user:** User GUID or logical ID of the user to remove"
 										}
 									]
 								},
