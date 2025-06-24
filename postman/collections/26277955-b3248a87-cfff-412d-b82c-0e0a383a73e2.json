@@ -20093,7 +20093,8 @@
 											"description": "**accessPoint:** Access point Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Unassign a device from an access point."
 							},
 							"response": []
 						}
