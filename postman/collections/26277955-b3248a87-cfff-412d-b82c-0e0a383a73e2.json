@@ -25797,7 +25797,24 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "{{url}}/report/EntityConfiguration?q=EntityTypes@Asset,Page={{page}},PageSize={{pageSize}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"report",
+										"EntityConfiguration"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "EntityTypes@Asset,Page={{page}},PageSize={{pageSize}}",
+											"description": "- **page:** (optional) The page number to retrieve in the paginated results.\n- **pageSize:** (optional) The number of results to include per page."
+										}
+									]
+								}
 							},
 							"response": []
 						}
