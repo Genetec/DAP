@@ -37647,7 +37647,7 @@
 										{
 											"key": "q",
 											"value": "entity=NewEntity(Permit),Name={{name}},Guid",
-											"description": "**name:** The name of the permit"
+											"description": "**name:** Name of the permit"
 										}
 									]
 								}
