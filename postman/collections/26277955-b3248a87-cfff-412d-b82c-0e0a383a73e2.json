@@ -20171,7 +20171,7 @@
 									"script": {
 										"id": "d6948d4a-934b-4bfd-897d-8bb95c04ea72",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomWord}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -20181,8 +20181,11 @@
 									"listen": "test",
 									"script": {
 										"id": "128dc03f-a721-4ac3-ad00-646e489bc263",
-										"exec": [],
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
