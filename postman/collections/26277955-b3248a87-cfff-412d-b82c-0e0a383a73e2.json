@@ -37558,7 +37558,7 @@
 							"response": [
 								{
 									"id": "26277955-ca8a05ae-781e-42c0-856d-3354975d435f",
-									"name": "Query permits",
+									"name": "Query parking zones",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
