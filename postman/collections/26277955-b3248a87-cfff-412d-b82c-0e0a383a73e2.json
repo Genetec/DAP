@@ -38689,7 +38689,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{network}},AddSubNetwork({{subnet}})",
+									"raw": "{{url}}/entity?q=entity={{network}},RemoveSubNetwork({{subnet}})",
 									"host": [
 										"{{url}}"
 									],
@@ -38699,7 +38699,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{network}},AddSubNetwork({{subnet}})",
+											"value": "entity={{network}},RemoveSubNetwork({{subnet}})",
 											"description": "- **network:** Network ID or logical ID\n- **subnet:** Network GUID or logical ID of the subnet to remove"
 										}
 									]
