@@ -35345,7 +35345,7 @@
 							"response": []
 						},
 						{
-							"name": "Remove unlock schedule Copy",
+							"name": "Remove unlock exception schedule",
 							"id": "26277955-bfe96028-c9e1-453a-9b91-b8601407b736",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -35372,7 +35372,7 @@
 							"response": []
 						},
 						{
-							"name": "Remove all unlock schedules Copy",
+							"name": "Remove all unlock exception schedules",
 							"id": "26277955-7e7daf2a-c315-469e-99dc-a557c7744e38",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
