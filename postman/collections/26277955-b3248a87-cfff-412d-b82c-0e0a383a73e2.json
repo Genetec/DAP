@@ -39733,7 +39733,7 @@
 									"script": {
 										"id": "84a3bc6c-c9c5-4d15-b150-e5c6e42ac242",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomWord}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
