@@ -25790,7 +25790,7 @@
 							]
 						},
 						{
-							"name": "New Request",
+							"name": "Query assets",
 							"id": "26277955-2de881ce-9809-4568-bc8b-dc7fb2a30db0",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
