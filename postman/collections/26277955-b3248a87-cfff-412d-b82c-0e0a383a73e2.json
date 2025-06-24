@@ -34903,7 +34903,7 @@
 							"response": [
 								{
 									"id": "26277955-e38ef7fe-f466-4109-9f18-7d663e3e3485",
-									"name": "Get files",
+									"name": "Query files",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
