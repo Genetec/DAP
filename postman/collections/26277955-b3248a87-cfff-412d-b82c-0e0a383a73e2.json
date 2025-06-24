@@ -38823,7 +38823,7 @@
 										{
 											"key": "q",
 											"value": "entity={{reader}},EnableCardAndPin({{activationSchedule}},{{failureTimeout}})",
-											"description": "**reader:** Reader GUID or logical ID"
+											"description": "- **reader:** Reader GUID or logical ID\n- **activationSchedule:** Reader GUID or logical ID\n- **failureTimeout:** Reader GUID or logical ID"
 										}
 									]
 								},
