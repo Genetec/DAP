@@ -35291,7 +35291,7 @@
 							"response": []
 						},
 						{
-							"name": "Remove unlock schedule Copy",
+							"name": "Remove all unlock schedules",
 							"id": "26277955-353074ee-9546-41b6-acaa-99b1a4a99048",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
