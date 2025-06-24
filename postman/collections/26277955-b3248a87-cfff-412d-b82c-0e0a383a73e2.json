@@ -35312,7 +35312,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{floor}},UnlockSchedules*"
+											"value": "entity={{floor}},UnlockSchedules*",
+											"description": "**floor:** Floor GUID or logical ID"
 										}
 									]
 								}
