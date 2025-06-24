@@ -34377,7 +34377,7 @@
 							]
 						},
 						{
-							"name": "Get elevators",
+							"name": "Query elevators",
 							"id": "26277955-c53e601b-d976-4cc8-87da-152cbfb2e4c3",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -34407,7 +34407,7 @@
 							"response": [
 								{
 									"id": "26277955-74a33667-36b4-4362-a397-19739326c6e8",
-									"name": "Get elevators",
+									"name": "Query elevators",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
