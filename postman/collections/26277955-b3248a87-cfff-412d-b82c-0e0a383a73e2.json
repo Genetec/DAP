@@ -37842,7 +37842,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{parkingZone}},DeleteMap()",
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},AddParkingZoneRule({{rule}})",
 									"host": [
 										"{{url}}"
 									],
@@ -37852,8 +37852,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{parkingZone}},DeleteMap()",
-											"description": "- **parkingZone:** Parking zone GUID or logical ID"
+											"value": "entity={{parkingZone}},AddParkingZoneRule({{rule}})",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **rule:** Hotlist rule GUID or logical ID"
 										}
 									]
 								}
