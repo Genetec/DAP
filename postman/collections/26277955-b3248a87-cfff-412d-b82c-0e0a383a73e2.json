@@ -41615,7 +41615,7 @@
 					"name": "User groups",
 					"item": [
 						{
-							"name": "Get user groups",
+							"name": "Query user groups",
 							"id": "26277955-86ce9296-91ac-4f6e-b8ac-2be59e112f75",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -42156,7 +42156,7 @@
 							"response": [
 								{
 									"id": "26277955-0515042f-d8d0-450a-9e16-a57404c650cc",
-									"name": "Get user tasks",
+									"name": "Query user tasks",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
