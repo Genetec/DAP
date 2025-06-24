@@ -27135,7 +27135,7 @@
 					"name": "Camera sequences",
 					"item": [
 						{
-							"name": "Get camera sequences",
+							"name": "Query camera sequences",
 							"id": "26277955-99ec550f-f556-48ea-8d91-c73c50f8cbf7",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
