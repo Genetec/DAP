@@ -25864,7 +25864,7 @@
 											"variable": [
 												{
 													"key": "asset",
-													"value": "ccb5bd0a-3282-4549-8817-8eef29a61a66",
+													"value": "",
 													"description": "Asset GUID or logical ID"
 												}
 											]
@@ -25887,7 +25887,11 @@
 											"value": "Tue, 24 Jun 2025 08:21:41 GMT"
 										}
 									],
-									"cookie": [],
+									"cookie": [
+										{
+											"expires": "Invalid Date"
+										}
+									],
 									"responseTime": null,
 									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"Area\": \"00000000-0000-0000-0000-000000000000\",\n            \"Info\": \"\",\n            \"Latitude\": 0,\n            \"Longitude\": 0,\n            \"TimeZone\": {\n                \"Id\": \"Singapore Standard Time\",\n                \"DisplayName\": \"(UTC+08:00) Kuala Lumpur, Singapore\",\n                \"StandardName\": \"Malay Peninsula Standard Time\",\n                \"DaylightName\": \"Malay Peninsula Daylight Time\",\n                \"BaseUtcOffset\": \"08:00:00\",\n                \"AdjustmentRules\": null,\n                \"SupportsDaylightSavingTime\": false\n            },\n            \"Application\": \"00000000-0000-0000-0000-000000000000\",\n            \"Behaviors\": [],\n            \"EventToActions\": [],\n            \"IsNewlyCreated\": false,\n            \"CreatedOn\": \"2025-06-24T08:21:32Z\",\n            \"EffectiveCreationTime\": \"2025-06-24T08:21:32Z\",\n            \"IsOwnedByPlugin\": false,\n            \"CustomFields\": [],\n            \"Description\": \"\",\n            \"EntitySubType\": 0,\n            \"EntityType\": \"Asset\",\n            \"Guid\": \"ccb5bd0a-3282-4549-8817-8eef29a61a66\",\n            \"HiddenFromUI\": false,\n            \"HierarchicalChildren\": [],\n            \"HierarchicalParents\": [],\n            \"IsDisposed\": false,\n            \"IsInMaintenance\": false,\n            \"IsMaintenanceSupported\": false,\n            \"IsOnline\": false,\n            \"LinkedMaps\": [],\n            \"LogicalId\": null,\n            \"ModifiedOn\": \"2025-06-24T16:21:40.957503+08:00\",\n            \"MaintenanceEndTime\": null,\n            \"MaintenanceReason\": null,\n            \"Name\": \"Some Asset\",\n            \"OwnerRole\": \"00000000-0000-0000-0000-000000000000\",\n            \"OwnerRoleType\": \"None\",\n            \"RunningState\": \"NotRunning\",\n            \"SupportedCustomEvents\": [],\n            \"SupportedEvents\": [\n                \"EntityWarning\",\n                \"FusionRecordUpdatedEvent\",\n                \"AssetOnline\",\n                \"AssetOffline\",\n                \"AssetMoved\",\n                \"AssetLowBattery\"\n            ],\n            \"Synchronised\": false\n        },\n        \"ObsoletedMembers\": [\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.CustomFields\",\n                \"Message\": \"Please use the CustomFieldsAsync and/or the CustomFieldService\"\n            },\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.ModifiedOn\",\n                \"Message\": \"Use an AuditTrailQuery instead.\"\n            }\n        ]\n    }\n}"
 								}
