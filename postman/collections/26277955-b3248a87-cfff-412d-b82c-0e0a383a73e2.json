@@ -25848,7 +25848,7 @@
 							"response": [
 								{
 									"id": "26277955-df862752-68ff-4b06-a37e-f20978fa9451",
-									"name": "New Request",
+									"name": "Get asset",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
