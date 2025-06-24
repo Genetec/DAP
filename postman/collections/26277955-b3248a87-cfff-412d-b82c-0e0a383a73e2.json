@@ -37927,7 +37927,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{parkingZone}},AddLprCamera({{accessPoint}})",
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},GetLprCameraInformation({{device}})",
 									"host": [
 										"{{url}}"
 									],
@@ -37937,8 +37937,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{parkingZone}},AddLprCamera({{accessPoint}})",
-											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **accessPoint:** Access point GUID or logical ID"
+											"value": "entity={{parkingZone}},GetLprCameraInformation({{device}})",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **device:** Access point GUID or logical ID"
 										}
 									]
 								},
