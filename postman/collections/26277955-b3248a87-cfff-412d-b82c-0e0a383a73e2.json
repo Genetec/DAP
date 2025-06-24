@@ -20006,7 +20006,8 @@
 											"description": "- **accessPoint:** Access point Guid or logical ID\n- **cardholder:** Cardholder Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Remove a cardholder from an access point."
 							},
 							"response": []
 						},
