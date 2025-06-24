@@ -19977,7 +19977,8 @@
 											"description": "- **accessPoint:** Access point Guid or logical ID\n- **camera:** Camera Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Remove a camera from an access point."
 							},
 							"response": []
 						},
