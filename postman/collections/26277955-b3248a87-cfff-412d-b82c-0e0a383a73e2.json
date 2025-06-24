@@ -19731,7 +19731,53 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"id": "26277955-1d466391-09ee-4033-b77c-514c88193111",
+									"name": "Get access point",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/entity/:accessPoint",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"entity",
+												":accessPoint"
+											],
+											"variable": [
+												{
+													"key": "accessPoint",
+													"value": "0a1aafd4-0937-420e-892d-2a888ceb7c5a",
+													"description": "Access Point GUID or logical ID"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/json"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 24 Jun 2025 02:26:09 GMT"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"AccessPointSide\": \"In\",\n            \"AccessPointType\": \"AreaDirection\",\n            \"AccessPointGroup\": \"e52c503c-8877-4334-b354-e214fab84f7c\",\n            \"AccessRules\": [],\n            \"Cameras\": [],\n            \"Door\": \"00000000-0000-0000-0000-000000000000\",\n            \"Device\": \"00000000-0000-0000-0000-000000000000\",\n            \"Application\": \"00000000-0000-0000-0000-000000000000\",\n            \"Behaviors\": [],\n            \"EventToActions\": [],\n            \"IsNewlyCreated\": false,\n            \"CreatedOn\": \"2025-06-23T08:10:22Z\",\n            \"EffectiveCreationTime\": \"2025-06-23T08:10:22Z\",\n            \"IsOwnedByPlugin\": false,\n            \"CustomFields\": [],\n            \"Description\": \"\",\n            \"EntitySubType\": 4,\n            \"EntityType\": \"AccessPoint\",\n            \"Guid\": \"0a1aafd4-0937-420e-892d-2a888ceb7c5a\",\n            \"HiddenFromUI\": false,\n            \"HierarchicalChildren\": [],\n            \"HierarchicalParents\": [],\n            \"IsDisposed\": false,\n            \"IsInMaintenance\": false,\n            \"IsMaintenanceSupported\": false,\n            \"IsOnline\": true,\n            \"LinkedMaps\": [],\n            \"LogicalId\": null,\n            \"ModifiedOn\": \"2025-06-24T10:26:09.5026946+08:00\",\n            \"MaintenanceEndTime\": null,\n            \"MaintenanceReason\": null,\n            \"Name\": \"Office - \",\n            \"OwnerRole\": \"00000000-0000-0000-0000-000000000000\",\n            \"OwnerRoleType\": \"None\",\n            \"RunningState\": \"Running\",\n            \"SupportedCustomEvents\": [],\n            \"SupportedEvents\": [\n                \"EntityWarning\",\n                \"FusionRecordUpdatedEvent\",\n                \"AccessGranted\",\n                \"DefaultUnlockTime\",\n                \"ExtendedUnlockTime\",\n                \"ToggleFunctionUnlocking\",\n                \"ToggleFunctionLocking\",\n                \"FailedToUnlock\",\n                \"DoorEntryDetected\",\n                \"DoorEntryAssumed\",\n                \"DoorNoEntryDetected\",\n                \"AccessRefused\",\n                \"AccessInactivePerson\",\n                \"AccessExpiredCredential\",\n                \"AccessInactiveCredential\",\n                \"AccessLostCredential\",\n                \"AccessStolenCredential\",\n                \"AccessUnassignedCredential\",\n                \"AccessUnknownCredential\",\n                \"AccessInvalidPin\",\n                \"AccessValidCardInvalidPin\",\n                \"AccessDeniedByAccessRule\",\n                \"AccessInsufficientPrivileges\",\n                \"AccessAntipassbackViolation\",\n                \"AccessDeniedByMaxOccupancy\",\n                \"AccessOutOfSchedule\",\n                \"AccessNoAccessRuleAssigned\",\n                \"AccessAbsentSupervisor\",\n                \"AccessEscortRequired\",\n                \"AccessSecondCardholderRequired\",\n                \"AccessEscortNotSupported\",\n                \"CompanionVisitorDenied\",\n                \"Interlock\",\n                \"AccessCardAndPINTimeout\",\n                \"AccessValidCardInactivePIN\",\n                \"DeniedByAutomationEngine\",\n                \"BlocklistedCredential\",\n                \"ExpiredValidity\",\n                \"OutsideSpecifiedSchedule\",\n                \"AreaDuressPinEntered\",\n                \"DoorDoubleBadgeOn\",\n                \"DoorDoubleBadgeOff\",\n                \"VisitorAstray\",\n                \"MissingTailEscort\",\n                \"DoorWarninInterfaceAcFail\",\n                \"DoorWarningInterfaceAcFailRestored\",\n                \"DoorWarningInterfaceBatteryFail\",\n                \"DoorWarningInterfaceBatteryFailRestored\",\n                \"DoorWarningInterfaceTamper\",\n                \"DoorWarningInterfaceTamperRestored\",\n                \"AccessPointAccessGrantConfirmationRequested\",\n                \"IdentityValidationSucceededBiometric\",\n                \"IdentityValidationSucceededManual\",\n                \"IdentityValidationFailedBiometricMismatch\",\n                \"IdentityValidationFailedBiometricMissing\",\n                \"IdentityValidationFailedManual\",\n                \"IdentityValidationFailedTimeout\",\n                \"AreaAntipassbackDetected\",\n                \"AreaMaxOccupancyReached\",\n                \"AreaMaxOccupancyExceeded\",\n                \"AreaBelowMaxOccupancy\",\n                \"InputTroubleShort\",\n                \"InputTroubleOpen\",\n                \"FloorAccess\"\n            ],\n            \"Synchronised\": false\n        },\n        \"ObsoletedMembers\": [\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.CustomFields\",\n                \"Message\": \"Please use the CustomFieldsAsync and/or the CustomFieldService\"\n            },\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.ModifiedOn\",\n                \"Message\": \"Use an AuditTrailQuery instead.\"\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Query access points",
