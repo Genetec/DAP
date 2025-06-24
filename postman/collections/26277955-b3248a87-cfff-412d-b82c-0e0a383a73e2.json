@@ -44407,7 +44407,7 @@
 					"id": "26277955-ea36f21c-7829-4dc7-893a-e86b06d6319c"
 				},
 				{
-					"name": "Get Entities",
+					"name": "Query entities",
 					"id": "26277955-d1726457-27e1-4de2-8373-e24e9ba1d210",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
