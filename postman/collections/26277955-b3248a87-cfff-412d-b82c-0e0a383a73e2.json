@@ -19734,7 +19734,7 @@
 							"response": []
 						},
 						{
-							"name": "Get access points",
+							"name": "Query access points",
 							"id": "26277955-13ee30bd-3cd0-4d4f-9e7f-d7c1c0bdb44a",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
