@@ -37945,6 +37945,35 @@
 								"description": "Removes an LPR camera access point from the parking zone."
 							},
 							"response": []
+						},
+						{
+							"name": "Get LPR camera information Copy",
+							"id": "26277955-2362f7d8-1f98-4b08-b7bd-61094cbb8369",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},GetLprCameraInformation({{device}})",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{parkingZone}},GetLprCameraInformation({{device}})",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **device:** Device GUID or logical ID"
+										}
+									]
+								},
+								"description": "Removes an LPR camera access point from the parking zone."
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-26c7ad20-8ffd-4efb-8080-4dcefa8ffe8e",
