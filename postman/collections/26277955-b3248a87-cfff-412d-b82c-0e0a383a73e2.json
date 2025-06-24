@@ -39096,7 +39096,7 @@
 							]
 						},
 						{
-							"name": "Get routes",
+							"name": "Query routes",
 							"id": "26277955-f8a3e52c-74da-4391-a6c8-e5a62c16e84e",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
