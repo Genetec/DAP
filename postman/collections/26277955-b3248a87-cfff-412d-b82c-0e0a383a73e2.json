@@ -39562,7 +39562,7 @@
 					"name": "Scheduled tasks",
 					"item": [
 						{
-							"name": "Get scheduled tasks",
+							"name": "Query scheduled tasks",
 							"id": "26277955-8fc1ab92-3373-4b2f-ba26-e2cd4df318cc",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -40104,7 +40104,7 @@
 							"response": [
 								{
 									"id": "26277955-5eba4405-f148-40d2-8bf4-b0bf78d9d640",
-									"name": "Get servers",
+									"name": "Query servers",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
