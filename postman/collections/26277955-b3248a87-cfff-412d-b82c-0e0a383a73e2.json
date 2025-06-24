@@ -35243,7 +35243,7 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
 								"url": {
 									"raw": "{{url}}/entity?q=entity={{floor}},UnlockSchedules@{{schedule}}",
