@@ -35165,7 +35165,7 @@
 							"response": []
 						},
 						{
-							"name": "Get intrusion areas",
+							"name": "Query intrusion areas",
 							"id": "26277955-0d28a9e7-7f32-40c2-bcde-cc2f90cba594",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
