@@ -35620,7 +35620,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{intrusionArea}},ArmPerimeter()"
+											"value": "entity={{intrusionArea}},ArmPerimeter()",
+											"description": "**intrusionArea:** Intrusion area GUID or logical ID"
 										}
 									]
 								}
