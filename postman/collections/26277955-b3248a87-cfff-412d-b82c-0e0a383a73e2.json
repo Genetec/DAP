@@ -35264,7 +35264,7 @@
 							"response": []
 						},
 						{
-							"name": "Add unlock schedule Copy",
+							"name": "Add unlock schedule",
 							"id": "26277955-b8d053f0-7a8d-47e6-b244-e07cfff4a50c",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
