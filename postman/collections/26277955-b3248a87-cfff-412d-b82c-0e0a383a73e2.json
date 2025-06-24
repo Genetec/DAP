@@ -36113,7 +36113,7 @@
 									"script": {
 										"id": "75c61217-ac10-4a81-83ff-87fd820c6d16",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomCity}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
