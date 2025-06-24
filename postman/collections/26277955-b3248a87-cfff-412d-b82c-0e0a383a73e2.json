@@ -20445,7 +20445,7 @@
 							]
 						},
 						{
-							"name": "Get access rules",
+							"name": "Query access rules",
 							"id": "26277955-2cbbdf9d-1337-4ded-ac27-abad569e37c2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
