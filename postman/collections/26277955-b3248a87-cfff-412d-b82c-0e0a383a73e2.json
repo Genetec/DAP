@@ -37881,7 +37881,7 @@
 										{
 											"key": "q",
 											"value": "entity={{parkingZone}},AddParkingZoneRule({{rule}})",
-											"description": "- **parkingZone:** Parking zone GUID or logical ID"
+											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **rule:** Hotlist rule GUID or logical ID"
 										}
 									]
 								}
