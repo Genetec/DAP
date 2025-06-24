@@ -37889,7 +37889,7 @@
 							"response": []
 						},
 						{
-							"name": "Remove parking zone rule Copy",
+							"name": "Remove LPR camera",
 							"id": "26277955-4319d003-2f0d-4ebf-9649-fdd38257b406",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
