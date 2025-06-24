@@ -37081,7 +37081,7 @@
 							]
 						},
 						{
-							"name": "Get maps",
+							"name": "Query maps",
 							"id": "26277955-23b8dda8-00d4-4bef-9f6f-274f27aa0d63",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
