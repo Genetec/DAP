@@ -20099,7 +20099,7 @@
 							"response": []
 						},
 						{
-							"name": "New Request",
+							"name": "Disable reader",
 							"id": "26277955-b5adb581-01a9-4466-8421-4e3903aa615d",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
