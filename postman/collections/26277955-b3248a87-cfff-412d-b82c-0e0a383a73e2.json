@@ -39300,7 +39300,7 @@
 							"response": [
 								{
 									"id": "26277955-2b1c63c5-73f1-42c0-beff-6f550d2ba647",
-									"name": "Get schedules",
+									"name": "Query schedules",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
