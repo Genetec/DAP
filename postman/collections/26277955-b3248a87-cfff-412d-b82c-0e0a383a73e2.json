@@ -29032,7 +29032,7 @@
 							"response": [
 								{
 									"id": "26277955-b022874a-73f2-42ac-b543-d5fda40d2733",
-									"name": "Get cash registers",
+									"name": "Query cash registers",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
