@@ -33306,7 +33306,7 @@
 							"response": [
 								{
 									"id": "26277955-c2110497-0a42-4456-bf2b-2fee2a085937",
-									"name": "Get doors",
+									"name": "Query doors",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
