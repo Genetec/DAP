@@ -35235,6 +35235,18 @@
 									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"Elevator\": \"765e1a30-d6e8-44ea-b6d9-0697d64a8c5d\",\n            \"InputAccessPoint\": \"c6de44da-1742-439a-988e-a74a29cf73a2\",\n            \"LogicalOrder\": 5,\n            \"OutputAccessPoint\": \"ce74e653-c363-4bb7-b81d-f31bb7f7c5e0\",\n            \"UnlockExceptionSchedules\": [],\n            \"UnlockSchedules\": [\n                \"00000000-0000-0000-0000-000000000006\"\n            ],\n            \"AccessPointSide\": \"None\",\n            \"AccessPointType\": \"Floor\",\n            \"AccessPointGroup\": \"765e1a30-d6e8-44ea-b6d9-0697d64a8c5d\",\n            \"AccessRules\": [\n                \"00000000-0000-0000-0000-00000000000a\"\n            ],\n            \"Cameras\": [],\n            \"Door\": \"00000000-0000-0000-0000-000000000000\",\n            \"Device\": \"00000000-0000-0000-0000-000000000000\",\n            \"Application\": \"00000000-0000-0000-0000-000000000000\",\n            \"Behaviors\": [],\n            \"EventToActions\": [],\n            \"CreatedOn\": \"2023-04-01T05:30:18Z\",\n            \"CustomFields\": [],\n            \"Description\": \"\",\n            \"EntitySubType\": 8,\n            \"EntityType\": \"AccessPoint\",\n            \"Guid\": \"0daf8f33-89ff-4a69-917e-ef43c40dc62b\",\n            \"HiddenFromUI\": false,\n            \"HierarchicalChildren\": [],\n            \"HierarchicalParents\": [\n                \"765e1a30-d6e8-44ea-b6d9-0697d64a8c5d\"\n            ],\n            \"IsDisposed\": false,\n            \"IsInMaintenance\": false,\n            \"IsMaintenanceSupported\": false,\n            \"IsOnline\": true,\n            \"LinkedMaps\": [],\n            \"LogicalId\": null,\n            \"ModifiedOn\": \"2023-04-19T10:57:06.0396961+08:00\",\n            \"MaintenanceEndTime\": null,\n            \"MaintenanceReason\": null,\n            \"Name\": \"Floor 6\",\n            \"OwnerRole\": \"00000000-0000-0000-0000-000000000000\",\n            \"OwnerRoleType\": \"None\",\n            \"RunningState\": \"Running\",\n            \"SupportedCustomEvents\": [],\n            \"SupportedEvents\": [\n                \"EntityWarning\",\n                \"FusionRecordUpdatedEvent\",\n                \"InputTroubleOpen\",\n                \"InputTroubleShort\",\n                \"FloorAccess\"\n            ],\n            \"Synchronised\": false\n        },\n        \"ObsoletedMembers\": [\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.CustomFields\",\n                \"Message\": \"Please use the CustomFieldsAsync and/or the CustomFieldService\"\n            },\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.ModifiedOn\",\n                \"Message\": \"Use an AuditTrailQuery instead.\"\n            }\n        ]\n    }\n}"
 								}
 							]
+						},
+						{
+							"name": "New Request",
+							"id": "26277955-e729627b-4148-47bd-bd55-afff073727e5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-d21f4492-c8b7-4f37-b723-9c5c9818f819"
