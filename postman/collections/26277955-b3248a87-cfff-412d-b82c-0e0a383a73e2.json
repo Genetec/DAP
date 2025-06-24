@@ -20151,7 +20151,8 @@
 											"description": "**accessPoint:** Access point Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Enable the reader associated with the door side.\nThis API is only allowed on door sides."
 							},
 							"response": []
 						}
