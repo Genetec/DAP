@@ -35256,7 +35256,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{floor}},UnlockSchedules@{{schedule}}"
+											"value": "entity={{floor}},UnlockSchedules@{{schedule}}",
+											"description": "- **floor:** Floor GUID or logical ID\n- **schedule:** Schedule GUID or logical ID"
 										}
 									]
 								}
