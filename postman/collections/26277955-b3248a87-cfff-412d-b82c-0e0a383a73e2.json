@@ -37831,6 +37831,62 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Delete map Copy",
+							"id": "26277955-576c768e-8615-46cb-b814-5e2e6c228578",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},DeleteMap()",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{parkingZone}},DeleteMap()",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete map Copy",
+							"id": "26277955-a5ded9fe-4afd-4b68-9131-f9b3d69c25d5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},DeleteMap()",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{parkingZone}},DeleteMap()",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-26c7ad20-8ffd-4efb-8080-4dcefa8ffe8e",
