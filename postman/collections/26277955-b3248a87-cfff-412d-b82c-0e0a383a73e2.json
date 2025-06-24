@@ -35728,7 +35728,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{intrusionArea}},SilenceIntrusionAlarm()"
+											"value": "entity={{intrusionArea}},SilenceIntrusionAlarm()",
+											"description": "**intrusionArea:** Intrusion area GUID or logical ID"
 										}
 									]
 								}
@@ -35755,7 +35756,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{intrusionArea}},TriggerIntrusionAlarm()"
+											"value": "entity={{intrusionArea}},TriggerIntrusionAlarm()",
+											"description": "**intrusionArea:** Intrusion area GUID or logical ID"
 										}
 									]
 								}
