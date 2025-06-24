@@ -21812,7 +21812,7 @@
 									"script": {
 										"id": "a6ccc5e7-90a7-4e76-b64e-f514775409f4",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomWord}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -23075,7 +23075,7 @@
 									"script": {
 										"id": "d6948d4a-934b-4bfd-897d-8bb95c04ea72",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomWord}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -24362,7 +24362,7 @@
 									"script": {
 										"id": "632ee069-6d6d-4625-bb6d-c740956ff931",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomCity}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -25704,7 +25704,7 @@
 									"script": {
 										"id": "208ac4dd-a56e-47c5-9848-edbd1f9ede0e",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomCity}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -27833,17 +27833,12 @@
 								{
 									"listen": "prerequest",
 									"script": {
+										"id": "3a29ceb0-c10c-454f-bf14-1cd4c6c7a484",
 										"exec": [
-											"let firstName = pm.variables.replaceIn(\"{{$randomFirstName}}\")\r",
-											"let lastName = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
-											"pm.variables.set(\"name\", `${firstName} ${lastName}`);\r",
-											"pm.variables.set(\"firstName\", firstName);\r",
-											"pm.variables.set(\"lastName\", lastName);\r",
-											"pm.variables.set(\"email\", \"{{$randomEmail}}\");\r",
-											"pm.variables.set(\"mobilePhone\", \"{{$randomPhoneNumber}}\");"
+											""
 										],
 										"type": "text/javascript",
-										"id": "3a29ceb0-c10c-454f-bf14-1cd4c6c7a484"
+										"packages": {}
 									}
 								}
 							],
@@ -28888,7 +28883,7 @@
 									"script": {
 										"id": "d5533dc6-0992-4515-8bd1-4416a56ab1c2",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomCity}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -40680,9 +40675,7 @@
 									"script": {
 										"id": "91dc61fe-0ea7-4be2-8460-3021b39063f2",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomNoun}}\");\r",
-											"pm.variables.set(\"ipAddress\", \"{{$randomIP}}\");\r",
-											"pm.variables.set(\"extentionType\", \"SMC\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -41032,12 +41025,7 @@
 									"script": {
 										"id": "135bdfa3-d411-45a1-a881-6c64775285d2",
 										"exec": [
-											"let firstName = pm.variables.replaceIn(\"{{$randomFirstName}}\")\r",
-											"let lastName = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
-											"pm.variables.set(\"name\", `${firstName} ${lastName}`);\r",
-											"pm.variables.set(\"firstName\", firstName);\r",
-											"pm.variables.set(\"lastName\", lastName);\r",
-											"pm.variables.set(\"email\", \"{{$randomEmail}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
