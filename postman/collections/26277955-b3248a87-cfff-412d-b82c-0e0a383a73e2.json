@@ -20035,7 +20035,8 @@
 											"description": "- **accessPoint:** Access point Guid or logical ID\n- **cardholderGroup:** Cardholder group Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Remove a cardholder group from an access point."
 							},
 							"response": []
 						},
