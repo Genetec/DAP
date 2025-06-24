@@ -20126,7 +20126,7 @@
 							"response": []
 						},
 						{
-							"name": "Disable reader Copy",
+							"name": "Enable reader",
 							"id": "26277955-de71a960-89eb-4a64-8c96-be84af6dae5a",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -20135,7 +20135,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{accessPoint}},DisableReader()",
+									"raw": "{{url}}/entity?q=entity={{accessPoint}},EnableReader()",
 									"host": [
 										"{{url}}"
 									],
@@ -20145,7 +20145,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{accessPoint}},DisableReader()"
+											"value": "entity={{accessPoint}},EnableReader()"
 										}
 									]
 								}
