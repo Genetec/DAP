@@ -31535,7 +31535,7 @@
 									"script": {
 										"id": "e84df58c-b1cc-4333-811d-b4dd78ca21c3",
 										"exec": [
-											"pm.variables.set(\"name\", \"{{$randomFullName}}\");"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -31545,8 +31545,11 @@
 									"listen": "test",
 									"script": {
 										"id": "5e1e65a8-69d9-48bb-8d4e-53f86c92c12c",
-										"exec": [],
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
