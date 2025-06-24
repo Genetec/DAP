@@ -37833,7 +37833,7 @@
 							"response": []
 						},
 						{
-							"name": "Delete map Copy",
+							"name": "Add parking zone rule",
 							"id": "26277955-576c768e-8615-46cb-b814-5e2e6c228578",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
