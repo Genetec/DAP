@@ -20213,7 +20213,7 @@
 							"response": []
 						},
 						{
-							"name": "Remove access rule Copy",
+							"name": "Remove all access rules",
 							"id": "26277955-295443e7-901e-4483-9b4e-f4b9ef5b90bd",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
