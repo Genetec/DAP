@@ -35592,7 +35592,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{intrusionArea}},Disarm()"
+											"value": "entity={{intrusionArea}},Disarm()",
+											"description": "**intrusionArea:** Intrusion area GUID or logical ID"
 										}
 									]
 								},
