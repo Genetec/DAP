@@ -37205,7 +37205,23 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity/:monitor",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity",
+										":monitor"
+									],
+									"variable": [
+										{
+											"key": "monitor",
+											"value": ""
+										}
+									]
+								}
 							},
 							"response": [
 								{
