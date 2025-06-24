@@ -37947,16 +37947,16 @@
 							"response": []
 						},
 						{
-							"name": "Get LPR camera information Copy",
+							"name": "Get occupancy",
 							"id": "26277955-2362f7d8-1f98-4b08-b7bd-61094cbb8369",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{parkingZone}},GetLprCameraInformation({{device}})",
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},Occupancy",
 									"host": [
 										"{{url}}"
 									],
@@ -37966,8 +37966,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{parkingZone}},GetLprCameraInformation({{device}})",
-											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **device:** Device GUID or logical ID"
+											"value": "entity={{parkingZone}},Occupancy",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID"
 										}
 									]
 								},
