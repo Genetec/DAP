@@ -19890,7 +19890,8 @@
 											"description": "- **accessPoint:** Access point Guid or logical ID\n- **camera:** Camera Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Attach a camera to an access point."
 							},
 							"response": []
 						},
