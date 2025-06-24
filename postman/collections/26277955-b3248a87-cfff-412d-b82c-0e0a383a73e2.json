@@ -35316,6 +35316,87 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Add unlock schedule Copy",
+							"id": "26277955-14e7c3a7-8dcd-4b3e-9559-aba62dda0f82",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{floor}},UnlockSchedules@{{schedule}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{floor}},UnlockSchedules@{{schedule}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove unlock schedule Copy",
+							"id": "26277955-bfe96028-c9e1-453a-9b91-b8601407b736",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{floor}},UnlockSchedules-{{schedule}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{floor}},UnlockSchedules-{{schedule}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove all unlock schedules Copy",
+							"id": "26277955-7e7daf2a-c315-469e-99dc-a557c7744e38",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{floor}},UnlockSchedules*",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{floor}},UnlockSchedules*"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-d21f4492-c8b7-4f37-b723-9c5c9818f819"
