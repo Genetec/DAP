@@ -20122,7 +20122,8 @@
 											"description": "**accessPoint:** Access point Guid or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Disables the reader associated with the Door Side.\nThis API is only allowed on door sides."
 							},
 							"response": []
 						},
