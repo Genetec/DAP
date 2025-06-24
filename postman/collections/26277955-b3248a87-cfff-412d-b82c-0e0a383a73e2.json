@@ -37918,7 +37918,7 @@
 							"response": []
 						},
 						{
-							"name": "Remove LPR camera Copy",
+							"name": "Add LPR camera",
 							"id": "26277955-d08efe29-d86c-4b09-8956-8147204f967a",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -37927,7 +37927,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{parkingZone}},RemoveLprCamera({{accessPoint}})",
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},AddLprCamera({{accessPoint}})",
 									"host": [
 										"{{url}}"
 									],
@@ -37937,7 +37937,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{parkingZone}},RemoveLprCamera({{accessPoint}})",
+											"value": "entity={{parkingZone}},AddLprCamera({{accessPoint}})",
 											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **accessPoint:** Access point GUID or logical ID"
 										}
 									]
