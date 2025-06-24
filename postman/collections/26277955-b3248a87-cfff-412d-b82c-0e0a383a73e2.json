@@ -37625,7 +37625,7 @@
 							]
 						},
 						{
-							"name": "Get permits",
+							"name": "Query permits",
 							"id": "26277955-94a9ba3a-7947-4643-bd94-3935f564c826",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -37654,7 +37654,7 @@
 							"response": [
 								{
 									"id": "26277955-78709101-f02b-45a1-857d-23ff157e363d",
-									"name": "Get permits",
+									"name": "Query permits",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
