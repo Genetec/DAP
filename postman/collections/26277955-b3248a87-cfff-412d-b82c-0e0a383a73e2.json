@@ -35340,7 +35340,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{floor}},UnlockExceptionSchedules@{{schedule}}"
+											"value": "entity={{floor}},UnlockExceptionSchedules@{{schedule}}",
+											"description": "- **floor:** Floor GUID or logical ID\n- **schedule:** Schedule GUID or logical ID"
 										}
 									]
 								}
@@ -35367,7 +35368,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{floor}},UnlockExceptionSchedules-{{schedule}}"
+											"value": "entity={{floor}},UnlockExceptionSchedules-{{schedule}}",
+											"description": "- **floor:** Floor GUID or logical ID\n- **schedule:** Schedule GUID or logical ID"
 										}
 									]
 								}
@@ -35394,7 +35396,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{floor}},UnlockExceptionSchedules*"
+											"value": "entity={{floor}},UnlockExceptionSchedules*",
+											"description": "- **floor:** Floor GUID or logical ID\n- **schedule:** Schedule GUID or logical ID"
 										}
 									]
 								}
