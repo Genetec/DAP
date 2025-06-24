@@ -20155,6 +20155,18 @@
 								"description": "Enable the reader associated with the door side.\nThis API is only allowed on access points of type \"CardReader\"."
 							},
 							"response": []
+						},
+						{
+							"name": "New Request",
+							"id": "26277955-b05f7580-1fb5-4b50-bbed-94fa0013f03d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-b319ee4d-2205-4efe-8e81-af17e0dbd324",
