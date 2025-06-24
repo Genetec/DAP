@@ -37938,7 +37938,7 @@
 										{
 											"key": "q",
 											"value": "entity={{parkingZone}},GetLprCameraInformation({{device}})",
-											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **device:** Access point GUID or logical ID"
+											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **device:** Device GUID or logical ID"
 										}
 									]
 								},
