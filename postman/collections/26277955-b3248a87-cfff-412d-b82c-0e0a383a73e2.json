@@ -38073,84 +38073,6 @@
 							]
 						},
 						{
-							"name": "Get permit",
-							"id": "26277955-a38d141e-3a9d-41cd-bb80-9b9b97053232",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{url}}/entity/:permit",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"entity",
-										":permit"
-									],
-									"variable": [
-										{
-											"key": "permit",
-											"value": "",
-											"description": "Permit Guid or logical ID"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"id": "26277955-df2cef78-8b30-4d11-8f6e-f4a4a406f3e1",
-									"name": "Get permit",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{url}}/entity/:permit",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"entity",
-												":permit"
-											],
-											"variable": [
-												{
-													"key": "permit",
-													"value": ""
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Length",
-											"value": "2194"
-										},
-										{
-											"key": "Content-Type",
-											"value": "text/json"
-										},
-										{
-											"key": "Date",
-											"value": "Sun, 12 Jan 2025 04:56:50 GMT"
-										},
-										{
-											"key": "Server",
-											"value": "Kestrel"
-										}
-									],
-									"cookie": [],
-									"responseTime": null,
-									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"EnableTextEditor\": true,\n            \"AttributeDelimiter\": \";\",\n            \"Attributes\": [\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"Category\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PlateState\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PlateNumber\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": \"yyyy-MM-dd\",\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"EffectiveDate\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": \"yyyy-MM-dd\",\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"ExpiryDate\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PermitID\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                }\n            ],\n            \"ContentFilePath\": \"\",\n            \"Polygons\": [],\n            \"Application\": \"00000000-0000-0000-0000-000000000000\",\n            \"Behaviors\": [],\n            \"EventToActions\": [],\n            \"IsNewlyCreated\": false,\n            \"CreatedOn\": \"2025-01-12T04:56:25Z\",\n            \"EffectiveCreationTime\": \"2025-01-12T04:56:25Z\",\n            \"IsOwnedByPlugin\": false,\n            \"CustomFields\": [],\n            \"Description\": \"\",\n            \"EntitySubType\": 0,\n            \"EntityType\": \"Permit\",\n            \"Guid\": \"dcbe8a91-3ef2-4eee-b6c9-e7f0c4dd9003\",\n            \"HiddenFromUI\": false,\n            \"HierarchicalChildren\": [],\n            \"HierarchicalParents\": [],\n            \"IsDisposed\": false,\n            \"IsInMaintenance\": false,\n            \"IsMaintenanceSupported\": false,\n            \"IsOnline\": true,\n            \"LinkedMaps\": [],\n            \"LogicalId\": null,\n            \"ModifiedOn\": \"2025-01-12T12:56:50.5626598+08:00\",\n            \"MaintenanceEndTime\": null,\n            \"MaintenanceReason\": null,\n            \"Name\": \"Vonborough\",\n            \"OwnerRole\": \"00000000-0000-0000-0000-000000000000\",\n            \"OwnerRoleType\": \"None\",\n            \"RunningState\": \"Running\",\n            \"SupportedCustomEvents\": [],\n            \"SupportedEvents\": [\n                \"EntityWarning\",\n                \"FusionRecordUpdatedEvent\",\n                \"LprHit\"\n            ],\n            \"Synchronised\": false\n        },\n        \"ObsoletedMembers\": [\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.CustomFields\",\n                \"Message\": \"Please use the CustomFieldsAsync and/or the CustomFieldService\"\n            },\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.ModifiedOn\",\n                \"Message\": \"Use an AuditTrailQuery instead.\"\n            }\n        ]\n    }\n}"
-								}
-							]
-						},
-						{
 							"name": "Query permits",
 							"id": "26277955-94a9ba3a-7947-4643-bd94-3935f564c826",
 							"protocolProfileBehavior": {
@@ -38225,6 +38147,84 @@
 									"cookie": [],
 									"responseTime": null,
 									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": [\n            {\n                \"Guid\": \"dcbe8a91-3ef2-4eee-b6c9-e7f0c4dd9003\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get permit",
+							"id": "26277955-a38d141e-3a9d-41cd-bb80-9b9b97053232",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity/:permit",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity",
+										":permit"
+									],
+									"variable": [
+										{
+											"key": "permit",
+											"value": "",
+											"description": "Permit Guid or logical ID"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "26277955-df2cef78-8b30-4d11-8f6e-f4a4a406f3e1",
+									"name": "Get permit",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/entity/:permit",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"entity",
+												":permit"
+											],
+											"variable": [
+												{
+													"key": "permit",
+													"value": ""
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Length",
+											"value": "2194"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/json"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 12 Jan 2025 04:56:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"EnableTextEditor\": true,\n            \"AttributeDelimiter\": \";\",\n            \"Attributes\": [\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"Category\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PlateState\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": true,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PlateNumber\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": \"yyyy-MM-dd\",\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"EffectiveDate\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": \"yyyy-MM-dd\",\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"ExpiryDate\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                },\n                {\n                    \"DateTimeFormat\": null,\n                    \"DefaultValue\": null,\n                    \"IsMandatory\": false,\n                    \"FieldLength\": 0,\n                    \"IsFixedLength\": false,\n                    \"Name\": \"PermitID\",\n                    \"StartIndex\": 0,\n                    \"Translations\": []\n                }\n            ],\n            \"ContentFilePath\": \"\",\n            \"Polygons\": [],\n            \"Application\": \"00000000-0000-0000-0000-000000000000\",\n            \"Behaviors\": [],\n            \"EventToActions\": [],\n            \"IsNewlyCreated\": false,\n            \"CreatedOn\": \"2025-01-12T04:56:25Z\",\n            \"EffectiveCreationTime\": \"2025-01-12T04:56:25Z\",\n            \"IsOwnedByPlugin\": false,\n            \"CustomFields\": [],\n            \"Description\": \"\",\n            \"EntitySubType\": 0,\n            \"EntityType\": \"Permit\",\n            \"Guid\": \"dcbe8a91-3ef2-4eee-b6c9-e7f0c4dd9003\",\n            \"HiddenFromUI\": false,\n            \"HierarchicalChildren\": [],\n            \"HierarchicalParents\": [],\n            \"IsDisposed\": false,\n            \"IsInMaintenance\": false,\n            \"IsMaintenanceSupported\": false,\n            \"IsOnline\": true,\n            \"LinkedMaps\": [],\n            \"LogicalId\": null,\n            \"ModifiedOn\": \"2025-01-12T12:56:50.5626598+08:00\",\n            \"MaintenanceEndTime\": null,\n            \"MaintenanceReason\": null,\n            \"Name\": \"Vonborough\",\n            \"OwnerRole\": \"00000000-0000-0000-0000-000000000000\",\n            \"OwnerRoleType\": \"None\",\n            \"RunningState\": \"Running\",\n            \"SupportedCustomEvents\": [],\n            \"SupportedEvents\": [\n                \"EntityWarning\",\n                \"FusionRecordUpdatedEvent\",\n                \"LprHit\"\n            ],\n            \"Synchronised\": false\n        },\n        \"ObsoletedMembers\": [\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.CustomFields\",\n                \"Message\": \"Please use the CustomFieldsAsync and/or the CustomFieldService\"\n            },\n            {\n                \"Member\": \"Genetec.Sdk.Entities.Entity.ModifiedOn\",\n                \"Message\": \"Use an AuditTrailQuery instead.\"\n            }\n        ]\n    }\n}"
 								}
 							]
 						}
