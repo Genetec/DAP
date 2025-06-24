@@ -20065,7 +20065,7 @@
 										}
 									]
 								},
-								"description": "Assign a device to an access point. The device can be an input, output, or reader."
+								"description": "Assign a device to an access point.\nThe device can be an input, output, or reader."
 							},
 							"response": []
 						},
