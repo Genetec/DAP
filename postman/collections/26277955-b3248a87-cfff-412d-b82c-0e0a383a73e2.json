@@ -37218,7 +37218,8 @@
 									"variable": [
 										{
 											"key": "monitor",
-											"value": ""
+											"value": "",
+											"description": "Monitor GUID or logical ID"
 										}
 									]
 								}
@@ -37474,20 +37475,19 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity/:permit",
+									"raw": "{{url}}/entity/:parkingZone",
 									"host": [
 										"{{url}}"
 									],
 									"path": [
 										"entity",
-										":permit"
+										":parkingZone"
 									],
 									"variable": [
 										{
-											"id": "b7bccd24-4ba9-4ab8-ab54-9f30091e08aa",
-											"key": "permit",
+											"key": "parkingZone",
 											"value": "",
-											"description": "The GUID or logical ID of the permit"
+											"description": "Parking zone Guid or logical ID"
 										}
 									]
 								}
