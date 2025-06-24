@@ -38176,7 +38176,7 @@
 							]
 						},
 						{
-							"name": "Get partitions",
+							"name": "Query partitions",
 							"id": "26277955-ce8a45ff-5e86-4e4d-8276-03c352f27e8d",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
