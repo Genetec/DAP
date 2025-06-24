@@ -37861,7 +37861,7 @@
 							"response": []
 						},
 						{
-							"name": "Delete map Copy",
+							"name": "Remove parking zone rule",
 							"id": "26277955-a5ded9fe-4afd-4b68-9131-f9b3d69c25d5",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -37870,7 +37870,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{parkingZone}},AddParkingZoneRule({{rule}})",
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},RemoveParkingZoneRule({{rule}})",
 									"host": [
 										"{{url}}"
 									],
@@ -37880,7 +37880,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{parkingZone}},AddParkingZoneRule({{rule}})",
+											"value": "entity={{parkingZone}},RemoveParkingZoneRule({{rule}})",
 											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **rule:** Hotlist rule GUID or logical ID"
 										}
 									]
