@@ -20211,6 +20211,34 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Remove access rule Copy",
+							"id": "26277955-295443e7-901e-4483-9b4e-f4b9ef5b90bd",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{accessPoint}},AccessRules@{{accessRule}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{accessPoint}},AccessRules@{{accessRule}}",
+											"description": "- **accessPoint:** Access point Guid or logical ID\n- **accessRule:** Access rule Guid or logical ID"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-b319ee4d-2205-4efe-8e81-af17e0dbd324",
