@@ -39271,7 +39271,7 @@
 							]
 						},
 						{
-							"name": "Get schedules",
+							"name": "Query schedules",
 							"id": "26277955-2a4b4b91-6d12-4a96-b4a5-ef7d4414d470",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -39591,7 +39591,7 @@
 							"response": [
 								{
 									"id": "26277955-d1c5401c-a4bf-40f9-94d3-f6688ddfc5dd",
-									"name": "Get scheduled tasks",
+									"name": "Query scheduled tasks",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
