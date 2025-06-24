@@ -32602,7 +32602,7 @@
 							]
 						},
 						{
-							"name": "Get custom entities",
+							"name": "Query custom entities",
 							"id": "26277955-8c84ca75-07ce-42e0-a966-af833d80d6d3",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
