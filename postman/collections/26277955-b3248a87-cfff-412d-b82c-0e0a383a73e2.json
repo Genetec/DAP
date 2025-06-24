@@ -37887,6 +37887,34 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Remove parking zone rule Copy",
+							"id": "26277955-4319d003-2f0d-4ebf-9649-fdd38257b406",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},RemoveParkingZoneRule({{rule}})",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{parkingZone}},RemoveParkingZoneRule({{rule}})",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **rule:** Hotlist rule GUID or logical ID"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-26c7ad20-8ffd-4efb-8080-4dcefa8ffe8e",
