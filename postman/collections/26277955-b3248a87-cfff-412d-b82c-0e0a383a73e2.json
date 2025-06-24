@@ -21981,7 +21981,7 @@
 							]
 						},
 						{
-							"name": "Get alarms",
+							"name": "Query alarms",
 							"id": "26277955-eea0708e-b22d-4e8b-9b0c-db23d5a6a0f7",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -22011,7 +22011,7 @@
 							"response": [
 								{
 									"id": "26277955-28db4050-29b2-4231-bf34-f29c9671c644",
-									"name": "Get alarms",
+									"name": "Query  alarms",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
