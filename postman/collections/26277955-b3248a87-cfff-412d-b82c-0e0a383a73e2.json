@@ -35701,7 +35701,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{intrusionArea}},CancelPostponedArming()"
+											"value": "entity={{intrusionArea}},CancelPostponedArming()",
+											"description": "**intrusionArea:** Intrusion area GUID or logical ID"
 										}
 									]
 								}
