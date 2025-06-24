@@ -40939,7 +40939,7 @@
 							]
 						},
 						{
-							"name": "Get users",
+							"name": "Query users",
 							"id": "26277955-afab8931-4d41-412c-918d-8222a8117ce2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -40968,7 +40968,7 @@
 							"response": [
 								{
 									"id": "26277955-04979d28-031e-42c6-9d5b-ee05fa8ad418",
-									"name": "Get users",
+									"name": "Query users",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -41644,7 +41644,7 @@
 							"response": [
 								{
 									"id": "26277955-3f7feb4d-660c-4499-ba9a-e0c94fbc7e82",
-									"name": "Get user groups",
+									"name": "Query user groups",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
