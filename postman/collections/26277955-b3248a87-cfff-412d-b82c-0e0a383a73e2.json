@@ -40820,7 +40820,7 @@
 							"response": []
 						},
 						{
-							"name": "Get units",
+							"name": "Query units",
 							"id": "26277955-c06fc8dd-9d29-4f8d-ac8a-bedc24a54eee",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
