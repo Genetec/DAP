@@ -37898,7 +37898,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{parkingZone}},RemoveParkingZoneRule({{rule}})",
+									"raw": "{{url}}/entity?q=entity={{parkingZone}},RemoveLprCamera({{accessPoint}})",
 									"host": [
 										"{{url}}"
 									],
@@ -37908,8 +37908,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{parkingZone}},RemoveParkingZoneRule({{rule}})",
-											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **rule:** Hotlist rule GUID or logical ID"
+											"value": "entity={{parkingZone}},RemoveLprCamera({{accessPoint}})",
+											"description": "- **parkingZone:** Parking zone GUID or logical ID\n- **accessPoint:** Access point GUID or logical ID"
 										}
 									]
 								}
