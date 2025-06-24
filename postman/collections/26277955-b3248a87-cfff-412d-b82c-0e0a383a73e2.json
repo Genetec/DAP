@@ -37805,7 +37805,7 @@
 							"response": []
 						},
 						{
-							"name": "New Request",
+							"name": "Delete map",
 							"id": "26277955-674bd1e4-c6e7-4318-acbb-494beb6bc683",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
