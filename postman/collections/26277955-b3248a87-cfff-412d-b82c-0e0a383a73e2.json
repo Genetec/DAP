@@ -40074,7 +40074,7 @@
 							]
 						},
 						{
-							"name": "Get servers",
+							"name": "Query servers",
 							"id": "26277955-8b652d7a-493a-418f-b831-4014d12199a6",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -40498,7 +40498,7 @@
 							"id": "26277955-7ad9ed94-9ead-43f2-be1e-33996385a21e"
 						},
 						{
-							"name": "Get streams",
+							"name": "Query streams",
 							"id": "26277955-db18affa-20dc-42a9-a076-b310a9f4a3c5",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -40528,7 +40528,7 @@
 							"response": [
 								{
 									"id": "26277955-9c4721d3-8975-49d7-9d55-e8663b2d4a48",
-									"name": "Get streams",
+									"name": "Query streams",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
