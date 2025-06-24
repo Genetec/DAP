@@ -44433,8 +44433,7 @@
 							"script": {
 								"id": "c41fe70e-8ee6-4072-b584-bf7ce3a29eb7",
 								"exec": [
-									"pm.variables.set(\"entityType\", \"Area\");\r",
-									"pm.variables.set(\"name\", \"{{$randomCity}}\");"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
