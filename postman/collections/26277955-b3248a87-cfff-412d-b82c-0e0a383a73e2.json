@@ -28590,7 +28590,7 @@
 							"response": [
 								{
 									"id": "26277955-9669de1c-8a89-4a94-9bbc-5167ebd6d85f",
-									"name": "Get cardholder groups",
+									"name": "Query cardholder groups",
 									"originalRequest": {
 										"method": "GET",
 										"header": [
