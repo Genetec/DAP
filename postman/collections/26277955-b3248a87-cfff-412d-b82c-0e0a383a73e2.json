@@ -25819,7 +25819,7 @@
 							"response": []
 						},
 						{
-							"name": "New Request",
+							"name": "Get asset",
 							"id": "26277955-c656ee99-e0c5-4e0a-85ec-421751447157",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
