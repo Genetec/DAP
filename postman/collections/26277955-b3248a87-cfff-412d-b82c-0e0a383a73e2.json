@@ -20222,7 +20222,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{accessPoint}},AccessRules@{{accessRule}}",
+									"raw": "{{url}}/entity?q=entity={{accessPoint}},AccessRules*",
 									"host": [
 										"{{url}}"
 									],
@@ -20232,8 +20232,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{accessPoint}},AccessRules@{{accessRule}}",
-											"description": "- **accessPoint:** Access point Guid or logical ID\n- **accessRule:** Access rule Guid or logical ID"
+											"value": "entity={{accessPoint}},AccessRules*",
+											"description": "- **accessPoint:** Access point Guid or logical ID"
 										}
 									]
 								}
