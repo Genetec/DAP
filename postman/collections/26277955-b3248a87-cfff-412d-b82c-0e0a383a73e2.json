@@ -32631,7 +32631,7 @@
 							"response": [
 								{
 									"id": "26277955-40904f7f-1d80-4136-9075-29e70dee7a60",
-									"name": "Get custom entities",
+									"name": "Query custom entities",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
