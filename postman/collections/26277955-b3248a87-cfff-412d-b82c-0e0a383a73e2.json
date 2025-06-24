@@ -42127,7 +42127,7 @@
 							]
 						},
 						{
-							"name": "Get user tasks",
+							"name": "Query user tasks",
 							"id": "26277955-72afcfb8-9437-428c-91bb-d89284e3b634",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -42216,7 +42216,7 @@
 					"name": "Video units",
 					"item": [
 						{
-							"name": "Get video units",
+							"name": "Query video units",
 							"id": "26277955-f21ce99e-9e87-46ba-ab71-68739ec34cee",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
