@@ -38568,7 +38568,7 @@
 							]
 						},
 						{
-							"name": "Get networks",
+							"name": "Query networks",
 							"id": "26277955-3c19ed67-3878-4a93-bdb5-c295875ccaab",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -38598,7 +38598,7 @@
 							"response": [
 								{
 									"id": "26277955-03ea996a-379f-49c7-a8aa-76245473f2e0",
-									"name": "Get networks",
+									"name": "Query networks",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
