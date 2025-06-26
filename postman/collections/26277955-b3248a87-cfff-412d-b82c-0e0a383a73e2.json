@@ -27981,7 +27981,7 @@
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/entity?q=entity=NewEntity(Cardholder),Name={{$randomFullName}},FirstName={{$randomFirstName}},LastName={{$randomLastName}},Guid",
+											"raw": "{{url}}/entity?q=entity=NewEntity(Cardholder),Name={{name}},FirstName={{firstName}},LastName={{lastName}},EmailAddress={{email}},MobilePhoneNumber={{mobilePhone}},Guid",
 											"host": [
 												"{{url}}"
 											],
@@ -27991,7 +27991,7 @@
 											"query": [
 												{
 													"key": "q",
-													"value": "entity=NewEntity(Cardholder),Name={{$randomFullName}},FirstName={{$randomFirstName}},LastName={{$randomLastName}},Guid"
+													"value": "entity=NewEntity(Cardholder),Name={{name}},FirstName={{firstName}},LastName={{lastName}},EmailAddress={{email}},MobilePhoneNumber={{mobilePhone}},Guid"
 												}
 											]
 										}
