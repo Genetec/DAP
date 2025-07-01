@@ -22996,6 +22996,18 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Set alarm color",
+							"id": "26277955-66ad9a60-39a3-472e-9f48-829919d2a61f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-9075befa-257c-43e1-a12b-a27cdb6232f4",
