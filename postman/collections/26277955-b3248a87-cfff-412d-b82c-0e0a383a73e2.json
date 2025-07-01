@@ -23105,7 +23105,8 @@
 											"description": "**name:** The name of the analog monitor"
 										}
 									]
-								}
+								},
+								"description": "Create an analog monitor."
 							},
 							"response": [
 								{
