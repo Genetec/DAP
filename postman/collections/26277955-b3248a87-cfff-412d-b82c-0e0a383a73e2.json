@@ -23022,7 +23022,7 @@
 										}
 									]
 								},
-								"description": "Set the alarm color.\nFormat: A;R;G;B, where:\nA: Alpha (transparency)\nR: Red\nG: Green\nB: Blue\nExample: Color=255;128;0;0 (opaque red)"
+								"description": "Set the alarm color.\n\nFormat: A;R;G;B, where:\n- A: Alpha (transparency)\n- R: Red\n- G: Green\n- B: Blue\n\nExample: Color=255;128;0;0 (opaque red)"
 							},
 							"response": []
 						}
