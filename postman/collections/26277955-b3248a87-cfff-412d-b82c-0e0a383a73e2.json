@@ -26364,7 +26364,7 @@
 										}
 									]
 								},
-								"description": "Get all camera identifiers."
+								"description": "Retrieve the list of cameras using pagination.\nPage numbering starts at 1."
 							},
 							"response": [
 								{
