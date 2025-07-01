@@ -29247,7 +29247,8 @@
 											"description": "- **cashRegister:** Cash register GUID or logical ID\n- **camera:** Camera GUID or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Remove a camera from a cash register."
 							},
 							"response": []
 						}
