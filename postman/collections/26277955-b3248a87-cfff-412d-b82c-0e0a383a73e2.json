@@ -25736,7 +25736,8 @@
 											"description": "**name:** The name of the asset"
 										}
 									]
-								}
+								},
+								"description": "Create an asset."
 							},
 							"response": [
 								{
