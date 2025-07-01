@@ -44744,8 +44744,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "EntityTypes@{{type}},Page={{page}},PageSize={{pageSize}}",
-											"description": "- **type:** The type of entity to fetch\n- **page:** (optional) The page number to retrieve in the paginated results.\n- **pageSize:** (optional) The number of results to include per page."
+											"value": "EntityTypes@{{type}},Page={{page}},PageSize={{pageSize}}"
 										}
 									]
 								}
