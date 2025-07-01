@@ -23081,7 +23081,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{alarm}},AlarmColor={{color}}",
+									"raw": "{{url}}/entity?q=entity={{alarm}},AlarmProcedureUrl={{url}}",
 									"host": [
 										"{{url}}"
 									],
@@ -23091,8 +23091,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{alarm}},AlarmColor={{color}}",
-											"description": "**alarm:** Alarm GUID or logical ID\n**color:** Color"
+											"value": "entity={{alarm}},AlarmProcedureUrl={{url}}",
+											"description": "**alarm:** Alarm GUID or logical ID\n**url:** URL to display in the tile"
 										}
 									]
 								},
