@@ -27275,7 +27275,7 @@
 										}
 									]
 								},
-								"description": "Get all camera sequences."
+								"description": "Retrieve the list of camera sequences using pagination.\nPage numbering starts at 1."
 							},
 							"response": [
 								{
