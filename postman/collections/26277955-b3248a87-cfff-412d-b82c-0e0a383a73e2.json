@@ -28613,7 +28613,8 @@
 											"description": "- **name:** Full name of the cardholder\n- **email:** Email address associated with the cardholder"
 										}
 									]
-								}
+								},
+								"description": "Create a cardholder group."
 							},
 							"response": [
 								{
@@ -29025,7 +29026,8 @@
 											"description": "**name:** The name of the cash register"
 										}
 									]
-								}
+								},
+								"description": "Create a cash register."
 							},
 							"response": []
 						},
