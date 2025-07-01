@@ -23098,52 +23098,7 @@
 								},
 								"description": "Set the alarm color.\nThe following alarm colors are supported:\n\n- Black\n- Gray\n- White\n- Dark Blue\n- Blue\n- Cyan\n- Dark Green\n- Green\n- Red\n- Dark Red\n- Orange\n- Yellow\n- Indigo"
 							},
-							"response": [
-								{
-									"id": "26277955-fbcb9a2f-8374-4349-ae39-a4a4f7774fbc",
-									"name": "Set alarm color",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"url": {
-											"raw": "{{url}}/entity?q=entity={{alarm}},AlarmColor={{color}}",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"entity"
-											],
-											"query": [
-												{
-													"key": "q",
-													"value": "entity={{alarm}},AlarmColor={{color}}",
-													"description": "**alarm:** Alarm GUID or logical ID\n**color:** Color"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Transfer-Encoding",
-											"value": "chunked"
-										},
-										{
-											"key": "Content-Type",
-											"value": "text/json"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 01 Jul 2025 10:38:48 GMT"
-										}
-									],
-									"cookie": [],
-									"responseTime": null,
-									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\"\n    }\n}"
-								}
-							]
+							"response": []
 						}
 					],
 					"id": "26277955-9075befa-257c-43e1-a12b-a27cdb6232f4",
