@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "26277955-b3248a87-cfff-412d-b82c-0e0a383a73e2",
 		"name": "Security Center Web SDK",
-		"description": "The Security Center Web SDK is an API that enables interaction with Genetec Security Center.  \nFor a comprehensive developer guide, please visit: [https://github.com/Genetec/DAP/wiki/Web-SDK-Developer-guide](https://github.com/Genetec/DAP/wiki/Web-SDK-Developer-guide).",
+		"description": "The Security Center Web SDK is an API that enables interaction with Genetec Security Center. \nThis API is a custom HTTP-based API that follows some REST principles, but it is not a fully REST-compliant API.\nFor a comprehensive developer guide, please visit: [https://github.com/Genetec/DAP/wiki/Web-SDK-Developer-guide](https://github.com/Genetec/DAP/wiki/Web-SDK-Developer-guide).",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
