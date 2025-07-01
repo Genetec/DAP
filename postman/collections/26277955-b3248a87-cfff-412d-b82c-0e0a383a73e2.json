@@ -36453,7 +36453,7 @@
 										}
 									]
 								},
-								"description": "Get all macros."
+								"description": "Retrieves macro GUIDs using pagination.\nUse the page parameter to specify the page number (starting at 1), and pageSize to define how many results to return per page."
 							},
 							"response": [
 								{
