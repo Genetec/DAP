@@ -27975,7 +27975,8 @@
 											"value": "entity=NewEntity(Cardholder),Name={{name}},FirstName={{firstName}},LastName={{lastName}},EmailAddress={{email}},MobilePhoneNumber={{mobilePhone}},Guid"
 										}
 									]
-								}
+								},
+								"description": "Create a cardholder."
 							},
 							"response": [
 								{
