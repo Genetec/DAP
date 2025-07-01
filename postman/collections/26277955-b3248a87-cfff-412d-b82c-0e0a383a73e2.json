@@ -22007,7 +22007,7 @@
 										}
 									]
 								},
-								"description": "Get alarms"
+								"description": "Retrieve the alarm list using pagination.\nPage numbering starts at 1."
 							},
 							"response": [
 								{
