@@ -23100,7 +23100,7 @@
 							"response": [
 								{
 									"id": "26277955-bd24ffe4-21e4-4e86-a71b-69cfc6950aa3",
-									"name": "Set alarm color Copy",
+									"name": "Set alarm procedure URL",
 									"originalRequest": {
 										"method": "POST",
 										"header": [],
