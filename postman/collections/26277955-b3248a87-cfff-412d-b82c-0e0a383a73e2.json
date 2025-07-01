@@ -44696,7 +44696,38 @@
 						},
 						"description": "Retrieves entity GUIDs using pagination.\nUse the page parameter to specify the page number (starting at 1), and pageSize to define how many results to return per page."
 					},
-					"response": []
+					"response": [
+						{
+							"id": "26277955-c0b888b4-9310-4c10-929b-97c499137e55",
+							"name": "Query entities",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/report/EntityConfiguration?q=EntityTypes@{{type}},Page={{page}},PageSize={{pageSize}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"report",
+										"EntityConfiguration"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "EntityTypes@{{type}},Page={{page}},PageSize={{pageSize}}",
+											"description": "- **type:** The type of entity to fetch\n- **page:** (optional) The page number to retrieve in the paginated results.\n- **pageSize:** (optional) The number of results to include per page."
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"responseTime": null,
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Check entity existence",
