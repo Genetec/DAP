@@ -42342,7 +42342,8 @@
 											"description": "- **name:** The name of the cardholder group\n- **email:** The email address of the cardholder group"
 										}
 									]
-								}
+								},
+								"description": "Create a user group."
 							},
 							"response": [
 								{
@@ -42938,7 +42939,7 @@
 										}
 									]
 								},
-								"description": "Create a visitor"
+								"description": "Create a visitor."
 							},
 							"response": [
 								{
