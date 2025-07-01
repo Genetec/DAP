@@ -29196,16 +29196,16 @@
 							]
 						},
 						{
-							"name": "Remove camera",
-							"id": "26277955-65aa113f-e182-400b-a4a1-91fe9068b02e",
+							"name": "Add camera",
+							"id": "26277955-b2b01d23-dc1f-4cbd-b48a-0831383987f2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{cashRegister}},RemoveCamera({{camera}})",
+									"raw": "{{url}}/entity?q=entity={{cashRegister}},AddCamera({{camera}})",
 									"host": [
 										"{{url}}"
 									],
@@ -29215,7 +29215,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{cashRegister}},RemoveCamera({{camera}})"
+											"value": "entity={{cashRegister}},AddCamera({{camera}})"
 										}
 									]
 								}
@@ -29223,13 +29223,13 @@
 							"response": []
 						},
 						{
-							"name": "Add camera",
-							"id": "26277955-b2b01d23-dc1f-4cbd-b48a-0831383987f2",
+							"name": "Remove camera",
+							"id": "26277955-65aa113f-e182-400b-a4a1-91fe9068b02e",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
 								"url": {
 									"raw": "{{url}}/entity?q=entity={{cashRegister}},RemoveCamera({{camera}})",
