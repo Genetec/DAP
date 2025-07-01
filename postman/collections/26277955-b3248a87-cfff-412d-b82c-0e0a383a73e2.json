@@ -22007,7 +22007,7 @@
 										}
 									]
 								},
-								"description": "Retrieve the alarm list using pagination.\nPage numbering starts at 1."
+								"description": "Retrieves alarm GUIDs using pagination.\nUse the page parameter to specify the page number (starting at 1), and pageSize to define how many results to return per page."
 							},
 							"response": [
 								{
