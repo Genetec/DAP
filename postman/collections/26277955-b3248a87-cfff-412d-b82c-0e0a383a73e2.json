@@ -29219,7 +29219,8 @@
 											"description": "- **cashRegister:** Cash register GUID or logical ID\n- **camera:** Camera GUID or logical ID"
 										}
 									]
-								}
+								},
+								"description": "Add a camera to a cash register."
 							},
 							"response": []
 						},
