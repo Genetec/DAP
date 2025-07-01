@@ -41590,7 +41590,8 @@
 											"description": "- **name:** User's name\n- **firstName:** User's first name\n- **lastName:** User's last name \n- **email:** User's email address"
 										}
 									]
-								}
+								},
+								"description": "Create a user."
 							},
 							"response": [
 								{
