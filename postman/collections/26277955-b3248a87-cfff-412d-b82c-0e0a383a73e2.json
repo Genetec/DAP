@@ -44721,11 +44721,13 @@
 									]
 								}
 							},
+							"status": "OK",
+							"code": 200,
 							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
 							"responseTime": null,
-							"body": null
+							"body": "{\r\n    \"Rsp\": {\r\n        \"Status\": \"Ok\",\r\n        \"Result\": [\r\n            {\r\n                \"Guid\": \"00000000-0000-0000-0000-000000000009\"\r\n            },\r\n            {\r\n                \"Guid\": \"00000000-0000-0000-0000-00000000000a\"\r\n            },\r\n            {\r\n                \"Guid\": \"38a5de33-e847-444c-b82f-cf4cf219209f\"\r\n            }\r\n        ]\r\n    }\r\n}"
 						}
 					]
 				},
