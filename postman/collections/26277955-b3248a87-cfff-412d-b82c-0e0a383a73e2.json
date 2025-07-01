@@ -21842,7 +21842,7 @@
 										}
 									]
 								},
-								"description": "Create an alarm"
+								"description": "Create an alarm."
 							},
 							"response": [
 								{
