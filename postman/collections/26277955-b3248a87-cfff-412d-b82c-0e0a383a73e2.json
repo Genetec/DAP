@@ -24301,7 +24301,7 @@
 										}
 									]
 								},
-								"description": "Get all area identifiers."
+								"description": "Retrieve the list of areas using pagination.\nPage numbering starts at 1."
 							},
 							"response": [
 								{
