@@ -23639,7 +23639,7 @@
 										}
 									]
 								},
-								"description": "Get all LPR units."
+								"description": "Retrieve the list of ALPR units using pagination.\nPage numbering starts at 1."
 							},
 							"response": [
 								{
