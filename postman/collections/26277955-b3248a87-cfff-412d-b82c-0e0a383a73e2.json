@@ -20388,7 +20388,7 @@
 										}
 									]
 								},
-								"description": "Retrieve the access rules list using pagination."
+								"description": "Retrieve the access rules list using pagination.\nPage numbering starts at 1."
 							},
 							"response": [
 								{
