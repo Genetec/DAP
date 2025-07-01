@@ -21841,7 +21841,8 @@
 											"description": "**name:** The name of the alarm"
 										}
 									]
-								}
+								},
+								"description": "Create an alarm"
 							},
 							"response": [
 								{
