@@ -23270,7 +23270,7 @@
 										}
 									]
 								},
-								"description": "Retrieve the list of analog monitors using pagination.\nPage numbering starts at 1."
+								"description": "Retrieves analog monitor GUIDs using pagination.\nUse the page parameter to specify the page number (starting at 1), and pageSize to define how many results to return per page."
 							},
 							"response": []
 						},
