@@ -23855,7 +23855,8 @@
 											"description": "- **page:** (optional) The page number to retrieve in the paginated results.\n- **pageSize:** (optional) The number of results to include per page."
 										}
 									]
-								}
+								},
+								"description": "Retrieve the list of applications using pagination.\nPage numbering starts at 1."
 							},
 							"response": [
 								{
