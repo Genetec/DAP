@@ -24393,7 +24393,8 @@
 											"description": "**name:** The name of the area"
 										}
 									]
-								}
+								},
+								"description": "Create an area."
 							},
 							"response": [
 								{
