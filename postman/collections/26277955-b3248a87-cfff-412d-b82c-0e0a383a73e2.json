@@ -29203,7 +29203,22 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{cashRegister}},RemoveCamera({{camera}})",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{cashRegister}},RemoveCamera({{camera}})"
+										}
+									]
+								}
 							},
 							"response": []
 						},
@@ -29215,7 +29230,22 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{cashRegister}},RemoveCamera({{camera}})",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{cashRegister}},RemoveCamera({{camera}})"
+										}
+									]
+								}
 							},
 							"response": []
 						}
