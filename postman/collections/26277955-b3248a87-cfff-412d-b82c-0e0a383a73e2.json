@@ -29215,7 +29215,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{cashRegister}},AddCamera({{camera}})"
+											"value": "entity={{cashRegister}},AddCamera({{camera}})",
+											"description": "- **cashRegister:** Cash register GUID or logical ID\n- **camera:** Camera GUID or logical ID"
 										}
 									]
 								}
@@ -29242,7 +29243,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{cashRegister}},RemoveCamera({{camera}})"
+											"value": "entity={{cashRegister}},RemoveCamera({{camera}})",
+											"description": "- **cashRegister:** Cash register GUID or logical ID\n- **camera:** Camera GUID or logical ID"
 										}
 									]
 								}
