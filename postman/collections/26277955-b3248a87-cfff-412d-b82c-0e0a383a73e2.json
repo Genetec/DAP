@@ -23022,7 +23022,7 @@
 										}
 									]
 								},
-								"description": "Set the alarm color.\n\nFormat: A;R;G;B, where:\n- A: Alpha (transparency)\n- R: Red\n- G: Green\n- B: Blue\n\nExample: Color=255;128;0;0 (opaque red)"
+								"description": "Set the alarm color.\nThe following alarm colors are supported:\n\n- Black\n- Gray\n- White\n- Dark Blue\n- Blue\n- Cyan\n- Dark Green\n- Green\n- Red\n- Dark Red\n- Orange\n- Yellow\n- Indigo"
 							},
 							"response": []
 						}
