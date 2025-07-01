@@ -23042,8 +23042,7 @@
 											"query": [
 												{
 													"key": "q",
-													"value": "entity={{alarm}},AlarmColor={{color}}",
-													"description": "**alarm:** Alarm GUID or logical ID\n**color:** Color"
+													"value": "entity={{alarm}},AlarmColor={{color}}"
 												}
 											]
 										}
@@ -23081,7 +23080,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{alarm}},AlarmProcedureUrl={{url}}",
+									"raw": "{{url}}/entity?q=entity={{alarm}},AlarmProcedureUrl={{alarmUrl}}",
 									"host": [
 										"{{url}}"
 									],
@@ -23091,8 +23090,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{alarm}},AlarmProcedureUrl={{url}}",
-											"description": "**alarm:** Alarm GUID or logical ID\n**url:** URL to display in the tile"
+											"value": "entity={{alarm}},AlarmProcedureUrl={{alarmUrl}}",
+											"description": "**alarm:** Alarm GUID or logical ID\n**alarmUrl:** URL to display in the tile"
 										}
 									]
 								},
