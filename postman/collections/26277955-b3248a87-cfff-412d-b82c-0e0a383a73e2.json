@@ -23115,8 +23115,7 @@
 											"query": [
 												{
 													"key": "q",
-													"value": "entity={{alarm}},AlarmProcedureUrl={{alarmUrl}}",
-													"description": "**alarm:** Alarm GUID or logical ID\n**alarmUrl:** URL to display in the tile"
+													"value": "entity={{alarm}},AlarmProcedureUrl={{alarmUrl}}"
 												}
 											]
 										}
