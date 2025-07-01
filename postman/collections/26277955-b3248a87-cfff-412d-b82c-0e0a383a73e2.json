@@ -19809,7 +19809,7 @@
 										}
 									]
 								},
-								"description": "Retrieve the list of access points using pagination."
+								"description": "Retrieves access point GUIDs using pagination.\nUse the page parameter to specify the page number (starting at 1), and pageSize to define how many results to return per page."
 							},
 							"response": [
 								{
