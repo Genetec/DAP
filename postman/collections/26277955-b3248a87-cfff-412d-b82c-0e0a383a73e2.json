@@ -23004,8 +23004,25 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{alarm}},Color={{color}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{alarm}},Color={{color}}",
+											"description": "**alarm:** Alarm GUID or logical ID\n**color:** Color"
+										}
+									]
+								},
+								"description": "Set the alarm color.\nFormat: A;R;G;B, where:\nA: Alpha (transparency)\nR: Red\nG: Green\nB: Blue\nExample: Color=255;128;0;0 (opaque red)"
 							},
 							"response": []
 						}
