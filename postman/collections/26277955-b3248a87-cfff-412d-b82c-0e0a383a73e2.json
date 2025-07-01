@@ -29194,6 +29194,30 @@
 									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": [\n            {\n                \"Guid\": \"8ca54b32-d581-4824-ba06-51e6989f2737\"\n            },\n            {\n                \"Guid\": \"c7d77e42-fa38-40c2-a93e-78d9dfff7207\"\n            },\n            {\n                \"Guid\": \"02614453-5ab8-4c74-a320-7b0992366048\"\n            },\n            {\n                \"Guid\": \"0bf60e92-8046-43fa-a5a0-88d3987e31bf\"\n            }\n        ]\n    }\n}"
 								}
 							]
+						},
+						{
+							"name": "New Request",
+							"id": "26277955-65aa113f-e182-400b-a4a1-91fe9068b02e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"id": "26277955-b2b01d23-dc1f-4cbd-b48a-0831383987f2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-b643aa13-d67f-4204-89ad-b4a985b089e8",
