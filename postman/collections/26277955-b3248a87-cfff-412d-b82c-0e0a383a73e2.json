@@ -23007,7 +23007,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{alarm}},Color={{color}}",
+									"raw": "{{url}}/entity?q=entity={{alarm}},AlarmColor={{color}}",
 									"host": [
 										"{{url}}"
 									],
@@ -23017,7 +23017,7 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{alarm}},Color={{color}}",
+											"value": "entity={{alarm}},AlarmColor={{color}}",
 											"description": "**alarm:** Alarm GUID or logical ID\n**color:** Color"
 										}
 									]
