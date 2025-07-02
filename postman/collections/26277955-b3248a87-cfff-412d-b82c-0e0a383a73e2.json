@@ -45332,7 +45332,7 @@
 							"script": {
 								"id": "7515bac5-d7fa-474f-a746-318f794227ee",
 								"exec": [
-									"pm.sendRequest()"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
