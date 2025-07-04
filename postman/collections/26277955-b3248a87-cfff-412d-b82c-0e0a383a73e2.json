@@ -41203,7 +41203,7 @@
 							"response": []
 						},
 						{
-							"name": "Check if main server",
+							"name": "Check if a server is the main server",
 							"id": "26277955-fbff2e35-8065-4bc5-b0d8-146e8bc469d2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
