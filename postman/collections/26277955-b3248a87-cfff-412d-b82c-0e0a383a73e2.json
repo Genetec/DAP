@@ -41212,7 +41212,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/entity?q=entity={{server}},Version",
+									"raw": "{{url}}/entity?q=entity={{server}},IsMainServer",
 									"host": [
 										"{{url}}"
 									],
@@ -41222,11 +41222,11 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{server}},Version"
+											"value": "entity={{server}},IsMainServer"
 										}
 									]
 								},
-								"description": "Check whether the a server is the main server"
+								"description": "Check whether the server is the main server."
 							},
 							"response": []
 						}
