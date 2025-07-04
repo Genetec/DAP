@@ -39814,7 +39814,52 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"id": "26277955-3b544fc9-32cc-4c21-acb3-0b6210801533",
+									"name": "Get role type",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/entity?q=entity={{role}},Type",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"entity"
+											],
+											"query": [
+												{
+													"key": "q",
+													"value": "entity={{role}},Type",
+													"description": "**role:** Role GUID or logical ID"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/json"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 04 Jul 2025 05:20:56 GMT"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"Type\": \"WebSdk\"\n        }\n    }\n}"
+								}
+							]
 						}
 					],
 					"id": "26277955-b1de5b61-ca4a-44b9-b598-dd01c8168be8",
