@@ -41174,6 +41174,18 @@
 									"body": "{\n    \"Rsp\": {\n        \"Status\": \"Ok\",\n        \"Result\": {\n            \"GetServerInformation\": {\n                \"IsMainServer\": true\n            }\n        }\n    }\n}"
 								}
 							]
+						},
+						{
+							"name": "New Request",
+							"id": "26277955-5ff9e205-024a-44e3-869b-baade3ea4edb",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-05f5493b-40ba-443d-a5b3-e991c6895f35",
