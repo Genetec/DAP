@@ -28714,8 +28714,23 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{cardholder}},Credentials-{{credential}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{cardholder}},Credentials-{{credential}}"
+										}
+									]
+								}
 							},
 							"response": []
 						}
