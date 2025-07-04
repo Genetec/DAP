@@ -28727,7 +28727,8 @@
 									"query": [
 										{
 											"key": "q",
-											"value": "entity={{cardholder}},Credentials-{{credential}}"
+											"value": "entity={{cardholder}},Credentials-{{credential}}",
+											"description": "- **cardholder:** Cardholder GUID of logical ID\n- **credential:** Credential GUID of logical ID"
 										}
 									]
 								},
