@@ -39832,8 +39832,7 @@
 											"query": [
 												{
 													"key": "q",
-													"value": "entity={{role}},Type",
-													"description": "**role:** Role GUID or logical ID"
+													"value": "entity={{role}},Type"
 												}
 											]
 										}
