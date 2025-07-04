@@ -41225,7 +41225,8 @@
 											"value": "entity={{server}},Version"
 										}
 									]
-								}
+								},
+								"description": "Check whether the a server is the main server"
 							},
 							"response": []
 						}
