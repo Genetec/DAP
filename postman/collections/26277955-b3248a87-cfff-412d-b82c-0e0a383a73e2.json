@@ -28708,7 +28708,7 @@
 							"response": []
 						},
 						{
-							"name": "Remove credential",
+							"name": "Unassign credential",
 							"id": "26277955-d58464de-677f-4a1c-817a-b8ae4ebcfa66",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -28730,7 +28730,8 @@
 											"value": "entity={{cardholder}},Credentials-{{credential}}"
 										}
 									]
-								}
+								},
+								"description": "UN "
 							},
 							"response": []
 						}
