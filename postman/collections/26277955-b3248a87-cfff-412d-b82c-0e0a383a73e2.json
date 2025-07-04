@@ -28731,7 +28731,7 @@
 										}
 									]
 								},
-								"description": "UN "
+								"description": "Unassign a credential from a cardholder."
 							},
 							"response": []
 						}
