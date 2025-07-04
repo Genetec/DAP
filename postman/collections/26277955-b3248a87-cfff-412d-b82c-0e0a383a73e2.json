@@ -41201,6 +41201,33 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get version Copy",
+							"id": "26277955-fbff2e35-8065-4bc5-b0d8-146e8bc469d2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{server}},Version",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{server}},Version"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-05f5493b-40ba-443d-a5b3-e991c6895f35",
