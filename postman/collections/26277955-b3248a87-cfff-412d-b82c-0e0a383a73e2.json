@@ -28706,6 +28706,18 @@
 								"description": "Assign a credential to the cardholder."
 							},
 							"response": []
+						},
+						{
+							"name": "Remove credential",
+							"id": "26277955-d58464de-677f-4a1c-817a-b8ae4ebcfa66",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "26277955-6b85997b-1754-4b31-8232-b7f10751d427",
