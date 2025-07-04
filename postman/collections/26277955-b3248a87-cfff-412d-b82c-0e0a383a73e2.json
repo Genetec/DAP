@@ -39789,14 +39789,29 @@
 							"response": []
 						},
 						{
-							"name": "New Request",
+							"name": "Get role type",
 							"id": "26277955-933ddfc1-e8a2-443c-9d5f-8abdfa8f4da4",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "{{url}}/entity?q=entity={{role}},Type",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"entity"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "entity={{role}},Type"
+										}
+									]
+								}
 							},
 							"response": []
 						}
