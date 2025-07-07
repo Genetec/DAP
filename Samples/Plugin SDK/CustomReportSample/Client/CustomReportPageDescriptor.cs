@@ -16,7 +16,7 @@ public class CustomReportPageDescriptor : PageDescriptor
 
     public override Guid CategoryId => new(TaskCategories.Investigation);
 
-    public override string Description => "View custom events that occured on selected entities";
+    public override string Description => "View custom events that occurred on selected entities";
 
     public override ImageSource Icon { get; } = new BitmapImage(new Uri("pack://application:,,,/CustomReportSample;component/Resources/Images/SmallLogo.png"));
 
