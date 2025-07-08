@@ -71,7 +71,7 @@ static async Task RunSample()
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"An error occured while exporting video: {ex.Message}");
+        Console.WriteLine($"An error occurred while exporting video: {ex.Message}");
     }
 }
 
