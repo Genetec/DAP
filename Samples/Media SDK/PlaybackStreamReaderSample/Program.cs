@@ -1,6 +1,6 @@
-﻿using System;
 // Licensed under the Apache License, Version 2.0
 
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Dap.CodeSamples;
