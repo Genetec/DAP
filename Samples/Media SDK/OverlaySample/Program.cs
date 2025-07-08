@@ -1,6 +1,6 @@
-﻿using Genetec.Dap.CodeSamples;
 // Licensed under the Apache License, Version 2.0
-
+﻿
+using Genetec.Dap.CodeSamples;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk;
 using System.Threading.Tasks;
