@@ -16,12 +16,14 @@ using Genetec.Sdk.Plugin;
 [PluginProperty(typeof(SamplePluginDescriptor))]
 public class SamplePlugin : Plugin
 {
+    static SamplePlugin() => AssemblyResolver.Initialize();
+
     protected override void OnPluginLoaded()
     {
         // Add a handler for the action received event.
         Engine.ActionReceived += OnActionReceived;
     }
-        
+
     protected override void OnPluginStart()
     {
         CustomActionTypeDescriptor descriptor = new(CustomActionTypes.LaunchEncoderCommand, "Launch encoder command");
