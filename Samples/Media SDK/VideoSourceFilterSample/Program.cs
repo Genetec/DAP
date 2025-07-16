@@ -29,12 +29,16 @@ async Task RunSample()
     const string cameraGuid = "your-camera-guid-here"; // Replace with your camera's GUID
 
     using var engine = new Engine();
+    engine.LogonStatusChanged += (_, args) => Console.Write($"\rConnection status: {args.Status}".PadRight(Console.WindowWidth));
+    engine.LogonFailed += (_, args) => Console.WriteLine($"\rError: {args.FormattedErrorMessage}".PadRight(Console.WindowWidth));
+    engine.LoggedOn += (_, args) => Console.WriteLine($"\rConnected to {args.ServerName}".PadRight(Console.WindowWidth));
 
+
+    Console.Write($"\rConnecting to {server}...".PadRight(Console.WindowWidth));
     ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
 
     if (state != ConnectionStateCode.Success)
     {
-        Console.WriteLine($"Logon failed: {state}");
         return;
     }
 
@@ -49,6 +53,8 @@ async Task RunSample()
     string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
     string fileName = $"{camera.Name}_{timestamp}.bmp";
     System.IO.File.WriteAllBytes(fileName, snapshot);
+
+    Console.WriteLine($"Snapshot saved: {fileName}");
 }
 
 async Task<byte[]> GetCameraSnapshot(Engine engine, Guid camera)
