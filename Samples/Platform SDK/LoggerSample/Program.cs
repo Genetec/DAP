@@ -39,6 +39,7 @@ class Program
         while (!token.IsCancellationRequested)
         {
             logger.LogDebugMessage();
+
             StaticLogger.LogDebugMessage();
 
             await Task.Delay(1000, token);
