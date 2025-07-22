@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Genetec.Sdk.Diagnostics.Logging.Core;
 using Sdk.Diagnostics;
 
 class Program
@@ -15,7 +16,7 @@ class Program
 
     static async Task Main()
     {
-        await InitializeAndStartServer();
+        InitializeAndStartServer();
 
         using var cancellationTokenSource = new CancellationTokenSource();
 
@@ -26,17 +27,16 @@ class Program
             cancellationTokenSource.Cancel();
         };
 
+        Console.WriteLine("Press Ctrl+C to stop...");
+
         try
         {
-            LogDebugMessage(cancellationTokenSource.Token);
+            await LogDebugMessage(cancellationTokenSource.Token);
         }
         catch (OperationCanceledException)
         {
             // Ignore task canceled
         }
-
-        Console.WriteLine("Press any key to exit...");
-        Console.ReadKey();
 
         Cleanup();
     }
@@ -54,7 +54,7 @@ class Program
         StaticLogger.LogDebugMessage();
     }
 
-    static async Task InitializeAndStartServer()
+    static void InitializeAndStartServer()
     {
         const int diagnosticServerPort = 4523;
         const int webServerPort = 6023;
@@ -63,14 +63,11 @@ class Program
         try
         {
             DiagnosticServer.Instance.InitializeServer(diagnosticServerPort, webServerPort, password);
-            DiagnosticServer.Instance.AddFileTracing([new LoggerTraces("Genetec.Dap.CodeSamples", Sdk.Diagnostics.Logging.Core.LogSeverity.All)]);
+            DiagnosticServer.Instance.AddFileTracing([new LoggerTraces("*", LogSeverity.All)]);
 
             var url = $"http://localhost:{webServerPort}/Console";
             Console.WriteLine($"Console started: {url}");
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-
-            // Wait for a few seconds to ensure the web browser has enough time to load the page
-            await Task.Delay(5000); // Adjust the delay as necessary
         }
         catch (Exception ex)
         {
