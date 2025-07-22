@@ -22,6 +22,7 @@ class Program
             cancellationTokenSource.Cancel();
         };
 
+        Console.WriteLine("Press Ctrl+C to stop...");
         try
         {
             await LogDebugMessage(cancellationTokenSource.Token);
