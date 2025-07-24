@@ -5,122 +5,142 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Sdk;
+using Sdk.Entities;
+using Sdk.Entities.CustomEvents;
+using Sdk.Events;
+
+class Program
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Sdk;
-    using Sdk.Entities;
-    using Sdk.Entities.CustomEvents;
-    using Sdk.Events;
+    static Program() => SdkResolver.Initialize();
 
-    class Program
+    static async Task Main()
     {
-        static Program() => SdkResolver.Initialize();
+        const string server = "localhost"; // TODO: Replace with the IP address or hostname of your Security Center server.
+        const string username = "admin"; // TODO: Replace with the username for Security Center authentication.
+        const string password = ""; // TODO: Replace with the corresponding password for the specified username.
 
-        static async Task Main()
+        // TODO: Replace with your own custom event ID
+        const int customEventId = 1000;
+
+        // TODO: Replace with your own camera GUID
+        Guid cameraGuid = new Guid("YOUR_CAMERA_GUID_HERE");
+
+        // Create two engines for sender and receiver
+        // The sender will raise the custom event, and the receiver will listen for it
+        // Both engines will connect to the same Security Center server
+        using var sender = new Engine();
+        using var receiver = new Engine();
+
+        // Set up event handler to listen for custom events
+        // This will only receive custom events raised by any client connected to the same server
+        receiver.SetEventFilter([EventType.CustomEvent]);
+        receiver.EventReceived += (_, e) =>
         {
-            const string server = "localhost";
-            const string username = "admin";
-            const string password = "";
-            
-            // TODO: Replace with your own custom event ID
-            const int customEventId = 1000;
-
-            // TODO: Replace with your own camera GUID
-            Guid cameraGuid = new Guid("YOUR_CAMERA_GUID_HERE");
-
-            using var engine = new Engine();
-
-            ConnectionStateCode state = await engine.LogOnAsync(server, username, password);
-
-            if (state == ConnectionStateCode.Success)
+            if (e.EventType == EventType.CustomEvent && e.Event is CustomEventInstance eventInstance)
             {
-                var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
-                ICustomEventService customEventService = config.CustomEventService;
+                string payLoad = eventInstance.ExtraHiddenPayload;
 
-                IReadOnlyList<CustomEvent> events = customEventService.CustomEvents;
-                DisplayCustomEvents(events);
+                Entity source = receiver.GetEntity(eventInstance.SourceEntity);
+                Console.WriteLine($"Custom event received from {source.Name} with payload: {payLoad}");
+            }
+        };
 
-                CustomEvent customEvent = await CreateOrGetCustomEvent(customEventService, customEventId);
-                RaiseCustomEvent(customEvent);
+        // Log on both engines
+        ConnectionStateCode[] states = await Task.WhenAll(sender.LogOnAsync(server, username, password), receiver.LogOnAsync(server, username, password));
+
+        // Check if both engines are successfully logged on
+        if (states.All(state => state == ConnectionStateCode.Success))
+        {
+            // Ensure the camera is loaded into the receiver engine entity cache otherwise it will not receive the event
+            // By calling GetEntity, we ensure that the camera is loaded into the entity cache.
+            if (receiver.GetEntity(cameraGuid) is not Camera)
+            {
+                Console.WriteLine($"Camera not found: {cameraGuid}");
+                return;
+            }
+
+            var config = (SystemConfiguration)sender.GetEntity(SystemConfiguration.SystemConfigurationGuid);
+            ICustomEventService customEventService = config.CustomEventService;
+
+            IReadOnlyList<CustomEvent> events = customEventService.CustomEvents;
+            DisplayCustomEvents(events);
+
+            CustomEvent customEvent = await GetOrCreateCustomEvent(customEventService, customEventId);
+            RaiseCustomEvent(customEvent);
+        }
+        else
+        {
+            Console.WriteLine($"Logon failed - Sender: {states[0]}, Receiver: {states[1]}");
+        }
+
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
+
+        void DisplayCustomEvents(IReadOnlyList<CustomEvent> events)
+        {
+            Console.WriteLine($"Total Number of Custom Events: {events.Count}");
+
+            foreach (var group in events.GroupBy(e => e.SourceEntityType).OrderBy(g => g.Key))
+            {
+                Console.WriteLine($"\nSource Entity Type: {group.Key}");
+                Console.WriteLine(new string('-', 30));
+
+                foreach (var customEvent in group.OrderBy(e => e.Id))
+                {
+                    Console.WriteLine($"Name: {customEvent.Name}");
+                    Console.WriteLine($"  ID: {customEvent.Id}");
+                    Console.WriteLine($"  Local: {customEvent.LocalCustomEvent}");
+
+                    if (sender.GetEntity(customEvent.Owner) is Role owner)
+                        Console.WriteLine($"  Owner: {owner.Name}");
+                    else
+                        Console.WriteLine("  Owner: LocalSystem");
+
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        async Task<CustomEvent> GetOrCreateCustomEvent(ICustomEventService customEventService, int eventId)
+        {
+            CustomEvent customEvent = customEventService.CustomEvents.FirstOrDefault(@event => @event.Id == eventId);
+            if (customEvent is null)
+            {
+                Console.WriteLine($"Creating new custom event with ID: {eventId}");
+
+                ICustomEventBuilder builder = customEventService.CreateCustomEventBuilder();
+
+                customEvent = builder.SetEntityType(EntityType.Camera)
+                                     .SetId(eventId)
+                                     .SetName("Camera custom event")
+                                     .Build();
+
+                await customEventService.AddAsync(customEvent);
             }
             else
             {
-                Console.WriteLine($"Logon failed: {state}");
+                Console.WriteLine($"Using existing custom event with ID: {eventId}");
             }
+            return customEvent;
+        }
 
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+        void RaiseCustomEvent(CustomEvent customEvent)
+        {
+            Console.WriteLine("Raising custom event");
 
-            void DisplayCustomEvents(IReadOnlyList<CustomEvent> events)
-            {
-                Console.WriteLine($"Total Number of Custom Events: {events.Count}");
+            var eventInstance = (CustomEventInstance)sender.ActionManager.BuildEvent(EventType.CustomEvent, cameraGuid);
+            eventInstance.Id = new CustomEventId(customEvent.Id);
+            eventInstance.Message = "Custom event message";
+            eventInstance.ExtraHiddenPayload = "Extra hidden payload";
 
-                foreach (var group in events.GroupBy(e => e.SourceEntityType).OrderBy(g => g.Key))
-                {
-                    Console.WriteLine($"\nSource Entity Type: {group.Key}");
-                    Console.WriteLine(new string('-', 30));
-
-                    foreach (var customEvent in group.OrderBy(e => e.Id))
-                    {
-                        Console.WriteLine($"Name: {customEvent.Name}");
-                        Console.WriteLine($"  ID: {customEvent.Id}");
-                        Console.WriteLine($"  Local: {customEvent.LocalCustomEvent}");
-
-                        if (engine.GetEntity(customEvent.Owner) is Role owner)
-                            Console.WriteLine($"  Owner: {owner.Name}");
-                        else
-                            Console.WriteLine("  Owner: LocalSystem");
-
-                        Console.WriteLine();
-                    }
-                }
-            }
-
-            async Task<CustomEvent> CreateOrGetCustomEvent(ICustomEventService customEventService, int eventId)
-            {
-                CustomEvent customEvent = customEventService.CustomEvents.FirstOrDefault(@event => @event.Id == eventId);
-                if (customEvent is null)
-                {
-                    Console.WriteLine($"Creating new custom event with ID: {eventId}");
-
-                    ICustomEventBuilder builder = customEventService.CreateCustomEventBuilder();
-
-                    customEvent = builder.SetEntityType(EntityType.Camera)
-                        .SetId(eventId)
-                        .SetName("Camera custom event")
-                        .Build();
-
-                    await customEventService.AddAsync(customEvent);
-                }
-                else
-                {
-                    Console.WriteLine($"Using existing custom event with ID: {eventId}");
-                }
-                return customEvent;
-            }
-
-            void RaiseCustomEvent(CustomEvent customEvent)
-            {
-                Console.WriteLine("Raising custom event");
-
-                Entity source = engine.GetEntity(cameraGuid);
-                if (source is null)
-                {
-                    Console.WriteLine($"Error: No entity found with GUID {cameraGuid}");
-                    return;
-                }
-
-                var eventInstance = (CustomEventInstance)engine.ActionManager.BuildEvent(EventType.CustomEvent, cameraGuid);
-                eventInstance.Id = new CustomEventId(customEvent.Id);
-                eventInstance.Message = "Custom event message";
-                eventInstance.ExtraHiddenPayload = "Custom event extra payload";
-
-                engine.ActionManager.RaiseEvent(eventInstance);
-            }
+            sender.ActionManager.RaiseEvent(eventInstance);
         }
     }
 }
