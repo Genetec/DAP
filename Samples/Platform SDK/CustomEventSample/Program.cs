@@ -30,7 +30,7 @@ class Program
         const int customEventId = 1000;
 
         // TODO: Replace with your own camera GUID
-        Guid cameraGuid = new Guid("00000001-0000-babe-0000-26551ec56587");
+        Guid cameraGuid = new Guid("YOUR_CAMERA_GUID_HERE");
 
         // Create two engines for sender and receiver
         // The sender will raise the custom event, and the receiver will listen for it
