@@ -70,9 +70,13 @@ public partial class SampleCustomActionView : CustomActionView, INotifyPropertyC
             if (SetProperty(ref m_camera, value))
             {
                 EncoderCommands.Clear();
-                foreach (EncoderCommandInfo commandInfo in m_camera.SupportedEncoderCommands)
+
+                if (m_camera != null)
                 {
-                    EncoderCommands.Add(commandInfo);
+                    foreach (EncoderCommandInfo commandInfo in m_camera.SupportedEncoderCommands)
+                    {
+                        EncoderCommands.Add(commandInfo);
+                    }
                 }
 
                 EncoderCommand = EncoderCommands.FirstOrDefault();
