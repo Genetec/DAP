@@ -49,7 +49,7 @@ async Task RunSample()
     ConnectionStateCode state = await engine.LoginManager.LogOnAsync(server, username, password, cancellationTokenSource.Token);
     if (state != ConnectionStateCode.Success)
     {
-        Console.WriteLine($"logon failed: {state}");
+        Console.WriteLine($"Logon failed: {state}");
         return;
     }
 
