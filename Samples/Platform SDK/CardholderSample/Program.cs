@@ -44,7 +44,7 @@ async Task RunSample()
         cancellationTokenSource.Cancel();
     };
 
-    Console.WriteLine($"Logging to {server}... Press Ctrl+C to cancel");
+    Console.WriteLine($"Connecting to {server}... Press Ctrl+C to cancel");
 
     ConnectionStateCode state = await engine.LoginManager.LogOnAsync(server, username, password, cancellationTokenSource.Token);
     if (state != ConnectionStateCode.Success)
