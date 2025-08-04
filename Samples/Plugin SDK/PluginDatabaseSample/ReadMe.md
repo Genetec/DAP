@@ -51,7 +51,7 @@ By using the Plugin SDK, developers can create powerful, deeply integrated solut
 
 ## Overview
 
-The `IPluginDatabaseSupport` interface is a crucial component in the plugin architecture that enables database operations for plugins. It provides a standardized way for plugins to interact with their associated databases.
+The `IPluginDatabaseSupport` interface is an important component in the plugin architecture that enables database operations for plugins. It provides a standardized way for plugins to interact with their associated databases.
 
 ## Purpose
 
@@ -243,22 +243,6 @@ BEGIN
     INSERT INTO [dbo].[MyPlugin_MainTable] ([Name], [Data])
     VALUES ('InitialEntry', 'This is the initial data entry')
 END
-
--- Create or update version info
-IF NOT EXISTS (SELECT * FROM sys.objects 
-               WHERE object_id = OBJECT_ID(N'[dbo].[MyPlugin_VersionInfo]') 
-               AND type in (N'U'))
-BEGIN
-    CREATE TABLE [dbo].[MyPlugin_VersionInfo](
-        [Version] INT NOT NULL,
-        [InstallDate] DATETIME2 NOT NULL DEFAULT GETUTCDATE()
-    )
-    INSERT INTO [dbo].[MyPlugin_VersionInfo] ([Version]) VALUES (1)
-END
-ELSE
-BEGIN
-    UPDATE [dbo].[MyPlugin_VersionInfo] SET [Version] = 1
-END
 ```
 
 ## Integration with Security Center
@@ -317,19 +301,13 @@ public override IEnumerable<DatabaseUpgradeItem> GetDatabaseUpgradeItems()
 
 ## Best Practices
 
-1. **Version Numbering**: Use a consistent and meaningful version numbering scheme. In the example, five-digit numbers are used (50001, 500002, etc.).
+1. **Incremental Upgrades**: Define upgrade items for each incremental version change. This allows for step-by-step upgrades and makes it easier to test and troubleshoot.
 
-2. **Incremental Upgrades**: Define upgrade items for each incremental version change. This allows for step-by-step upgrades and makes it easier to test and troubleshoot.
+2. **Idempotent Scripts**: Write your upgrade scripts to be idempotent (can be run multiple times without changing the result beyond the initial application). This helps prevent issues if an upgrade is interrupted and needs to be rerun.
 
-3. **Idempotent Scripts**: Write your upgrade scripts to be idempotent (can be run multiple times without changing the result beyond the initial application). This helps prevent issues if an upgrade is interrupted and needs to be rerun.
+3. **Testing**: Thoroughly test each upgrade path, including upgrades that skip versions (e.g., 50001 to 500003).
 
-4. **Backwards Compatibility**: When possible, make schema changes in a backwards-compatible manner. This can help if you need to support multiple versions of your plugin simultaneously.
-
-5. **Testing**: Thoroughly test each upgrade path, including upgrades that skip versions (e.g., 50001 to 500003).
-
-6. **Documentation**: Maintain clear documentation of what each upgrade does and why it was necessary.
-
-7. **Error Handling**: Include error handling and logging in your upgrade scripts to make troubleshooting easier.
+4. **Error Handling**: Include error handling and logging in your upgrade scripts to make troubleshooting easier.
 
 ## Integration with Security Center
 
@@ -371,11 +349,6 @@ BEGIN
         [Name] NVARCHAR(100) NOT NULL
     )
 END
-
--- Update version number in your version tracking table
-UPDATE [dbo].[VersionInfo]
-SET [Version] = 500002
-WHERE [PluginId] = 'YourPluginId'
 ```
 
 By properly implementing `DatabaseUpgradeItem`, you ensure that your plugin's database schema can evolve smoothly alongside your plugin's functionality, maintaining compatibility and performance across different versions.
@@ -384,7 +357,7 @@ By properly implementing `DatabaseUpgradeItem`, you ensure that your plugin's da
 
 ## Overview
 
-`DatabaseCleanupThreshold` is a crucial component in managing database maintenance for your plugin. It allows you to define rules for automatic cleanup of old data, helping to maintain optimal database performance and manage storage efficiently.
+`DatabaseCleanupThreshold` is an important component in managing database maintenance for your plugin. It allows you to define rules for automatic cleanup of old data, helping to maintain optimal database performance and manage storage efficiently.
 
 ## Purpose
 
