@@ -431,7 +431,7 @@ Understanding the difference between workspace modules and plugins is crucial fo
 - **Limitations**:
   - Cannot run server-side logic
   - Cannot create custom roles
-  - Not custom database support
+  - No custom database support
 - **Use cases**: 
   - Custom dashboards or widgets  
   - Specialized reporting tools
