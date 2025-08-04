@@ -357,7 +357,7 @@ By properly implementing `DatabaseUpgradeItem`, you ensure that your plugin's da
 
 ## Overview
 
-`DatabaseCleanupThreshold` is a important component in managing database maintenance for your plugin. It allows you to define rules for automatic cleanup of old data, helping to maintain optimal database performance and manage storage efficiently.
+`DatabaseCleanupThreshold` is an important component in managing database maintenance for your plugin. It allows you to define rules for automatic cleanup of old data, helping to maintain optimal database performance and manage storage efficiently.
 
 ## Purpose
 
