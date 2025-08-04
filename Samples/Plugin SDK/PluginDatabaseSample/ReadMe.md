@@ -51,7 +51,7 @@ By using the Plugin SDK, developers can create powerful, deeply integrated solut
 
 ## Overview
 
-The `IPluginDatabaseSupport` interface is a important component in the plugin architecture that enables database operations for plugins. It provides a standardized way for plugins to interact with their associated databases.
+The `IPluginDatabaseSupport` interface is an important component in the plugin architecture that enables database operations for plugins. It provides a standardized way for plugins to interact with their associated databases.
 
 ## Purpose
 
