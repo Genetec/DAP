@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk;
 using Genetec.Sdk.Queries;

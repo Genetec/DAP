@@ -20,7 +20,7 @@ namespace Genetec.Dap.CodeSamples;
 
 public class CustomIconSample : SampleBase
 {
-    protected override async Task RunAsync(Engine engine, CancellationToken token)
+    protected override Task RunAsync(Engine engine, CancellationToken token)
     {
         var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
 
@@ -44,7 +44,7 @@ public class CustomIconSample : SampleBase
 
         Console.WriteLine("Adding custom icon");
         Guid iconId = entity.AddCustomIconToDirectory(Resources.Icon, true);
-        
+
         CustomIcon icon = config.CustomIcons.Single(customIcon => customIcon.Id == iconId);
         Console.WriteLine($"Icon ID: {icon.Id}");
         Console.WriteLine($"Entity Type: {icon.EntityType}");
@@ -60,5 +60,7 @@ public class CustomIconSample : SampleBase
 
         entity.RemoveCustomIconFromDirectory(iconId);
         Console.WriteLine("Custom icon removed from Directory");
+
+        return Task.CompletedTask;
     }
 }

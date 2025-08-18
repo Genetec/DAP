@@ -11,7 +11,6 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples;
 using Genetec.Sdk;
 using Genetec.Sdk.Queries;
 
@@ -82,15 +81,4 @@ public class TimeAttendanceSample : SampleBase
 
         string GetEntityName(Guid entityGuid) => engine.GetEntity(entityGuid)?.Name ?? "Unknown";
     }
-}
-
-class TimeAttendance
-{
-    public DateTime Date { get; set; }
-    public Guid CardholderGuid { get; set; }
-    public Guid AreaGuid { get; set; }
-    public DateTime FirstTimeIn { get; set; }
-    public DateTime? LastExitTime { get; set; }
-    public int TotalMinutes { get; set; }
-    public int TotalMinutesInclusive { get; set; }
 }

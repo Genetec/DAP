@@ -20,8 +20,8 @@ namespace Genetec.Dap.CodeSamples;
 
 public class CustomFieldSample : SampleBase
 {
-    private const string CustomFieldName = "Employee ID";
-    private const string CustomFieldValue = "12345";
+    private const string s_customFieldName = "Employee ID";
+    private const string s_customFieldValue = "12345";
 
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
@@ -32,9 +32,9 @@ public class CustomFieldSample : SampleBase
 
         CustomField customField = await CreateOrUpdateCustomField(customFieldService);
 
-        await CreateCardholderWithCustomField(engine, customFieldService, customField, CustomFieldValue);
+        await CreateCardholderWithCustomField(engine, customFieldService, customField, s_customFieldValue);
 
-        await QueryAndPrintCardholder(engine, customFieldService, customField, CustomFieldValue);
+        await QueryAndPrintCardholder(engine, customFieldService, customField, s_customFieldValue);
     }
 
     private async Task PrintExistingCustomFields(ICustomFieldService service)
@@ -74,16 +74,16 @@ public class CustomFieldSample : SampleBase
 
     private async Task<CustomField> CreateOrUpdateCustomField(ICustomFieldService service)
     {
-        Console.WriteLine($"Searching for existing custom field: {CustomFieldName}");
-        CustomField customField = service.CustomFields.FirstOrDefault(cf => cf.EntityType == EntityType.Cardholder && cf.Name.Equals(CustomFieldName, StringComparison.OrdinalIgnoreCase));
+        Console.WriteLine($"Searching for existing custom field: {s_customFieldName}");
+        CustomField customField = service.CustomFields.FirstOrDefault(cf => cf.EntityType == EntityType.Cardholder && cf.Name.Equals(s_customFieldName, StringComparison.OrdinalIgnoreCase));
 
         if (customField is null)
         {
-            Console.WriteLine($"Custom field '{CustomFieldName}' not found. Creating new custom field...");
+            Console.WriteLine($"Custom field '{s_customFieldName}' not found. Creating new custom field...");
 
             customField = service.CreateCustomFieldBuilder()
                 .SetEntityType(EntityType.Cardholder)
-                .SetName(CustomFieldName)
+                .SetName(s_customFieldName)
                 .SetValueType(CustomFieldValueType.Text)
                 .SetDefaultValue(string.Empty)
                 .Build();
@@ -93,7 +93,7 @@ public class CustomFieldSample : SampleBase
         }
         else
         {
-            Console.WriteLine($"Custom field '{CustomFieldName}' already exists:");
+            Console.WriteLine($"Custom field '{s_customFieldName}' already exists:");
         }
 
         return customField;
@@ -108,7 +108,7 @@ public class CustomFieldSample : SampleBase
         cardholder.LastName = "Doe";
         cardholder.EmailAddress = "johndoe@example.com";
 
-        Console.WriteLine($"Setting custom field '{CustomFieldName}'");
+        Console.WriteLine($"Setting custom field '{s_customFieldName}'");
 
         service.SetValue(customField, cardholder.Guid, value);
     });

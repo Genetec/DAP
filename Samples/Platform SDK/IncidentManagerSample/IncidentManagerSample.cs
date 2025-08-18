@@ -12,7 +12,6 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples;
 using Genetec.Sdk;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk.Workflows;

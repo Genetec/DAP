@@ -8,7 +8,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries;
@@ -49,12 +48,14 @@ public class EventMonitoringSample : SampleBase
                 case EventType.EntityWarning:
                     Console.WriteLine($"{entity.Name} warning.");
                     break;
-            }     
+            }
         };
 
         await LoadEntities(engine);
 
         Console.WriteLine($"Listening to events: {string.Join(",", engine.GetEventFilter())}");
+
+        await Task.Delay(Timeout.Infinite, token); // Keep the sample running to listen for events
     }
 
     private async Task LoadEntities(Engine engine)

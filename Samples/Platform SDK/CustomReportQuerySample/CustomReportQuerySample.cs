@@ -11,7 +11,6 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples;
 using Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
@@ -22,14 +21,14 @@ namespace Genetec.Dap.CodeSamples;
 
 public class CustomReportQuerySample : SampleBase
 {
-    private const string customReportSamplePluginGuid = "4E8BB3F7-0D41-4F4C-A430-0B6EE7478CBE";
+    private const string s_customReportSamplePluginGuid = "4E8BB3F7-0D41-4F4C-A430-0B6EE7478CBE"; // TODO: Replace with the actual GUID of your plugin
 
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         await LoadRole(engine);
 
         // Find the CustomReportSample plugin role
-        Role plugin = engine.GetEntities(EntityType.Role).OfType<Role>().FirstOrDefault(role => role.Type == RoleType.Plugin && role.SubType == new Guid(customReportSamplePluginGuid));
+        Role plugin = engine.GetEntities(EntityType.Role).OfType<Role>().FirstOrDefault(role => role.Type == RoleType.Plugin && role.SubType == new Guid(s_customReportSamplePluginGuid));
         if (plugin?.IsOnline != true)
         {
             Console.WriteLine("The CustomReportSample plugin is not online.");

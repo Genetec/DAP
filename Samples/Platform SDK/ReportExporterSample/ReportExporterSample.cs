@@ -5,12 +5,10 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-using System;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples;
 using Genetec.Sdk;
 using Genetec.Sdk.Queries;
 
@@ -30,12 +28,12 @@ public class ReportExporterSample : SampleBase
         using var htmlWriter = new StreamWriter("CardholderActivity.html", false, Encoding.UTF8);
 
         query.Exporter = new AggregateReportExporter(
-            new XmlReportExporter(xmlWriter), 
-            new JsonReportExporter(jsonWriter), 
-            new CsvReportExporter(csvWriter), 
+            new XmlReportExporter(xmlWriter),
+            new JsonReportExporter(jsonWriter),
+            new CsvReportExporter(csvWriter),
             new MarkdownReportExporter(markDownWriter),
             new HtmlReportExporter(htmlWriter, "Cardholder Activity"));
 
-       await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
     }
 }

@@ -20,7 +20,7 @@ namespace Genetec.Dap.CodeSamples;
 
 public class CustomEntitySample : SampleBase
 {
-    const string customEntityId = "8385D04C-F04A-4125-81E9-D1C66AFDE572"; // TODO: Replace this GUID with your own.
+    const string s_customEntityId = "8385D04C-F04A-4125-81E9-D1C66AFDE572"; // TODO: Replace with your custom entity ID
 
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
@@ -61,19 +61,19 @@ public class CustomEntitySample : SampleBase
 
     void CreateOrUpdateCustomEntityType(SystemConfiguration config)
     {
-        var id = new Guid(customEntityId);
+        var id = new Guid(s_customEntityId);
 
         if (config.GetCustomActionTypeDescriptor(id) is not null)
         {
-            Console.WriteLine($"Custom Entity Type with ID {customEntityId} already exists.");
+            Console.WriteLine($"Custom Entity Type with ID {s_customEntityId} already exists.");
             return;
         }
 
-        Console.WriteLine($"Creating new Custom Entity Type with ID: {customEntityId}");
+        Console.WriteLine($"Creating new Custom Entity Type with ID: {s_customEntityId}");
 
-        var capabilities = CustomEntityTypeCapabilities.CanBeFederated | 
+        var capabilities = CustomEntityTypeCapabilities.CanBeFederated |
                            CustomEntityTypeCapabilities.IsVisible |
-                           CustomEntityTypeCapabilities.CreateDelete | 
+                           CustomEntityTypeCapabilities.CreateDelete |
                            CustomEntityTypeCapabilities.MapSupport;
 
         var descriptor = new CustomEntityTypeDescriptor(id, Resources.CustomEntityName, capabilities, new Version(1, 0))
@@ -96,7 +96,7 @@ public class CustomEntitySample : SampleBase
 
         CustomEntity customEntity = await engine.TransactionManager.ExecuteTransactionAsync(() =>
         {
-            var entity = engine.CreateCustomEntity("Custom entity", new Guid(customEntityId));
+            var entity = engine.CreateCustomEntity("Custom entity", new Guid(s_customEntityId));
             entity.RunningState = State.Running;
             return entity;
         });
@@ -110,7 +110,7 @@ public class CustomEntitySample : SampleBase
 
         var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
         query.EntityTypeFilter.Add(EntityType.CustomEntity);
-        query.CustomEntityTypes.Add(new Guid(customEntityId));
+        query.CustomEntityTypes.Add(new Guid(s_customEntityId));
 
         QueryCompletedEventArgs args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
