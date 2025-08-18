@@ -45,7 +45,7 @@ public abstract class SampleBase
         using var cancellationTokenSource = new CancellationTokenSource();
         Console.CancelKeyPress += OnCancelKeyPress;
 
-        Console.WriteLine($"Logging to {server}... Press Ctrl+C to cancel");
+        Console.WriteLine($"Logging in to {server}... Press Ctrl+C to cancel");
 
         // Attempt to connect to Security Center using the provided credentials
         ConnectionStateCode state = await engine.LoginManager.LogOnAsync(server, username, password, cancellationTokenSource.Token);
