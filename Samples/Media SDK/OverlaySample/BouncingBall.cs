@@ -44,7 +44,7 @@ public class BouncingBall
 
     public void Draw(Layer layer)
     {
-        Update();
+        Update(); // Update the position of the ball before drawing
         layer.DrawEllipse(m_brush, m_pen, new Point(m_x, m_y), m_radius, m_radius);
     }
 
