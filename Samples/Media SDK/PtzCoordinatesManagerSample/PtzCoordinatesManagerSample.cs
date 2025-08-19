@@ -3,14 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Media.Ptz;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -18,16 +16,19 @@ class PtzCoordinatesManagerSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
+        // Load all cameras into the entity cache
+        await LoadEntities(engine, token, EntityType.Camera);
+
         // Find a suitable PTZ camera
-        Camera camera = await FindPtzCamera(engine);
+        Camera camera = engine.GetEntities(EntityType.Camera).OfType<Camera>().FirstOrDefault(camera => camera.IsPtz && camera.IsOnline);
         if (camera is null)
         {
             Console.WriteLine("No suitable PTZ camera found. Ensure a PTZ camera is online.\n");
             return;
         }
 
-        // Load networks into the entity cache
-        await LoadNetworks(engine);
+        // Load all networks into the entity cache
+        await LoadEntities(engine, token, EntityType.Network);
 
         // Get the network (client subnet) used by the camera.
         // In this sample, we assume the first network is the one we want to use.
@@ -51,44 +52,6 @@ class PtzCoordinatesManagerSample : SampleBase
         await RunPatterns(manager, camera, token);
         await RunPresetTours(manager, camera, token);
         await DemonstratePtzControls(manager, camera, token);
-    }
-
-    // Finds the first available online PTZ camera
-    async Task<Camera> FindPtzCamera(Engine engine)
-    {
-        Console.WriteLine("Searching for an online PTZ camera...\n");
-
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Camera);
-
-        for (int page = 1; ; page++)
-        {
-            query.Page = page;
-            query.PageSize = 100;
-
-            var result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-
-            var camera = result.Data.AsEnumerable().Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid)))).OfType<Camera>().FirstOrDefault(c => c.IsPtz && c.IsOnline);
-
-            if (camera is not null)
-                return camera;
-
-            if (result.Data.Rows.Count <= query.PageSize)
-                break;
-        }
-
-        return null;
-    }
-
-    // Loads networks into the entity cache
-    async Task LoadNetworks(Engine engine)
-    {
-        Console.WriteLine("Loading networks...\n");
-
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Network);
-
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
     }
 
     // Demonstrates moving through all available presets

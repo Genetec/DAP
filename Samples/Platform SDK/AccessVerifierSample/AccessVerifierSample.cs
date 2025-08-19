@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -15,7 +14,7 @@ class AccessVerifierSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        await PrefetchEntities(engine);
+        await LoadEntities(engine, token, EntityType.Credential, EntityType.AccessPoint, EntityType.Schedule, EntityType.AccessRule);
 
         List<Guid> doorGuids = engine.GetEntities(EntityType.Door).Select(door => door.Guid).ToList();
 
@@ -34,24 +33,6 @@ class AccessVerifierSample : SampleBase
         Console.WriteLine($"File created: {fileStream.Name}");
     }
 
-    static async Task PrefetchEntities(IEngine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Credential);
-        query.EntityTypeFilter.Add(EntityType.AccessPoint);
-        query.EntityTypeFilter.Add(EntityType.Schedule);
-        query.EntityTypeFilter.Add(EntityType.AccessRule);
-        query.DownloadAllRelatedData = true;
-        query.Page = 1;
-        query.PageSize = 1000;
-
-        QueryCompletedEventArgs args;
-        do
-        {
-            args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            query.Page++;
-        } while (args.Data.Rows.Count > query.PageSize);
-    }
 
     static void GenerateAccessMatrixCsv(IEngine engine, ICollection<(AccessPoint AccessPoint, Credential Credential, AccessResult Result)> accessResults, TextWriter textWriter)
     {

@@ -15,7 +15,6 @@ using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Roles;
 using Genetec.Sdk.Entities.Video;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -23,8 +22,7 @@ public class RoleSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        Console.Write("Loading roles...");
-        await LoadRoles(engine);
+        await LoadEntities(engine, token, EntityType.Role);
 
         List<Role> roles = engine.GetEntities(EntityType.Role).OfType<Role>().ToList();
         Console.WriteLine($"\r{roles.Count} roles loaded\n");
@@ -33,13 +31,6 @@ public class RoleSample : SampleBase
         {
             DisplayRoleInfo(role, engine);
         }
-    }
-
-    private async Task LoadRoles(Engine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Role);
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
     }
 
     private void DisplayRoleInfo(Role role, Engine engine)

@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -15,11 +14,12 @@ using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Video;
-using Genetec.Sdk.Queries;
 using Genetec.Sdk.Workflows;
 using Genetec.Sdk.Workflows.UnitManager;
 
 namespace Genetec.Dap.CodeSamples;
+
+using Sdk.EventsArgs;
 
 public class VideoUnitSample : SampleBase
 {
@@ -42,7 +42,7 @@ public class VideoUnitSample : SampleBase
 
             addVideoUnitInfo.SpecialFeatures.Add("StreamUri", uri.OriginalString);
 
-            ArchiverRole archiver = await GetArchiverRole(engine);
+            ArchiverRole archiver = await GetArchiverRole(engine, token);
             if (archiver != null)
             {
                 try
@@ -64,12 +64,12 @@ public class VideoUnitSample : SampleBase
         }
     }
 
-    private async Task<ArchiverRole> GetArchiverRole(Engine engine)
+    private async Task<ArchiverRole> GetArchiverRole(Engine engine, CancellationToken token)
     {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Role);
-        var result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-        return result.Data.AsEnumerable().Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid)))).OfType<ArchiverRole>().FirstOrDefault();
+        // Load all roles into the entity cache
+        await LoadEntities(engine, token, EntityType.Role);
+        // Find the Archiver role in the entity cache
+        return engine.GetEntities(EntityType.Role).OfType<ArchiverRole>().FirstOrDefault();
     }
 
     private void PrintSupportedCameras(IVideoUnitManager manager)
@@ -138,7 +138,7 @@ public class VideoUnitSample : SampleBase
             videoUnitManager.EnrollmentStatusChanged -= OnEnrollmentStatusChanged;
         }
 
-        void OnEnrollmentStatusChanged(object sender, Genetec.Sdk.EventsArgs.UnitEnrolledEventArgs e)
+        void OnEnrollmentStatusChanged(object sender, UnitEnrolledEventArgs e)
         {
             progress?.Report(e.EnrollmentResult);
 

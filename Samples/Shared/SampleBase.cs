@@ -1,6 +1,7 @@
 ﻿namespace Genetec.Dap.CodeSamples;
 
 using Genetec.Sdk;
+using Genetec.Sdk.Queries;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -85,4 +86,50 @@ public abstract class SampleBase
     }
 
     protected abstract Task RunAsync(Engine engine, CancellationToken token);
+
+    /// <summary>
+    /// Loads entities of the specified types into the SDK's entity cache using proper paging.
+    /// This demonstrates the recommended approach for entity loading in Security Center SDK applications.
+    /// </summary>
+    /// <param name="engine">The SDK engine instance</param>
+    /// <param name="token">Cancellation token to allow operation cancellation</param>
+    /// <param name="types">The entity types to load (e.g., EntityType.Camera, EntityType.Door)</param>
+    protected async Task LoadEntities(Engine engine, CancellationToken token, params EntityType[] types)
+    {
+        Console.WriteLine($"Loading entities: {string.Join(", ", types)}...");
+
+        // Create an EntityConfiguration query to load entities into the cache
+        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+
+        // Specify which entity types to load
+        query.EntityTypeFilter.AddRange(types);
+
+        // Download all related entity data (recommended in most cases)
+        query.DownloadAllRelatedData = true;
+
+        // Use paging to handle large datasets efficiently (1000 entities per page)
+        query.PageSize = 1000;
+        query.Page = 1;
+
+        int totalLoaded = 0;
+        QueryCompletedEventArgs args;
+        do
+        {
+            // Check for cancellation before each page
+            token.ThrowIfCancellationRequested();
+            
+            // Execute the query asynchronously. This loads entities into the cache
+            // The returned DataTable contains GUIDs of the loaded entities
+            args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+            totalLoaded += args.Data.Rows.Count;
+
+            Console.WriteLine($"  Page {query.Page}: loaded {args.Data.Rows.Count} entities");
+
+            // Move to the next page for subsequent iterations
+            query.Page++;
+
+        } while (args.Data.Rows.Count >= query.PageSize); // Continue until fewer results than page size are returned
+
+        Console.WriteLine($"Completed loading {totalLoaded} entities total");
+    }
 }

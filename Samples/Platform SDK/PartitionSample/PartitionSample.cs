@@ -12,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -20,7 +19,7 @@ public class PartitionSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        await LoadPartitions(engine); // Load all partitions into the entity cache
+        await LoadEntities(engine, token, EntityType.Partition); // Load all partitions into the entity cache
 
         // Create initial partitions
         var defaultPartition1 = (Partition)engine.CreateEntity("Partition 1", EntityType.Partition);
@@ -65,22 +64,6 @@ public class PartitionSample : SampleBase
         DisplayEntityPartitions(cardholder2, engine);
 
         DisplayPartitionMembers(newPartition, engine);
-    }
-
-    private async Task LoadPartitions(Engine engine)
-    {
-        Console.WriteLine("Loading partitions...");
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Partition);
-        query.DownloadAllRelatedData = false;
-        query.Page = 1;
-        query.PageSize = 1000;
-        QueryCompletedEventArgs args;
-        do
-        {
-            args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            query.Page++;
-        } while (args.Data.Rows.Count > query.PageSize);
     }
 
     private void DisplayCreationPartitions(CreationPartitions creationPartitions, Engine engine)

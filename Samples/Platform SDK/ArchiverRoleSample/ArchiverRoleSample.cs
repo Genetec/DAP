@@ -17,7 +17,7 @@ class ArchiverRoleSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load roles and retrieve archiver roles
-        await LoadRoles(engine);
+        await LoadEntities(engine, token, EntityType.Role);
 
         List<ArchiverRole> archiverRoles = engine.GetEntities(EntityType.Role).OfType<ArchiverRole>().ToList();
 
@@ -216,10 +216,4 @@ class ArchiverRoleSample : SampleBase
     string GetEntityName(Engine engine, Guid entity) => engine.GetEntity(entity) is { } entityObj ? entityObj.Name : "Unknown";
 
     // Loads roles asynchronously
-    async Task LoadRoles(Engine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Role);
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 }

@@ -25,7 +25,7 @@ public class CustomReportQuerySample : SampleBase
 
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        await LoadRole(engine);
+        await LoadEntities(engine, token, EntityType.Role);
 
         // Find the CustomReportSample plugin role
         Role plugin = engine.GetEntities(EntityType.Role).OfType<Role>().FirstOrDefault(role => role.Type == RoleType.Plugin && role.SubType == new Guid(s_customReportSamplePluginGuid));
@@ -46,7 +46,7 @@ public class CustomReportQuerySample : SampleBase
         }.Serialize();
 
         // Load cardholders into the engine's cache
-        await LoadCardholders(engine);
+        await LoadEntities(engine, token, EntityType.Cardholder);
 
         // Add cardholders to query
         query.QueryEntities.AddRange(engine.GetEntities(EntityType.Cardholder).Select(entity => entity.Guid));
@@ -77,20 +77,6 @@ public class CustomReportQuerySample : SampleBase
         }
     }
 
-    private Task LoadRole(Engine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Role);
-        return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
-
-    private Task LoadCardholders(Engine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Cardholder);
-        query.MaximumResultCount = 10; // Limit to 10 cardholders
-        return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 
     private CancellationTokenSource CreateCancellationTokenSource()
     {

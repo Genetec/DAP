@@ -3,9 +3,7 @@
 using Sdk;
 using Sdk.Entities;
 using Sdk.Media.Overlay;
-using Sdk.Queries;
 using System;
-using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +17,7 @@ class OverlaySample : SampleBase
     {
         OverlayFactory.Initialize(engine);
 
-        Camera camera = await FindSupportedCamera(engine); // Find a camera that supports overlays and is running
+        Camera camera = await FindSupportedCamera(engine, token); // Find a camera that supports overlays and is running
         if (camera is null)
         {
             Console.WriteLine("No running camera supporting overlays was found.");
@@ -31,32 +29,16 @@ class OverlaySample : SampleBase
         await Task.WhenAll(DrawBouncingBall(camera.Guid, token), DrawTimecode(camera.Guid, token));
     }
 
-    async Task<Camera> FindSupportedCamera(Engine engine)
+    async Task<Camera> FindSupportedCamera(Engine engine, CancellationToken token)
     {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Camera);
-        query.Page = 1; // Start at page 1
-        query.PageSize = 50; // Query 50 entities at a time
+        // Load all cameras into the entity cache first
+        await LoadEntities(engine, token, EntityType.Camera);
 
-        QueryCompletedEventArgs args;
-        do
-        {
-            args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+        // Search through cached entities for a camera that supports overlays and is running
+        Camera camera = engine.GetEntities(EntityType.Camera).OfType<Camera>()
+            .FirstOrDefault(camera => camera.IsOverlaySupported && camera.RunningState == State.Running);
 
-            Camera camera = args.Data.AsEnumerable().Take(query.PageSize) // Only take the first 50 results
-                .Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid)))) // Convert the GUIDs to entities
-                .OfType<Camera>() // Filter out non-camera entities
-                .FirstOrDefault(camera => camera.IsOverlaySupported && camera.RunningState == State.Running); // Find the first camera that supports overlays and is running
-
-            if (camera != null)
-            {
-                return camera;
-            }
-
-            query.Page++; // Move to the next page
-        } while (args.Data.Rows.Count > query.PageSize); // Continue querying until we reach the end of the results
-
-        return null;
+        return camera;
     }
 
     async Task DrawBouncingBall(Guid cameraId, CancellationToken token)

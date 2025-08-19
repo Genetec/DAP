@@ -12,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -23,18 +22,10 @@ public class DisplayInTileSample : SampleBase
         // Replace with your actual camera GUID
         Guid cameraGuid = Guid.Parse("your-camera-guid-here");
 
-        await LoadApplications(engine);
+        await LoadEntities(engine, token, EntityType.Application);
         DisplayCameraInTiles(engine, cameraGuid);
     }
 
-    // Load all applications into the engine's entity cache
-    private static async Task LoadApplications(Engine engine)
-    {
-        Console.WriteLine("Loading applications...");
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Application);
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 
     // Display the camera feed in tiles on all available Security Desk monitors
     private static void DisplayCameraInTiles(Engine engine, Guid cameraGuid)

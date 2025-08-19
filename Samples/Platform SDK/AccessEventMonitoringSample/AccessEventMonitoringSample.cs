@@ -12,7 +12,6 @@ using Sdk;
 using Sdk.Credentials;
 using Sdk.Entities;
 using Sdk.Events.AccessPoint;
-using Sdk.Queries;
 
 class AccessEventMonitoringSample : SampleBase
 {
@@ -20,7 +19,7 @@ class AccessEventMonitoringSample : SampleBase
     {
         engine.EventReceived += OnEventReceived;
 
-        await LoadAccessPoints(engine); // Load all access points into the entity cache. This is necessary to receive events.
+        await LoadEntities(engine, token, EntityType.AccessPoint); // Load all access points into the entity cache. This is necessary to receive events.
 
         Console.WriteLine("Monitoring access events... Press Ctrl+C to stop.");
 
@@ -68,12 +67,5 @@ class AccessEventMonitoringSample : SampleBase
         }
     }
 
-    Task LoadAccessPoints(Engine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.AccessPoint);
-        query.DownloadAllRelatedData = true;
-        return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 
 }

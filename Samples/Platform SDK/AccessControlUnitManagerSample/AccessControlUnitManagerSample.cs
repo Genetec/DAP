@@ -36,12 +36,7 @@ class AccessControlUnitManagerSample : SampleBase
 
         async Task<AccessManagerRole> GetAccessManagerRole()
         {
-            var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-            query.EntityTypeFilter.Add(EntityType.Role);
-            query.DownloadAllRelatedData = true;
-
-            await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-
+            await LoadEntities(engine, token, EntityType.Role);
             return engine.GetEntities(EntityType.Role).OfType<AccessManagerRole>().FirstOrDefault();
         }
     }

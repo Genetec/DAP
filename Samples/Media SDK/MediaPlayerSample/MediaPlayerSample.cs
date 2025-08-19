@@ -25,7 +25,7 @@ class MediaPlayerSample : SampleBase
     {
         DisplayControls();
 
-        await LoadCameras(engine);
+        await LoadEntities(engine, token, EntityType.Camera);
 
         var thread = new Thread(() => RunWpfApplication(engine, token));
         thread.SetApartmentState(ApartmentState.STA);
@@ -332,15 +332,6 @@ class MediaPlayerSample : SampleBase
         }
     }
 
-    Task LoadCameras(Engine engine)
-    {
-        Console.WriteLine("Loading cameras...");
-
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Camera);
-
-        return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 
     void DisplayControls()
     {

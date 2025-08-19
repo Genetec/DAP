@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Media.Reader;
-using Genetec.Sdk.Queries;
 using DateTimeRange = Genetec.Sdk.Media.DateTimeRange;
 namespace Genetec.Dap.CodeSamples;
 
@@ -18,7 +17,7 @@ class PlaybackSequenceQuerierSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load cameras into the entity cache
-        await LoadCameras(engine);
+        await LoadEntities(engine, token, EntityType.Camera);
 
         // Get the list of cameras from the entity cache
         List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
@@ -36,19 +35,6 @@ class PlaybackSequenceQuerierSample : SampleBase
         }
     }
 
-    async Task LoadCameras(Engine engine)
-    {
-        Console.Write("Loading cameras...");
-
-        // Create a query specifically for entity configuration
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-
-        // Filter the query to only return camera entities
-        query.EntityTypeFilter.Add(EntityType.Camera);
-
-        // Execute the query asynchronously
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 
     // QueryAndDisplayVideoSequence uses the PlaybackSequenceQuerier to find recorded video segments
     async Task QueryAndDisplayVideoSequence(Engine engine, Camera camera, DateTimeRange timeRange, CancellationToken token = default)

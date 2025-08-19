@@ -4,7 +4,6 @@
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Maps;
-using Genetec.Sdk.Queries;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,7 +27,7 @@ namespace Genetec.Dap.CodeSamples
             singaporeMap.DefaultView = new GeoView(new GeoCoordinate(1.3521, 103.8198, 15.0), 1);
 
             // Load all maps into the entity cache
-            await LoadMaps(engine);
+            await LoadEntities(engine, token, EntityType.Map);
 
             // Retrieve all maps from the entity cache
             IEnumerable<Map> maps = engine.GetEntities(EntityType.Map).OfType<Map>();
@@ -286,21 +285,5 @@ namespace Genetec.Dap.CodeSamples
                 : $"Lat={coordinate.Latitude}, Lon={coordinate.Longitude}, Alt={coordinate.Altitude}";
         }
 
-        private async Task LoadMaps(Engine engine)
-        {
-            var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-            query.EntityTypeFilter.Add(EntityType.Map);
-            query.DownloadAllRelatedData = true;
-            query.Page = 1;
-            query.PageSize = 50;
-
-            QueryCompletedEventArgs args;
-            do
-            {
-                args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-                query.Page++;
-
-            } while (args.Data.Rows.Count > query.PageSize);
-        }
     }
 }

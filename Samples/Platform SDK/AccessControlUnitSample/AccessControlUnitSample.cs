@@ -12,13 +12,12 @@ using Sdk;
 using Sdk.Entities;
 using Sdk.Entities.AccessControl.AccessControlInterfaces.AccessControlInterfaceBaseClasses;
 using Sdk.Entities.Devices;
-using Sdk.Queries;
 
 class AccessControlUnitSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        await LoadUnitsAndDevices();
+        await LoadEntities(engine, token, EntityType.Role, EntityType.Unit, EntityType.Device);
 
         IEnumerable<Unit> accessControlUnits = engine.GetEntities(EntityType.Unit).OfType<Unit>();
 
@@ -33,23 +32,6 @@ class AccessControlUnitSample : SampleBase
             }
         }
 
-        async Task LoadUnitsAndDevices()
-        {
-            var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-            query.EntityTypeFilter.Add(EntityType.Role);
-            query.EntityTypeFilter.Add(EntityType.Unit);
-            query.EntityTypeFilter.Add(EntityType.Device);
-            query.DownloadAllRelatedData = true;
-            query.Page = 1;
-            query.PageSize = 1000;
-
-            QueryCompletedEventArgs args;
-            do
-            {
-                args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-                query.Page++;
-            } while (args.Data.Rows.Count > query.PageSize);
-        }
 
         void PrintInterfaceModule(InterfaceModule interfaceModule, string indent)
         {

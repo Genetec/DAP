@@ -16,17 +16,11 @@ public class DoorSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        await LoadDoors(engine);
+        await LoadEntities(engine, token, EntityType.Door);
         IEnumerable<Door> doors = engine.GetEntities(EntityType.Door).OfType<Door>();
         DisplayDoorInformation(engine, doors);
     }
 
-    private async Task LoadDoors(Engine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Door);
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 
     private void DisplayDoorInformation(Engine engine, IEnumerable<Door> doors)
     {

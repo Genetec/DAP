@@ -18,7 +18,7 @@ class AccessControlRawEventQuerySample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load roles into the entity cache
-        await LoadRoles(engine);
+        await LoadEntities(engine, token, EntityType.Role);
 
         // Retrieve access manager roles from the entity cache
         List<AccessManagerRole> accessManagers = engine.GetEntities(EntityType.Role).OfType<AccessManagerRole>().ToList();
@@ -39,13 +39,6 @@ class AccessControlRawEventQuerySample : SampleBase
         }
     }
 
-    Task LoadRoles(Engine engine)
-    {
-        Console.WriteLine("Loading roles...");
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Role);
-        return Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 
     async Task<IList<AccessControlRawEvent>> GetAccessControlRawEvents(Engine engine, DateTime startDate, DateTime endDate, IEnumerable<EventType> eventTypes, IEnumerable<AccessManagerRole> accessManagers)
     {

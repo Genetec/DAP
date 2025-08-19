@@ -6,7 +6,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 using Genetec.Sdk;
-using Genetec.Sdk.Queries;
 using System;
 using System.Linq;
 using System.Threading;
@@ -37,7 +36,7 @@ public class EntityCacheSample : SampleBase
         }
 
         // Load entities of the specified types into the entity cache
-        await LoadEntities(engine, EntityType.Area, EntityType.Door, EntityType.AccessPoint, EntityType.AccessRule, EntityType.Schedule);
+        await LoadEntities(engine, token, EntityType.Area, EntityType.Door, EntityType.AccessPoint, EntityType.AccessRule, EntityType.Schedule);
 
         lock (m_consoleLock)
         {
@@ -105,22 +104,4 @@ public class EntityCacheSample : SampleBase
         Console.WriteLine("================================\n");
     }
 
-    private async Task LoadEntities(Engine engine, params EntityType[] types)
-    {
-        Console.WriteLine("Loading entities into the entity cache...\n");
-
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.AddRange(types);
-        query.DownloadAllRelatedData = true;
-        query.Page = 1;
-        query.PageSize = 1000;
-
-        QueryCompletedEventArgs args;
-        do
-        {
-            args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            query.Page++;
-
-        } while (args.Data.Rows.Count >= query.PageSize);
-    }
 }

@@ -12,7 +12,6 @@ using Genetec.Sdk.Entities.Video;
 using Genetec.Sdk.Entities.Video.HardwareSpecific;
 using Genetec.Sdk.Entities.Video.HardwareSpecific.Axis;
 using Genetec.Sdk.Entities.Video.HardwareSpecific.Hanwha;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -21,7 +20,7 @@ class CameraSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load all cameras into the entity cache
-        await LoadCameras(engine);
+        await LoadEntities(engine, token, EntityType.Camera);
 
         // Retrieve all cameras from the entity cache
         IEnumerable<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>();
@@ -29,21 +28,6 @@ class CameraSample : SampleBase
         DisplayCameraInformation(engine, cameras);
     }
 
-    async Task LoadCameras(Engine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Camera);
-        query.DownloadAllRelatedData = true;
-        query.Page = 1;
-        query.PageSize = 50;
-
-        QueryCompletedEventArgs args;
-        do
-        {
-            args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            query.Page++;
-        } while (args.Data.Rows.Count >= query.PageSize);
-    }
 
     void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
     {

@@ -12,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -21,7 +20,7 @@ public class PlaySoundSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load files into the entity cache
-        await LoadFiles(engine);
+        await LoadEntities(engine, token, EntityType.File);
 
         // Get audio files from the entity cache
         IEnumerable<File> audioFiles = engine.GetEntities(EntityType.File).OfType<File>().Where(file => file.FileType == FileType.Audio);
@@ -36,12 +35,4 @@ public class PlaySoundSample : SampleBase
         }
     }
 
-    private static async Task LoadFiles(Engine engine)
-    {
-        Console.WriteLine("Loading files...");
-
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.File);
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 }

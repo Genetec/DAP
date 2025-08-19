@@ -3,7 +3,6 @@
 
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
-using Genetec.Sdk.Queries;
 using System;
 using System.Linq;
 using System.Threading;
@@ -15,16 +14,15 @@ public class SecurityManagerSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
+        // Load all users into the entity cache
+        await LoadEntities(engine, token, EntityType.User);
+
         PrintPrivileges(engine);
-        await PrintUsersPrivileges(engine);
+        PrintUsersPrivileges(engine);
     }
 
-    private async Task PrintUsersPrivileges(Engine engine)
+    private void PrintUsersPrivileges(Engine engine)
     {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.User);
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-
         var definitions = engine.SecurityManager.GetPrivilegeDefinitions().ToDictionary(information => information.Id);
 
         foreach (User user in engine.GetEntities(EntityType.User).OfType<User>())

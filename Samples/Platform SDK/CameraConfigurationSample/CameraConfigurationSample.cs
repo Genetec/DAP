@@ -15,7 +15,7 @@ class CameraConfigurationSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load cameras into the entity cache
-        await LoadCameras();
+        await LoadEntities(engine, token, EntityType.Camera);
 
         // Retrieve cameras from the entity cache
         List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
@@ -30,14 +30,6 @@ class CameraConfigurationSample : SampleBase
             DisplayToConsole(configuration);
         }
 
-        async Task LoadCameras()
-        {
-            Console.WriteLine("Loading cameras...");
-
-            var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-            query.EntityTypeFilter.Add(EntityType.Camera);
-            await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-        }
 
         async Task<IList<CameraConfiguration>> GetCameraConfigurations(IEnumerable<Camera> cameras)
         {

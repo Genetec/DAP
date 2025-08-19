@@ -51,17 +51,10 @@ public class EventMonitoringSample : SampleBase
             }
         };
 
-        await LoadEntities(engine);
+        await LoadEntities(engine, token, EntityType.Unit);
 
         Console.WriteLine($"Listening to events: {string.Join(",", engine.GetEventFilter())}");
 
         await Task.Delay(Timeout.Infinite, token); // Keep the sample running to listen for events
-    }
-
-    private async Task LoadEntities(Engine engine)
-    {
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Unit);
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
     }
 }

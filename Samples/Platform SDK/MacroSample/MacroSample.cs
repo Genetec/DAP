@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Sdk.Queries;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Scripting.Compiler;
@@ -23,7 +22,7 @@ public class MacroSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load macros into the entity cache
-        await LoadMacros(engine);
+        await LoadEntities(engine, token, EntityType.Macro);
 
         // Retrieve macros from the entity cache
         List<Macro> macros = engine.GetEntities(EntityType.Macro).OfType<Macro>().ToList();
@@ -68,14 +67,6 @@ public class MacroSample : SampleBase
         }
     }
 
-    private async Task LoadMacros(Engine engine)
-    {
-        Console.WriteLine("Loading macros...");
-
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Macro);
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-    }
 
     private async Task<Macro> CreateNewMacro(Engine engine)
     {

@@ -12,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -21,7 +20,7 @@ public class PeopleCountingSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load areas into the entity cache
-        await LoadAreas(engine);
+        await LoadEntities(engine, token, EntityType.Area);
 
         // Retrieve areas from the entity cache
         IEnumerable<Area> areas = engine.GetEntities(EntityType.Area).OfType<Area>();
@@ -30,24 +29,6 @@ public class PeopleCountingSample : SampleBase
         {
             DisplayToConsole(area, engine);
         }
-    }
-
-    private async Task LoadAreas(Engine engine)
-    {
-        Console.WriteLine("Loading areas...");
-
-        var query = (EntityConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Area);
-        query.Page = 1;
-        query.PageSize = 1000;
-
-        QueryCompletedEventArgs args;
-        do
-        {
-            args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            query.Page++;
-
-        } while (args.Data.Rows.Count > query.PageSize);
     }
 
     private void DisplayToConsole(Area area, Engine engine)
