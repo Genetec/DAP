@@ -45,6 +45,7 @@ public class VisitorManagerSample : SampleBase
 
         PerformCheckin(visitor);
 
+        Console.WriteLine("Waiting for 5 seconds before checkout...");
         await Task.Delay(TimeSpan.FromSeconds(5), token);
 
         PerformCheckout(visitor);
