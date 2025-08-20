@@ -18,7 +18,7 @@ class AudioTransmitterSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        const string cameraGuid = "YOUR_CAMERA_GUID_HERE"; // Replace with your camera's GUID
+        const string cameraGuid = "YOUR_CAMERA_GUID_HERE"; // TODO : Replace with your actual camera GUID
 
         if (engine.GetEntity(new Guid(cameraGuid)) is not Camera camera)
         {

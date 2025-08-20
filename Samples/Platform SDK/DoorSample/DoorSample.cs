@@ -2,7 +2,6 @@ using Genetec.Sdk;
 using Genetec.Sdk.AccessControl.AccessRules;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Devices;
-using Genetec.Sdk.Queries;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,8 +15,12 @@ public class DoorSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
+        // Load doors into the entity cache
         await LoadEntities(engine, token, EntityType.Door);
+
+        // Retrieve doors from the entity cache
         IEnumerable<Door> doors = engine.GetEntities(EntityType.Door).OfType<Door>();
+
         DisplayDoorInformation(engine, doors);
     }
 

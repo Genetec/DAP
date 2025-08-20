@@ -12,7 +12,6 @@ using System.Windows.Media;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Media;
-using Genetec.Sdk.Queries;
 using Microsoft.Win32;
 using Application = System.Windows.Application;
 using MediaPlayer = Genetec.Sdk.Media.MediaPlayer;

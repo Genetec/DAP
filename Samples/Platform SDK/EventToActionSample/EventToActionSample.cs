@@ -14,9 +14,11 @@ namespace Genetec.Dap.CodeSamples;
 
 public class EventToActionSample : SampleBase
 {
-    protected override async Task RunAsync(Engine engine, CancellationToken token)
+    protected override Task RunAsync(Engine engine, CancellationToken token)
     {
         PrintEventToActions(engine);
+
+        return Task.CompletedTask;
     }
 
     void PrintEventToActions(Engine engine)

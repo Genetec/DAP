@@ -22,8 +22,10 @@ public class SequenceQuerySample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
+        // Load cameras into the entity cache
         await LoadEntities(engine, token, EntityType.Camera);
 
+        // Retrieve cameras from the entity cache
         List<Camera> cameras = engine.GetEntities(EntityType.Camera).OfType<Camera>().ToList();
 
         Console.WriteLine($"{cameras.Count} cameras loaded");

@@ -15,6 +15,6 @@ public class LoginManagerSample : SampleBase
         // in the SampleBase class. The base class handles connection setup, authentication,
         // event logging, and error handling. We simply wait here until cancellation is requested
         // to keep the application running and observe the login manager events.
-        await Task.Delay(-1, token);
+        await Task.Delay(Timeout.Infinite, token);
     }
 }

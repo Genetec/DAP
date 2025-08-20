@@ -14,7 +14,7 @@ namespace Genetec.Dap.CodeSamples;
 
 public class UserTaskSample : SampleBase
 {
-    protected override async Task RunAsync(Engine engine, CancellationToken token)
+    protected override Task RunAsync(Engine engine, CancellationToken token)
     {
         IEnumerable<PrivateUserTask> privateTasks = engine.UserTaskManager.GetPrivateTasks().OfType<PrivateUserTask>().ToList();
         Console.WriteLine($"Number of private tasks: {privateTasks.Count()}");
@@ -39,6 +39,8 @@ public class UserTaskSample : SampleBase
                 Console.WriteLine($"   Content Item ID: {item.Id}, Type: {item.Type}");
             }
         }
+
+        return Task.CompletedTask;
     }
 
     string GetTaskTypeName(Guid taskTypeId)

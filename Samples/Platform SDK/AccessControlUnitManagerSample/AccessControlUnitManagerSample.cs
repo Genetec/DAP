@@ -12,13 +12,16 @@ using System.Threading.Tasks;
 using Sdk;
 using Sdk.Entities;
 using Sdk.Entities.AccessControl;
-using Sdk.Queries;
 
 class AccessControlUnitManagerSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        AccessManagerRole accessManagerRole = await GetAccessManagerRole();
+        // Load roles into the entity cache
+        await LoadEntities(engine, token, EntityType.Role);
+
+        // Retrieve the access manager role from the entity cache
+        AccessManagerRole accessManagerRole = engine.GetEntities(EntityType.Role).OfType<AccessManagerRole>().FirstOrDefault();
 
         var info = new AddAccessControlUnitInfo(
             address: IPAddress.Parse("127.0.0.1"),
@@ -33,11 +36,5 @@ class AccessControlUnitManagerSample : SampleBase
 
         Console.WriteLine("Enrolling access control unit...");
         engine.AccessControlUnitManager.EnrollAccessControlUnit(info, accessManagerRole.Guid);
-
-        async Task<AccessManagerRole> GetAccessManagerRole()
-        {
-            await LoadEntities(engine, token, EntityType.Role);
-            return engine.GetEntities(EntityType.Role).OfType<AccessManagerRole>().FirstOrDefault();
-        }
     }
 }

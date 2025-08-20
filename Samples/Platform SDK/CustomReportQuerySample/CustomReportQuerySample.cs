@@ -25,9 +25,10 @@ public class CustomReportQuerySample : SampleBase
 
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
+        // Load roles into the entity cache
         await LoadEntities(engine, token, EntityType.Role);
 
-        // Find the CustomReportSample plugin role
+        // Find the CustomReportSample plugin role from the entity cache
         Role plugin = engine.GetEntities(EntityType.Role).OfType<Role>().FirstOrDefault(role => role.Type == RoleType.Plugin && role.SubType == new Guid(s_customReportSamplePluginGuid));
         if (plugin?.IsOnline != true)
         {
@@ -45,7 +46,7 @@ public class CustomReportQuerySample : SampleBase
             Duration = TimeSpan.FromMinutes(30)
         }.Serialize();
 
-        // Load cardholders into the engine's cache
+        // Load cardholders into the entity cache
         await LoadEntities(engine, token, EntityType.Cardholder);
 
         // Add cardholders to query
@@ -55,8 +56,7 @@ public class CustomReportQuerySample : SampleBase
         Console.WriteLine("Press Ctrl+C to cancel at any time\n");
         try
         {
-            using CancellationTokenSource cancellationTokenSource = CreateCancellationTokenSource();
-            ReportQueryAsyncResult result = await engine.ReportManager.QueryAsync(query, cancellationTokenSource.Token);
+            ReportQueryAsyncResult result = await engine.ReportManager.QueryAsync(query, token);
 
             if (result.Results.Any())
             {
@@ -75,19 +75,6 @@ public class CustomReportQuerySample : SampleBase
         {
             Console.WriteLine("\nQuery cancelled by user");
         }
-    }
-
-
-    private CancellationTokenSource CreateCancellationTokenSource()
-    {
-        var cts = new CancellationTokenSource();
-        Console.CancelKeyPress += (_, e) =>
-        {
-            Console.WriteLine("\nCancelling operation...");
-            e.Cancel = true;
-            cts.Cancel();
-        };
-        return cts;
     }
 
     private void DisplayCustomReportRecord(CustomReportRecord record)

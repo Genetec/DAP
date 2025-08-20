@@ -10,15 +10,15 @@ using Sdk;
 using Sdk.Entities;
 using Sdk.Entities.Video;
 using Sdk.Entities.Video.ArchiverStatistics;
-using Sdk.Queries;
 
 class ArchiverRoleSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        // Load roles and retrieve archiver roles
+        // Load roles into the entity cache
         await LoadEntities(engine, token, EntityType.Role);
 
+        // Retrieve all archiver roles from the entity cache
         List<ArchiverRole> archiverRoles = engine.GetEntities(EntityType.Role).OfType<ArchiverRole>().ToList();
 
         Console.WriteLine($"Archiver roles loaded: {archiverRoles.Count}");

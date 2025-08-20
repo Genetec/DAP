@@ -35,7 +35,6 @@ class PlaybackSequenceQuerierSample : SampleBase
         }
     }
 
-
     // QueryAndDisplayVideoSequence uses the PlaybackSequenceQuerier to find recorded video segments
     async Task QueryAndDisplayVideoSequence(Engine engine, Camera camera, DateTimeRange timeRange, CancellationToken token = default)
     {

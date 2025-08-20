@@ -15,8 +15,10 @@ namespace Genetec.Dap.CodeSamples;
 
 public class TriggerAlarmSample : SampleBase
 {
-    protected override async Task RunAsync(Engine engine, CancellationToken token)
+    protected override Task RunAsync(Engine engine, CancellationToken token)
     {
+        // TODO: Replace the following GUIDs with the actual GUIDs from your system.
+
         Guid alarmGuid = new("alarm-guid-here"); // The GUID of the alarm to trigger. Replace with the GUID of the alarm you want to trigger.
 
         Guid sourceEntityGuid = new("source-entity-guid-here"); // Optional: The GUID of the entity that is the source of the alarm. Replace with the GUID of the entity that is the source of the alarm.
@@ -33,6 +35,6 @@ public class TriggerAlarmSample : SampleBase
 
         Console.WriteLine(instanceId == -1 ? "Failed to trigger alarm." : $"Alarm triggered with instance ID: {instanceId}");
 
-        await Task.CompletedTask; // This sample doesn't require any async operations, but we need to return a Task
+        return Task.CompletedTask;
     }
 }

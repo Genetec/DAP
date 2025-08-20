@@ -17,8 +17,10 @@ class AccessControlUnitSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        await LoadEntities(engine, token, EntityType.Role, EntityType.Unit, EntityType.Device);
+        // Load access control units into the entity cache
+        await LoadEntities(engine, token, EntityType.Unit);
 
+        // Retrieve access control units from the entity cache
         IEnumerable<Unit> accessControlUnits = engine.GetEntities(EntityType.Unit).OfType<Unit>();
 
         foreach (Unit accessControlUnit in accessControlUnits)
@@ -31,7 +33,6 @@ class AccessControlUnitSample : SampleBase
                 PrintInterfaceModule(interfaceModule, "  ");
             }
         }
-
 
         void PrintInterfaceModule(InterfaceModule interfaceModule, string indent)
         {

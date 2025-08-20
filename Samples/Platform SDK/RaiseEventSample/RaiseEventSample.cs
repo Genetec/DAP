@@ -21,8 +21,8 @@ public class RaiseEventSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Retrieve the credential and reader entities using their GUIDs
-        var credential = (Credential)engine.GetEntity(new Guid("YOUR_CREDENTIAL_GUID"));
-        var reader = (Reader)engine.GetEntity(new Guid("YOUR_READER_GUID"));
+        var credential = (Credential)engine.GetEntity(new Guid("YOUR_CREDENTIAL_GUID")); // TODO: Replace with your actual credential GUID
+        var reader = (Reader)engine.GetEntity(new Guid("YOUR_READER_GUID")); // TODO: Replace with your actual reader GUID
 
         RaiseAccessGranted(engine, credential, reader);
 

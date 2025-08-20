@@ -24,8 +24,7 @@ public class CustomEventSample : SampleBase
         // TODO: Replace with your own custom event ID
         const int customEventId = 1000;
 
-        // TODO: Replace with your own camera GUID
-        Guid cameraGuid = new Guid("YOUR_CAMERA_GUID_HERE");
+        Guid cameraGuid = new Guid("YOUR_CAMERA_GUID_HERE"); // TODO: Replace with your own camera GUID
 
         var config = (SystemConfiguration)engine.GetEntity(SystemConfiguration.SystemConfigurationGuid);
         ICustomEventService customEventService = config.CustomEventService;

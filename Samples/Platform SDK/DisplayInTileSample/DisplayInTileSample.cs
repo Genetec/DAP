@@ -22,7 +22,9 @@ public class DisplayInTileSample : SampleBase
         // Replace with your actual camera GUID
         Guid cameraGuid = Guid.Parse("your-camera-guid-here");
 
+        // Load applications into the entity cache
         await LoadEntities(engine, token, EntityType.Application);
+
         DisplayCameraInTiles(engine, cameraGuid);
     }
 

@@ -22,9 +22,12 @@ public class RoleSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
+        // Load roles into the entity cache
         await LoadEntities(engine, token, EntityType.Role);
 
+        // Retrieve roles from the entity cache
         List<Role> roles = engine.GetEntities(EntityType.Role).OfType<Role>().ToList();
+
         Console.WriteLine($"\r{roles.Count} roles loaded\n");
 
         foreach (var role in roles)

@@ -14,6 +14,7 @@ class AccessVerifierSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
+        // Load the specified entity types into the entity cache
         await LoadEntities(engine, token, EntityType.Credential, EntityType.AccessPoint, EntityType.Schedule, EntityType.AccessRule);
 
         List<Guid> doorGuids = engine.GetEntities(EntityType.Door).Select(door => door.Guid).ToList();

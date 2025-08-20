@@ -37,7 +37,6 @@ public class ThumbnailQuerySample : SampleBase
         }
     }
 
-
     async Task<IEnumerable<VideoThumbnail>> GetVideoThumbnails(Engine engine, IEnumerable<Camera> cameras)
     {
         Console.WriteLine("Retrieving thumbnails...");

@@ -19,7 +19,8 @@ class AccessEventMonitoringSample : SampleBase
     {
         engine.EventReceived += OnEventReceived;
 
-        await LoadEntities(engine, token, EntityType.AccessPoint); // Load all access points into the entity cache. This is necessary to receive events.
+        // Load access points into the entity cache
+        await LoadEntities(engine, token, EntityType.AccessPoint);
 
         Console.WriteLine("Monitoring access events... Press Ctrl+C to stop.");
 
@@ -66,6 +67,4 @@ class AccessEventMonitoringSample : SampleBase
             }
         }
     }
-
-
 }

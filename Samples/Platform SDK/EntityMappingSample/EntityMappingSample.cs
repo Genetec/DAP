@@ -15,8 +15,10 @@ public class EntityMappingSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        await LoadEntities(engine, token, EntityType.Camera, EntityType.VideoUnit);
+        // Load cameras into the entity cache
+        await LoadEntities(engine, token, EntityType.Camera);
 
+        // Retrieve cameras from the entity cache
         foreach (Camera camera in engine.GetEntities(EntityType.Camera).OfType<Camera>())
         {
             if (!TryGetMapping(engine, camera, out string data))
