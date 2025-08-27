@@ -16,12 +16,16 @@ using Genetec.Sdk.Plugin;
 [PluginProperty(typeof(SamplePluginDescriptor))]
 public class SamplePlugin : Plugin
 {
+    // The static constructor initializes the AssemblyResolver to ensure that
+    // the plugin can dynamically resolve and load required assemblies at runtime.
+    static SamplePlugin() => AssemblyResolver.Initialize();
+
     protected override void OnPluginLoaded()
     {
         // Add a handler for the action received event.
         Engine.ActionReceived += OnActionReceived;
     }
-        
+
     protected override void OnPluginStart()
     {
         CustomActionTypeDescriptor descriptor = new(CustomActionTypes.LaunchEncoderCommand, "Launch encoder command");
