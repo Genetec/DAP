@@ -1,9 +1,5 @@
-// Copyright 2024 Genetec Inc.
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
 using System;
 using System.Collections.Generic;
@@ -19,6 +15,9 @@ using Genetec.Sdk.Queries.AsyncResult;
 
 namespace Genetec.Dap.CodeSamples;
 
+/// <summary>
+/// For this sample to work, ensure the CustomReportSample plugin is installed and running in your Security Center environment.
+/// </summary>
 public class CustomReportQuerySample : SampleBase
 {
     private const string s_customReportSamplePluginGuid = "4E8BB3F7-0D41-4F4C-A430-0B6EE7478CBE"; // TODO: Replace with the actual GUID of your plugin
@@ -93,20 +92,17 @@ public class CustomReportQuerySample : SampleBase
         Console.WriteLine();
     }
 
-    private CustomReportRecord CreateCustomReportRecord(DataRow row)
+    private CustomReportRecord CreateCustomReportRecord(DataRow row) => new()
     {
-        return new CustomReportRecord
-        {
-            SourceId = row.Field<Guid>(CustomReportColumnName.SourceId),
-            EventId = row.Field<int>(CustomReportColumnName.EventId),
-            Message = row.Field<string>(CustomReportColumnName.Message),
-            Numeric = row.Field<int>(CustomReportColumnName.Numeric),
-            EventTimestamp = row.Field<DateTime>(CustomReportColumnName.EventTimestamp),
-            Decimal = row.Field<decimal>(CustomReportColumnName.Decimal),
-            Boolean = row.Field<bool>(CustomReportColumnName.Boolean),
-            Picture = row.Field<byte[]>(CustomReportColumnName.Picture),
-            Duration = row.Field<TimeSpan>(CustomReportColumnName.Duration),
-            Hidden = row.Field<string>(CustomReportColumnName.Hidden)
-        };
-    }
+        SourceId = row.Field<Guid>(CustomReportColumnName.SourceId),
+        EventId = row.Field<int>(CustomReportColumnName.EventId),
+        Message = row.Field<string>(CustomReportColumnName.Message),
+        Numeric = row.Field<int>(CustomReportColumnName.Numeric),
+        EventTimestamp = row.Field<DateTime>(CustomReportColumnName.EventTimestamp),
+        Decimal = row.Field<decimal>(CustomReportColumnName.Decimal),
+        Boolean = row.Field<bool>(CustomReportColumnName.Boolean),
+        Picture = row.Field<byte[]>(CustomReportColumnName.Picture),
+        Duration = row.Field<TimeSpan>(CustomReportColumnName.Duration),
+        Hidden = row.Field<string>(CustomReportColumnName.Hidden)
+    };
 }

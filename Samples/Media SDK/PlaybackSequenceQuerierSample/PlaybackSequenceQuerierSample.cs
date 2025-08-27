@@ -1,4 +1,4 @@
-﻿// Copyright 2024 Genetec Inc.
+﻿// Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
 using System;
@@ -12,7 +12,7 @@ using Genetec.Sdk.Media.Reader;
 using DateTimeRange = Genetec.Sdk.Media.DateTimeRange;
 namespace Genetec.Dap.CodeSamples;
 
-class PlaybackSequenceQuerierSample : SampleBase
+public class PlaybackSequenceQuerierSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
@@ -36,7 +36,7 @@ class PlaybackSequenceQuerierSample : SampleBase
     }
 
     // QueryAndDisplayVideoSequence uses the PlaybackSequenceQuerier to find recorded video segments
-    async Task QueryAndDisplayVideoSequence(Engine engine, Camera camera, DateTimeRange timeRange, CancellationToken token = default)
+    private async Task QueryAndDisplayVideoSequence(Engine engine, Camera camera, DateTimeRange timeRange, CancellationToken token = default)
     {
         // Create a video querier for the specific camera
         // The querier helps find video sequences (recordings) for a given time range
@@ -51,7 +51,7 @@ class PlaybackSequenceQuerierSample : SampleBase
             foreach (PlaybackSequence sequence in sequences)
             {
                 TimeSpan duration = sequence.Range.EndTime - sequence.Range.StartTime;
-                Console.WriteLine($"  {sequence.Range.StartTime:yyyy-MM-dd HH:mm:ss} to {sequence.Range.EndTime:yyyy-MM-dd HH:mm:ss} (Duration: {duration:hh\\:mm\\:ss})");
+                Console.WriteLine($@"  {sequence.Range.StartTime:yyyy-MM-dd HH:mm:ss} to {sequence.Range.EndTime:yyyy-MM-dd HH:mm:ss} (Duration: {duration:hh\:mm\:ss})");
             }
         }
         else

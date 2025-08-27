@@ -1,3 +1,6 @@
+// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
 using Genetec.Sdk;
 using Genetec.Sdk.AccessControl.AccessRules;
 using Genetec.Sdk.Entities;

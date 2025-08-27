@@ -1,9 +1,5 @@
-// Copyright 2024 Genetec Inc.
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
 using System;
 using System.Collections.Generic;
@@ -39,7 +35,7 @@ public class VideoFileQuerySample : SampleBase
     }
 
 
-    async Task<IEnumerable<VideoFileInfo>> GetVideoFileInfos(Engine engine, IEnumerable<Camera> cameras)
+    private async Task<IEnumerable<VideoFileInfo>> GetVideoFileInfos(Engine engine, IEnumerable<Camera> cameras)
     {
         Console.WriteLine("Retrieving video file information...");
 
@@ -67,7 +63,7 @@ public class VideoFileQuerySample : SampleBase
         };
     }
 
-    void DisplayToConsole(Engine engine, VideoFileInfo info)
+    private void DisplayToConsole(Engine engine, VideoFileInfo info)
     {
         Console.WriteLine("Video File Information:");
         Console.WriteLine($"  {"Camera:",-22} {engine.GetEntity(info.CameraGuid).Name}");
@@ -83,21 +79,5 @@ public class VideoFileQuerySample : SampleBase
         Console.WriteLine($"  {"Error:",-22} {info.Error}");
         Console.WriteLine($"  {"Protection End Date:",-22} {info.ProtectionEndDateTime.ToLocalTime():yyyy-MM-dd HH:mm:ss}");
         Console.WriteLine(new string('-', 60));
-    }
-
-    class VideoFileInfo
-    {
-        public Guid CameraGuid { get; set; }
-        public Guid ArchiveSourceGuid { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public string FilePath { get; set; }
-        public decimal FileSize { get; set; }
-        public string MetadataPath { get; set; }
-        public VideoProtectionState ProtectionStatus { get; set; }
-        public bool InfiniteProtection { get; set; }
-        public string Drive { get; set; }
-        public uint Error { get; set; }
-        public DateTime ProtectionEndDateTime { get; set; }
     }
 }

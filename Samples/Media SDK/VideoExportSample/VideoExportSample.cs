@@ -13,7 +13,7 @@ using DateTimeRange = Genetec.Sdk.Media.DateTimeRange;
 
 namespace Genetec.Dap.CodeSamples;
 
-class VideoExportSample : SampleBase
+public class VideoExportSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
@@ -39,7 +39,7 @@ class VideoExportSample : SampleBase
         Console.WriteLine($"\nVideo file exported: {exportedFile}");
     }
 
-    static async Task<string> Export(Engine engine, Camera camera, DateTime startTime, DateTime endTime, string fileName, IProgress<double> progress = null, CancellationToken cancellationToken = default)
+    private static async Task<string> Export(Engine engine, Camera camera, DateTime startTime, DateTime endTime, string fileName, IProgress<double> progress = null, CancellationToken cancellationToken = default)
     {
         using var exporter = new MediaExporter();
         exporter.StatisticsReceived += OnStatisticsReceived;

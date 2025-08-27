@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,7 +12,7 @@ using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
-class AuditTrailsSample : SampleBase
+public class AuditTrailsSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

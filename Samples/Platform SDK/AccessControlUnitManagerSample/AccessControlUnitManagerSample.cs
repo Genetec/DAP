@@ -1,5 +1,5 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -13,7 +13,7 @@ using Sdk;
 using Sdk.Entities;
 using Sdk.Entities.AccessControl;
 
-class AccessControlUnitManagerSample : SampleBase
+public class AccessControlUnitManagerSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

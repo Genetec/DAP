@@ -1,4 +1,7 @@
-﻿namespace Genetec.Dap.CodeSamples;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+namespace Genetec.Dap.CodeSamples;
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +13,7 @@ using Sdk;
 using Sdk.Entities;
 using Sdk.Queries;
 
-class CameraConfigurationSample : SampleBase
+public class CameraConfigurationSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

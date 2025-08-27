@@ -13,7 +13,7 @@ using Sdk.Credentials;
 using Sdk.Entities;
 using Sdk.Events.AccessPoint;
 
-class AccessEventMonitoringSample : SampleBase
+public class AccessEventMonitoringSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

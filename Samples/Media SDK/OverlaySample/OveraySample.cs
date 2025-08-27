@@ -1,4 +1,7 @@
-﻿namespace Genetec.Dap.CodeSamples;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+namespace Genetec.Dap.CodeSamples;
 
 using Sdk;
 using Sdk.Entities;
@@ -8,10 +11,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-class OverlaySample : SampleBase
+public class OverlaySample : SampleBase
 {
-    private const int canvasWidth = 1280;
-    private const int canvasHeight = 960;
+    private const int s_canvasWidth = 1280;
+    private const int s_canvasHeight = 960;
 
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
@@ -29,7 +32,7 @@ class OverlaySample : SampleBase
         await Task.WhenAll(DrawBouncingBall(camera.Guid, token), DrawTimecode(camera.Guid, token));
     }
 
-    async Task<Camera> FindSupportedCamera(Engine engine, CancellationToken token)
+    private async Task<Camera> FindSupportedCamera(Engine engine, CancellationToken token)
     {
         // Load all cameras into the entity cache first
         await LoadEntities(engine, token, EntityType.Camera);
@@ -41,11 +44,11 @@ class OverlaySample : SampleBase
         return camera;
     }
 
-    async Task DrawBouncingBall(Guid cameraId, CancellationToken token)
+    private async Task DrawBouncingBall(Guid cameraId, CancellationToken token)
     {
         const string layerId = "69A64ACE-6DDC-4142-AD04-06690D8591B3"; // Please replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
-        var ball = new BouncingBall(50, 50, 50, 50, 25) { CanvasHeight = canvasHeight, CanvasWidth = canvasWidth };
+        var ball = new BouncingBall(50, 50, 50, 50, 25) { CanvasHeight = s_canvasHeight, CanvasWidth = s_canvasWidth };
         Overlay overlay = await InitializeOverlay(cameraId, "Bouncing ball");
         Layer layer = overlay.CreateLayer(new Guid(layerId), "Bouncing ball");
 
@@ -62,7 +65,7 @@ class OverlaySample : SampleBase
         }
     }
 
-    async Task DrawTimecode(Guid cameraId, CancellationToken token)
+    private async Task DrawTimecode(Guid cameraId, CancellationToken token)
     {
         const string layerId = "92AEA5CA-E0F5-4122-872A-DB9A9F7437F7"; // Please replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
@@ -83,13 +86,13 @@ class OverlaySample : SampleBase
         }
     }
 
-    async Task<Overlay> InitializeOverlay(Guid camera, string overlayName)
+    private async Task<Overlay> InitializeOverlay(Guid camera, string overlayName)
     {
         Overlay overlay = OverlayFactory.Get(camera, overlayName);
 
         if (overlay.DrawingSurfaceWidth == 0 || overlay.DrawingSurfaceHeight == 0)
         {
-            overlay.Initialize(canvasHeight, canvasWidth);
+            overlay.Initialize(s_canvasHeight, s_canvasWidth);
         }
 
         await overlay.WaitUntilReadyForUpdate();

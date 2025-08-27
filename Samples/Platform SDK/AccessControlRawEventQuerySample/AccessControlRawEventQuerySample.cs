@@ -13,7 +13,7 @@ using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
-class AccessControlRawEventQuerySample : SampleBase
+public class AccessControlRawEventQuerySample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

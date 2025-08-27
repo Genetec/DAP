@@ -11,7 +11,7 @@ using Genetec.Sdk.Media.Reader;
 
 namespace Genetec.Dap.CodeSamples;
 
-class PlaybackStreamReaderSample : SampleBase
+public class PlaybackStreamReaderSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

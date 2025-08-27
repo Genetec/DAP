@@ -1,5 +1,5 @@
-﻿// Copyright 2024 Genetec Inc.
-// Licensed under the Apache License, Version 2.0 (the "License");
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using Genetec.Sdk.Entities.Video.HardwareSpecific.Hanwha;
 
 namespace Genetec.Dap.CodeSamples;
 
-class CameraSample : SampleBase
+public class CameraSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

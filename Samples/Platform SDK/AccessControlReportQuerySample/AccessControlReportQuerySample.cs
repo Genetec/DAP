@@ -14,7 +14,7 @@ using Genetec.Sdk.Queries.AccessControl;
 
 namespace Genetec.Dap.CodeSamples;
 
-class AccessControlReportQuerySample : SampleBase
+public class AccessControlReportQuerySample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

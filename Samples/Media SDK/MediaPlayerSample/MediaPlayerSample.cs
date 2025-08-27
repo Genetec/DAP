@@ -18,7 +18,7 @@ using MediaPlayer = Genetec.Sdk.Media.MediaPlayer;
 
 namespace Genetec.Dap.CodeSamples;
 
-class MediaPlayerSample : SampleBase
+public class MediaPlayerSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
@@ -199,8 +199,7 @@ class MediaPlayerSample : SampleBase
 
         void OpenFile()
         {
-            OpenFileDialog openFileDialog = new();
-            openFileDialog.Filter = "Video files (*.mp4;*..g64;*..g64x)|*.mp4;*.g64;*..g64x|All files (*.*)|*.*";
+            OpenFileDialog openFileDialog = new() { Filter = "Video files (*.mp4;*..g64;*..g64x)|*.mp4;*.g64;*..g64x|All files (*.*)|*.*" };
             if (openFileDialog.ShowDialog().GetValueOrDefault())
             {
                 player.OpenFile(openFileDialog.FileName);

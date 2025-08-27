@@ -1,5 +1,5 @@
-// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
 using System.Threading;
 using System.Threading.Tasks;

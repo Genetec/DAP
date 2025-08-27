@@ -1,4 +1,7 @@
-﻿namespace Genetec.Dap.CodeSamples;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+namespace Genetec.Dap.CodeSamples;
 
 using System;
 using System.Threading;
@@ -7,7 +10,7 @@ using Sdk;
 using Sdk.CopyConfiguration;
 using Sdk.EventsArgs;
 
-class CopyConfigurationSample : SampleBase
+public class CopyConfigurationSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

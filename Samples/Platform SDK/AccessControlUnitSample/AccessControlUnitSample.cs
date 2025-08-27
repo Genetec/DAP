@@ -13,7 +13,7 @@ using Sdk.Entities;
 using Sdk.Entities.AccessControl.AccessControlInterfaces.AccessControlInterfaceBaseClasses;
 using Sdk.Entities.Devices;
 
-class AccessControlUnitSample : SampleBase
+public class AccessControlUnitSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

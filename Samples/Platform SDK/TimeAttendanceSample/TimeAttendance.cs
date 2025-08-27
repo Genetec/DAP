@@ -5,13 +5,13 @@ namespace Genetec.Dap.CodeSamples;
 
 using System;
 
-class TimeAttendance
+public record TimeAttendance
 {
-    public DateTime Date { get; set; }
-    public Guid CardholderGuid { get; set; }
-    public Guid AreaGuid { get; set; }
-    public DateTime FirstTimeIn { get; set; }
-    public DateTime? LastExitTime { get; set; }
-    public int TotalMinutes { get; set; }
-    public int TotalMinutesInclusive { get; set; }
+    public DateTime Date { get; init; }
+    public Guid CardholderGuid { get; init; }
+    public Guid AreaGuid { get; init; }
+    public DateTime FirstTimeIn { get; init; }
+    public DateTime? LastExitTime { get; init; }
+    public int TotalMinutes { get; init; }
+    public int TotalMinutesInclusive { get; init; }
 }

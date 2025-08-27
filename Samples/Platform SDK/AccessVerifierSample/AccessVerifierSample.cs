@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +13,7 @@ using Genetec.Sdk.Entities;
 
 namespace Genetec.Dap.CodeSamples;
 
-class AccessVerifierSample : SampleBase
+public class AccessVerifierSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

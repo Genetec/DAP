@@ -1,3 +1,6 @@
+// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
 namespace Genetec.Dap.CodeSamples;
 
 using System;
@@ -11,7 +14,7 @@ using Sdk.Entities;
 using Sdk.Entities.Video;
 using Sdk.Entities.Video.ArchiverStatistics;
 
-class ArchiverRoleSample : SampleBase
+public class ArchiverRoleSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

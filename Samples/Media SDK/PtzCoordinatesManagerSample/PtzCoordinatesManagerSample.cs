@@ -12,7 +12,7 @@ using Genetec.Sdk.Media.Ptz;
 
 namespace Genetec.Dap.CodeSamples;
 
-class PtzCoordinatesManagerSample : SampleBase
+public class PtzCoordinatesManagerSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
@@ -55,7 +55,7 @@ class PtzCoordinatesManagerSample : SampleBase
     }
 
     // Demonstrates moving through all available presets
-    async Task GoToPresets(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    private async Task GoToPresets(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
     {
         if (!camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.GoToPreset))
         {
@@ -84,7 +84,7 @@ class PtzCoordinatesManagerSample : SampleBase
     }
 
     // Demonstrates running all available patterns
-    async Task RunPatterns(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    private async Task RunPatterns(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
     {
         if (!camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.RunPattern))
         {
@@ -113,7 +113,7 @@ class PtzCoordinatesManagerSample : SampleBase
     }
 
     // Demonstrates running all available preset tours
-    async Task RunPresetTours(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    private async Task RunPresetTours(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
     {
         if (!camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.RunTour))
         {
@@ -142,7 +142,7 @@ class PtzCoordinatesManagerSample : SampleBase
     }
 
     // Demonstrates basic PTZ controls (pan, tilt, zoom, iris, focus)
-    async Task DemonstratePtzControls(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    private async Task DemonstratePtzControls(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
     {
         if (camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.StartPanTilt))
         {

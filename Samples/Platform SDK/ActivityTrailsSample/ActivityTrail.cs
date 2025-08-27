@@ -1,25 +1,28 @@
-﻿namespace Genetec.Dap.CodeSamples;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+namespace Genetec.Dap.CodeSamples;
 
 using System;
 using Sdk;
 
-record ActivityTrail
+public record ActivityTrail
 {
-    public Guid InitiatorEntityId { get; set; }
-    public string InitiatorEntityName { get; set; }
-    public EntityType InitiatorEntityType { get; set; }
-    public string InitiatorEntityTypeName { get; set; }
-    public string InitiatorEntityVersion { get; set; }
-    public string Description { get; set; }
-    public ActivityType ActivityType { get; set; }
-    public string ActivityTypeName { get; set; }
-    public Guid ImpactedEntityId { get; set; }
-    public string ImpactedEntityName { get; set; }
-    public EntityType ImpactedEntityType { get; set; }
-    public string ImpactedEntityTypeName { get; set; }
-    public string InitiatorMachineName { get; set; }
-    public ApplicationType InitiatorApplicationType { get; set; }
-    public string InitiatorApplicationName { get; set; }
-    public string InitiatorApplicationVersion { get; set; }
-    public DateTime EventTimestamp { get; set; }
+    public Guid InitiatorEntityId { get; init; }
+    public string InitiatorEntityName { get; init; }
+    public EntityType InitiatorEntityType { get; init; }
+    public string InitiatorEntityTypeName { get; init; }
+    public string InitiatorEntityVersion { get; init; }
+    public string Description { get; init; }
+    public ActivityType ActivityType { get; init; }
+    public string ActivityTypeName { get; init; }
+    public Guid ImpactedEntityId { get; init; }
+    public string ImpactedEntityName { get; init; }
+    public EntityType ImpactedEntityType { get; init; }
+    public string ImpactedEntityTypeName { get; init; }
+    public string InitiatorMachineName { get; init; }
+    public ApplicationType InitiatorApplicationType { get; init; }
+    public string InitiatorApplicationName { get; init; }
+    public string InitiatorApplicationVersion { get; init; }
+    public DateTime EventTimestamp { get; init; }
 }

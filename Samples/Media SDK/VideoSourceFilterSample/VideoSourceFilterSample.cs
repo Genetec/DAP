@@ -12,7 +12,9 @@ using Genetec.Sdk.Media;
 
 namespace Genetec.Dap.CodeSamples;
 
-class VideoSourceFilterSample : SampleBase
+using System.Drawing;
+
+public class VideoSourceFilterSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
@@ -33,7 +35,7 @@ class VideoSourceFilterSample : SampleBase
         Console.WriteLine($"Snapshot saved: {fileName}");
     }
 
-    async Task<byte[]> GetCameraSnapshot(Engine engine, Guid camera)
+    private async Task<byte[]> GetCameraSnapshot(Engine engine, Guid camera)
     {
         var completion = new TaskCompletionSource<byte[]>();
 
@@ -58,13 +60,13 @@ class VideoSourceFilterSample : SampleBase
         {
             using (args)
             {
-                using var decodedFrame = args.DecodedFrameContent?.GetBitmap();
+                using RgbDecodedFrame decodedFrame = args.DecodedFrameContent?.GetBitmap();
                 if (decodedFrame is null)
                     return;
 
                 Console.WriteLine("Saving snapshot...");
 
-                using var bitmap = decodedFrame.Bitmap;
+                using Bitmap bitmap = decodedFrame.Bitmap;
                 using var memoryStream = new MemoryStream();
 
                 try

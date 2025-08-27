@@ -14,7 +14,7 @@ namespace Genetec.Dap.CodeSamples;
 /// // This sample demonstrates how to transmit audio to a Security Center camera
 /// // using the AudioTransmitter class. It generates and transmits a simple sine wave tone.
 /// </summary>
-class AudioTransmitterSample : SampleBase
+public class AudioTransmitterSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
