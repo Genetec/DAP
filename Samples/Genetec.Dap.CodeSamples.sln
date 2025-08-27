@@ -201,6 +201,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayerSample", "Media 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapSample", "Platform SDK\MapSample\MapSample.csproj", "{3E803283-FD0E-B1B4-192A-A36566DC8FE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessRuleSample", "Platform SDK\AccessRuleSample\AccessRuleSample.csproj", "{F8EC938D-C210-4F36-BDC2-3E4103E6DB8C}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardholderSample", "Platform SDK\CardholderSample\CardholderSample.csproj", "{EB216310-2B57-45F0-93ED-70028E501645}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraEventSample", "Platform SDK\CameraEventSample\CameraEventSample.csproj", "{DA2456C5-B1E6-445C-A786-8CDAFE61C435}"
@@ -567,6 +569,10 @@ Global
 		{3E803283-FD0E-B1B4-192A-A36566DC8FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E803283-FD0E-B1B4-192A-A36566DC8FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E803283-FD0E-B1B4-192A-A36566DC8FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8EC938D-C210-4F36-BDC2-3E4103E6DB8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8EC938D-C210-4F36-BDC2-3E4103E6DB8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8EC938D-C210-4F36-BDC2-3E4103E6DB8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8EC938D-C210-4F36-BDC2-3E4103E6DB8C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EB216310-2B57-45F0-93ED-70028E501645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB216310-2B57-45F0-93ED-70028E501645}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB216310-2B57-45F0-93ED-70028E501645}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -669,6 +675,7 @@ Global
 		{29891581-DA9A-4D2B-81E7-570143BC5475} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{C0A9B844-811D-460A-B8DD-C9EEF7969C91} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{3E803283-FD0E-B1B4-192A-A36566DC8FE3} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{F8EC938D-C210-4F36-BDC2-3E4103E6DB8C} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{EB216310-2B57-45F0-93ED-70028E501645} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{DA2456C5-B1E6-445C-A786-8CDAFE61C435} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
@@ -744,6 +751,7 @@ Global
 		Shared\Shared.projitems*{f3d8a13f-b371-4ec9-820d-00e05fdb8e27}*SharedItemsImports = 5
 		Shared\Shared.projitems*{f494418c-c69c-4410-b897-18539a93b02e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{f8e1fd6d-1853-4189-96a9-85948e80c1bf}*SharedItemsImports = 5
+		Shared\Shared.projitems*{f8ec938d-c210-4f36-bdc2-3e4103e6db8c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{f902968f-31ca-403d-ae19-bdf507dc2ad0}*SharedItemsImports = 5
 		Shared\Shared.projitems*{f9ce3032-4276-48ee-9328-206857a6736e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{feafca17-7cf4-4d24-aba8-b31d284a963c}*SharedItemsImports = 13
