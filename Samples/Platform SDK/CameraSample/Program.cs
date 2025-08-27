@@ -408,7 +408,7 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
             Console.WriteLine($"  MAC address: {videoUnit.MacAddress}");
             Console.WriteLine($"  Firmware version: {videoUnit.HardwareVersion}");
 
-            Console.WriteLine($"  SSL: {(videoUnit.SecureConnection ? "Yes" : "No")}");
+            Console.WriteLine($"  HTTPS: {(videoUnit.SecureConnection ? "Yes" : "No")}");
             Console.WriteLine(new string('-', 30));
 
             Console.WriteLine("NETWORK PROPERTIES:");
@@ -417,6 +417,7 @@ void DisplayCameraInformation(Engine engine, IEnumerable<Camera> cameras)
             Console.WriteLine($"  Subnet mask: {videoUnit.SubnetMask}");
             Console.WriteLine($"  Gateway: {videoUnit.Gateway}");
             Console.WriteLine($"  Command port: {videoUnit.CommandPort}");
+            Console.WriteLine($"  Secure Command port: {videoUnit.SecureCommandPort}");
             Console.WriteLine($"  Hostname: {videoUnit.Hostname}");
 
             Console.WriteLine("  Authentication:");
