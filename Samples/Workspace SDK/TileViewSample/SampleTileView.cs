@@ -1,20 +1,19 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System.Windows;
+using Sdk.Workspace.Components.TileView;
+
+public class SampleTileView : TileView
 {
-    using System.Windows;
-    using Sdk.Workspace.Components.TileView;
-
-    public class SampleTileView : TileView
+    private readonly SampleTileViewControl m_view;
+    
+    public SampleTileView()
     {
-        private readonly SampleTileViewControl m_view;
-        
-        public SampleTileView()
-        {
-            m_view = new SampleTileViewControl();
-        }
-
-        public override UIElement View => m_view;
+        m_view = new SampleTileViewControl();
     }
+
+    public override UIElement View => m_view;
 }

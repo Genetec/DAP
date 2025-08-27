@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Sdk;
 using Sdk.Workflows;
 
-class LicenseManagerSample : SampleBase
+public class LicenseManagerSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

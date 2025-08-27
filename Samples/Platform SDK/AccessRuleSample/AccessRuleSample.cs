@@ -11,7 +11,7 @@ using Genetec.Sdk.Entities.Coverages;
 
 namespace Genetec.Dap.CodeSamples;
 
-class AccessRuleSample : SampleBase
+public class AccessRuleSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {

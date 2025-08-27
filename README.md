@@ -167,6 +167,10 @@ Server-side plugin development samples that **build upon Platform SDK infrastruc
 **Dependencies:** Inherits Platform SDK patterns for entity management, queries, and core SDK functionality while adding server-side role capabilities.
 
   
+
+For comprehensive implementation details, see the [Plugin SDK README](Plugin%20SDK/README.md).
+
+  
 ## Sample Project Structure
 
   

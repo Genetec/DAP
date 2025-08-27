@@ -5,26 +5,26 @@ namespace Genetec.Dap.CodeSamples;
 
 using System;
 
-class CameraConfiguration
+public record CameraConfiguration
 {
-    public Guid Guid { get; set; }
-    public string Manufacturer { get; set; }
-    public string Model { get; set; }
-    public string StreamUsage { get; set; }
-    public string Schedule { get; set; }
-    public string VideoFormat { get; set; }
-    public string Resolution { get; set; }
-    public string RecordingMode { get; set; }
-    public string NetworkSetting { get; set; }
-    public string MulticastAddress { get; set; }
-    public string Port { get; set; }
-    public string Trickling { get; set; }
-    public int BitRate { get; set; }
-    public int ImageQuality { get; set; }
-    public int KeyFrameInterval { get; set; }
-    public int KeyFrameIntervalUnits { get; set; }
-    public int FrameRate { get; set; }
-    public string UnitFirmwareVersion { get; set; }
-    public string UnitIpAddress { get; set; }
-    public int RetentionPeriod { get; set; }
+    public Guid Guid { get; init; }
+    public string Manufacturer { get; init; }
+    public string Model { get; init; }
+    public string StreamUsage { get; init; }
+    public string Schedule { get; init; }
+    public string VideoFormat { get; init; }
+    public string Resolution { get; init; }
+    public string RecordingMode { get; init; }
+    public string NetworkSetting { get; init; }
+    public string MulticastAddress { get; init; }
+    public string Port { get; init; }
+    public string Trickling { get; init; }
+    public int BitRate { get; init; }
+    public int ImageQuality { get; init; }
+    public int KeyFrameInterval { get; init; }
+    public int KeyFrameIntervalUnits { get; init; }
+    public int FrameRate { get; init; }
+    public string UnitFirmwareVersion { get; init; }
+    public string UnitIpAddress { get; init; }
+    public int RetentionPeriod { get; init; }
 }

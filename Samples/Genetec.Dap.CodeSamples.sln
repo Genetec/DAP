@@ -13,6 +13,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Media SDK", "Media SDK", "{949B9098-D0C6-4E6C-BAB4-7253789645C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin SDK", "Plugin SDK", "{AAD7589E-062C-4CF0-AF3D-8B86A42AA482}"
+	ProjectSection(SolutionItems) = preProject
+		Plugin SDK\README.md = Plugin SDK\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileCryptingManagerSample", "Media SDK\FileCryptingManagerSample\FileCryptingManagerSample.csproj", "{2FEE543C-6E13-4289-B9BF-6E9338C14B98}"
 EndProject
@@ -50,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTrailsSample", "Pla
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform SDK", "Platform SDK", "{4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}"
 	ProjectSection(SolutionItems) = preProject
-		ReadMe.md = ReadMe.md
+		Platform SDK\README.md = Platform SDK\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlRawEventQuerySample", "Platform SDK\AccessControlRawEventQuerySample\AccessControlRawEventQuerySample.csproj", "{1EDA0B9A-B2C2-493C-A895-35964392B33F}"
