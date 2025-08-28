@@ -3,17 +3,16 @@
 
 namespace Genetec.Dap.CodeSamples.Server;
 
+using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Threading.Tasks;
+using Genetec.Dap.CodeSamples;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.EventsArgs;
 using Genetec.Sdk.Plugin;
-using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using Client;
-using Sdk.Workflows;
-using System.Security;
-using Genetec.Dap.CodeSamples;
-using System.Runtime.InteropServices;
+using Genetec.Sdk.Workflows;
 
 [PluginProperty(typeof(SamplePluginDescriptor))]
 public class SamplePlugin : Plugin

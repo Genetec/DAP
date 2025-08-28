@@ -4,7 +4,6 @@
 namespace Genetec.Dap.CodeSamples;
 
 using System;
-using Genetec.Sdk.Diagnostics.Logging.Core;
 using Genetec.Sdk.EventsArgs;
 using Genetec.Sdk.Plugin;
 using Genetec.Sdk.Plugin.Interfaces;
@@ -33,7 +32,7 @@ public class SamplePlugin : Plugin, IPluginDatabaseSupport // Implement the IPlu
             Logger.TraceDebug($"Database state Changed to {m_databaseManager.State}");
 
             if (m_databaseManager.State == DatabaseState.Connected) // Insert a log message when the database is connected
-            { 
+            {
                 m_databaseManager.InsertLog(DateTime.UtcNow, 1, "This is a test log message.");
             }
         };

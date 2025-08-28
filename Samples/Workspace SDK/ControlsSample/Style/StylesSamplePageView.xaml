@@ -6,7 +6,7 @@
             <Label Margin="0,0,0,20" Content="SDK Styles Demo" FontSize="20" FontWeight="Bold" Style="{Styles {x:Static LabelStyles.Normal}}" />
 
             <Expander Margin="16" HorizontalContentAlignment="Left" Header="Label Styles" IsExpanded="True" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
-                <Grid Margin="16">
+                <Grid Margin="16" Grid.IsSharedSizeScope="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -20,23 +20,48 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="0" Margin="4" Content="Normal" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <Label Grid.Row="1" Margin="4" Content="Value" Style="{Styles {x:Static LabelStyles.Value}}" />
-                    <Label Grid.Row="2" Margin="4" Content="Intro" Style="{Styles {x:Static LabelStyles.Intro}}" />
-                    <Label Grid.Row="3" Margin="4" Content="IntroMandatory" Style="{Styles {x:Static LabelStyles.IntroMandatory}}" />
-                    <Label Grid.Row="4" Margin="4" Content="EndEllipsis" Style="{Styles {x:Static LabelStyles.EndEllipsis}}" />
-                    <Label Grid.Row="5" Margin="4" Content="Warning" Style="{Styles {x:Static LabelStyles.Warning}}" />
-                    <Label Grid.Row="6" Margin="4" Content="Info" Style="{Styles {x:Static LabelStyles.Info}}" />
-                    <Label Grid.Row="7" Margin="4" Content="Error" Style="{Styles {x:Static LabelStyles.Error}}" />
-                    <Label Grid.Row="8" Margin="4" Content="Success" Style="{Styles {x:Static LabelStyles.Success}}" />
-                    <Label Grid.Row="9" Margin="4" Content="Learn" Style="{Styles {x:Static LabelStyles.Learn}}" />
-                    <Label Grid.Row="10" Margin="4" Content="Complement" Style="{Styles {x:Static LabelStyles.Complement}}" />
+                    <Label Grid.Row="0" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Normal:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="0" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    
+                    <Label Grid.Row="1" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Value:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="1" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Value}}" />
+                    
+                    <Label Grid.Row="2" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Intro:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="2" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Intro}}" />
+                    
+                    <Label Grid.Row="3" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="IntroMandatory:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="3" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.IntroMandatory}}" />
+                    
+                    <Label Grid.Row="4" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="EndEllipsis:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="4" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.EndEllipsis}}" />
+                    
+                    <Label Grid.Row="5" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Warning:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="5" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Warning}}" />
+                    
+                    <Label Grid.Row="6" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Info:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="6" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Info}}" />
+                    
+                    <Label Grid.Row="7" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Error:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="7" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Error}}" />
+                    
+                    <Label Grid.Row="8" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Success:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="8" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Success}}" />
+                    
+                    <Label Grid.Row="9" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Learn:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="9" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Learn}}" />
+                    
+                    <Label Grid.Row="10" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Complement:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="10" Grid.Column="1" Margin="4" Content="Sample Text" Style="{Styles {x:Static LabelStyles.Complement}}" />
                 </Grid>
             </Expander>
 
             <Expander Margin="16" HorizontalContentAlignment="Left" Header="Button Styles" IsExpanded="True" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
-                <Grid Margin="16">
+                <Grid Margin="16" Grid.IsSharedSizeScope="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -50,22 +75,34 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonStylesGroup" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Row="0" Margin="4" Content="Default" Style="{Styles {x:Static ButtonStyles.Default}}" />
-                    <Button Grid.Row="1" Margin="4" Content="Active" Style="{Styles {x:Static ButtonStyles.Active}}" />
-                    <Button Grid.Row="2" Margin="4" Content="Close" Style="{Styles {x:Static ButtonStyles.Close}}" />
-                    <Button Grid.Row="3" Margin="4" Content="Flat" Style="{Styles {x:Static ButtonStyles.Flat}}" />
-                    <Button Grid.Row="4" Margin="4" Content="LegacyFlat" Style="{Styles {x:Static ButtonStyles.LegacyFlat}}" />
-                    <Button Grid.Row="5" Margin="4" Content="Frameless" Foreground="White" Style="{Styles {x:Static ButtonStyles.Frameless}}" />
-                    <Button Grid.Row="6" Margin="4" Content="Round" Style="{Styles {x:Static ButtonStyles.Round}}" />
+                    <Label Grid.Row="0" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Default:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Button Grid.Row="0" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Button" Style="{Styles {x:Static ButtonStyles.Default}}" />
+                    
+                    <Label Grid.Row="1" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Active:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Button Grid.Row="1" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Button" Style="{Styles {x:Static ButtonStyles.Active}}" />
+                    
+                    <Label Grid.Row="2" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Close:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Button Grid.Row="2" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Button" Style="{Styles {x:Static ButtonStyles.Close}}" />
+                    
+                    <Label Grid.Row="3" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Flat:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Button Grid.Row="3" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Button" Style="{Styles {x:Static ButtonStyles.Flat}}" />
+                    
+                    <Label Grid.Row="4" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="LegacyFlat:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Button Grid.Row="4" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Button" Style="{Styles {x:Static ButtonStyles.LegacyFlat}}" />
+                    
+                    <Label Grid.Row="5" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Frameless:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Button Grid.Row="5" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Button" Foreground="White" Style="{Styles {x:Static ButtonStyles.Frameless}}" />
+                    
+                    <Label Grid.Row="6" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Round:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Button Grid.Row="6" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Button" Style="{Styles {x:Static ButtonStyles.Round}}" />
 
-
-                    <Label Grid.Row="7" Margin="4" Content="Horizontal Segment Buttons" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <Grid Grid.Row="8" Margin="4">
+                    <Label Grid.Row="7" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="LeftSegment:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Grid Grid.Row="7" Grid.Column="1" Margin="4" HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
@@ -74,14 +111,14 @@
                         <Button Grid.Column="1" Content="Right" Style="{Styles {x:Static ButtonStyles.RightSegment}}" />
                     </Grid>
 
-                    <Label Grid.Row="9" Margin="4" Content="Vertical Segment Buttons" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <Grid Grid.Row="10" Margin="4" Grid.IsSharedSizeScope="True">
+                    <Label Grid.Row="8" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="TopSegment:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Grid Grid.Row="8" Grid.Column="1" Margin="4" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition SharedSizeGroup="ButtonStylesGroup" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button Grid.Row="0" Content="Top" Style="{Styles {x:Static ButtonStyles.TopSegment}}" />
                         <Button Grid.Row="1" Content="Bottom" Style="{Styles {x:Static ButtonStyles.BottomSegment}}" />
@@ -90,7 +127,7 @@
             </Expander>
 
             <Expander Margin="16" HorizontalContentAlignment="Left" Header="Toggle Button Styles" IsExpanded="True" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
-                <Grid Margin="16">
+                <Grid Margin="16" Grid.IsSharedSizeScope="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -99,23 +136,29 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="ToggleStylesGroup" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <ToggleButton Grid.Row="0" Margin="4" Content="Default" Style="{Styles {x:Static ToggleButtonStyles.Default}}" />
-                    <ToggleButton Grid.Row="1" Margin="4" Content="ContentOnly" Foreground="White" Style="{Styles {x:Static ToggleButtonStyles.ContentOnly}}" />
-                    <ToggleButton Grid.Row="2" Margin="4" Content="Flat" Style="{Styles {x:Static ToggleButtonStyles.Flat}}" />
-                    <ToggleButton Grid.Row="3" Margin="4" Content="Frameless" Foreground="White" Style="{Styles {x:Static ToggleButtonStyles.Frameless}}" />
-                    <ToggleButton Grid.Row="4" Margin="4" Content="Round" Style="{Styles {x:Static ToggleButtonStyles.Round}}" />
+                    <Label Grid.Row="0" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Default:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <ToggleButton Grid.Row="0" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Toggle" Style="{Styles {x:Static ToggleButtonStyles.Default}}" />
+                    
+                    <Label Grid.Row="1" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="ContentOnly:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <ToggleButton Grid.Row="1" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Toggle" Foreground="White" Style="{Styles {x:Static ToggleButtonStyles.ContentOnly}}" />
+                    
+                    <Label Grid.Row="2" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Flat:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <ToggleButton Grid.Row="2" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Toggle" Style="{Styles {x:Static ToggleButtonStyles.Flat}}" />
+                    
+                    <Label Grid.Row="3" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Frameless:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <ToggleButton Grid.Row="3" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Toggle" Foreground="White" Style="{Styles {x:Static ToggleButtonStyles.Frameless}}" />
+                    
+                    <Label Grid.Row="4" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Round:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <ToggleButton Grid.Row="4" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Content="Sample Toggle" Style="{Styles {x:Static ToggleButtonStyles.Round}}" />
 
-
-                    <Label Grid.Row="5" Margin="4" Content="Horizontal Segment Buttons" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <Grid Grid.Row="6" Margin="4">
+                    <Label Grid.Row="5" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="LeftSegment:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Grid Grid.Row="5" Grid.Column="1" Margin="4" HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
@@ -124,14 +167,14 @@
                         <ToggleButton Grid.Column="1" Content="Right" Style="{Styles {x:Static ToggleButtonStyles.RightSegment}}" />
                     </Grid>
 
-                    <Label Grid.Row="7" Margin="4" Content="Vertical Segment Buttons" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <Grid Grid.Row="8" Margin="4" Grid.IsSharedSizeScope="True">
+                    <Label Grid.Row="6" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="TopSegment:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Grid Grid.Row="6" Grid.Column="1" Margin="4" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition SharedSizeGroup="ToggleStylesGroup" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <ToggleButton Grid.Row="0" Content="Top" Style="{Styles {x:Static ToggleButtonStyles.TopSegment}}" />
                         <ToggleButton Grid.Row="1" Content="Bottom" Style="{Styles {x:Static ToggleButtonStyles.BottomSegment}}" />
@@ -140,7 +183,7 @@
             </Expander>
 
             <Expander Margin="16" HorizontalContentAlignment="Left" Header="Radio Button Styles" IsExpanded="True" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
-                <Grid Margin="16">
+                <Grid Margin="16" Grid.IsSharedSizeScope="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -148,107 +191,121 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="RadioButtonStylesGroup" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="0" Grid.ColumnSpan="2" Margin="4" Content="Default Style" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <RadioButton Grid.Row="1" Grid.Column="0" Margin="4" Content="Default 1" GroupName="DefaultStyle" Style="{Styles {x:Static RadioButtonStyles.Default}}" />
-                    <RadioButton Grid.Row="1" Grid.Column="1" Margin="4" Content="Default 2" GroupName="DefaultStyle" Style="{Styles {x:Static RadioButtonStyles.Default}}" />
+                    <Label Grid.Row="0" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Default:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="4" Orientation="Horizontal">
+                        <RadioButton Margin="0,0,8,0" Content="Option 1" GroupName="DefaultStyle" Style="{Styles {x:Static RadioButtonStyles.Default}}" />
+                        <RadioButton Content="Option 2" GroupName="DefaultStyle" Style="{Styles {x:Static RadioButtonStyles.Default}}" />
+                    </StackPanel>
 
-                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="4" Content="ToggleLike Style" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <RadioButton Grid.Row="3" Grid.Column="0" Margin="4" Content="Toggle 1" GroupName="ToggleLikeStyle" Style="{Styles {x:Static RadioButtonStyles.ToggleLike}}" />
-                    <RadioButton Grid.Row="3" Grid.Column="1" Margin="4" Content="Toggle 2" GroupName="ToggleLikeStyle" Style="{Styles {x:Static RadioButtonStyles.ToggleLike}}" />
+                    <Label Grid.Row="1" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="ToggleLike:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="4" Orientation="Horizontal">
+                        <RadioButton Margin="0,0,8,0" Content="Option 1" GroupName="ToggleLikeStyle" Style="{Styles {x:Static RadioButtonStyles.ToggleLike}}" />
+                        <RadioButton Content="Option 2" GroupName="ToggleLikeStyle" Style="{Styles {x:Static RadioButtonStyles.ToggleLike}}" />
+                    </StackPanel>
 
-                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="4" Content="Tool Style" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <RadioButton Grid.Row="5" Grid.Column="0" Margin="4" Content="Tool 1" GroupName="ToolStyle" Style="{Styles {x:Static RadioButtonStyles.Tool}}" />
-                    <RadioButton Grid.Row="5" Grid.Column="1" Margin="4" Content="Tool 2" GroupName="ToolStyle" Style="{Styles {x:Static RadioButtonStyles.Tool}}" />
+                    <Label Grid.Row="2" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Tool:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="4" Orientation="Horizontal">
+                        <RadioButton Margin="0,0,8,0" Content="Option 1" GroupName="ToolStyle" Style="{Styles {x:Static RadioButtonStyles.Tool}}" />
+                        <RadioButton Content="Option 2" GroupName="ToolStyle" Style="{Styles {x:Static RadioButtonStyles.Tool}}" />
+                    </StackPanel>
 
-                    <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="4" Content="Horizontal Segment Style" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Margin="4" Grid.IsSharedSizeScope="True">
+                    <Label Grid.Row="3" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="LeftSegment:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Grid Grid.Row="3" Grid.Column="1" Margin="4" HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <RadioButton Grid.Column="0" Content="Left" Style="{Styles {x:Static RadioButtonStyles.LeftSegment}}" />
-                        <RadioButton Grid.Column="1" Content="Right" Style="{Styles {x:Static RadioButtonStyles.RightSegment}}" />
+                        <RadioButton Grid.Column="0" Content="Left" GroupName="HorizontalSegmentStyle" Style="{Styles {x:Static RadioButtonStyles.LeftSegment}}" />
+                        <RadioButton Grid.Column="1" Content="Right" GroupName="HorizontalSegmentStyle" Style="{Styles {x:Static RadioButtonStyles.RightSegment}}" />
                     </Grid>
 
-                    <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Margin="4" Content="Vertical Segment Style" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Margin="4" Grid.IsSharedSizeScope="True">
+                    <Label Grid.Row="4" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="TopSegment:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Grid Grid.Row="4" Grid.Column="1" Margin="4" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition SharedSizeGroup="RadioButtonStylesGroup" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <RadioButton Grid.Row="0" Content="Top" Style="{Styles {x:Static RadioButtonStyles.TopSegment}}" />
-                        <RadioButton Grid.Row="1" Content="Bottom" Style="{Styles {x:Static RadioButtonStyles.BottomSegment}}" />
+                        <RadioButton Grid.Row="0" Content="Top" GroupName="VerticalSegmentStyle" Style="{Styles {x:Static RadioButtonStyles.TopSegment}}" />
+                        <RadioButton Grid.Row="1" Content="Bottom" GroupName="VerticalSegmentStyle" Style="{Styles {x:Static RadioButtonStyles.BottomSegment}}" />
                     </Grid>
 
                 </Grid>
             </Expander>
 
             <Expander Margin="16" HorizontalContentAlignment="Left" Header="ScrollBar Styles" IsExpanded="True" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
-                <Grid MinWidth="300" Margin="16">
+                <Grid MinWidth="300" Margin="16" Grid.IsSharedSizeScope="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="0" Margin="4" Content="Default" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <ScrollBar Grid.Row="1" Margin="4" Maximum="100" Orientation="Horizontal" Style="{Styles {x:Static ScrollBarStyles.Default}}" Value="50" />
+                    <Label Grid.Row="0" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Default:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <ScrollBar Grid.Row="0" Grid.Column="1" Margin="4" Maximum="100" Orientation="Horizontal" Style="{Styles {x:Static ScrollBarStyles.Default}}" Value="50" />
 
-                    <Label Grid.Row="2" Margin="4" Content="IPhone" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <ScrollBar Grid.Row="3" Margin="4" Maximum="100" Orientation="Horizontal" Style="{Styles {x:Static ScrollBarStyles.IPhone}}" Value="50" />
+                    <Label Grid.Row="1" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="IPhone:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <ScrollBar Grid.Row="1" Grid.Column="1" Margin="4" Maximum="100" Orientation="Horizontal" Style="{Styles {x:Static ScrollBarStyles.IPhone}}" Value="50" />
 
-                    <Label Grid.Row="4" Margin="4" Content="Thin" Style="{Styles {x:Static LabelStyles.Normal}}" />
-                    <ScrollBar Grid.Row="5" Margin="4" Maximum="100" Orientation="Horizontal" Style="{Styles {x:Static ScrollBarStyles.Thin}}" Value="50" />
+                    <Label Grid.Row="2" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Thin:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <ScrollBar Grid.Row="2" Grid.Column="1" Margin="4" Maximum="100" Orientation="Horizontal" Style="{Styles {x:Static ScrollBarStyles.Thin}}" Value="50" />
                 </Grid>
             </Expander>
 
             <Expander Margin="16" HorizontalContentAlignment="Left" Header="GroupBox Styles" IsExpanded="True" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
-                <Grid MinWidth="300" Margin="16">
+                <Grid MinWidth="300" Margin="16" Grid.IsSharedSizeScope="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                    <GroupBox Grid.Row="0" Height="64" Margin="4" HorizontalAlignment="Stretch" Header="Default" Style="{Styles {x:Static GroupBoxStyles.Default}}">
-
+                    <Label Grid.Row="0" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Default:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <GroupBox Grid.Row="0" Grid.Column="1" Height="64" Margin="4" HorizontalAlignment="Stretch" Header="Sample GroupBox" Style="{Styles {x:Static GroupBoxStyles.Default}}">
                         <Label Margin="4" Content="GroupBox Content" Style="{Styles {x:Static LabelStyles.Normal}}" />
                     </GroupBox>
-                    <GroupBox Grid.Row="1" Height="64" Margin="4" HorizontalAlignment="Stretch" Header="NamedSeparator" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}">
+
+                    <Label Grid.Row="1" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Top" Content="NamedSeparator:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <GroupBox Grid.Row="1" Grid.Column="1" Height="64" Margin="4" HorizontalAlignment="Stretch" Header="Sample GroupBox" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}">
                         <Label Margin="4" Content="GroupBox Content" Style="{Styles {x:Static LabelStyles.Normal}}" />
                     </GroupBox>
                 </Grid>
             </Expander>
 
             <Expander Margin="16" HorizontalContentAlignment="Left" Header="Expander Styles" IsExpanded="True" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
-                <Grid MinWidth="300" Margin="16">
+                <Grid MinWidth="300" Margin="16" Grid.IsSharedSizeScope="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                    <Expander Grid.Row="0" Margin="4" HorizontalAlignment="Stretch" Header="Default" Style="{Styles {x:Static ExpanderStyles.Default}}">
-                        <Label Margin="4" Content="Default Expander Content" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Label Grid.Row="0" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Default:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Expander Grid.Row="0" Grid.Column="1" Margin="4" HorizontalAlignment="Stretch" Header="Sample Expander" Style="{Styles {x:Static ExpanderStyles.Default}}">
+                        <Label Margin="4" Content="Expander Content" Style="{Styles {x:Static LabelStyles.Normal}}" />
                     </Expander>
-                    <Expander Grid.Row="1" Margin="4" HorizontalAlignment="Stretch" Header="NamedSeparator" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
-                        <Label Margin="4" Content="NamedSeparator Expander Content" Style="{Styles {x:Static LabelStyles.Normal}}" />
+
+                    <Label Grid.Row="1" Grid.Column="0" Margin="4" HorizontalAlignment="Right" VerticalAlignment="Top" Content="NamedSeparator:" Style="{Styles {x:Static LabelStyles.Normal}}" />
+                    <Expander Grid.Row="1" Grid.Column="1" Margin="4" HorizontalAlignment="Stretch" Header="Sample Expander" Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
+                        <Label Margin="4" Content="Expander Content" Style="{Styles {x:Static LabelStyles.Normal}}" />
                     </Expander>
                 </Grid>
             </Expander>
