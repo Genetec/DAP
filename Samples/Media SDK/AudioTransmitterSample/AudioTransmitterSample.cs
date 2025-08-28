@@ -26,7 +26,7 @@ public class AudioTransmitterSample : SampleBase
             return;
         }
 
-        var audioTransmitter = new AudioTransmitter();
+        AudioTransmitter audioTransmitter = new();
         try
         {
             audioTransmitter.Initialize(engine, camera.Guid);
