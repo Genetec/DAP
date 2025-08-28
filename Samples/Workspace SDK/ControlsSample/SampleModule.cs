@@ -14,6 +14,7 @@ public class SampleModule : Sdk.Workspace.Modules.Module
         RegisterTask(new CreatePageTask<StylesSamplePage>(isSingleton: true));
         RegisterTask(new CreatePageTask<ControlsSamplePage>(isSingleton: true));
         RegisterTask(new CreatePageTask<ChartSamplePage>(isSingleton: true));
+        RegisterTask(new CreatePageTask<MapControlSamplePage>(isSingleton: true));
         RegisterTask(new CreatePageTask<WebBrowserSamplePage>(isSingleton: false));
 
         //Initialize the task and register it
