@@ -330,7 +330,6 @@ public class MediaPlayerSample : SampleBase
         }
     }
 
-
     void DisplayControls()
     {
         Console.WriteLine("Keyboard Controls:");

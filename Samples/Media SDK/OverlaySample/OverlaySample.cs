@@ -29,7 +29,10 @@ public class OverlaySample : SampleBase
 
         Console.WriteLine($"Drawing overlays on camera: {camera.Name}");
 
-        await Task.WhenAll(DrawBouncingBall(camera.Guid, token), DrawTimecode(camera.Guid, token));
+        await Task.WhenAll(
+            DrawBouncingBall(camera.Guid, token),
+            DrawTimecode(camera.Guid, token),
+            DrawRecordingStatus(camera, token));
     }
 
     private async Task<Camera> FindSupportedCamera(Engine engine, CancellationToken token)
@@ -46,15 +49,16 @@ public class OverlaySample : SampleBase
 
     private async Task DrawBouncingBall(Guid cameraId, CancellationToken token)
     {
-        const string layerId = "69A64ACE-6DDC-4142-AD04-06690D8591B3"; // Please replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
+        const string layerId = "69A64ACE-6DDC-4142-AD04-06690D8591B3"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
-        var ball = new BouncingBall(50, 50, 50, 50, 25) { CanvasHeight = s_canvasHeight, CanvasWidth = s_canvasWidth };
         Overlay overlay = await InitializeOverlay(cameraId, "Bouncing ball");
         Layer layer = overlay.CreateLayer(new Guid(layerId), "Bouncing ball");
 
+        var bouncingBall = new BouncingBall(50, 50, 50, 50, 25) { CanvasHeight = s_canvasHeight, CanvasWidth = s_canvasWidth };
+
         while (!token.IsCancellationRequested)
         {
-            ball.Draw(layer); // Draw the ball on the layer
+            bouncingBall.Draw(layer); // Draw the ball on the layer
 
             if (!layer.Update())
             {
@@ -67,15 +71,38 @@ public class OverlaySample : SampleBase
 
     private async Task DrawTimecode(Guid cameraId, CancellationToken token)
     {
-        const string layerId = "92AEA5CA-E0F5-4122-872A-DB9A9F7437F7"; // Please replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
+        const string layerId = "92AEA5CA-E0F5-4122-872A-DB9A9F7437F7"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
         Overlay overlay = await InitializeOverlay(cameraId, "Timecode");
-
         Layer layer = overlay.CreateLayer(new Guid(layerId), "Timecode");
+
+        var timeDisplay = new TimeDisplay();
 
         while (!token.IsCancellationRequested)
         {
-            layer.DrawText(DateTime.Now.ToString("F"), "Arial", 18, "Red", 0, 0);
+            timeDisplay.Draw(layer);
+
+            if (!layer.Update())
+            {
+                Console.WriteLine("Update failed");
+            }
+
+            await Task.Delay(1000, token); // Update every second
+        }
+    }
+
+    private async Task DrawRecordingStatus(Camera camera, CancellationToken token)
+    {
+        const string layerId = "A1B2C3D4-E5F6-7890-1234-567890ABCDEF"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
+
+        Overlay overlay = await InitializeOverlay(camera.Guid, "Recording Status");
+        Layer layer = overlay.CreateLayer(new Guid(layerId), "Recording Status");
+
+        var recordingStatus = new RecordingStatus(camera);
+
+        while (!token.IsCancellationRequested)
+        {
+            recordingStatus.Draw(layer);
 
             if (!layer.Update())
             {
