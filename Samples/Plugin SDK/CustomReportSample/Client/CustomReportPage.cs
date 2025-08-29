@@ -4,8 +4,8 @@
 namespace Genetec.Dap.CodeSamples.Client;
 
 using System.Collections.Generic;
-using Genetec.Sdk;
-using Genetec.Sdk.Workspace.Pages;
+using Sdk;
+using Sdk.Workspace.Pages;
 
 [Page(typeof(CustomReportPageDescriptor))]
 public class CustomReportPage : ReportPage
@@ -22,7 +22,15 @@ public class CustomReportPage : ReportPage
         new ReportField { Type = ReportFieldType.Boolean, Name = CustomReportColumnName.Boolean, DisplayName = "Boolean" },
         new ReportField { Type = ReportFieldType.Decimal, Name = CustomReportColumnName.Decimal, DisplayName = "Decimal" },
         new ReportField { Type = ReportFieldType.TimeSpan, Name = CustomReportColumnName.Duration, DisplayName = "Duration" },
-        new ReportField { Type = ReportFieldType.Image, Name = CustomReportColumnName.Picture, DisplayName = "Picture", ImageMaxHeight=256, ImageMaxWidth=256, InitialWidth=128 },
+        new ReportField
+        {
+            Type = ReportFieldType.Image,
+            Name = CustomReportColumnName.Picture,
+            DisplayName = "Picture",
+            ImageMaxHeight = 256,
+            ImageMaxWidth = 256,
+            InitialWidth = 128
+        },
         new ReportField { Type = ReportFieldType.Text, Name = CustomReportColumnName.Hidden, IsVisible = false } // Hidden field
     };
 
