@@ -1,21 +1,20 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using Sdk.Workspace.Modules;
+
+public class SampleModule : Module
 {
-    using Sdk.Workspace.Modules;
-
-    public class SampleModule : Module
+    public override void Load()
     {
-        public override void Load()
-        {
-            var component = new SampleCredentialReader();
-            component.Initialize(Workspace);
-            Workspace.Components.Register(component);
-        }
+        var component = new SampleCredentialReader();
+        component.Initialize(Workspace);
+        Workspace.Components.Register(component);
+    }
 
-        public override void Unload()
-        {
-        }
+    public override void Unload()
+    {
     }
 }

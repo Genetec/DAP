@@ -1,122 +1,121 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Media;
+using Sdk.Workspace.Options;
+
+public class SampleOptionPage : OptionPage, INotifyPropertyChanged
 {
-    using System;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using System.Windows;
-    using System.Windows.Media;
-    using Sdk.Workspace.Options;
+    private readonly SampleOptionsExtensions m_extension;
 
-    public class SampleOptionPage : OptionPage, INotifyPropertyChanged
+    private Color m_color;
+
+    private DateTime m_dateTime;
+
+    private int m_number;
+
+    private string m_text;
+
+    public SampleOptionPage(SampleOptionsExtensions extension)
     {
-        private readonly SampleOptionsExtensions m_extension;
+        m_extension = extension;
+        View = new SampleOptionsView(this);
+    }
 
-        private Color m_color;
-
-        private DateTime m_dateTime;
-
-        private int m_number;
-
-        private string m_text;
-
-        public SampleOptionPage(SampleOptionsExtensions extension)
+    public int Number
+    {
+        get => m_number;
+        set
         {
-            m_extension = extension;
-            View = new SampleOptionsView(this);
-        }
-
-        public int Number
-        {
-            get => m_number;
-            set
+            if (SetProperty(ref m_number, value))
             {
-                if (SetProperty(ref m_number, value))
-                {
-                    OnModified();
-                }
+                OnModified();
             }
         }
+    }
 
-        public DateTime DateTime
+    public DateTime DateTime
+    {
+        get => m_dateTime;
+        set
         {
-            get => m_dateTime;
-            set
+            if (SetProperty(ref m_dateTime, value))
             {
-                if (SetProperty(ref m_dateTime, value))
-                {
-                    OnModified();
-                }
+                OnModified();
             }
         }
+    }
 
-        public Color Color
+    public Color Color
+    {
+        get => m_color;
+        set
         {
-            get => m_color;
-            set
+            if (SetProperty(ref m_color, value))
             {
-                if (SetProperty(ref m_color, value))
-                {
-                    OnModified();
-                }
+                OnModified();
             }
         }
+    }
 
-        public string Text
+    public string Text
+    {
+        get => m_text;
+        set
         {
-            get => m_text;
-            set
+            if (SetProperty(ref m_text, value))
             {
-                if (SetProperty(ref m_text, value))
-                {
-                    OnModified();
-                }
+                OnModified();
             }
         }
+    }
 
-        public override UIElement View { get; }
+    public override UIElement View { get; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
 
-        public override void Load()
+    public override void Load()
+    {
+        Text = m_extension.Text;
+        Number = m_extension.Number;
+        DateTime = m_extension.DateTime;
+        Color = m_extension.Color;
+    }
+
+    public override void Save()
+    {
+        m_extension.Text = Text;
+        m_extension.Number = Number;
+        m_extension.DateTime = DateTime;
+        m_extension.Color = Color;
+    }
+
+    public override bool Validate()
+    {
+        return true;
+    }
+
+    private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+    {
+        if (Equals(storage, value))
         {
-            Text = m_extension.Text;
-            Number = m_extension.Number;
-            DateTime = m_extension.DateTime;
-            Color = m_extension.Color;
+            return false;
         }
 
-        public override void Save()
-        {
-            m_extension.Text = Text;
-            m_extension.Number = Number;
-            m_extension.DateTime = DateTime;
-            m_extension.Color = Color;
-        }
+        storage = value;
+        OnPropertyChanged(propertyName);
 
-        public override bool Validate()
-        {
-            return true;
-        }
+        return true;
+    }
 
-        private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return false;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-
-            return true;
-        }
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

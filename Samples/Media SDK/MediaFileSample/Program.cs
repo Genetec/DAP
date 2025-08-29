@@ -1,4 +1,4 @@
-﻿// Copyright 2024 Genetec Inc.
+﻿// Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
 using System;
@@ -51,7 +51,7 @@ void RunSample()
         // Display information about individual files within the media container
         // A single media file can contain multiple segments or streams
         Console.WriteLine("Contained Files:");
-        foreach (var file in mediaFile.ContainedFiles)
+        foreach (MediaFile.ContainedFile file in mediaFile.ContainedFiles)
         {
             // Basic file information
             Console.WriteLine($"Filename: {file.Filename}");

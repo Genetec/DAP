@@ -1,13 +1,15 @@
-﻿namespace Genetec.Dap.CodeSamples
-{
-    using System.Windows.Controls;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-    public partial class CredentialReaderView : UserControl
+namespace Genetec.Dap.CodeSamples;
+
+using System.Windows.Controls;
+
+public partial class CredentialReaderView : UserControl
+{
+    public CredentialReaderView(SampleCredentialReader credentialReader)
     {
-        public CredentialReaderView(SampleCredentialReader credentialReader)
-        {
-            DataContext = credentialReader;
-            InitializeComponent();
-        }
+        DataContext = credentialReader;
+        InitializeComponent();
     }
 }

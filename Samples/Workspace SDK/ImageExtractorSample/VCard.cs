@@ -1,21 +1,20 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System.Collections.Generic;
+using System.Windows.Media;
+
+public class VCard
 {
-    using System.Collections.Generic;
-    using System.Windows.Media;
-
-    public class VCard
-    {
-        public string FirstName { get; set; }
-        
-        public string LastName { get; set; }
-        
-        public List<string> Emails { get; } = new List<string>();
-        
-        public string Note { get; set; }
-        
-        public ImageSource Picture { get; set; }
-    }
+    public string FirstName { get; set; }
+    
+    public string LastName { get; set; }
+    
+    public List<string> Emails { get; } = new List<string>();
+    
+    public string Note { get; set; }
+    
+    public ImageSource Picture { get; set; }
 }

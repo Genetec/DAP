@@ -1,44 +1,43 @@
-﻿// Copyright (C) 2024 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.Linq;
+using Microsoft.Win32;
+using Sdk.Workspace.Components.CardholderFieldsExtractor;
+
+public class SampleCardholderFieldsExtractor : CardholderFieldsExtractor
 {
-    using System;
-    using System.Linq;
-    using Microsoft.Win32;
-    using Sdk.Workspace.Components.CardholderFieldsExtractor;
+    public override string Name => "Read vCard...";
 
-    public class SampleCardholderFieldsExtractor : CardholderFieldsExtractor
+    public override Guid UniqueId { get; } = new Guid("88F33E43-1E51-4504-95BF-ADD2FBCBA8AD");
+
+    public override CardholderFields GetFields(CardholderFieldsExtractorData data)
     {
-        public override string Name => "Read vCard...";
-
-        public override Guid UniqueId { get; } = new Guid("88F33E43-1E51-4504-95BF-ADD2FBCBA8AD");
-
-        public override CardholderFields GetFields(CardholderFieldsExtractorData data)
+        var openFileDialog = new OpenFileDialog
         {
-            var openFileDialog = new OpenFileDialog
-            {
-                Filter = "vCard files (*.vcf)|*.vcf|All files (*.*)|*.*",
-                Title = "Open vCard File"
-            };
+            Filter = "vCard files (*.vcf)|*.vcf|All files (*.*)|*.*",
+            Title = "Open vCard File"
+        };
 
-            if (openFileDialog.ShowDialog() == true)
+        if (openFileDialog.ShowDialog() == true)
+        {
+            VCard vCardInfo = VCardReader.ReadVCard(openFileDialog.FileName);
+            if (vCardInfo != null)
             {
-                VCard vCardInfo = VCardReader.ReadVCard(openFileDialog.FileName);
-                if (vCardInfo != null)
+                return new CardholderFields
                 {
-                    return new CardholderFields
-                    {
-                        FirstName = vCardInfo.FirstName,
-                        LastName = vCardInfo.LastName,
-                        Email = vCardInfo.Emails.FirstOrDefault(), 
-                        Picture = vCardInfo.Picture, 
-                        Description = vCardInfo.Note
-                    };
-                }
+                    FirstName = vCardInfo.FirstName,
+                    LastName = vCardInfo.LastName,
+                    Email = vCardInfo.Emails.FirstOrDefault(), 
+                    Picture = vCardInfo.Picture, 
+                    Description = vCardInfo.Note
+                };
             }
-
-            return null;
         }
+
+        return null;
     }
 }

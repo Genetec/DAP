@@ -1,18 +1,17 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System.Collections.Generic;
+
+public static class CollectionExtensions
 {
-    using System.Collections.Generic;
-
-    public static class CollectionExtensions
+    public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
     {
-        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
+        foreach (T item in items)
         {
-            foreach (var item in items)
-            {
-                collection.Add(item);
-            }
+            collection.Add(item);
         }
     }
 }

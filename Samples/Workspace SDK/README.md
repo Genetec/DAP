@@ -42,7 +42,7 @@ The static constructor with `AssemblyResolver.Initialize()` is only needed when 
 All workspace modules loaded by Security Desk (or Config Tool) run within the same Windows process and share the same .NET AppDomain. This has several important implications:
 
 **What this means:**
-- When Security Desk starts, it loads ALL registered workspace modules into its single process
+- When Security Desk or Config Tool starts, it loads ALL registered workspace modules into its single process
 - All modules share the same memory space and runtime environment
 - Modules can potentially interfere with each other if not designed carefully
 

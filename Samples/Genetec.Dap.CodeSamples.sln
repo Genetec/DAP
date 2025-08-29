@@ -11,8 +11,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Media SDK", "Media SDK", "{949B9098-D0C6-4E6C-BAB4-7253789645C1}"
+	ProjectSection(SolutionItems) = preProject
+		Media SDK\README.md = Media SDK\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin SDK", "Plugin SDK", "{AAD7589E-062C-4CF0-AF3D-8B86A42AA482}"
+	ProjectSection(SolutionItems) = preProject
+		Plugin SDK\README.md = Plugin SDK\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileCryptingManagerSample", "Media SDK\FileCryptingManagerSample\FileCryptingManagerSample.csproj", "{2FEE543C-6E13-4289-B9BF-6E9338C14B98}"
 EndProject
@@ -50,7 +56,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTrailsSample", "Pla
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform SDK", "Platform SDK", "{4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}"
 	ProjectSection(SolutionItems) = preProject
-		ReadMe.md = ReadMe.md
+		Platform SDK\README.md = Platform SDK\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlRawEventQuerySample", "Platform SDK\AccessControlRawEventQuerySample\AccessControlRawEventQuerySample.csproj", "{1EDA0B9A-B2C2-493C-A895-35964392B33F}"
@@ -136,6 +142,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitorManagerSample", "Platform SDK\VisitorManagerSample\VisitorManagerSample.csproj", "{C30AC2F8-DCF2-4BFE-8553-049A93F1C30C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workspace SDK", "Workspace SDK", "{B4C33C9C-21DF-4775-BE7A-60019B42445C}"
+	ProjectSection(SolutionItems) = preProject
+		Workspace SDK\README.md = Workspace SDK\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundProcessSample", "Workspace SDK\BackgroundProcessSample\BackgroundProcessSample.csproj", "{1668C741-CB6D-4E07-AE07-154CF1461B38}"
 EndProject
@@ -194,6 +203,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomReportQuerySample", "Platform SDK\CustomReportQuerySample\CustomReportQuerySample.csproj", "{B1522DA2-4650-43F6-816A-8D56E8314B21}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTransmitterSample", "Media SDK\AudioTransmitterSample\AudioTransmitterSample.csproj", "{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioRecorderSample", "Media SDK\AudioRecorderSample\AudioRecorderSample.csproj", "{A1B2C3D4-E5F6-7890-A1B2-C3D4E5F67890}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoleSample", "Platform SDK\RoleSample\RoleSample.csproj", "{29891581-DA9A-4D2B-81E7-570143BC5475}"
 EndProject
@@ -557,6 +568,10 @@ Global
 		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-A1B2-C3D4E5F67890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-A1B2-C3D4E5F67890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-A1B2-C3D4E5F67890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-A1B2-C3D4E5F67890}.Release|Any CPU.Build.0 = Release|Any CPU
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29891581-DA9A-4D2B-81E7-570143BC5475}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -672,6 +687,7 @@ Global
 		{12022CB5-0053-4BB9-B548-1137C0E25A0A} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{B1522DA2-4650-43F6-816A-8D56E8314B21} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{91C084B0-BC1A-41C7-A6E3-E1556B8FE0D3} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
+		{A1B2C3D4-E5F6-7890-A1B2-C3D4E5F67890} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{29891581-DA9A-4D2B-81E7-570143BC5475} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{C0A9B844-811D-460A-B8DD-C9EEF7969C91} = {949B9098-D0C6-4E6C-BAB4-7253789645C1}
 		{3E803283-FD0E-B1B4-192A-A36566DC8FE3} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
@@ -723,6 +739,7 @@ Global
 		Shared\Shared.projitems*{8bf55332-9888-46a0-8d60-c31b9db52534}*SharedItemsImports = 5
 		Shared\Shared.projitems*{91c084b0-bc1a-41c7-a6e3-e1556b8fe0d3}*SharedItemsImports = 5
 		Shared\Shared.projitems*{922bd855-deed-44e2-ba08-71dd92df1f2d}*SharedItemsImports = 5
+		Shared\Shared.projitems*{a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a377c035-e10f-41f0-b6c7-0d0bcb60d4b9}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a6b95578-7844-480b-8051-056b4949e446}*SharedItemsImports = 5
 		Shared\Shared.projitems*{ac2530de-ed8e-431d-9cb3-f868193331de}*SharedItemsImports = 5

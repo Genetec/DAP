@@ -11,7 +11,7 @@ public class PcmAudioGenerator
     public int BitsPerSample => 16; // 16-bit PCM
     public int Channels => 1; // Mono
 
-    private const double MaxAmplitude = 32767.0; // Max value for 16-bit PCM
+    private const double s_maxAmplitude = 32767.0; // Max value for 16-bit PCM
 
     public byte[] GenerateSineWave(double frequency, double durationSeconds, double amplitude = 0.5)
     {
@@ -19,7 +19,7 @@ public class PcmAudioGenerator
         int bytesPerSample = BitsPerSample / 8;
         byte[] pcmData = new byte[totalSamples * bytesPerSample * Channels];
 
-        amplitude = Clamp(amplitude, 0.0, 1.0) * MaxAmplitude;
+        amplitude = Clamp(amplitude, 0.0, 1.0) * s_maxAmplitude;
 
         for (int i = 0; i < totalSamples; i++)
         {
