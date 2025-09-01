@@ -1,3 +1,6 @@
+// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
 #if NETCOREAPP
 
 namespace Genetec.Dap.CodeSamples;
@@ -113,7 +116,7 @@ public static class SdkResolver
             }
         }
 
-        // If neither is found, return null or a default path
+        // If neither is found, return null
         return null;
     }
 

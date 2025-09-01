@@ -1,48 +1,47 @@
-﻿// Copyright (C) 2023 by Genetec, Inc. All rights reserved.
-// May be used only in accordance with a valid Source Code License Agreement.
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples
+namespace Genetec.Dap.CodeSamples;
+
+using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Windows.Media;
+
+[DataContract(Namespace = "")]
+public class SampleOptionsData
 {
-    using System;
-    using System.IO;
-    using System.Runtime.Serialization;
-    using System.Text;
-    using System.Windows.Media;
+    [DataMember]
+    public string Text { get; set; }
 
-    [DataContract(Namespace = "")]
-    public class SampleOptionsData
+    [DataMember]
+    public int Number { get; set; }
+
+    [DataMember]
+    public DateTime DateTime { get; set; }
+
+    [DataMember]
+    public Color Color { get; set; }
+
+    public static SampleOptionsData Deserialize(string data)
     {
-        [DataMember]
-        public string Text { get; set; }
+        if (string.IsNullOrEmpty(data)) 
+            return new SampleOptionsData();
 
-        [DataMember]
-        public int Number { get; set; }
+        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
+        var serializer = new DataContractSerializer(typeof(SampleOptionsData));
+        return (SampleOptionsData)serializer.ReadObject(stream);
+    }
 
-        [DataMember]
-        public DateTime DateTime { get; set; }
+    public string Serialize()
+    {
+        using var stream = new MemoryStream();
+        var serializer = new DataContractSerializer(typeof(SampleOptionsData));
+        serializer.WriteObject(stream, this);
+        stream.Position = 0;
 
-        [DataMember]
-        public Color Color { get; set; }
-
-        public static SampleOptionsData Deserialize(string data)
-        {
-            if (string.IsNullOrEmpty(data)) 
-                return new SampleOptionsData();
-
-            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
-            var serializer = new DataContractSerializer(typeof(SampleOptionsData));
-            return (SampleOptionsData)serializer.ReadObject(stream);
-        }
-
-        public string Serialize()
-        {
-            using var stream = new MemoryStream();
-            var serializer = new DataContractSerializer(typeof(SampleOptionsData));
-            serializer.WriteObject(stream, this);
-            stream.Position = 0;
-
-            using var reader = new StreamReader(stream);
-            return reader.ReadToEnd();
-        }
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd();
     }
 }

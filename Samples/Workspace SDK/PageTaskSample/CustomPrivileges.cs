@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+using System;
 
 namespace Genetec.Dap.CodeSamples;
 

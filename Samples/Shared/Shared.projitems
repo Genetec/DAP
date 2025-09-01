@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IsExternalInitPolyfill.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SdkResolverNetCoreApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SdkResolverNetFramework.cs" />
   </ItemGroup>
