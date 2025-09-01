@@ -12,7 +12,7 @@ public class SampleCardholderFieldsExtractor : CardholderFieldsExtractor
 {
     public override string Name => "Read vCard...";
 
-    public override Guid UniqueId { get; } = new Guid("88F33E43-1E51-4504-95BF-ADD2FBCBA8AD");
+    public override Guid UniqueId { get; } = new("88F33E43-1E51-4504-95BF-ADD2FBCBA8AD"); // TODO: Replace with your own GUID
 
     public override CardholderFields GetFields(CardholderFieldsExtractorData data)
     {
@@ -31,8 +31,8 @@ public class SampleCardholderFieldsExtractor : CardholderFieldsExtractor
                 {
                     FirstName = vCardInfo.FirstName,
                     LastName = vCardInfo.LastName,
-                    Email = vCardInfo.Emails.FirstOrDefault(), 
-                    Picture = vCardInfo.Picture, 
+                    Email = vCardInfo.Emails.FirstOrDefault(),
+                    Picture = vCardInfo.Picture,
                     Description = vCardInfo.Note
                 };
             }
