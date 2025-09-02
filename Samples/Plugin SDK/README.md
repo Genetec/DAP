@@ -52,18 +52,12 @@ By using the Plugin SDK, developers can create powerful, deeply integrated solut
 
 ## Prerequisites
 
-- .NET Framework 4.8.1
-- Genetec Security Center SDK
-- Visual Studio 2022
+- **.NET Framework 4.8.1**: The Plugin SDK only supports the .NET Framework; it does not support .NET 8 yet.
+- **Security Center SDK**: Installed with `GSC_SDK` environment variable configured
+- **Visual Studio 2022**: Version 17.6 or later for development (must run as Administrator)
+- **Security Center**: Installed and running on your system
+- **Valid Security Center License**: All samples include the development SDK certificate
 
-## Getting Started
-
-1. Install the latest Genetec Security Center SDK. This will create the necessary environment variables automatically.
-   - `GSC_SDK`: Points to the location of the Genetec SDK for .NET Framework 4.8.1
-   - `GSC_SDK_CORE`: Points to the location of the Genetec SDK for .NET 8
-2. Clone this repository to your local machine.
-3. Open the solution in Visual Studio **as an Administrator**.
-4. Build the project.
 
 ## Creating a Plugin
 

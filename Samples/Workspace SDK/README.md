@@ -3,6 +3,14 @@
 The Workspace SDK is a development framework that allows you to extend Security Center's client applications (Security Desk and Config Tool) with custom user interface components. It enables developers to create seamless integrations that feel like native parts of the Security Center experience.
 This guide demonstrates how to build a Workspace module for Security Center. Workspace modules allow you to extend Security Desk and Config Tool with custom UI tasks, panels, widgets, options, and other components.
 
+## Prerequisites
+
+- **.NET Framework 4.8.1**: The Workspace SDK only supports the .NET Framework; it does not support .NET 8 yet.  
+- **Security Center SDK**: Installed with `GSC_SDK` environment variable configured
+- **Visual Studio 2022**: Version 17.6 or later for development
+- **Security Center**: Client applications (Security Desk and Config Tool) installed
+- **Valid Security Center License**: All samples include the development SDK certificate
+
 ## Overview
 
 Workspace modules run inside the Security Center client applications (Security Desk or Config Tool). They are loaded by these applications and provide custom user interface functionality. Unlike plugins, Workspace modules do not run as server-side Roles and are intended exclusively for client-side extensions.
@@ -64,13 +72,6 @@ All workspace modules loaded by Security Desk (or Config Tool) run within the sa
 - Implement proper exception handling to prevent crashes
 - Test modules together, not just individually
 - Consider the impact of your module on the overall Security Desk performance
-
-## Prerequisites
-
-* .NET Framework 4.8.1
-* Genetec Security Center SDK installed (creates required environment variables)
-  * `GSC_SDK`: Points to SDK location for .NET Framework
-* Visual Studio 2022
 
 ## Module Lifecycle and Resource Management
 

@@ -2,6 +2,14 @@
 
 The Media SDK extends the Platform SDK with comprehensive video capabilities for Security Center. It provides real-time video streaming, playback control, audio transmission, PTZ camera operations, and video export functionality. This guide explains the core concepts, classes, and architectural patterns you need to understand when working with media in Security Center integrations.
 
+## Prerequisites
+
+- **.NET Framework 4.8.1**: The Media SDK only supports the .NET Framework; it does not support .NET 8 yet.  
+- **Security Center SDK**: Installed with `GSC_SDK` environment variable configured
+- **Visual Studio 2022**: Version 17.6 or later for development
+- **Security Center**: Client applications (Security Desk and Config Tool) installed
+- **Valid Security Center License**: All samples include the development SDK certificate
+
 ## Media SDK Architecture
 
 ### Foundation on Platform SDK
