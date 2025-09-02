@@ -4,6 +4,6 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
-		<DefineConstants>$(DefineConstants);NETCOREAPP</DefineConstants>
+		<DefineConstants>$(DefineConstants);NET8_0</DefineConstants>
 	</PropertyGroup>
 </Project>

@@ -34,7 +34,14 @@ Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the pro
 
   
 
--  **Install Security Center SDK**: The SDK contains the necessary libraries to build and run custom integrations. Download and install the Security Center SDK from the [Genetec Portal](https://portal.genetec.com). 
+-  **Install Security Center SDK**: The SDK contains the necessary libraries to build and run custom integrations. Download and install the Security Center SDK from the [Genetec Portal](https://portal.genetec.com).
+
+   The SDK installer automatically:
+   - Creates environment variables (`GSC_SDK` for .NET Framework, `GSC_SDK_CORE` for .NET 8)
+   - Write the installation path in Windows registry
+   - Copies the Security Center SDK assemblies in the SDK directories
+   
+   See [Referencing Security Center SDK Assemblies](https://github.com/Genetec/DAP/wiki/Referencing-Security-Center-SDK-Assemblies) for assembly referencing and runtime resolution details. 
 
 -  **Development Tools**:
 
@@ -42,13 +49,11 @@ Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the pro
 
 -  **.NET Framework 4.8.1**: The sample projects can be built using .NET Framework 4.8.1, which is supported by all versions of Security Center.
 
--  **.NET 8**: Some sample projects can be built using .NET 8, but only with **Security Center SDK 5.12.2 or later**. Currently, only the platform SDK (Genetec.Sdk.dll) supports .NET 8. 
+-  **.NET 8**: Some sample projects can be built using .NET 8, but only with **Security Center SDK 5.12.2 or later**. Currently, only the **Platform SDK** (Genetec.Sdk.dll) supports .NET 8.
 
   
 
 -  **Build and Run the Samples**: Once your environment is ready, you can open the sample projects in Visual Studio, build them and run them.
-
-  
 
 ### 3. **Explore the Samples**:
 
@@ -73,17 +78,17 @@ The **core samples** that demonstrate fundamental Security Center SDK functional
 
 **Key capabilities demonstrated:**
 
-- Entity loading and caching patterns using the `SampleBase` class
+- Login and entity loading using the `SampleBase` class
 
-- Entity management
+- Entity creation, modification, and deletion
 
-- System reports and database queries
+- Reports queries
 
 - Event monitoring and alarm processing
 
-- Custom fields and entity creation
+- Custom fields 
 
-- Transaction management and authentication
+- Transaction management
 
   
 
@@ -115,6 +120,8 @@ Video and audio processing samples that **extend the Platform SDK** with special
 
 **Dependencies:** Built on Platform SDK foundations for entity management and SDK connection patterns.
 
+See the [Media SDK README](Samples/Media%20SDK/README.md).
+
   
 
 ### Workspace SDK Samples (`/Workspace SDK/`)
@@ -141,7 +148,7 @@ Client-side user interface extensions that **leverage Platform SDK entities and 
 
   
 
-For comprehensive implementation details, see the [Workspace SDK README](Workspace%20SDK/README.md).
+See the [Workspace SDK README](Samples/Workspace%20SDK/README.md).
 
   
 
@@ -168,7 +175,7 @@ Server-side plugin development samples that **build upon Platform SDK infrastruc
 
   
 
-For comprehensive implementation details, see the [Plugin SDK README](Plugin%20SDK/README.md).
+See the [Plugin SDK README](Samples/Plugin%20SDK/README.md).
 
   
 ## Sample Project Structure
@@ -282,6 +289,19 @@ dotnet build -f net8.0-windows
   
 
 Remember to use the appropriate version of the Security Center SDK that matches your target framework. The .NET 8 target requires Security Center SDK 5.12.2 or later.
+
+## SDK Framework Support Matrix
+
+The following table shows which .NET frameworks are supported by each SDK:
+
+| SDK | .NET Framework 4.8.1 | .NET 8 | Notes |
+|-----|:-------------------:|:------:|-------|
+| **Platform SDK** | ✅ | ✅ | .NET 8 requires Security Center SDK 5.12.2+ |
+| **Media SDK** | ✅ | ❌ | .NET 8 support planned for future release |
+| **Workspace SDK** | ✅ | ❌ | Client applications use .NET Framework |
+| **Plugin SDK** | ✅ | ❌ | .NET 8 support planned for future release |
+
+**Important**: Only Platform SDK samples support multi-targeting. All other SDK samples target .NET Framework 4.8.1 exclusively.
 
   
 
