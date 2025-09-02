@@ -38,7 +38,7 @@ Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the pro
 
    The SDK installer automatically:
    - Creates environment variables (`GSC_SDK` for .NET Framework, `GSC_SDK_CORE` for .NET 8)
-   - Write the installation path in Windows registry
+   - Writes the installation path in Windows registry
    - Copies the Security Center SDK assemblies in the SDK directories
    
    See [Referencing Security Center SDK Assemblies](https://github.com/Genetec/DAP/wiki/Referencing-Security-Center-SDK-Assemblies) for assembly referencing and runtime resolution details. 
