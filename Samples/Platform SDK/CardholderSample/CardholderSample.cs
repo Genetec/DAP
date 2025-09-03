@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk;
+using Genetec.Sdk.Credentials;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries;
 
@@ -17,70 +18,92 @@ public class CardholderSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        List<Cardholder> newCardholders = await CreateCardholders(engine);
+        List<Cardholder> cardholders = await CreateCardholdersWithCredentials(engine);
 
-        IList<Cardholder> cardholders = await FindCardholders(engine, "Michael", "Johnson", "michael.johnson@techcorp.com", "+1555123456");
+        DisplayCardholders(engine, cardholders);
 
-        Cardholder cardholder = cardholders.FirstOrDefault();
-        if (cardholder != null)
-        {
-            await UpdateCardholder(engine, cardholder);
-        }
-
-        await LoadEntities(engine, token, EntityType.Cardholder);
-        cardholders = engine.GetEntities(EntityType.Cardholder).OfType<Cardholder>().Take(10).ToList();
-
-        DisplayCardholders(cardholders);
-
-        await DeleteCardholders(engine, newCardholders);
+        await DeleteCardholders(engine, cardholders);
     }
 
-    Task<List<Cardholder>> CreateCardholders(Engine engine)
+    private async Task<List<Cardholder>> CreateCardholdersWithCredentials(Engine engine)
     {
-        Console.WriteLine("Creating multiple cardholders in a single transaction...");
+        Console.WriteLine("Creating cardholders if they don't exist...");
 
-        return engine.TransactionManager.ExecuteTransactionAsync(() =>
+        // Check for existing cardholders first
+        Cardholder cardholder1 = (await FindCardholders(engine, "Michael", "Johnson", "michael.johnson@techcorp.com", "+1555123456")).FirstOrDefault();
+        Cardholder cardholder2 = (await FindCardholders(engine, "Sarah", "Williams", "sarah.williams@healthsystems.org", "+1555987654")).FirstOrDefault();
+
+        // Credential formats for the cardholders
+        CredentialFormat format1 = new WiegandStandardCredentialFormat(facility: 1, cardId: 1001);
+        CredentialFormat format2 = new WiegandStandardCredentialFormat(facility: 1, cardId: 1002);
+
+        // Try to find existing credentials with the same formats to avoid duplicates
+        Credential credential1 = await FindCredential(engine, format1);
+        Credential credential2 = await FindCredential(engine, format2);
+
+        return await engine.TransactionManager.ExecuteTransactionAsync(() =>
         {
             var cardholders = new List<Cardholder>();
 
-            var cardholder1 = (Cardholder)engine.CreateEntity("Michael Johnson", EntityType.Cardholder);
-            cardholder1.FirstName = "Michael";
-            cardholder1.LastName = "Johnson";
-            cardholder1.EmailAddress = "michael.johnson@techcorp.com";
-            cardholder1.MobilePhoneNumber = "+1555123456";
-
-            cardholder1.Status.Activate(DateTime.UtcNow.AddDays(3)); // Activate the cardholder in 3 days
-            cardholder1.Status.ExpireWhenNotUsedInDays(30); // Set the cardholder to expire if not used in 30 days
-
+            if (cardholder1 == null)
+            {
+                cardholder1 = (Cardholder)engine.CreateEntity("Michael Johnson", EntityType.Cardholder);
+                cardholder1.FirstName = "Michael";
+                cardholder1.LastName = "Johnson";
+                cardholder1.EmailAddress = "michael.johnson@techcorp.com";
+                cardholder1.MobilePhoneNumber = "+1555123456";
+                cardholder1.Status.Activate(DateTime.UtcNow.AddDays(3)); // Activate in 3 days
+                cardholder1.Status.ExpireWhenNotUsedInDays(30); // Expires 30 days after last use
+            }
             cardholders.Add(cardholder1);
 
-            var cardholder2 = (Cardholder)engine.CreateEntity("Sarah Williams", EntityType.Cardholder);
-            cardholder2.FirstName = "Sarah";
-            cardholder2.LastName = "Williams";
-            cardholder2.EmailAddress = "sarah.williams@healthsystems.org";
-            cardholder2.MobilePhoneNumber = "+1555987654";
+            if (credential1 is null) // Create new credential if not found
+            {
+                credential1 = engine.EntityManager.GetCredentialBuilder()
+                    .SetName($"Card - {cardholder1.Name}")
+                    .SetFormat(format1)
+                    .Build();
+
+                Console.WriteLine($"Created credential: {credential1.Name} (Format: {format1.Name}, Raw Data: {format1.RawData})");
+            }
+            else if (credential1.CardholderGuid != Guid.Empty) // Credential already assigned to a cardholder
+            {
+                credential1.CardholderGuid = Guid.Empty; // Unassign from previous cardholder if assigned
+            }
+            cardholder1.Credentials.Add(credential1.Guid); // Assign credential to cardholder
+
+            if (cardholder2 == null)
+            {
+                cardholder2 = (Cardholder)engine.CreateEntity("Sarah Williams", EntityType.Cardholder);
+                cardholder2.FirstName = "Sarah";
+                cardholder2.LastName = "Williams";
+                cardholder2.EmailAddress = "sarah.williams@healthsystems.org";
+                cardholder2.MobilePhoneNumber = "+1555987654";
+                cardholder2.Status.Activate(DateTime.UtcNow.AddDays(1)); // Activate in 1 day
+                cardholder2.Status.ExpireOnFirstUseInDays(3); // Expires 3 days after first use
+            }
             cardholders.Add(cardholder2);
 
-            cardholder1.Status.Activate(DateTime.UtcNow.AddDays(1)); // Activate the cardholder in 1 day
-            cardholder1.Status.ExpireOnFirstUseInDays(3); // Set the cardholder to expire 3 days after first use
+            if (credential2 is null) // Create new credential if not found
+            {
+                credential2 = engine.EntityManager.GetCredentialBuilder()
+                    .SetName($"Card - {cardholder2.Name}")
+                    .SetFormat(format2)
+                    .Build();
 
-            Console.WriteLine($"Created {cardholders.Count} cardholders successfully");
+                Console.WriteLine($"Created credential: {credential2.Name} (Format: {format2.Name}, Raw Data: {format2.RawData})");
+            }
+            else if (credential2.CardholderGuid != Guid.Empty) // Credential already assigned to a cardholder
+            {
+                credential2.CardholderGuid = Guid.Empty; // Unassign from previous cardholder if assigned
+            }
+            cardholder2.Credentials.Add(credential2.Guid); // Assign credential to cardholder
+
             return cardholders;
         });
     }
 
-    Task UpdateCardholder(Engine engine, Cardholder cardholder)
-    {
-        Console.WriteLine($"Updating cardholder: {cardholder.Name}");
-
-        return engine.TransactionManager.ExecuteTransactionAsync(() =>
-        {
-            cardholder.EmailAddress = "michael.johnson.updated@techcorp.com";
-            cardholder.MobilePhoneNumber = "+1555111222";
-        });
-    }
-
-    Task DeleteCardholders(Engine engine, List<Cardholder> cardholders)
+    private Task DeleteCardholders(Engine engine, List<Cardholder> cardholders)
     {
         Console.WriteLine($"Deleting {cardholders.Count} cardholders...");
 
@@ -94,7 +117,7 @@ public class CardholderSample : SampleBase
         });
     }
 
-    void DisplayCardholders(ICollection<Cardholder> cardholders)
+    private void DisplayCardholders(Engine engine, ICollection<Cardholder> cardholders)
     {
         Console.WriteLine($"\nDisplaying {cardholders.Count} cardholders:");
         foreach (Cardholder cardholder in cardholders)
@@ -107,17 +130,49 @@ public class CardholderSample : SampleBase
         void DisplayCardholderInfo(Cardholder cardholder)
         {
             Console.WriteLine($"   Name: {cardholder.Name}");
-            Console.WriteLine($"    GUID: {cardholder.Guid}");
-            Console.WriteLine($"    First Name: {cardholder.FirstName ?? "N/A"}");
-            Console.WriteLine($"    Last Name: {cardholder.LastName ?? "N/A"}");
-            Console.WriteLine($"    Email: {cardholder.EmailAddress ?? "N/A"}");
-            Console.WriteLine($"    Mobile Phone: {cardholder.MobilePhoneNumber ?? "N/A"}");
-            Console.WriteLine($"    Created: {cardholder.CreatedOn:f}");
+            Console.WriteLine($"   GUID: {cardholder.Guid}");
+            Console.WriteLine($"   First Name: {cardholder.FirstName ?? "N/A"}");
+            Console.WriteLine($"   Last Name: {cardholder.LastName ?? "N/A"}");
+            Console.WriteLine($"   Email: {cardholder.EmailAddress ?? "N/A"}");
+            Console.WriteLine($"   Mobile Phone: {cardholder.MobilePhoneNumber ?? "N/A"}");
+            Console.WriteLine($"   Created: {cardholder.CreatedOn:f}");
+            Console.WriteLine($"   State: {cardholder.Status.State}");
+            Console.WriteLine($"   Activation Date: {cardholder.Status.ActivationDate}");
+            Console.WriteLine($"   Expiration Date: {cardholder.Status.ExpirationDate}");
+            Console.WriteLine();
+
+            if (cardholder.Credentials.Any())
+            {
+                Console.WriteLine($"   Credentials for {cardholder.Name}:");
+                foreach (var credential in cardholder.Credentials.Select(engine.GetEntity).OfType<Credential>())
+                {
+                    CredentialFormat format = credential.Format;
+                    Console.WriteLine($"     • {credential.Name} (Format: {format.Name})");
+                    Console.WriteLine($"       GUID: {credential.Guid}");
+                    Console.WriteLine($"       Raw Data: {format.RawData}");
+                    Console.WriteLine($"       State: {credential.Status.State}");
+                    Console.WriteLine($"       Activation Date: {credential.Status.ActivationDate}");
+                    Console.WriteLine($"       Expiration Date: {credential.Status.ExpirationDate}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"   No credentials assigned to {cardholder.Name}");
+            }
+
             Console.WriteLine();
         }
     }
 
-    async Task<IList<Cardholder>> FindCardholders(Engine engine, string firstName, string lastName, string email, string mobilePhoneNumber)
+    private async Task<Credential> FindCredential(Engine engine, CredentialFormat format)
+    {
+        var query = (CredentialConfigurationQuery)engine.ReportManager.CreateReportQuery(ReportType.CredentialConfiguration);
+        query.UniqueIds.Add(format);
+        QueryCompletedEventArgs args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+        return args.Data.AsEnumerable().Select(row => engine.GetEntity(row.Field<Guid>(nameof(Guid)))).OfType<Credential>().FirstOrDefault();
+    }
+
+    private async Task<IList<Cardholder>> FindCardholders(Engine engine, string firstName, string lastName, string email, string mobilePhoneNumber)
     {
         Console.WriteLine("Searching for cardholders with specified criteria...");
 
