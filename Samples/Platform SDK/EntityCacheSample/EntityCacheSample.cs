@@ -21,12 +21,6 @@ public class EntityCacheSample : SampleBase
 
         lock (m_consoleLock)
         {
-            Console.WriteLine("Entity cache before user logon");
-            PrintEntityCache(engine);
-        }
-
-        lock (m_consoleLock)
-        {
             Console.WriteLine("\nEntity cache before loading entities");
             PrintEntityCache(engine);
         }
