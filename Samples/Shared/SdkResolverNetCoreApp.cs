@@ -35,7 +35,7 @@ public static class SdkResolver
 
     private static Assembly OnAssemblyResolve(AssemblyLoadContext context, AssemblyName assemblyName)
     {
-        string key = assemblyName.FullName;
+        string key = assemblyName.FullName ?? assemblyName.Name;
         Lazy<Assembly> lazy = s_loaders.GetOrAdd(key, _ => new Lazy<Assembly>(() => LoadAssembly(context, assemblyName)));
 
         Assembly assembly = lazy.Value;
