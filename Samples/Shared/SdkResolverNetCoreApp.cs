@@ -57,7 +57,16 @@ public static class SdkResolver
         if (!string.IsNullOrEmpty(s_probingPath))
         {
             foreach (var candidate in GetAssemblyPaths(s_probingPath, assemblyName).Where(File.Exists))
-                return context.LoadFromAssemblyPath(candidate);
+            {
+                try
+                {
+                    return context.LoadFromAssemblyPath(candidate);
+                }
+                catch (Exception)
+                {
+                    // Ignore and try next candidate
+                }
+            }
         }
 
         // Let the runtime continue its normal chain
