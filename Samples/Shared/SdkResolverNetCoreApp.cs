@@ -64,7 +64,7 @@ public static class SdkResolver
         return null;
     }
 
-    private static IEnumerable<string> GetAssemblyPaths(string probingPath, string assemblyName)
+    private static IEnumerable<string> GetAssemblyPaths(string probingPath, AssemblyName assemblyName)
     {
         var parsedAssemblyName = new AssemblyName(assemblyName);
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.dll");
