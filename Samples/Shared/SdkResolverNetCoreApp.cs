@@ -35,7 +35,7 @@ public static class SdkResolver
 
     private static Assembly OnAssemblyResolve(AssemblyLoadContext context, AssemblyName assemblyName)
     {
-        string key = assemblyName.FullName;
+        string key = assemblyName.FullName ?? assemblyName.Name;
         Lazy<Assembly> lazy = s_loaders.GetOrAdd(key, _ => new Lazy<Assembly>(() => LoadAssembly(context, assemblyName)));
 
         Assembly assembly = lazy.Value;
@@ -57,7 +57,16 @@ public static class SdkResolver
         if (!string.IsNullOrEmpty(s_probingPath))
         {
             foreach (var candidate in GetAssemblyPaths(s_probingPath, assemblyName).Where(File.Exists))
-                return context.LoadFromAssemblyPath(candidate);
+            {
+                try
+                {
+                    return context.LoadFromAssemblyPath(candidate);
+                }
+                catch (Exception)
+                {
+                    // Ignore and try next candidate
+                }
+            }
         }
 
         // Let the runtime continue its normal chain
