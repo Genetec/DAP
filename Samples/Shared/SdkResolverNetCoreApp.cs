@@ -64,10 +64,22 @@ public static class SdkResolver
         return null;
     }
 
-    private static IEnumerable<string> GetAssemblyPaths(string probingPath, AssemblyName assemblyName)
+    private static IEnumerable<string> GetAssemblyPaths(string probingPath, string assemblyName)
     {
-        yield return Path.Combine(probingPath, $"{assemblyName.Name}.dll");
-        yield return Path.Combine(probingPath, $"{assemblyName.Name}.exe");
+        var parsedAssemblyName = new AssemblyName(assemblyName);
+        yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.dll");
+        yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.exe");
+
+        if (Environment.Is64BitProcess)
+        {
+            yield return Path.Combine(probingPath, "x64", $"{parsedAssemblyName.Name}.dll");
+            yield return Path.Combine(probingPath, "x64", $"{parsedAssemblyName.Name}.exe");
+        }
+        else
+        {
+            yield return Path.Combine(probingPath, "x86", $"{parsedAssemblyName.Name}.dll");
+            yield return Path.Combine(probingPath, "x86", $"{parsedAssemblyName.Name}.exe");
+        }
     }
 
     private static string GetProbingPath()

@@ -85,6 +85,17 @@ public static class SdkResolver
         var parsedAssemblyName = new AssemblyName(assemblyName);
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.dll");
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.exe");
+
+        if (Environment.Is64BitProcess)
+        {
+            yield return Path.Combine(probingPath, "x64", $"{parsedAssemblyName.Name}.dll");
+            yield return Path.Combine(probingPath, "x64", $"{parsedAssemblyName.Name}.exe");
+        }
+        else
+        {
+            yield return Path.Combine(probingPath, "x86", $"{parsedAssemblyName.Name}.dll");
+            yield return Path.Combine(probingPath, "x86", $"{parsedAssemblyName.Name}.exe");
+        }
     }
 }
 
