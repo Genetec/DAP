@@ -63,6 +63,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlRawEventQueryS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlReportQuerySample", "Platform SDK\AccessControlReportQuerySample\AccessControlReportQuerySample.csproj", "{EDFB9F54-EA7B-441D-A5E5-ADBCA5FF9B0A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HardwareInventoryQuerySample", "Platform SDK\HardwareInventoryQuerySample\HardwareInventoryQuerySample.csproj", "{B2C5E9F1-4A8D-4E3F-9B7C-8D1E2F3A4B5C}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlUnitManagerSample", "Platform SDK\AccessControlUnitManagerSample\AccessControlUnitManagerSample.csproj", "{ED6D2BEF-09CE-4D1A-970F-F3E549C16B3D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlUnitSample", "Platform SDK\AccessControlUnitSample\AccessControlUnitSample.csproj", "{544F00A8-8BEA-4591-86DA-5BD489C3315C}"
@@ -296,6 +298,10 @@ Global
 		{EDFB9F54-EA7B-441D-A5E5-ADBCA5FF9B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDFB9F54-EA7B-441D-A5E5-ADBCA5FF9B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDFB9F54-EA7B-441D-A5E5-ADBCA5FF9B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C5E9F1-4A8D-4E3F-9B7C-8D1E2F3A4B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C5E9F1-4A8D-4E3F-9B7C-8D1E2F3A4B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C5E9F1-4A8D-4E3F-9B7C-8D1E2F3A4B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C5E9F1-4A8D-4E3F-9B7C-8D1E2F3A4B5C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ED6D2BEF-09CE-4D1A-970F-F3E549C16B3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED6D2BEF-09CE-4D1A-970F-F3E549C16B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED6D2BEF-09CE-4D1A-970F-F3E549C16B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -619,6 +625,7 @@ Global
 		{BC792E0F-D089-4C3E-953E-2F9D327A550F} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{1EDA0B9A-B2C2-493C-A895-35964392B33F} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{EDFB9F54-EA7B-441D-A5E5-ADBCA5FF9B0A} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{B2C5E9F1-4A8D-4E3F-9B7C-8D1E2F3A4B5C} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{ED6D2BEF-09CE-4D1A-970F-F3E549C16B3D} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{544F00A8-8BEA-4591-86DA-5BD489C3315C} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{4BB53BCC-58D5-4CB5-8C69-5237018D81FF} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
@@ -746,6 +753,7 @@ Global
 		Shared\Shared.projitems*{acc4a188-b29c-4a1d-88f5-9e2909de7b1b}*SharedItemsImports = 5
 		Shared\Shared.projitems*{b1522da2-4650-43f6-816a-8d56e8314b21}*SharedItemsImports = 5
 		Shared\Shared.projitems*{b2a61c59-f4bf-4a4a-973b-9380e3bb4e72}*SharedItemsImports = 5
+		Shared\Shared.projitems*{b2c5e9f1-4a8d-4e3f-9b7c-8d1e2f3a4b5c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{b70df3ad-a97f-4274-a1f2-409392e6ec97}*SharedItemsImports = 5
 		Shared\Shared.projitems*{b8f6538a-582c-4d99-bc46-7908785779d5}*SharedItemsImports = 5
 		Shared\Shared.projitems*{bbf48177-99de-4ee3-bea5-8e69f7b46d81}*SharedItemsImports = 5
