@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.2.32630.192
+VisualStudioVersion = 17.14.36203.30 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D4CFB78-1DDF-442B-BB0F-6B119C559603}"
 	ProjectSection(SolutionItems) = preProject
@@ -217,6 +217,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardholderSample", "Platform SDK\CardholderSample\CardholderSample.csproj", "{EB216310-2B57-45F0-93ED-70028E501645}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraEventSample", "Platform SDK\CameraEventSample\CameraEventSample.csproj", "{DA2456C5-B1E6-445C-A786-8CDAFE61C435}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSample", "Platform SDK\ServerSample\ServerSample.csproj", "{3451F54A-A0CE-704D-194A-2769C953B0A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -596,6 +598,10 @@ Global
 		{DA2456C5-B1E6-445C-A786-8CDAFE61C435}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA2456C5-B1E6-445C-A786-8CDAFE61C435}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA2456C5-B1E6-445C-A786-8CDAFE61C435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3451F54A-A0CE-704D-194A-2769C953B0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3451F54A-A0CE-704D-194A-2769C953B0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3451F54A-A0CE-704D-194A-2769C953B0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3451F54A-A0CE-704D-194A-2769C953B0A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -694,6 +700,7 @@ Global
 		{F8EC938D-C210-4F36-BDC2-3E4103E6DB8C} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{EB216310-2B57-45F0-93ED-70028E501645} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{DA2456C5-B1E6-445C-A786-8CDAFE61C435} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{3451F54A-A0CE-704D-194A-2769C953B0A9} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -715,6 +722,7 @@ Global
 		Shared\Shared.projitems*{2ca92bc9-856a-4173-87d4-416852f35c9f}*SharedItemsImports = 5
 		Shared\Shared.projitems*{2fee543c-6e13-4289-b9bf-6e9338c14b98}*SharedItemsImports = 5
 		Shared\Shared.projitems*{330595a1-ac29-47d9-a842-56686669207d}*SharedItemsImports = 5
+		Shared\Shared.projitems*{3451f54a-a0ce-704d-194a-2769c953b0a9}*SharedItemsImports = 5
 		Shared\Shared.projitems*{38f766f9-6f25-49ba-b04b-b909bb280185}*SharedItemsImports = 5
 		Shared\Shared.projitems*{3e803283-fd0e-b1b4-192a-a36566dc8fe3}*SharedItemsImports = 5
 		Shared\Shared.projitems*{40c28dcf-d716-48fd-81ed-44394c87f87b}*SharedItemsImports = 5
