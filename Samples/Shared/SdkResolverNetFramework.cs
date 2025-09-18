@@ -5,16 +5,18 @@
 
 namespace Genetec.Dap.CodeSamples;
 
+using Microsoft.Win32;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Win32;
 
 public static class SdkResolver
 {
     private static readonly string s_probingPath = GetProbingPath();
+    private static readonly ConcurrentDictionary<string, Assembly> s_loadedAssemblies = new();
 
     public static void Initialize()
     {
@@ -65,11 +67,23 @@ public static class SdkResolver
 
     private static Assembly OnAssemblyResolve(object sender, ResolveEventArgs args)
     {
+        if (args.Name.EndsWith(".resources") || args.Name.EndsWith(".xmlserializers"))
+        {
+            return null;
+        }
+
+        if (s_loadedAssemblies.TryGetValue(args.Name, out Assembly cachedAssembly))
+        {
+            return cachedAssembly;
+        }
+
         foreach (var assemblyFile in GetAssemblyPaths(s_probingPath, args.Name).Where(File.Exists))
         {
             try
             {
-                return Assembly.LoadFile(assemblyFile);
+                Assembly assembly = Assembly.LoadFile(assemblyFile);
+                s_loadedAssemblies.TryAdd(args.Name, assembly);
+                return assembly;
             }
             catch
             {
@@ -77,6 +91,7 @@ public static class SdkResolver
             }
         }
 
+        s_loadedAssemblies.TryAdd(args.Name, null);
         return null;
     }
 
@@ -85,6 +100,17 @@ public static class SdkResolver
         var parsedAssemblyName = new AssemblyName(assemblyName);
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.dll");
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.exe");
+
+        if (Environment.Is64BitProcess)
+        {
+            yield return Path.Combine(probingPath, "x64", $"{parsedAssemblyName.Name}.dll");
+            yield return Path.Combine(probingPath, "x64", $"{parsedAssemblyName.Name}.exe");
+        }
+        else
+        {
+            yield return Path.Combine(probingPath, "x86", $"{parsedAssemblyName.Name}.dll");
+            yield return Path.Combine(probingPath, "x86", $"{parsedAssemblyName.Name}.exe");
+        }
     }
 }
 
