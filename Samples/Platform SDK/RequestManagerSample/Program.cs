@@ -75,7 +75,7 @@ async Task RunSample()
                 request: new Request { Message = message } // Request instance
             );
 
-            Console.WriteLine($"Response received from {receiver.Client.Name} ({receiver.ClientGuid}) at {DateTime.Now}: {response.Reply}");
+            Console.WriteLine($"Response sent from {receiver.Client.Name} ({receiver.ClientGuid}) at {DateTime.Now}: {response.Reply}");
         }
         catch (Exception ex)
         {
