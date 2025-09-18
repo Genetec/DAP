@@ -110,13 +110,17 @@ All samples follow consistent authentication patterns:
 - Display connection status and errors to the user
 - Handle authentication failures gracefully with clear error messages
 
-## Running the Samples
+## Prerequisites
 
-### Prerequisites
-Before running any Platform SDK sample, ensure you have:
-- Security Center installed and running on your system
-- SDK installed with proper environment variables configured
-- Valid Security Center user credentials with appropriate privileges
+- **.NET Framework 4.8.1 or .NET 8**: Platform SDK supports both frameworks (.NET 8 requires Security Center SDK 5.12.2+)
+- **Security Center SDK**: Installed with environment variables configured:
+  - `GSC_SDK`: Points to SDK location for .NET Framework
+  - `GSC_SDK_CORE`: Points to SDK location for .NET 8 (if using .NET 8)
+- **Visual Studio 2022**: Version 17.6 or later for development
+- **Security Center**: Installed and running on your system
+- **Valid Security Center License**: All samples include the development SDK certificate
+
+## Running the Samples
 
 ### Running a Sample
 1. **Update Connection Parameters**: Edit the hardcoded connection values in the sample to match your Security Center setup
