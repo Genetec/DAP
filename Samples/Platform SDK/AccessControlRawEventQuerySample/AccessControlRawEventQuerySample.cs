@@ -1,18 +1,34 @@
 ﻿// Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Queries;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Sdk;
-using Genetec.Sdk.Entities;
-using Genetec.Sdk.Queries;
 
 namespace Genetec.Dap.CodeSamples;
 
+/// <summary>
+/// Demonstrates how to query Access Control Raw Events from Security Center.
+///  
+/// REQUIRED CONFIGURATION:
+/// For this sample to work, you must enable an advanced setting in Security Center
+/// This setting enables raw event streaming from Access Manager roles.
+/// Without this setting, AccessControlRawEventQuery will return empty results even if access control events exist in the system.
+/// Only events that occur after enabling this setting will be available through the API.
+/// 
+/// 1. Open the Config Tool
+/// 2. Navigate to: System task → General settings view → Advanced settings tab
+/// 3. Click "Add an item"
+/// 4. In the Name field, enter "AccessManagerEventStream"
+/// 5. In the Value field, enter "True"
+/// 6. Click Apply
+/// </summary>
 public class AccessControlRawEventQuerySample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
