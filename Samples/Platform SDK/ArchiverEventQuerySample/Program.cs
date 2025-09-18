@@ -3,5 +3,5 @@
 
 using Genetec.Dap.CodeSamples;
 
-var sample = new HardwareInventoryQuerySample();
+var sample = new ArchiverEventQuerySample();
 await sample.RunAsync();

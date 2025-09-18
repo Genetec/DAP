@@ -1,7 +1,7 @@
-﻿// Copyright 2025 Genetec Inc.
+// Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
 using Genetec.Dap.CodeSamples;
 
-var sample = new HardwareInventoryQuerySample();
+var sample = new IntrusionDetectionQuerySample();
 await sample.RunAsync();

@@ -16,11 +16,11 @@ public class HardwareInventoryQuerySample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        List<HardwareInventoryInfo> allHardware = await GetAllHardware(engine);
-        DisplayHardwareInventory(engine, allHardware);
+        List<HardwareInventoryInfo> hardwares = await GetAllHardwares(engine);
+        DisplayHardwareInventory(engine, hardwares);
     }
 
-    private async Task<List<HardwareInventoryInfo>> GetAllHardware(Engine engine)
+    private async Task<List<HardwareInventoryInfo>> GetAllHardwares(Engine engine)
     {
         Console.WriteLine("Retrieving all hardware inventory...");
 
@@ -32,35 +32,35 @@ public class HardwareInventoryQuerySample : SampleBase
 
         QueryCompletedEventArgs args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
         return args.Data.AsEnumerable().Select(CreateHardwareInventoryInfo).ToList();
-    }
 
-    private static HardwareInventoryInfo CreateHardwareInventoryInfo(DataRow row)
-    {
-        return new HardwareInventoryInfo
+        HardwareInventoryInfo CreateHardwareInventoryInfo(DataRow row)
         {
-            UnitName = row.Field<string>(HardwareInventoryQuery.UnitTypeColumnName),
-            UnitType = row.Field<EntityType?>(HardwareInventoryQuery.UnitTypeNameColumnName),
-            Manufacturer = row.Field<string>(HardwareInventoryQuery.ManufacturerColumnName),
-            ProductType = row.Field<string>(HardwareInventoryQuery.ProductTypeColumnName),
-            Role = row.Field<Guid?>(HardwareInventoryQuery.RoleColumnName),
-            FirmwareVersion = row.Field<string>(HardwareInventoryQuery.FirmwareVersionColumnName),
-            IpAddress = row.Field<string>(HardwareInventoryQuery.IpAddressColumnName),
-            PhysicalAddress = row.Field<string>(HardwareInventoryQuery.PhysicalAddressColumnName),
-            TimeZone = row.Field<string>(HardwareInventoryQuery.TimeZoneColumnName),
-            User = row.Field<string>(HardwareInventoryQuery.UserColumnName),
-            PasswordStrength = row.Field<string>(HardwareInventoryQuery.PasswordStrengthColumnName),
-            UpgradeStatus = row.Field<string>(HardwareInventoryQuery.UpgradeStatusColumnName),
-            NextUpgrade = row.Field<string>(HardwareInventoryQuery.NextUpgradeColumnName),
-            ReasonForUpgradeFailure = row.Field<UnitUpgradeErrorDetails?>(HardwareInventoryQuery.ReasonForUpgradeFailureColumnName),
-            State = row.Field<State?>(HardwareInventoryQuery.StateColumnName),
-            PlatformVersion = row.Field<string>(HardwareInventoryQuery.PlatformVersionColumnName),
-            LastUpdatePassword = row.Field<string>(HardwareInventoryQuery.LastUpdatePasswordColumnName),
-            UpgradeProgression = row.Field<string>(HardwareInventoryQuery.UpgradeProgressionColumnName),
-            ReaderType = row.Field<string>(HardwareInventoryQuery.ReaderTypeColumnName),
-            ReaderEncryptionStatus = row.Field<DeviceReaderEncryptionStatus?>(HardwareInventoryQuery.ReaderEncryptionStatusColumnName),
-            Related = row.Field<string>(HardwareInventoryQuery.RelatedColumnName),
-            LicenseConsumption = row.Field<string>(HardwareInventoryQuery.LicenseConsumptionColumnName)
-        };
+            return new HardwareInventoryInfo
+            {
+                UnitName = row.Field<string>(HardwareInventoryQuery.UnitTypeColumnName),
+                UnitType = row.Field<EntityType?>(HardwareInventoryQuery.UnitTypeNameColumnName),
+                Manufacturer = row.Field<string>(HardwareInventoryQuery.ManufacturerColumnName),
+                ProductType = row.Field<string>(HardwareInventoryQuery.ProductTypeColumnName),
+                Role = row.Field<Guid?>(HardwareInventoryQuery.RoleColumnName),
+                FirmwareVersion = row.Field<string>(HardwareInventoryQuery.FirmwareVersionColumnName),
+                IpAddress = row.Field<string>(HardwareInventoryQuery.IpAddressColumnName),
+                PhysicalAddress = row.Field<string>(HardwareInventoryQuery.PhysicalAddressColumnName),
+                TimeZone = row.Field<string>(HardwareInventoryQuery.TimeZoneColumnName),
+                User = row.Field<string>(HardwareInventoryQuery.UserColumnName),
+                PasswordStrength = row.Field<string>(HardwareInventoryQuery.PasswordStrengthColumnName),
+                UpgradeStatus = row.Field<string>(HardwareInventoryQuery.UpgradeStatusColumnName),
+                NextUpgrade = row.Field<string>(HardwareInventoryQuery.NextUpgradeColumnName),
+                ReasonForUpgradeFailure = row.Field<UnitUpgradeErrorDetails?>(HardwareInventoryQuery.ReasonForUpgradeFailureColumnName),
+                State = row.Field<State?>(HardwareInventoryQuery.StateColumnName),
+                PlatformVersion = row.Field<string>(HardwareInventoryQuery.PlatformVersionColumnName),
+                LastUpdatePassword = row.Field<string>(HardwareInventoryQuery.LastUpdatePasswordColumnName),
+                UpgradeProgression = row.Field<string>(HardwareInventoryQuery.UpgradeProgressionColumnName),
+                ReaderType = row.Field<string>(HardwareInventoryQuery.ReaderTypeColumnName),
+                ReaderEncryptionStatus = row.Field<DeviceReaderEncryptionStatus?>(HardwareInventoryQuery.ReaderEncryptionStatusColumnName),
+                Related = row.Field<string>(HardwareInventoryQuery.RelatedColumnName),
+                LicenseConsumption = row.Field<string>(HardwareInventoryQuery.LicenseConsumptionColumnName)
+            };
+        }
     }
 
     private void DisplayHardwareInventory(Engine engine, List<HardwareInventoryInfo> inventory)
