@@ -1,6 +1,10 @@
 ﻿// Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Media;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +13,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Genetec.Sdk;
-using Genetec.Sdk.Entities;
-using Genetec.Sdk.Media;
-using Microsoft.Win32;
 using Application = System.Windows.Application;
 using MediaPlayer = Genetec.Sdk.Media.MediaPlayer;
 
@@ -35,6 +35,15 @@ public class MediaPlayerSample : SampleBase
     void RunWpfApplication(Engine engine, CancellationToken token)
     {
         MediaPlayer player = new();
+
+        // The SDK now allows users to enable hardware acceleration (GPU video decoding), which was previously restricted to Security Desk only.
+        // This change means SDK applications can leverage GPU decoding for improved video performance.
+        // Hardware acceleration is NOT enabled by default in the SDK.
+        // You must explicitly enable it for each MediaPlayer instance in your SDK application.
+        // This is to avoid changing the behavior of existing SDK apps unexpectedly.
+        // Developers must opt-in to use this feature.
+        player.HardwareAccelerationEnabled = true; // Enable hardware acceleration if supported by the workstation
+
         CancellationTokenSource cts = new();
         Camera currentCamera = null;
 
