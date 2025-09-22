@@ -1,3 +1,4 @@
+
 # Platform SDK Samples
 
 The Platform SDK provides the foundation for all Security Center integrations, offering core functionality for authentication, entity management, and system interactions. This collection of samples demonstrates the essential patterns and capabilities that serve as building blocks for Media SDK, Workspace SDK, and Plugin SDK development.
@@ -120,17 +121,120 @@ All samples follow consistent authentication patterns:
 - **Security Center**: Installed and running on your system
 - **Valid Security Center License**: All samples include the development SDK certificate
 
+### .NET 8 Compatibility
+
+The Platform SDK samples support both **.NET Framework 4.8.1** and **.NET 8**, but .NET 8 support requires **Security Center 5.12.2 or later**.
+
+#### Automatic Framework Selection
+
+The projects automatically detect the presence of Security Center .NET 8 SDK and configure the appropriate target frameworks based on environment variables:
+
+**Security Center 5.12.2+ (with .NET 8 SDK)**
+- **Target Frameworks**: `net481` + `net8.0-windows`
+- **Environment Variable**: `GSC_SDK_CORE` points to .NET 8 SDK location
+You can build and run samples with both frameworks
+
+**Security Center 5.12.1 or earlier**
+- **Target Frameworks**: `net481` only
+- **Environment Variable**: `GSC_SDK_CORE` not set or path doesn't exist
+Only .NET Framework 4.8.1 builds are available
+
+#### Environment Variables
+
+The build system checks these environment variables:
+
+- **`GSC_SDK`**: Points to .NET Framework SDK (legacy, works with all SC versions)
+- **`GSC_SDK_CORE`**: Points to .NET 8 SDK (requires SC 5.12.2+)
+
+#### Technical Implementation
+
+The Platform SDK samples use multi-targeting in their `.csproj` files to automatically handle both frameworks:
+
+**Conditional Framework Detection:**
+```xml
+<!-- Always support .NET Framework 4.8.1 -->
+<TargetFrameworks>net481</TargetFrameworks>
+
+<!-- Automatically add .NET 8 if GSC_SDK_CORE environment variable exists -->
+<TargetFrameworks Condition="Exists('$(GSC_SDK_CORE)')">net8.0-windows;net481</TargetFrameworks>
+```
+
+**Framework-Specific Dependencies:**
+- **.NET Framework 4.8.1**: Uses direct reference to `Genetec.Sdk.dll` from `$(GSC_SDK)` path
+- **.NET 8**: References SDK from `$(GSC_SDK_CORE)` path plus compatibility packages:
+  - `Microsoft.Windows.Compatibility` - Legacy Windows API support
+  - `System.ServiceModel.Primitives` - WCF communication support
+  - `Microsoft.Bcl.AsyncInterfaces` - Async/await compatibility
+  - `Microsoft.WindowsDesktop.App.WPF` - WPF framework reference
+
+**Build Configurations:**
+Each project supports multiple build configurations for explicit framework targeting:
+- Standard: `Debug`, `Release` (auto-detects available frameworks)
+- Explicit: `Debug_NET481`, `Debug_NET8`, `Release_NET481`, `Release_NET8`
+
+**Validation System:**
+The build process includes automatic validation that:
+- Shows environment variable detection status during compilation
+- Warns when attempting .NET 8 builds without `GSC_SDK_CORE` set
+- Provides clear guidance on resolving compatibility issues
+
 ## Running the Samples
+
+### Building the Samples
+
+#### Automatic Detection (Recommended)
+```bash
+# Builds all available target frameworks for your SC version
+dotnet build
+
+# Builds and runs with the best available framework
+dotnet run
+```
+
+#### Explicit Framework Selection
+```bash
+# Force .NET Framework 4.8.1 (works with any SC version)
+dotnet build --framework net481
+dotnet run --framework net481
+
+# Force .NET 8 (requires SC 5.12.2+)
+dotnet build --framework net8.0-windows
+dotnet run --framework net8.0-windows
+```
 
 ### Running a Sample
 1. **Update Connection Parameters**: Edit the hardcoded connection values in the sample to match your Security Center setup
-2. **Build and Run**: Use Visual Studio or `dotnet run` to execute the sample
+2. **Build and Run**: Use Visual Studio or the dotnet commands above to execute the sample
 3. **Observe the Output**: Each sample provides console output explaining what it's demonstrating
 
-### Common Issues When Running Samples
-- **Connection Failed**: Verify the server address and ensure Security Center is running
-- **Access Denied**: Check that the user account has privileges for the entities the sample tries to access
-- **No Entities Loaded**: Verify that the requested entity types exist in your Security Center system
+### Troubleshooting
+
+**"Can't find .NET 8 target"**
+- **Cause**: Security Center 5.11.x or earlier
+- **Solution**: Use `--framework net481` or upgrade to SC 5.12.2+
+
+**"MSB3277 dependency conflicts"**
+- **Cause**: You manually forced .NET 8 on an incompatible system
+- **Solution**: Let the auto-detection handle framework selection
+
+**"Genetec.Sdk.dll not found"**
+- **Cause**: Environment variables not set correctly
+- **Solution**: Reinstall Security Center SDK or check environment variables
+
+**Warning: .NET 8 target requires Security Center 5.12.2 or later**
+- **Cause**: Trying to build .NET 8 with an incompatible Security Center version
+- **Solution**: Use .NET Framework 4.8.1 instead or upgrade Security Center
+
+#### Advanced: Manual Override
+
+For testing or special scenarios, you can override the auto-detection:
+
+```xml
+<!-- Force include .NET 8 regardless of detection -->
+<PropertyGroup>
+  <TargetFrameworks>net481;net8.0-windows</TargetFrameworks>
+</PropertyGroup>
+```
 
 ## Sample Categories and What They Demonstrate
 

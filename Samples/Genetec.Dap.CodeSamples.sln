@@ -10,8 +10,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Media SDK", "Media SDK", "{949B9098-D0C6-4E6C-BAB4-7253789645C1}"
+	ProjectSection(SolutionItems) = preProject
+		Media SDK\README.md = Media SDK\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin SDK", "Plugin SDK", "{AAD7589E-062C-4CF0-AF3D-8B86A42AA482}"
+	ProjectSection(SolutionItems) = preProject
+		Plugin SDK\README.md = Plugin SDK\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileCryptingManagerSample", "Media SDK\FileCryptingManagerSample\FileCryptingManagerSample.csproj", "{2FEE543C-6E13-4289-B9BF-6E9338C14B98}"
 EndProject
@@ -48,6 +54,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTrailsSample", "Platform SDK\ActivityTrailsSample\ActivityTrailsSample.csproj", "{BC792E0F-D089-4C3E-953E-2F9D327A550F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform SDK", "Platform SDK", "{4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}"
+	ProjectSection(SolutionItems) = preProject
+		Platform SDK\README.md = Platform SDK\README.md
+		Platform SDK\README_NET8_COMPATIBILITY.md = Platform SDK\README_NET8_COMPATIBILITY.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlRawEventQuerySample", "Platform SDK\AccessControlRawEventQuerySample\AccessControlRawEventQuerySample.csproj", "{1EDA0B9A-B2C2-493C-A895-35964392B33F}"
 EndProject
@@ -132,6 +142,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitorManagerSample", "Platform SDK\VisitorManagerSample\VisitorManagerSample.csproj", "{C30AC2F8-DCF2-4BFE-8553-049A93F1C30C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workspace SDK", "Workspace SDK", "{B4C33C9C-21DF-4775-BE7A-60019B42445C}"
+	ProjectSection(SolutionItems) = preProject
+		Workspace SDK\README.md = Workspace SDK\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundProcessSample", "Workspace SDK\BackgroundProcessSample\BackgroundProcessSample.csproj", "{1668C741-CB6D-4E07-AE07-154CF1461B38}"
 EndProject
