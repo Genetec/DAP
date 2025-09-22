@@ -91,53 +91,29 @@
 	</PropertyGroup>
 
 	<!-- .NET 8 specific configurations -->
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_NET8|AnyCPU'">
+	<!-- Consolidated property groups for Debug and Release configurations -->
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug_NET8' Or '$(Configuration)' == 'Debug_NET481' ">
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>full</DebugType>
 		<Optimize>false</Optimize>
-		<OutputPath>bin\Debug_NET8\</OutputPath>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
 		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_NET8|AnyCPU'">
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release_NET8' Or '$(Configuration)' == 'Release_NET481' ">
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<DebugType>pdbonly</DebugType>
 		<Optimize>true</Optimize>
-		<OutputPath>bin\Release_NET8\</OutputPath>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
 		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
 		<LangVersion>12</LangVersion>
 	</PropertyGroup>
-
-	<!-- .NET Framework 4.8.1 specific configurations -->
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_NET481|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>full</DebugType>
-		<Optimize>false</Optimize>
-		<OutputPath>bin\Debug_NET481\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_NET481|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<DebugType>pdbonly</DebugType>
-		<Optimize>true</Optimize>
-		<OutputPath>bin\Release_NET481\</OutputPath>
-		<DefineConstants>TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
-	</PropertyGroup>
-
 	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
 		<Reference Include="Genetec.Sdk">
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
