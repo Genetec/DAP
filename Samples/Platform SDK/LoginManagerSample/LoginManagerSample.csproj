@@ -178,7 +178,7 @@
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
 		</PropertyGroup>
-	<ItemGroup>
+		<ItemGroup>
 			<Certificates Include="Certificates\*.cert" />
 		</ItemGroup>
 		<MakeDir Directories="$(CertOutputPath)" />
