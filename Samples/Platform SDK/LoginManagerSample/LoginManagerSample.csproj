@@ -10,10 +10,6 @@
 		<TargetFrameworks Condition="$(Configuration.EndsWith('_NET8')) AND Exists('$(GSC_SDK_CORE)')">net8.0-windows</TargetFrameworks>
 		<TargetFrameworks Condition="$(Configuration.EndsWith('_NET481'))">net481</TargetFrameworks>
 
-		<!-- Framework-specific build configurations -->
-		<TargetFrameworks Condition="$(Configuration.EndsWith('_NET8')) AND Exists('$(GSC_SDK_CORE)')">net8.0-windows</TargetFrameworks>
-		<TargetFrameworks Condition="$(Configuration.EndsWith('_NET481'))">net481</TargetFrameworks>
-
 		<Configurations>Debug;Release;Debug_NET481;Debug_NET8;Release_NET481;Release_NET8</Configurations>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
 		<AssemblyName>LoginManagerSample</AssemblyName>
