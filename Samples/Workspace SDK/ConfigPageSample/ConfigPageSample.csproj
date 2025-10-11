@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net481</TargetFrameworks>
@@ -75,6 +75,12 @@
 	<ItemGroup>
 	  <Resource Include="Resources\Images\LargeLogo.png" />
 	  <Resource Include="Resources\Images\SmallLogo.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="ConfigPageSample.Privileges.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
