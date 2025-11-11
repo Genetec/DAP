@@ -13,6 +13,8 @@ public class ActionMonitoringSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
+        await LoadEntities(engine, token, EntityType.Door);
+
         engine.ActionReceived += (sender, args) =>
         {
             Genetec.Sdk.Actions.Action action = args.Action;
@@ -88,7 +90,7 @@ public class ActionMonitoringSample : SampleBase
             Console.WriteLine(new string('-', 50));
         };
 
-        Console.WriteLine("Listening to all actions...");
+        Console.WriteLine("Listening to all door actions...");
         Console.WriteLine();
 
         await Task.Delay(Timeout.Infinite, token); // Keep the sample running to listen for actions
