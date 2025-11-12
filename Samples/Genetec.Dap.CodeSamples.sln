@@ -232,6 +232,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardwareInventoryQuerySampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionMonitoringSample", "Platform SDK\ActionMonitoringSample\ActionMonitoringSample.csproj", "{DE442C86-20A6-4FB4-8D04-3AFC0928601F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCardFormatBuilderSample", "Platform SDK\CustomCardFormatBuilderSample\CustomCardFormatBuilderSample.csproj", "{C964B9D1-DC69-C249-09FF-1CDC655C6AD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -638,6 +640,10 @@ Global
 		{DE442C86-20A6-4FB4-8D04-3AFC0928601F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE442C86-20A6-4FB4-8D04-3AFC0928601F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE442C86-20A6-4FB4-8D04-3AFC0928601F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C964B9D1-DC69-C249-09FF-1CDC655C6AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C964B9D1-DC69-C249-09FF-1CDC655C6AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C964B9D1-DC69-C249-09FF-1CDC655C6AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C964B9D1-DC69-C249-09FF-1CDC655C6AD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -743,6 +749,7 @@ Global
 		{1478E835-99CA-0A1B-5E34-6075EE5D9F44} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{CD69985E-7030-9C55-F7CF-0E4D323FED25} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{DE442C86-20A6-4FB4-8D04-3AFC0928601F} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{C964B9D1-DC69-C249-09FF-1CDC655C6AD3} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -809,6 +816,7 @@ Global
 		Shared\Shared.projitems*{c4cdde73-8c18-4db4-876d-3ea72e4acd03}*SharedItemsImports = 5
 		Shared\Shared.projitems*{c512540b-3c7c-46bc-ab63-00983d2c0c18}*SharedItemsImports = 5
 		Shared\Shared.projitems*{c94b535d-7c56-4239-a2fc-5412493c9223}*SharedItemsImports = 5
+		Shared\Shared.projitems*{c964b9d1-dc69-c249-09ff-1cdc655c6ad3}*SharedItemsImports = 5
 		Shared\Shared.projitems*{cba2b31b-955f-4550-9a07-664b295cf14a}*SharedItemsImports = 5
 		Shared\Shared.projitems*{cd69985e-7030-9c55-f7cf-0e4d323fed25}*SharedItemsImports = 5
 		Shared\Shared.projitems*{d4e5f6a7-89bc-def0-1234-4b5c6d7e8f9a}*SharedItemsImports = 5
