@@ -230,6 +230,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntrusionDetectionQuerySamp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardwareInventoryQuerySample", "Platform SDK\HardwareInventoryQuerySample\HardwareInventoryQuerySample.csproj", "{CD69985E-7030-9C55-F7CF-0E4D323FED25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionMonitoringSample", "Platform SDK\ActionMonitoringSample\ActionMonitoringSample.csproj", "{DE442C86-20A6-4FB4-8D04-3AFC0928601F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -632,6 +634,10 @@ Global
 		{CD69985E-7030-9C55-F7CF-0E4D323FED25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD69985E-7030-9C55-F7CF-0E4D323FED25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD69985E-7030-9C55-F7CF-0E4D323FED25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE442C86-20A6-4FB4-8D04-3AFC0928601F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE442C86-20A6-4FB4-8D04-3AFC0928601F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE442C86-20A6-4FB4-8D04-3AFC0928601F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE442C86-20A6-4FB4-8D04-3AFC0928601F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -736,6 +742,7 @@ Global
 		{4AB27491-5EDC-4997-70E8-968861C86BC3} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{1478E835-99CA-0A1B-5E34-6075EE5D9F44} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{CD69985E-7030-9C55-F7CF-0E4D323FED25} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{DE442C86-20A6-4FB4-8D04-3AFC0928601F} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED86FFEC-C166-496A-BA40-290F0A952A2D}
@@ -806,6 +813,7 @@ Global
 		Shared\Shared.projitems*{cd69985e-7030-9c55-f7cf-0e4d323fed25}*SharedItemsImports = 5
 		Shared\Shared.projitems*{d4e5f6a7-89bc-def0-1234-4b5c6d7e8f9a}*SharedItemsImports = 5
 		Shared\Shared.projitems*{da2456c5-b1e6-445c-a786-8cdafe61c435}*SharedItemsImports = 5
+		Shared\Shared.projitems*{de442c86-20a6-4fb4-8d04-3afc0928601f}*SharedItemsImports = 5
 		Shared\Shared.projitems*{e0690536-46bf-4966-8d5d-c5a47769eb52}*SharedItemsImports = 5
 		Shared\Shared.projitems*{e6185759-5d3d-4c3f-a7d1-25720f890a1c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{eb216310-2b57-45f0-93ed-70028e501645}*SharedItemsImports = 5
