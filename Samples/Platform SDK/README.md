@@ -46,7 +46,7 @@ Most Platform SDK samples inherit from the `SampleBase` class, which implements 
 2. **Connection Management**: Handles server connection and authentication with comprehensive error handling
 3. **Event Handling**: Sets up connection state monitoring and provides user feedback
 4. **Cancellation Support**: Implements Ctrl+C handling for graceful shutdown
-6. **Resource Cleanup**: Ensures proper disposal of SDK resources when samples exit
+5. **Resource Cleanup**: Ensures proper disposal of SDK resources when samples exit
 
 ### How Samples Use SampleBase
 
