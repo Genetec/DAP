@@ -182,7 +182,7 @@ public class SampleDatabaseManager : DatabaseManager, IDisposable
         // Return the upgrade items for upgrading from version 50001 to 50002
         yield return new DatabaseUpgradeItem(50001, 50002, Resources.UpgradeScript_50002);
 
-        // Return the upgrade items for upgrading from version 50002 to 500003
+        // Return the upgrade items for upgrading from version 50002 to 50003
         yield return new DatabaseUpgradeItem(50002, 50003, Resources.UpgradeScript_50003);
     }
 
