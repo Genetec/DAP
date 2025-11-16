@@ -179,7 +179,7 @@ public class SampleDatabaseManager : DatabaseManager, IDisposable
     /// <returns>An IEnumerable of DatabaseUpgradeItem objects.</returns>
     public override IEnumerable<DatabaseUpgradeItem> GetDatabaseUpgradeItems()
     {
-        // Return the upgrade items for upgrading from version 50001 to 500002
+        // Return the upgrade items for upgrading from version 50001 to 50002
         yield return new DatabaseUpgradeItem(50001, 50002, Resources.UpgradeScript_50002);
 
         // Return the upgrade items for upgrading from version 50002 to 500003
