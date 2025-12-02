@@ -31,7 +31,7 @@ public class CustomReportPage : ReportPage
             ImageMaxWidth = 256,
             InitialWidth = 128
         },
-        new ReportField { Type = ReportFieldType.Text, Name = CustomReportColumnName.Hidden, IsVisible = false } // Hidden field
+        new ReportField { Type = ReportFieldType.Text, Name = CustomReportColumnName.Hidden,DisplayName = "Hidden", IsVisible = false } // Hidden field
     };
 
     // Show the tiles
