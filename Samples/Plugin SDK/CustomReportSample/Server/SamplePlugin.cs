@@ -3,12 +3,8 @@
 
 namespace Genetec.Dap.CodeSamples.Server;
 
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
+using Genetec.Dap.CodeSamples.Server.ReportHandlers.Intrusion;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.EventsArgs;
@@ -16,6 +12,11 @@ using Genetec.Sdk.Plugin;
 using ReportHandlers;
 using ReportHandlers.AccessControl;
 using ReportHandlers.Video;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 // Server-side plugin for the custom report sample.
 [PluginProperty(typeof(SamplePluginDescriptor))]
@@ -114,10 +115,10 @@ public class SamplePlugin : Plugin
             SendQueryCompleted(true);
             return;
         }
-      
+
         (Guid QueryId, int MessageId) key = (args.Query.QueryId, args.MessageId);
         using var tokenSource = new CancellationTokenSource();
-      
+
         if (m_queries.TryAdd(key, tokenSource))
         {
             try
