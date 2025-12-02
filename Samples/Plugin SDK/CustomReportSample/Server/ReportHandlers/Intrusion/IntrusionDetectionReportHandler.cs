@@ -3,12 +3,12 @@
 
 namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Intrusion;
 
-using Genetec.Sdk;
-using Genetec.Sdk.Entities;
-using Genetec.Sdk.Queries.IntrusionDetection;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Queries.IntrusionDetection;
 
 public class IntrusionDetectionReportHandler : ReportHandler<IntrusionDetectionReportQuery, IntrusionDetectionRecord>
 {
