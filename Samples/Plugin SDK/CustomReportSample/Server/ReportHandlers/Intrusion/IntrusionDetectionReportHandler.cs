@@ -1,14 +1,14 @@
 ﻿// Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
+namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Intrusion;
 
-using System.Collections.Generic;
-using System.Data;
-using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.IntrusionDetection;
+using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
 
 public class IntrusionDetectionReportHandler : ReportHandler<IntrusionDetectionReportQuery, IntrusionDetectionRecord>
 {
