@@ -5,9 +5,10 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
 using System.Threading;
 using System.Threading.Tasks;
+using Genetec.Sdk;
 using Genetec.Sdk.EventsArgs;
 
 public interface IReportHandler
 {
-    Task HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token);
+    Task<ReportError> HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token);
 }

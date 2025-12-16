@@ -3,20 +3,20 @@
 
 namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
+using Genetec.Dap.CodeSamples;
+using Genetec.Sdk;
+using Genetec.Sdk.Diagnostics.Logging.Core;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.EventsArgs;
+using Genetec.Sdk.Plugin.Queries.Rows;
+using Genetec.Sdk.Plugin.Queries.Rows.Extensions;
+using Genetec.Sdk.Queries;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples;
-using Genetec.Sdk;
-using Genetec.Sdk.Diagnostics.Logging.Core;
-using Genetec.Sdk.Entities;
-using Genetec.Sdk.EventsArgs;
-using Genetec.Sdk.Plugin.Queries.Rows.Extensions;
-using Genetec.Sdk.Plugin.Queries.Rows;
-using Genetec.Sdk.Queries;
 
 public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposable where TQuery : ReportQuery
 {
@@ -37,19 +37,32 @@ public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposab
         GC.SuppressFinalize(this);
     }
 
-    public async Task HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token)
+    public async Task<ReportError> HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token)
     {
         if (args.Query is TQuery query && IsQuerySupported(query))
         {
             IAsyncEnumerable<TRecord> records = GetRecordsAsync(query);
+            int totalSent = 0;
+            int maxResults = args.Query.MaximumResultCount;
 
             await foreach (IAsyncEnumerable<TRecord> batch in records.Buffer(GetBatchSize()).WithCancellation(token))
             {
+                token.ThrowIfCancellationRequested();
+
                 DataTable table = CreateDataTable(query);
                 await ProcessBatch(table, batch);
                 SendQueryResult(args, table);
+
+                totalSent += table.Rows.Count;
+
+                if (maxResults > 0 && totalSent > maxResults)
+                {
+                    return ReportError.TooManyResults;
+                }
             }
         }
+
+        return ReportError.None;
     }
 
     protected virtual bool IsQuerySupported(TQuery query) => true;

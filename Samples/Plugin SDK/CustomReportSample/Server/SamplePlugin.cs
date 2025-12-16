@@ -123,8 +123,16 @@ public class SamplePlugin : Plugin
         {
             try
             {
-                await handler.HandleAsync(args, tokenSource.Token);
-                SendQueryCompleted(true);
+                ReportError error = await handler.HandleAsync(args, tokenSource.Token);
+
+                if (error != ReportError.None)
+                {
+                    SendQueryCompleted(false, error, Severity.Warning, $"Query completed with error: {error}");
+                }
+                else
+                {
+                    SendQueryCompleted(true);
+                }
             }
             catch (OperationCanceledException)
             {
