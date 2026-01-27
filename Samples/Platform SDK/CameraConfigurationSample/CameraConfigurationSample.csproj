@@ -1,12 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<!-- Base target framework - always supported -->
 		<TargetFrameworks>net481</TargetFrameworks>
+
+		<!-- Conditionally add .NET 8 support if Security Center 5.12.2+ SDK is detected -->
+		<TargetFrameworks Condition="Exists('$(GSC_SDK_CORE)')">net8.0-windows;net481</TargetFrameworks>
+		<!-- Framework-specific build configurations -->
+		<TargetFrameworks Condition="$(Configuration.EndsWith('_NET8')) AND Exists('$(GSC_SDK_CORE)')">net8.0-windows</TargetFrameworks>
+		<TargetFrameworks Condition="$(Configuration.EndsWith('_NET481'))">net481</TargetFrameworks>
+		<Configurations>Debug;Release;Debug_NET481;Debug_NET8;Release_NET481;Release_NET8</Configurations>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
 		<AssemblyName>CameraConfigurationSample</AssemblyName>
 		<Description>Sample project</Description>
 		<Company>Genetec Inc.</Company>
-		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
+		<Copyright>Copyright � Genetec Inc. 2024</Copyright>
 		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
@@ -33,6 +41,54 @@
 		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
+	<!-- .NET 8 specific configurations -->
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_NET8|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug_NET8\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<LangVersion>12</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_NET8|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release_NET8\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<LangVersion>12</LangVersion>
+	</PropertyGroup>
+
+	<!-- .NET Framework 4.8.1 specific configurations -->
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_NET481|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug_NET481\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<LangVersion>12</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_NET481|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release_NET481\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<LangVersion>12</LangVersion>
+	</PropertyGroup>
+
 	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
 		<Reference Include="Genetec.Sdk">
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
@@ -42,6 +98,7 @@
 		<Reference Include="System.Core" />
 		<Reference Include="System.Data.DataSetExtensions" />
 	</ItemGroup>
+	<!-- .NET 8 dependencies - only when Security Center 5.12.2+ SDK is available -->
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
 		<Reference Include="Genetec.Sdk">
@@ -49,6 +106,8 @@
 			<Private>False</Private>
 		</Reference>
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
+		<PackageReference Include="System.ServiceModel.Primitives" Version="4.10.3" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
 		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
 	</ItemGroup>
 
@@ -56,7 +115,7 @@
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
 		</PropertyGroup>
-		<ItemGroup>
+	<ItemGroup>
 			<Certificates Include="Certificates\*.cert" />
 		</ItemGroup>
 		<MakeDir Directories="$(CertOutputPath)" />
@@ -65,4 +124,19 @@
 
 	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
 
+
+	<!-- Validation and helpful error messages -->
+	<Target Name="ValidateSecurityCenterVersion" BeforeTargets="Build">
+		<Message Text="Security Center SDK Detection:" Importance="normal" />
+		<Message Text="  GSC_SDK (Legacy): $(GSC_SDK)" Importance="normal" />
+		<Message Text="  GSC_SDK_CORE (.NET 8): $(GSC_SDK_CORE)" Importance="normal" />
+		<Message Text="  Target Frameworks: $(TargetFrameworks)" Importance="normal" />
+
+		<Warning Condition="'$(TargetFramework)' == 'net8.0-windows' AND !Exists('$(GSC_SDK_CORE)')"
+			Text=".NET 8 target requires Security Center 5.12.2 or later. Please install the compatible SDK or use .NET Framework 4.8.1 instead." />
+
+		<Message Condition="!Exists('$(GSC_SDK_CORE)')"
+			Text="NOTE: .NET 8 support disabled - Security Center 5.12.2+ SDK not detected. Building for .NET Framework 4.8.1 only."
+			Importance="high" />
+	</Target>
 </Project>

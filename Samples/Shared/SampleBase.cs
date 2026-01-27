@@ -71,20 +71,29 @@ public abstract class SampleBase
                 // Handle any unexpected exceptions during sample execution
                 Console.WriteLine(ex);
             }
+            Console.CancelKeyPress -= OnCancelKeyPress;
         }
         else
         {
             Console.WriteLine($"Logon failed: {state}");
         }
 
-        Console.WriteLine("Press any key to exit...");
-        Console.ReadKey(true);
+        // Only prompt for keypress if the app wasn't cancelled via Ctrl+C
+        if (!cancellationTokenSource.IsCancellationRequested)
+        {
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey(true);
+        }
 
         void OnCancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            Console.WriteLine("Cancelling...");
-            cancellationTokenSource.Cancel();
-            Console.CancelKeyPress -= OnCancelKeyPress;
+            if (!cancellationTokenSource.IsCancellationRequested)
+            {
+                Console.WriteLine("Cancelling...");
+                cancellationTokenSource.Cancel();
+                // Prevent the default Ctrl+C behavior (which would terminate immediately)
+                e.Cancel = true;
+            }
         }
     }
 
@@ -120,7 +129,7 @@ public abstract class SampleBase
         {
             // Check for cancellation before each page
             token.ThrowIfCancellationRequested();
-            
+
             // Execute the query asynchronously. This loads entities into the cache
             // The returned DataTable contains GUIDs of the loaded entities
             args = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
