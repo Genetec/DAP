@@ -7,23 +7,16 @@ using Sdk.Workspace.Modules;
 
 public class SampleModule : Module
 {
-    private SampleImageExtractor m_imageExtractor;
-
     static SampleModule() => AssemblyResolver.Initialize();
 
     public override void Load()
     {
-        m_imageExtractor = new SampleImageExtractor();
-        m_imageExtractor.Initialize(Workspace);
-        Workspace.Components.Register(m_imageExtractor);
+        var component = new SampleImageExtractor();
+        component.Initialize(Workspace);
+        Workspace.Components.Register(component);
     }
 
     public override void Unload()
     {
-        if (m_imageExtractor != null)
-        {
-            Workspace.Components.Unregister(m_imageExtractor);
-            m_imageExtractor = null;
-        }
     }
 }
