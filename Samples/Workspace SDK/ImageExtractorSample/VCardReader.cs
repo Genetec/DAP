@@ -16,10 +16,14 @@ public class VCardReader
     public static VCard ReadVCard(string filePath)
     {
         string vCardText = File.ReadAllText(filePath);
+
+        // N: field format is LastName;FirstName;MiddleName;Prefix;Suffix
+        string[] nameParts = ExtractField(vCardText, "N:").Split(';');
+
         var vcard = new VCard
         {
-            FirstName = ExtractField(vCardText, "FN:"),
-            LastName = ExtractField(vCardText, "N:").Split(';')[0], // Assuming last name is the first component in the N: field
+            LastName = nameParts.Length > 0 ? nameParts[0] : string.Empty,
+            FirstName = nameParts.Length > 1 ? nameParts[1] : string.Empty,
             Note = ExtractField(vCardText, "NOTE:"),
             Picture = ExtractPhoto(vCardText)
         };
@@ -42,12 +46,25 @@ public class VCardReader
 
     private static ImageSource ExtractPhoto(string vCardText)
     {
-        Match photoMatch = Regex.Match(vCardText, @"PHOTO;ENCODING=b;TYPE=image/jpeg:(.*?)(\n(?![ \t])|\r\n(?![ \t])|$)", RegexOptions.Singleline);
+        // Match various vCard photo formats:
+        // PHOTO;ENCODING=b;TYPE=image/jpeg:
+        // PHOTO;ENCODING=BASE64;TYPE=JPEG:
+        // PHOTO;TYPE=JPEG;ENCODING=b:
+        // PHOTO;ENCODING=b;TYPE=image/png:
+        var photoMatch = Regex.Match(vCardText,
+            @"PHOTO;[^:]*(?:ENCODING=(?:b|BASE64))[^:]*:(.*?)(\n(?![ \t])|\r\n(?![ \t])|$)",
+            RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
         if (photoMatch.Success)
         {
-            string base64Data = photoMatch.Groups[1].Value.Trim().Replace("\n", "").Replace("\r", "");
+            string base64Data = photoMatch.Groups[1].Value
+                .Trim()
+                .Replace("\n", "")
+                .Replace("\r", "");
 
-            using var stream = new MemoryStream(Convert.FromBase64String(base64Data));
+            byte[] imageBytes = Convert.FromBase64String(base64Data);
+
+            using var stream = new MemoryStream(imageBytes);
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.StreamSource = stream;

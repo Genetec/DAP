@@ -4,6 +4,7 @@
 namespace Genetec.Dap.CodeSamples;
 
 using System;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
@@ -17,16 +18,26 @@ public sealed class SampleImageExtractor : ImageExtractor
 
     public override Guid UniqueId { get; } = new Guid("5EDBB0B6-8253-433E-99A1-9021E498437A");
 
-
     public override ImageSource GetImage()
     {
-        var openFileDialog = new OpenFileDialog
+        var dialog = new OpenFileDialog
         {
             Filter = "vCard files (*.vcf)|*.vcf|All files (*.*)|*.*",
-            Title = "Open vCard File"
+            Title = "Select vCard File"
         };
 
-        return openFileDialog.ShowDialog() == true ? VCardReader.ReadVCard(openFileDialog.FileName)?.Picture : null;
+        if (dialog.ShowDialog() != true)
+            return null;
+
+        try
+        {
+            return VCardReader.ReadVCard(dialog.FileName)?.Picture;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Failed to read vCard file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return null;
+        }
     }
 
     public override bool SupportsContext(ImageExtractorContext context)
