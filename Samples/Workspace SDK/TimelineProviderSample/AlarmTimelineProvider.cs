@@ -1,4 +1,4 @@
-﻿// Copyright 2025 Genetec Inc.
+// Copyright 2026 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
 namespace Genetec.Dap.CodeSamples;
@@ -13,24 +13,14 @@ using Sdk.Workspace;
 using Sdk.Workspace.Components.TimelineProvider;
 using Sdk.Workspace.Pages.Contents;
 
-public class AlarmTimelineProvider : TimelineProvider
+public class AlarmTimelineProvider : TimelineProvider, IDisposable
 {
     private readonly Workspace m_workspace;
 
     public AlarmTimelineProvider(Workspace workspace)
     {
         m_workspace = workspace;
-
-        workspace.Sdk.AlarmAcknowledged += OnAlarmAcknowledged;
-
-        void OnAlarmAcknowledged(object sender, AlarmAcknowledgedEventArgs e)
-        {
-            foreach (AlarmTimelineEvent timelineEvent in GetEvents().OfType<AlarmTimelineEvent>()
-                         .Where(timelineEvent => timelineEvent.AlarmGuid == e.AlarmGuid && timelineEvent.InstanceId == e.InstanceId))
-            {
-                RemoveEvent(timelineEvent);
-            }
-        }
+        m_workspace.Sdk.AlarmAcknowledged += OnAlarmAcknowledged;
     }
 
     public override void Query(ContentGroup contentGroup, DateTime startTime, DateTime endTime)
@@ -50,11 +40,26 @@ public class AlarmTimelineProvider : TimelineProvider
                 var alarmGuid = row.Field<Guid>(AlarmActivityQuery.AlarmColumnName);
                 var instanceId = row.Field<int>(AlarmActivityQuery.InstanceIdColumnName);
                 var triggerTime = row.Field<DateTime>(AlarmActivityQuery.TriggerTimeColumnName);
-                
+
                 return new AlarmTimelineEvent(alarmGuid, instanceId, triggerTime);
             });
 
             InsertEvents(events);
+            OnQueryCompleted();
         });
+    }
+
+    private void OnAlarmAcknowledged(object sender, AlarmAcknowledgedEventArgs e)
+    {
+        foreach (AlarmTimelineEvent timelineEvent in GetEvents().OfType<AlarmTimelineEvent>()
+                     .Where(t => t.AlarmGuid == e.AlarmGuid && t.InstanceId == e.InstanceId))
+        {
+            RemoveEvent(timelineEvent);
+        }
+    }
+
+    public void Dispose()
+    {
+        m_workspace.Sdk.AlarmAcknowledged -= OnAlarmAcknowledged;
     }
 }

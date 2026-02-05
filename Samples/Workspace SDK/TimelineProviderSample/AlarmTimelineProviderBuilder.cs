@@ -3,8 +3,8 @@
 
 namespace Genetec.Dap.CodeSamples;
 
-using System;
 using Sdk.Workspace.Components.TimelineProvider;
+using System;
 
 public class AlarmTimelineProviderBuilder : TimelineProviderBuilder
 {
@@ -12,7 +12,7 @@ public class AlarmTimelineProviderBuilder : TimelineProviderBuilder
 
     public override string Title => "Active Alarms";
 
-    public override Guid UniqueId { get; } = new Guid("4765D714-2BD6-42A8-99E3-0A0767C76321");
+    public override Guid UniqueId { get; } = new Guid("4765D714-2BD6-42A8-99E3-0A0767C76321"); // Replace with your own unique GUID
 
     public override TimelineProvider CreateProvider()
     {
