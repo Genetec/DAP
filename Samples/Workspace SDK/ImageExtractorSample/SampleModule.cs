@@ -3,20 +3,29 @@
 
 namespace Genetec.Dap.CodeSamples;
 
+using Genetec.Sdk;
 using Sdk.Workspace.Modules;
 
 public class SampleModule : Module
 {
-    static SampleModule() => AssemblyResolver.Initialize();
+    private SampleImageExtractor m_imageExtractor;
 
     public override void Load()
     {
-        var component = new SampleImageExtractor();
-        component.Initialize(Workspace);
-        Workspace.Components.Register(component);
+        if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
+        {
+            m_imageExtractor = new SampleImageExtractor();
+            m_imageExtractor.Initialize(Workspace);
+            Workspace.Components.Register(m_imageExtractor);
+        }
     }
 
     public override void Unload()
     {
+        if (m_imageExtractor != null)
+        {
+            Workspace.Components.Unregister(m_imageExtractor);
+            m_imageExtractor = null;
+        }
     }
 }
