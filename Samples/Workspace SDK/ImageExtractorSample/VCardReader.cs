@@ -18,7 +18,10 @@ public class VCardReader
         string vCardText = File.ReadAllText(filePath);
 
         // N: field format is LastName;FirstName;MiddleName;Prefix;Suffix
-        string[] nameParts = ExtractField(vCardText, "N:").Split(';');
+        string nameField = ExtractField(vCardText, "N:");
+        string[] nameParts = string.IsNullOrEmpty(nameField)
+            ? Array.Empty<string>()
+            : nameField.Split(';');
 
         var vcard = new VCard
         {
