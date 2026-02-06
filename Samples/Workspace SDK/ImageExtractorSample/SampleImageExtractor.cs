@@ -3,12 +3,11 @@
 
 namespace Genetec.Dap.CodeSamples;
 
-using System;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using Sdk.Workspace.Components.ImageExtractor;
+using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 public sealed class SampleImageExtractor : ImageExtractor
 {
@@ -29,15 +28,7 @@ public sealed class SampleImageExtractor : ImageExtractor
         if (dialog.ShowDialog() != true)
             return null;
 
-        try
-        {
-            return VCardReader.ReadVCard(dialog.FileName)?.Picture;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Failed to read vCard file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            return null;
-        }
+        return VCardReader.ReadVCard(dialog.FileName)?.Picture;
     }
 
     public override bool SupportsContext(ImageExtractorContext context)
