@@ -34,6 +34,10 @@
 		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
 		<Reference Include="Genetec.Sdk">
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>

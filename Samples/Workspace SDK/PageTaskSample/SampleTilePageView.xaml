@@ -8,6 +8,83 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <ContentPresenter Name="m_tilesHost" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Top: video and content commands -->
+        <WrapPanel Grid.Row="0" Margin="4">
+            <Button Content="Toggle Cycling" Margin="0,0,4,0" Padding="8,4" Style="{Styles {x:Static ButtonStyles.Flat}}" Command="{Binding ToggleStartStopCyclingCommand}" />
+
+            <Grid Margin="0,0,4,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Sync Video" Padding="8,4" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" Command="{Binding SynchronizeVideoCommand}" />
+                <Button Grid.Column="1" Content="Digital Zoom" Padding="8,4" Style="{Styles {x:Static ButtonStyles.RightSegment}}" Command="{Binding ToggleDigitalZoomCommand}" />
+            </Grid>
+
+            <Grid Margin="0,0,4,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Save Snapshot" Padding="8,4" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" Command="{Binding SaveSnapshotCommand}" />
+                <Button Grid.Column="1" Content="Export Video" Padding="8,4" Style="{Styles {x:Static ButtonStyles.MiddleSegment}}" Command="{Binding ExportVideoCommand}" />
+                <Button Grid.Column="2" Content="Export All" Padding="8,4" Style="{Styles {x:Static ButtonStyles.RightSegment}}" Command="{Binding ExportVideoAllTilesCommand}" />
+            </Grid>
+
+            <Button Content="Browse Vault" Padding="8,4" Style="{Styles {x:Static ButtonStyles.Flat}}" Command="{Binding BrowseVaultCommand}" />
+        </WrapPanel>
+
+        <!-- Tile canvas -->
+        <ContentPresenter Grid.Row="1" Name="m_tilesHost" />
+
+        <!-- Bottom: tile layout commands -->
+        <WrapPanel Grid.Row="2" Margin="4">
+            <Grid Margin="0,0,4,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Change Pattern" Padding="8,4" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" Command="{Binding ModifyPatternCommand}" />
+                <Button Grid.Column="1" Content="Next Pattern" Padding="8,4" Style="{Styles {x:Static ButtonStyles.MiddleSegment}}" Command="{Binding CyclePatternNextCommand}" />
+                <Button Grid.Column="2" Content="Previous Pattern" Padding="8,4" Style="{Styles {x:Static ButtonStyles.RightSegment}}" Command="{Binding CyclePatternPreviousCommand}" />
+            </Grid>
+
+            <Grid Margin="0,0,4,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Previous Tile" Padding="8,4" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" Command="{Binding SelectPreviousTileCommand}" />
+                <Button Grid.Column="1" Content="Next Tile" Padding="8,4" Style="{Styles {x:Static ButtonStyles.RightSegment}}" Command="{Binding SelectNextTileCommand}" />
+            </Grid>
+
+            <Grid Margin="0,0,4,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Expand" Padding="8,4" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" Command="{Binding ToggleExpandTileCommand}" />
+                <Button Grid.Column="1" Content="Fullscreen" Padding="8,4" Style="{Styles {x:Static ButtonStyles.RightSegment}}" Command="{Binding ToggleFullscreenTileCommand}" />
+            </Grid>
+
+            <Button Content="Select Camera..." Margin="0,0,4,0" Padding="8,4" Style="{Styles {x:Static ButtonStyles.Flat}}" Command="{Binding DisplayEntityCommand}" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Clear Tile" Padding="8,4" Style="{Styles {x:Static ButtonStyles.LeftSegment}}" Command="{Binding ClearTileCommand}" />
+                <Button Grid.Column="1" Content="Clear All" Padding="8,4" Style="{Styles {x:Static ButtonStyles.RightSegment}}" Command="{Binding ClearAllTilesCommand}" />
+            </Grid>
+        </WrapPanel>
     </Grid>
 </UserControl>
