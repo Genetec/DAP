@@ -10,10 +10,10 @@ namespace Genetec.Dap.CodeSamples;
 
 public class ResourceProviderSample
 {
+    static ResourceProviderSample() => SdkResolver.Initialize();
+
     public static void Run()
     {
-        SdkResolver.Initialize();
-
         Console.WriteLine("Using ResourceProvider.GetStringFromEnum to get localized names from SDK enums.\n");
         Console.WriteLine("The following enums have ResourceReference attributes and support localized string lookup:\n");
 
