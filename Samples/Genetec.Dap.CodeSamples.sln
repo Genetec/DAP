@@ -234,6 +234,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerInformationSample", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSample", "Platform SDK\ServerSample\ServerSample.csproj", "{3451F54A-A0CE-704D-194A-2769C953B0A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceProviderSample", "Platform SDK\ResourceProviderSample\ResourceProviderSample.csproj", "{A46BCB50-782B-4946-9620-F90DE462CC30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_NET481|Any CPU = Debug_NET481|Any CPU
@@ -1456,6 +1458,18 @@ Global
 		{3451F54A-A0CE-704D-194A-2769C953B0A9}.Release_NET8|Any CPU.Build.0 = Release_NET8|Any CPU
 		{3451F54A-A0CE-704D-194A-2769C953B0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3451F54A-A0CE-704D-194A-2769C953B0A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Debug_NET481|Any CPU.ActiveCfg = Debug_NET481|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Debug_NET481|Any CPU.Build.0 = Debug_NET481|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Debug_NET8|Any CPU.ActiveCfg = Debug_NET8|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Debug_NET8|Any CPU.Build.0 = Debug_NET8|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Release_NET481|Any CPU.ActiveCfg = Release_NET481|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Release_NET481|Any CPU.Build.0 = Release_NET481|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Release_NET8|Any CPU.ActiveCfg = Release_NET8|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Release_NET8|Any CPU.Build.0 = Release_NET8|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A46BCB50-782B-4946-9620-F90DE462CC30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1562,6 +1576,7 @@ Global
 		{CD69985E-7030-9C55-F7CF-0E4D323FED25} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{CB713D02-195C-1E16-FB21-61ABC603D726} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{3451F54A-A0CE-704D-194A-2769C953B0A9} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{A46BCB50-782B-4946-9620-F90DE462CC30} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B18E6094-5F8C-4A40-ABCC-147C4EB191A0}
@@ -1612,6 +1627,7 @@ Global
 		Shared\Shared.projitems*{922bd855-deed-44e2-ba08-71dd92df1f2d}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a377c035-e10f-41f0-b6c7-0d0bcb60d4b9}*SharedItemsImports = 5
+		Shared\Shared.projitems*{a46bcb50-782b-4946-9620-f90de462cc30}*SharedItemsImports = 5
 		Shared\Shared.projitems*{a6b95578-7844-480b-8051-056b4949e446}*SharedItemsImports = 5
 		Shared\Shared.projitems*{ac2530de-ed8e-431d-9cb3-f868193331de}*SharedItemsImports = 5
 		Shared\Shared.projitems*{acc4a188-b29c-4a1d-88f5-9e2909de7b1b}*SharedItemsImports = 5
