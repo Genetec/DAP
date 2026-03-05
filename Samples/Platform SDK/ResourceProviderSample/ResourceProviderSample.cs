@@ -3,17 +3,17 @@
 
 using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Helpers;
 
 namespace Genetec.Dap.CodeSamples;
 
-public class ResourceProviderSample : SampleBase
+public class ResourceProviderSample
 {
-    protected override Task RunAsync(Engine engine, CancellationToken token)
+    public static void Run()
     {
+        SdkResolver.Initialize();
+
         Console.WriteLine("Using ResourceProvider.GetStringFromEnum to get localized names from SDK enums.\n");
         Console.WriteLine("The following enums have ResourceReference attributes and support localized string lookup:\n");
 
@@ -22,8 +22,6 @@ public class ResourceProviderSample : SampleBase
         PrintEnum<CredentialState>("CredentialState");
         PrintEnum<StreamingType>("StreamingType");
         PrintEnum<DeviceReaderEncryptionStatus>("DeviceReaderEncryptionStatus");
-
-        return Task.CompletedTask;
     }
 
     private static void PrintEnum<TEnum>(string enumName) where TEnum : struct, IConvertible

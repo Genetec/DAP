@@ -3,5 +3,4 @@
 
 using Genetec.Dap.CodeSamples;
 
-var sample = new ResourceProviderSample();
-await sample.RunAsync();
+ResourceProviderSample.Run();
