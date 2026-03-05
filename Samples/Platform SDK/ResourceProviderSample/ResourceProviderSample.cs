@@ -3,37 +3,43 @@
 
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Genetec.Sdk;
 using Genetec.Sdk.Helpers;
 
 namespace Genetec.Dap.CodeSamples;
 
-public class ResourceProviderSample
+public class ResourceProviderSample : SampleBase
 {
-    public static void Run()
+    protected override Task RunAsync(Engine engine, CancellationToken token)
     {
-        SdkResolver.Initialize();
+        Console.WriteLine("Using ResourceProvider.GetStringFromEnum to get localized names from SDK enums.\n");
+        Console.WriteLine("The following enums have ResourceReference attributes and support localized string lookup:\n");
 
-        Console.WriteLine("Using ResourceProvider.GetStringFromEnum to get localized entity type names:\n");
+        PrintEnum<EntityType>("EntityType");
+        PrintEnum<RoleType>("RoleType");
+        PrintEnum<CredentialState>("CredentialState");
+        PrintEnum<StreamingType>("StreamingType");
+        PrintEnum<DeviceReaderEncryptionStatus>("DeviceReaderEncryptionStatus");
 
-        Console.WriteLine($"{"EntityType",-25} | {"Localized Name"}");
-        Console.WriteLine(new string('-', 55));
+        return Task.CompletedTask;
+    }
 
-        foreach (EntityType entityType in Enum.GetValues(typeof(EntityType)).OfType<EntityType>().OrderBy(type => type.ToString()))
+    private static void PrintEnum<TEnum>(string enumName) where TEnum : struct, IConvertible
+    {
+        Console.WriteLine($"--- {enumName} ---");
+        Console.WriteLine($"{"Value",-35} | {"Localized Name"}");
+        Console.WriteLine(new string('-', 60));
+
+        foreach (TEnum value in Enum.GetValues(typeof(TEnum)).OfType<TEnum>().OrderBy(v => v.ToString()))
         {
-            if (entityType == EntityType.None)
-                continue;
-
-            string localizedName = ResourceProvider.GetStringFromEnum(entityType);
-
-            if (string.IsNullOrEmpty(localizedName))
-            {
-                Console.WriteLine($"{entityType,-25} | (empty)");
-            }
-            else
-            {
-                Console.WriteLine($"{entityType,-25} | {localizedName}");
-            }
+            string localizedName = ResourceProvider.GetStringFromEnum(value);
+            Console.WriteLine(string.IsNullOrEmpty(localizedName)
+                ? $"{value,-35} | (empty)"
+                : $"{value,-35} | {localizedName}");
         }
+
+        Console.WriteLine();
     }
 }
