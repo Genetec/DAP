@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using System.Text.Json;
 using Microsoft.Win32;
@@ -37,10 +36,12 @@ public static class SdkResolver
     private static Dictionary<string, string> BuildPackageAssemblyIndex(string probingPath)
     {
         var index = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var nugetCache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
 
-        if (!Directory.Exists(nugetCache))
-            return index;
+        var nugetCache = Environment.GetEnvironmentVariable("NUGET_PACKAGES");
+        if (string.IsNullOrWhiteSpace(nugetCache))
+            nugetCache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+
+        bool hasNugetCache = Directory.Exists(nugetCache);
 
         foreach (var depsFile in Directory.EnumerateFiles(probingPath, "*.deps.json"))
         {
@@ -61,12 +62,17 @@ public static class SdkResolver
 
                         foreach (var runtimeEntry in runtime.EnumerateObject())
                         {
-                            var dllName = Path.GetFileNameWithoutExtension(runtimeEntry.Name);
+                            var runtimeName = runtimeEntry.Name;
+
+                            if (Path.IsPathRooted(runtimeName))
+                                continue;
+
+                            var dllName = Path.GetFileNameWithoutExtension(Path.GetFileName(runtimeName));
                             if (index.ContainsKey(dllName))
                                 continue;
 
                             // Check if DLL is already in the SDK folder
-                            var localPath = Path.Combine(probingPath, Path.GetFileName(runtimeEntry.Name));
+                            var localPath = Path.Combine(probingPath, Path.GetFileName(runtimeName));
                             if (File.Exists(localPath))
                             {
                                 index[dllName] = localPath;
@@ -74,24 +80,29 @@ public static class SdkResolver
                             }
 
                             // Try to find in NuGet cache
-                            var packageParts = package.Name.Split('/');
-                            if (packageParts.Length == 2)
+                            if (hasNugetCache)
                             {
-                                var packagePath = Path.Combine(nugetCache, packageParts[0].ToLowerInvariant(), packageParts[1], runtimeEntry.Name);
-                                if (File.Exists(packagePath))
+                                var packageParts = package.Name.Split('/');
+                                if (packageParts.Length == 2)
                                 {
-                                    index[dllName] = packagePath;
+                                    var packagePath = Path.Combine(nugetCache, packageParts[0].ToLowerInvariant(), packageParts[1], runtimeName);
+                                    if (File.Exists(packagePath))
+                                    {
+                                        index[dllName] = packagePath;
+                                    }
                                 }
                             }
                         }
                     }
-
-                    break; // Only process the first target
                 }
             }
-            catch
+            catch (JsonException)
             {
                 // Skip malformed deps.json files
+            }
+            catch (IOException)
+            {
+                // Skip files that cannot be read
             }
         }
 
@@ -119,6 +130,9 @@ public static class SdkResolver
 
     private static Assembly LoadAssembly(AssemblyLoadContext context, AssemblyName assemblyName)
     {
+        if (s_packageAssemblyPaths == null)
+            return null;
+
         // 1) Try the package assembly index (built from all .deps.json files)
         if (s_packageAssemblyPaths.TryGetValue(assemblyName.Name, out var resolvedPath) && File.Exists(resolvedPath))
         {
@@ -126,7 +140,7 @@ public static class SdkResolver
             {
                 return context.LoadFromAssemblyPath(resolvedPath);
             }
-            catch (Exception)
+            catch (BadImageFormatException)
             {
                 // Fall through to next resolution strategy
             }
@@ -141,7 +155,7 @@ public static class SdkResolver
                 {
                     return context.LoadFromAssemblyPath(candidate);
                 }
-                catch (Exception)
+                catch (BadImageFormatException)
                 {
                     // Ignore and try next candidate
                 }
