@@ -10,14 +10,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Loader;
+using System.Text.Json;
 using Microsoft.Win32;
 using System.Collections.Concurrent;
 
 public static class SdkResolver
 {
     private static string s_probingPath;
-    private static AssemblyDependencyResolver s_dependencyResolver;
+    private static Dictionary<string, string> s_packageAssemblyPaths;
     private static readonly ConcurrentDictionary<string, Lazy<Assembly>> s_loaders = new(StringComparer.OrdinalIgnoreCase);
 
     public static void Initialize()
@@ -27,10 +29,73 @@ public static class SdkResolver
         if (string.IsNullOrEmpty(s_probingPath))
             throw new InvalidOperationException("SDK probing path could not be found.");
 
-        var sdkDll = Path.Combine(s_probingPath, "Genetec.Sdk.dll");
-        s_dependencyResolver = File.Exists(sdkDll) ? new AssemblyDependencyResolver(sdkDll) : null;
+        s_packageAssemblyPaths = BuildPackageAssemblyIndex(s_probingPath);
 
         AssemblyLoadContext.Default.Resolving += OnAssemblyResolve;
+    }
+
+    private static Dictionary<string, string> BuildPackageAssemblyIndex(string probingPath)
+    {
+        var index = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var nugetCache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+
+        if (!Directory.Exists(nugetCache))
+            return index;
+
+        foreach (var depsFile in Directory.EnumerateFiles(probingPath, "*.deps.json"))
+        {
+            try
+            {
+                using var stream = File.OpenRead(depsFile);
+                using var doc = JsonDocument.Parse(stream);
+
+                if (!doc.RootElement.TryGetProperty("targets", out var targets))
+                    continue;
+
+                foreach (var target in targets.EnumerateObject())
+                {
+                    foreach (var package in target.Value.EnumerateObject())
+                    {
+                        if (!package.Value.TryGetProperty("runtime", out var runtime))
+                            continue;
+
+                        foreach (var runtimeEntry in runtime.EnumerateObject())
+                        {
+                            var dllName = Path.GetFileNameWithoutExtension(runtimeEntry.Name);
+                            if (index.ContainsKey(dllName))
+                                continue;
+
+                            // Check if DLL is already in the SDK folder
+                            var localPath = Path.Combine(probingPath, Path.GetFileName(runtimeEntry.Name));
+                            if (File.Exists(localPath))
+                            {
+                                index[dllName] = localPath;
+                                continue;
+                            }
+
+                            // Try to find in NuGet cache
+                            var packageParts = package.Name.Split('/');
+                            if (packageParts.Length == 2)
+                            {
+                                var packagePath = Path.Combine(nugetCache, packageParts[0].ToLowerInvariant(), packageParts[1], runtimeEntry.Name);
+                                if (File.Exists(packagePath))
+                                {
+                                    index[dllName] = packagePath;
+                                }
+                            }
+                        }
+                    }
+
+                    break; // Only process the first target
+                }
+            }
+            catch
+            {
+                // Skip malformed deps.json files
+            }
+        }
+
+        return index;
     }
 
     private static Assembly OnAssemblyResolve(AssemblyLoadContext context, AssemblyName assemblyName)
@@ -54,10 +119,18 @@ public static class SdkResolver
 
     private static Assembly LoadAssembly(AssemblyLoadContext context, AssemblyName assemblyName)
     {
-        // 1) Try AssemblyDependencyResolver
-        var path = s_dependencyResolver.ResolveAssemblyToPath(assemblyName);
-        if (!string.IsNullOrEmpty(path) && File.Exists(path))
-            return context.LoadFromAssemblyPath(path);
+        // 1) Try the package assembly index (built from all .deps.json files)
+        if (s_packageAssemblyPaths.TryGetValue(assemblyName.Name, out var resolvedPath) && File.Exists(resolvedPath))
+        {
+            try
+            {
+                return context.LoadFromAssemblyPath(resolvedPath);
+            }
+            catch (Exception)
+            {
+                // Fall through to next resolution strategy
+            }
+        }
 
         // 2) Try direct probing folder
         if (!string.IsNullOrEmpty(s_probingPath))
