@@ -56,6 +56,8 @@ public partial class MainWindow : Window
             Browser.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
 #if DEBUG
             Browser.CoreWebView2.Settings.AreDevToolsEnabled = true;
+#else
+            Browser.CoreWebView2.Settings.AreDevToolsEnabled = false;
 #endif
             Browser.CoreWebView2.Settings.IsStatusBarEnabled = true;
 
