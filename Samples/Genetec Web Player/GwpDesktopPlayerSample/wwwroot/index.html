@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https: 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https: wss:; media-src https: blob:;">
+  <title>GWP Desktop Player Sample</title>
+  <style>
+    :root {
+      --bg: #edf3f8;
+      --surface: rgba(255, 255, 255, 0.92);
+      --surface-strong: #ffffff;
+      --ink: #102033;
+      --muted: #54667a;
+      --line: #d6e0ea;
+      --accent: #0f766e;
+      --accent-strong: #115e59;
+      --warning: #92400e;
+      --danger: #b91c1c;
+      --shadow: 0 24px 60px rgba(16, 32, 51, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Aptos", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 28%),
+        radial-gradient(circle at right, rgba(22, 101, 52, 0.10), transparent 22%),
+        linear-gradient(180deg, #f8fbfd 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 18px;
+      padding: 18px;
+      min-height: 100vh;
+      height: 100vh;
+    }
+
+    .panel {
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      min-height: 0;
+    }
+
+    .controls {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 0;
+      overflow: auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      line-height: 1.1;
+    }
+
+    .lede {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .origin {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+      font-size: 0.95rem;
+    }
+
+    .field-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--surface-strong);
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font: inherit;
+      cursor: pointer;
+      transition: transform 120ms ease, opacity 120ms ease, background-color 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    button.primary:hover {
+      background: var(--accent-strong);
+    }
+
+    button.secondary {
+      background: #dce8f2;
+      color: var(--ink);
+    }
+
+    .note {
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 14px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: var(--warning);
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    .stage {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px 0;
+    }
+
+    .status-chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #075985;
+      font-size: 0.9rem;
+    }
+
+    #playerContainer {
+      margin: 18px 22px 14px;
+      width: auto;
+      aspect-ratio: 16 / 9;
+      min-height: 320px;
+      max-height: min(56vh, 560px);
+      flex: 0 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(135deg, #07111f 0%, #11263f 100%);
+      border: 1px solid #17324f;
+    }
+
+    #playerContainer::before {
+      content: "GWP video surface";
+      position: absolute;
+      inset: 16px auto auto 16px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(12, 23, 42, 0.65);
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+      z-index: 0;
+    }
+
+    .log {
+      margin: 0 22px 22px;
+      padding: 14px;
+      border-radius: 16px;
+      background: #08111f;
+      color: #d8e6f5;
+      min-height: 180px;
+      overflow: auto;
+      flex: 1 1 auto;
+      height: 100%;
+      font: 0.88rem/1.45 Consolas, "Cascadia Code", monospace;
+      white-space: pre-wrap;
+    }
+
+    .log .error {
+      color: #fca5a5;
+    }
+
+    .log .warn {
+      color: #fdba74;
+    }
+
+    @media (max-width: 1100px) {
+      .shell {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      #playerContainer {
+        min-height: 240px;
+        max-height: min(42vh, 420px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="panel controls">
+      <div>
+        <p class="lede">This page runs with the origin shown below. Add that origin to the Media Gateway allowed origins list when strict CORS is enabled.</p>
+        <div class="origin" id="originDisplay"></div>
+      </div>
+
+      <div class="field-grid">
+        <label>
+          Media Gateway endpoint
+          <input id="mediaGatewayEndpoint" type="text" readonly>
+        </label>
+        <label>
+          Server version
+          <input id="serverVersion" type="text" readonly>
+        </label>
+        <label>
+          Camera GUID
+          <input id="cameraGuid" type="text" placeholder="00000000-0000-0000-0000-000000000000" spellcheck="false">
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="startButton" class="primary">Start Player</button>
+        <button id="stopButton" class="secondary">Stop</button>
+        <button id="liveButton" class="secondary">Live</button>
+        <button id="pauseButton" class="secondary">Pause</button>
+        <button id="resumeButton" class="secondary">Resume</button>
+        <button id="toggleAudioButton" class="secondary">Toggle Audio</button>
+      </div>
+
+    </section>
+
+    <section class="panel stage">
+      <div class="stage-header">
+        <div>
+          <strong>Player surface</strong>
+        </div>
+        <div id="statusChip" class="status-chip">Idle</div>
+      </div>
+
+      <div id="playerContainer"></div>
+      <div id="log" class="log"></div>
+    </section>
+  </div>
+
+  <script>
+    const hostConfig = Object.freeze(window.__GWP_HOST_CONFIG__ ?? {});
+    const state = {
+      player: null,
+      gwpLoadedFor: null,
+      startGeneration: 0,
+      activeStartGeneration: null,
+    };
+
+    const elements = {
+      originDisplay: document.getElementById('originDisplay'),
+      statusChip: document.getElementById('statusChip'),
+      log: document.getElementById('log'),
+      playerContainer: document.getElementById('playerContainer'),
+      mediaGatewayEndpoint: document.getElementById('mediaGatewayEndpoint'),
+      serverVersion: document.getElementById('serverVersion'),
+      cameraGuid: document.getElementById('cameraGuid'),
+      startButton: document.getElementById('startButton'),
+      stopButton: document.getElementById('stopButton'),
+      liveButton: document.getElementById('liveButton'),
+      pauseButton: document.getElementById('pauseButton'),
+      resumeButton: document.getElementById('resumeButton'),
+      toggleAudioButton: document.getElementById('toggleAudioButton'),
+    };
+
+    elements.originDisplay.textContent = `Current origin: ${window.location.origin}`;
+    elements.mediaGatewayEndpoint.value = hostConfig.mediaGatewayEndpoint ?? 'Native Media Gateway endpoint not configured';
+    elements.serverVersion.value = hostConfig.serverVersion ?? 'Use Media Gateway default';
+
+    function setStatus(text) {
+      elements.statusChip.textContent = text;
+    }
+
+    function logLine(message, level = 'info') {
+      const line = document.createElement('div');
+      const stamp = new Date().toLocaleTimeString();
+      if (level !== 'info') {
+        line.classList.add(level);
+      }
+      line.textContent = `[${stamp}] ${message}`;
+      elements.log.prepend(line);
+    }
+
+    async function ensureGwpLoaded(mediaGatewayEndpoint) {
+      const scriptUrl = `${mediaGatewayEndpoint}/v2/files/gwp.js`;
+
+      if (window.gwp && state.gwpLoadedFor === scriptUrl) {
+        return;
+      }
+
+      if (window.gwp && state.gwpLoadedFor !== scriptUrl) {
+        throw new Error('GWP was already loaded from a different Media Gateway. Refresh the page before switching servers.');
+      }
+
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = scriptUrl;
+        script.onload = resolve;
+        script.onerror = () => reject(new Error(`Failed to load ${scriptUrl}. Check certificate trust and endpoint correctness.`));
+        document.head.appendChild(script);
+      });
+
+      state.gwpLoadedFor = scriptUrl;
+      logLine(`Loaded gwp.js from ${scriptUrl}`);
+    }
+
+    function disposePlayer() {
+      if (!state.player) {
+        return;
+      }
+
+      try {
+        state.player.stop();
+      } catch {
+      }
+
+      try {
+        state.player.dispose();
+      } catch {
+      }
+
+      state.player = null;
+      setStatus('Stopped');
+      logLine('Player disposed');
+    }
+
+    function cancelPendingStart() {
+      if (state.activeStartGeneration === null) {
+        return false;
+      }
+
+      state.startGeneration++;
+      return true;
+    }
+
+    function buildTokenRetriever() {
+      const provider = window.chrome.webview.hostObjects.tokenProvider;
+      return async (cameraId) => {
+        return await provider.GetToken(cameraId);
+      };
+    }
+
+    function wireEvents(player) {
+      player.onErrorStateRaised.register((error) => {
+        setStatus(`Error ${error.errorCode}`);
+        logLine(`Error ${error.errorCode}: ${error.value}`, 'error');
+      });
+
+      player.onPlayerStateChanged.register((event) => {
+        logLine(`Player state changed: ${event.playerState} ${event.value ?? ''}`.trim());
+      });
+
+      player.onStreamStatusChanged.register((event) => {
+        setStatus(event.state);
+        logLine(`Stream status: ${event.state} ${event.value ?? ''}`.trim());
+      });
+
+      player.onAudioStateChanged.register((event) => {
+        logLine(`Audio enabled: ${event.isAudioEnabled}`);
+      });
+
+      player.onAudioAvailabilityChanged.register((event) => {
+        logLine(`Audio available: ${event.isAudioAvailable}`);
+      });
+
+      player.onFrameRendered.register((frameTime) => {
+        setStatus(`Rendering ${frameTime.toISOString()}`);
+      });
+    }
+
+    async function startPlayer() {
+      if (state.activeStartGeneration !== null) {
+        logLine('A player startup is already in progress.', 'warn');
+        return;
+      }
+
+      const generation = ++state.startGeneration;
+      state.activeStartGeneration = generation;
+
+      function cancelled() {
+        return state.startGeneration !== generation;
+      }
+
+      try {
+        const mediaGatewayEndpoint = (hostConfig.mediaGatewayEndpoint ?? '').trim().replace(/\/+$/, '');
+        const cameraGuid = elements.cameraGuid.value.trim();
+        const serverVersion = (hostConfig.serverVersion ?? '').trim();
+
+        if (!mediaGatewayEndpoint) {
+          throw new Error('The native Media Gateway endpoint is not configured.');
+        }
+
+        if (!cameraGuid) {
+          throw new Error('Camera GUID is required.');
+        }
+
+        await ensureGwpLoaded(mediaGatewayEndpoint);
+        if (cancelled()) {
+          setStatus('Stopped');
+          logLine('Start cancelled during script load');
+          return;
+        }
+
+        disposePlayer();
+
+        const tokenRetriever = buildTokenRetriever();
+        const player = window.gwp.buildPlayer(elements.playerContainer);
+        wireEvents(player);
+
+        logLine(`Starting player for ${cameraGuid}`);
+        await player.start(cameraGuid, mediaGatewayEndpoint, tokenRetriever, serverVersion || undefined);
+        if (cancelled()) {
+          setStatus('Stopped');
+          logLine('Start cancelled during session establishment');
+          try { player.stop(); } catch {}
+          try { player.dispose(); } catch {}
+          return;
+        }
+
+        player.playLive();
+        state.player = player;
+        setStatus('Live');
+        logLine(`GWP version ${window.gwp.version()}`);
+        logLine('Live playback started');
+      } finally {
+        if (state.activeStartGeneration === generation) {
+          state.activeStartGeneration = null;
+        }
+      }
+    }
+
+    elements.startButton.addEventListener('click', async () => {
+      try {
+        await startPlayer();
+      } catch (error) {
+        setStatus('Start failed');
+        logLine(error instanceof Error ? error.message : String(error), 'error');
+      }
+    });
+
+    elements.stopButton.addEventListener('click', () => {
+      if (cancelPendingStart()) {
+        setStatus('Cancelling');
+        logLine('Stop requested during startup');
+      }
+
+      disposePlayer();
+    });
+
+    elements.liveButton.addEventListener('click', () => {
+      if (!state.player) {
+        return;
+      }
+
+      state.player.playLive();
+      setStatus('Live');
+      logLine('Switched to live');
+    });
+
+    elements.pauseButton.addEventListener('click', () => {
+      if (!state.player) {
+        return;
+      }
+
+      state.player.pause();
+      setStatus('Paused');
+      logLine('Playback paused');
+    });
+
+    elements.resumeButton.addEventListener('click', () => {
+      if (!state.player) {
+        return;
+      }
+
+      state.player.resume();
+      setStatus('Resumed');
+      logLine('Playback resumed');
+    });
+
+    elements.toggleAudioButton.addEventListener('click', () => {
+      if (!state.player) {
+        return;
+      }
+
+      const nextValue = !state.player.isAudioEnabled;
+      state.player.setAudioEnabled(nextValue);
+      logLine(`Requested audio state ${nextValue}. Browser autoplay policy still applies.`, 'warn');
+    });
+
+    window.addEventListener('beforeunload', () => disposePlayer());
+    logLine('Page ready');
+  </script>
+</body>
+</html>
