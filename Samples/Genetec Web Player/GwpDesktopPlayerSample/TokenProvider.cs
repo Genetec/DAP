@@ -155,7 +155,7 @@ public sealed class TokenProvider : IDisposable
             $"{m_configuration.MediaGatewayEndpoint}/v2/token/{Uri.EscapeDataString(cameraId.Trim())}");
         request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authorizationParameter);
 
-        var response = await m_httpClient.SendAsync(request).ConfigureAwait(false);
+        using var response = await m_httpClient.SendAsync(request).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
     }
