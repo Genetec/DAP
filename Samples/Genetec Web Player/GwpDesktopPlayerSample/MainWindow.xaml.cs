@@ -23,6 +23,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+#if !DEBUG
+        DevToolsButton.Visibility = Visibility.Collapsed;
+#endif
         Loaded += OnLoaded;
         Closed += OnClosed;
         PreviewKeyDown += OnPreviewKeyDown;

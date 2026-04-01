@@ -81,11 +81,7 @@
                     <Button x:Name="DevToolsButton"
                             Padding="14,8"
                             Click="DevToolsButton_Click"
-                            Content="DevTools"
-#if !DEBUG
-                            Visibility="Collapsed"
-#endif
-                            />
+                            Content="DevTools" />
                 </StackPanel>
             </Grid>
         </Border>
