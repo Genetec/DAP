@@ -7,12 +7,6 @@ This sample demonstrates hosting the Genetec Web Player inside an ASP.NET Core M
 - A `/api/config` endpoint provides the Media Gateway endpoint and server version to the page without exposing authentication details.
 - The page loads `gwp.js` directly from the target Media Gateway and uses the browser environment GWP expects.
 
-## Why this shape
-
-GWP is a browser-oriented JavaScript library. It depends on DOM containers, HTML video and audio elements, canvas, WebSockets, and Media Source Extensions. ASP.NET Core serves the page and handles authentication server-side, while the browser provides the media runtime GWP requires.
-
-This is the simplest possible web hosting model for GWP: one `Program.cs`, one static HTML file, and one configuration file.
-
 ## Run
 
 ```powershell

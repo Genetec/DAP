@@ -8,10 +8,6 @@ This sample demonstrates hosting the Genetec Web Player inside an ASP.NET Core R
 - A server-side `/api/token/{cameraId}` endpoint proxies token requests to the Media Gateway using credentials from `appsettings.json`. Media Gateway credentials never reach the browser.
 - The page loads `gwp.js` directly from the target Media Gateway and uses the browser environment GWP expects.
 
-## Why this shape
-
-GWP is a browser-oriented JavaScript library. It depends on DOM containers, HTML video and audio elements, canvas, WebSockets, and Media Source Extensions. ASP.NET Core serves the page and handles authentication server-side, while the browser provides the media runtime GWP requires.
-
 Compared to the Minimal API sample, this sample adds:
 
 - **CSP nonces** instead of `'unsafe-inline'`, demonstrating how to tighten the Content Security Policy for production use.
