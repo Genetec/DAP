@@ -31,9 +31,10 @@ Media Gateway settings are configured in `appsettings.json`:
 }
 ```
 
-You can also use environment variables or user secrets:
+You can also use environment variables or user secrets. If you haven't already initialized user secrets for this project, run:
 
 ```powershell
+dotnet user-secrets init
 dotnet user-secrets set "MediaGateway:Password" "your-password"
 ```
 
