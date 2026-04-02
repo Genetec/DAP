@@ -87,7 +87,7 @@ Because the nonce is unique per request and cryptographically random, inline scr
 ## Scope and limitations
 
 - This sample demonstrates a feasible hosting pattern. It is not a production-ready security design.
-- The `/api/token/{cameraId}` endpoint has no authentication. Any client that can reach the server can request camera tokens. A real application must add its own user authentication layer in front of this endpoint.
+- This sample has no user authentication. Anyone who can reach the application can view camera streams. A real application must add its own authentication layer to control who can access the application.
 - Media Gateway credentials are stored in `appsettings.json`. For production, use a secure configuration provider such as user secrets, Azure Key Vault, or environment variables.
 - The default SDK certificate is the Genetec development certificate intended for SDK development only.
 - Player startup is cancellable. Clicking Stop during script load or session establishment cancels the in-flight start and cleans up any partially created player.

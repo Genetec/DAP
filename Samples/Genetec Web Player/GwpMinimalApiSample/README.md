@@ -73,7 +73,7 @@ The sample loads `gwp.js` from `${mediaGatewayEndpoint}/v2/files/gwp.js` so the 
 ## Scope and limitations
 
 - This sample demonstrates a feasible hosting pattern. It is not a production-ready security design.
-- The `/api/token/{cameraId}` endpoint has no authentication. Any client that can reach the server can request camera tokens. A real application must add its own user authentication layer in front of this endpoint.
+- This sample has no user authentication. Anyone who can reach the application can view camera streams. A real application must add its own authentication layer to control who can access the application.
 - Media Gateway credentials are stored in `appsettings.json`. For production, use a secure configuration provider such as user secrets, Azure Key Vault, or environment variables.
 - The default SDK certificate is the Genetec development certificate intended for SDK development only.
 - A Content Security Policy meta tag restricts script sources, connections, and media to `self`, `https:`, `wss:`, and `blob:`. The policy allows `'unsafe-inline'` for scripts and styles because the page uses inline markup. The Razor Pages sample demonstrates how to use CSP nonces instead.
