@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
@@ -82,8 +81,6 @@ internal sealed class NativePlaybackConfiguration
 [ComVisible(true)]
 public sealed class TokenProvider : IDisposable
 {
-    private static readonly HashSet<string> s_developmentHosts = ["localhost", "127.0.0.1", "::1"];
-
     private readonly object m_credentialSync = new();
     private readonly NativePlaybackConfiguration m_configuration;
     private readonly HttpClient m_httpClient;
@@ -97,11 +94,8 @@ public sealed class TokenProvider : IDisposable
 
         var handler = new HttpClientHandler();
 #if DEBUG
-        if (UsesDevelopmentCertificateBypass(m_configuration.MediaGatewayEndpoint))
-        {
-            handler.ServerCertificateCustomValidationCallback =
-                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-        }
+        handler.ServerCertificateCustomValidationCallback =
+            HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 #endif
         m_httpClient = new HttpClient(handler);
         UpdateAuthentication(m_configuration.Username, m_configuration.Password, m_configuration.SdkCertificate);
@@ -159,11 +153,6 @@ public sealed class TokenProvider : IDisposable
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
     }
-
-#if DEBUG
-    private static bool UsesDevelopmentCertificateBypass(string mediaGatewayEndpoint) =>
-        Uri.TryCreate(mediaGatewayEndpoint, UriKind.Absolute, out var uri) && s_developmentHosts.Contains(uri.Host);
-#endif
 
     void IDisposable.Dispose() => m_httpClient.Dispose();
 }

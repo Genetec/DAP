@@ -434,6 +434,7 @@
         return state.startGeneration !== generation;
       }
 
+      let pendingPlayer = null;
       try {
         const mediaGatewayEndpoint = (hostConfig.mediaGatewayEndpoint ?? '').trim().replace(/\/+$/, '');
         const cameraGuid = elements.cameraGuid.value.trim();
@@ -457,25 +458,31 @@
         disposePlayer();
 
         const tokenRetriever = buildTokenRetriever();
-        const player = window.gwp.buildPlayer(elements.playerContainer);
-        wireEvents(player);
+        pendingPlayer = window.gwp.buildPlayer(elements.playerContainer);
+        wireEvents(pendingPlayer);
 
         logLine(`Starting player for ${cameraGuid}`);
-        await player.start(cameraGuid, mediaGatewayEndpoint, tokenRetriever, serverVersion || undefined);
+        await pendingPlayer.start(cameraGuid, mediaGatewayEndpoint, tokenRetriever, serverVersion || undefined);
         if (cancelled()) {
           setStatus('Stopped');
           logLine('Start cancelled during session establishment');
-          try { player.stop(); } catch {}
-          try { player.dispose(); } catch {}
+          try { pendingPlayer.stop(); } catch {}
+          try { pendingPlayer.dispose(); } catch {}
+          pendingPlayer = null;
           return;
         }
 
-        player.playLive();
-        state.player = player;
+        pendingPlayer.playLive();
+        state.player = pendingPlayer;
+        pendingPlayer = null;
         setStatus('Live');
         logLine(`GWP version ${window.gwp.version()}`);
         logLine('Live playback started');
       } finally {
+        if (pendingPlayer) {
+          try { pendingPlayer.stop(); } catch {}
+          try { pendingPlayer.dispose(); } catch {}
+        }
         if (state.activeStartGeneration === generation) {
           state.activeStartGeneration = null;
         }

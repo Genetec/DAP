@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
@@ -15,7 +14,6 @@ namespace Genetec.Dap.CodeSamples;
 public partial class MainWindow : Window
 {
     private static readonly Uri s_appUri = new("https://app.local/index.html");
-    private static readonly HashSet<string> s_developmentHosts = ["localhost", "127.0.0.1", "::1"];
 
     private NativePlaybackConfiguration? m_playbackConfiguration;
     private TokenProvider? m_tokenProvider;
@@ -108,18 +106,12 @@ public partial class MainWindow : Window
 
     private void OnServerCertificateErrorDetected(object? sender, CoreWebView2ServerCertificateErrorDetectedEventArgs e)
     {
-        if (!Uri.TryCreate(e.RequestUri, UriKind.Absolute, out var uri))
-        {
-            return;
-        }
-
-        if (!s_developmentHosts.Contains(uri.Host))
-        {
-            return;
-        }
-
         e.Action = CoreWebView2ServerCertificateErrorAction.AlwaysAllow;
-        StatusTextBlock.Text = $"Allowed certificate warning for development endpoint {uri.Host}.";
+
+        if (Uri.TryCreate(e.RequestUri, UriKind.Absolute, out var uri))
+        {
+            StatusTextBlock.Text = $"Allowed certificate warning for development endpoint {uri.Host}.";
+        }
     }
 
     private void RefreshButton_Click(object sender, RoutedEventArgs e)
