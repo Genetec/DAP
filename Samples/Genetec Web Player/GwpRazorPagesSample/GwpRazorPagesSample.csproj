@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>GwpRazorPagesSample</AssemblyName>
+    <RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
+    <Description>Sample project</Description>
+    <Company>Genetec Inc.</Company>
+    <Copyright>Copyright © Genetec Inc. 2025</Copyright>
+  </PropertyGroup>
+
+</Project>
