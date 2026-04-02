@@ -53,12 +53,13 @@ For development, the sample automatically allows certificate warnings when conne
 
 ### 2. Allow the page origin in Media Gateway CORS
 
-If strict CORS is enabled, add the ASP.NET application origin to `MediaGateway.gconfig`:
+If strict CORS is enabled, add the ASP.NET application origin (the URL shown when you run the app, for example `https://localhost:5001`) to `MediaGateway.gconfig`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <MediaGateway EnforceStrictCrossOrigin="true">
+        <!-- Replace https://localhost:5001 with the actual ASP.NET app origin shown in the console or configured in applicationUrl -->
         <AllowedOrigin Origin="https://localhost:5001" />
     </MediaGateway>
 </Configuration>
