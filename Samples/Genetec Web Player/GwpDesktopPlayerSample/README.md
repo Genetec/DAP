@@ -8,10 +8,6 @@ This sample demonstrates the feasible hosting model for the Genetec Web Player i
 - Token retrieval runs in .NET via a COM-visible `TokenProvider` exposed to JavaScript through `AddHostObjectToScript`.
 - The hosted page receives non-secret bootstrap settings and requests opaque camera tokens from the native token provider. Media Gateway credentials stay in the WPF host process.
 
-## Why this shape
-
-GWP is a browser-oriented JavaScript library. It depends on DOM containers, HTML video and audio elements, canvas, WebSockets, and Media Source Extensions. WebView2 supplies that runtime while WPF supplies the desktop shell.
-
 ## Run
 
 ```powershell
