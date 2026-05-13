@@ -113,7 +113,7 @@ public static class SdkResolver
     {
         string key = assemblyName.FullName ?? assemblyName.Name;
 
-        if (assemblyName.Name.EndsWith(".resources") || assemblyName.Name.EndsWith(".xmlserializers"))
+        if (assemblyName.Name.EndsWith(".xmlserializers"))
         {
             return null;
         }
@@ -168,6 +168,11 @@ public static class SdkResolver
 
     private static IEnumerable<string> GetAssemblyPaths(string probingPath, AssemblyName assemblyName)
     {
+        if (assemblyName.CultureInfo != null && !string.IsNullOrEmpty(assemblyName.CultureInfo.Name))
+        {
+            yield return Path.Combine(probingPath, assemblyName.CultureInfo.Name, $"{assemblyName.Name}.dll");
+        }
+
         yield return Path.Combine(probingPath, $"{assemblyName.Name}.dll");
         yield return Path.Combine(probingPath, $"{assemblyName.Name}.exe");
 

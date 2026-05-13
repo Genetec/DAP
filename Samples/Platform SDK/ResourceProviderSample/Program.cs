@@ -1,0 +1,44 @@
+// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+using System;
+using System.Linq;
+using Genetec.Dap.CodeSamples;
+using Genetec.Sdk;
+using Genetec.Sdk.Helpers;
+
+SdkResolver.Initialize();
+
+RunSample();
+
+Console.Write("Press any key to exit...");
+Console.ReadKey(true);
+
+void RunSample()
+{
+    Console.WriteLine("Using ResourceProvider.GetStringFromEnum to get localized names from SDK enums.\n");
+    Console.WriteLine("The following enums have ResourceReference attributes and support localized string lookup:\n");
+
+    PrintEnum<EntityType>("EntityType");
+    PrintEnum<RoleType>("RoleType");
+    PrintEnum<CredentialState>("CredentialState");
+    PrintEnum<StreamingType>("StreamingType");
+    PrintEnum<DeviceReaderEncryptionStatus>("DeviceReaderEncryptionStatus");
+}
+
+static void PrintEnum<TEnum>(string enumName) where TEnum : struct, IConvertible
+{
+    Console.WriteLine($"--- {enumName} ---");
+    Console.WriteLine($"{"Value",-35} | {"Localized Name"}");
+    Console.WriteLine(new string('-', 60));
+
+    foreach (TEnum value in Enum.GetValues(typeof(TEnum)).OfType<TEnum>().OrderBy(v => v.ToString()))
+    {
+        string localizedName = ResourceProvider.GetStringFromEnum(value);
+        Console.WriteLine(string.IsNullOrEmpty(localizedName)
+            ? $"{value,-35} | (empty)"
+            : $"{value,-35} | {localizedName}");
+    }
+
+    Console.WriteLine();
+}
