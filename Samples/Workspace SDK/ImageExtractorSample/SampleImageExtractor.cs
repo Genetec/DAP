@@ -3,11 +3,11 @@
 
 namespace Genetec.Dap.CodeSamples;
 
+using Microsoft.Win32;
+using Sdk.Workspace.Components.ImageExtractor;
 using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
-using Sdk.Workspace.Components.ImageExtractor;
 
 public sealed class SampleImageExtractor : ImageExtractor
 {
@@ -17,16 +17,18 @@ public sealed class SampleImageExtractor : ImageExtractor
 
     public override Guid UniqueId { get; } = new Guid("5EDBB0B6-8253-433E-99A1-9021E498437A");
 
-
     public override ImageSource GetImage()
     {
-        var openFileDialog = new OpenFileDialog
+        var dialog = new OpenFileDialog
         {
             Filter = "vCard files (*.vcf)|*.vcf|All files (*.*)|*.*",
-            Title = "Open vCard File"
+            Title = "Select vCard File"
         };
 
-        return openFileDialog.ShowDialog() == true ? VCardReader.ReadVCard(openFileDialog.FileName)?.Picture : null;
+        if (dialog.ShowDialog() != true)
+            return null;
+
+        return VCardReader.ReadVCard(dialog.FileName)?.Picture;
     }
 
     public override bool SupportsContext(ImageExtractorContext context)
