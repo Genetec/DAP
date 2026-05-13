@@ -163,9 +163,9 @@ public class PtzCoordinatesManagerSample : SampleBase
         {
             Console.WriteLine("Executing StartZoom (zoom in).");
 
-            // arg1: Zoom direction (0 for zoom out, 1 for zoom in)
+            // arg1: Zoom direction (0 for zoom in, 1 for zoom out)
             // arg2: Zoom speed (0 to 100)
-            manager.ControlPtz(commandType: PtzCommandType.StartZoom, 1, 50);
+            manager.ControlPtz(commandType: PtzCommandType.StartZoom, 0, 50);
 
             await Task.Delay(2000, token); // Wait for 2 seconds before stopping zoom
 
@@ -178,9 +178,9 @@ public class PtzCoordinatesManagerSample : SampleBase
         {
             Console.WriteLine("Executing StartIris (open iris).");
 
-            // arg1: Iris direction (0 for close iris, 1 for open iris)
+            // arg1: Iris direction (0 for open iris, 1 for close iris)
             // arg2: Iris adjustment speed (0 to 100)
-            manager.ControlPtz(commandType: PtzCommandType.StartIris, 1, 50);
+            manager.ControlPtz(commandType: PtzCommandType.StartIris, 0, 50);
 
             await Task.Delay(2000, token); // Wait for 2 seconds before stopping iris
 
@@ -193,9 +193,9 @@ public class PtzCoordinatesManagerSample : SampleBase
         {
             Console.WriteLine("Executing StartFocus (focus near).");
 
-            // arg1: Focus direction (0 for focus far, 1 for focus near)
+            // arg1: Focus direction (0 for focus near, 1 for focus far)
             // arg2: Focus adjustment speed (0 to 100)
-            manager.ControlPtz(commandType: PtzCommandType.StartFocus, arg1: 1, arg2: 50);
+            manager.ControlPtz(commandType: PtzCommandType.StartFocus, arg1: 0, arg2: 50);
 
             await Task.Delay(2000, token); // Wait for 2 seconds before stopping focus
 

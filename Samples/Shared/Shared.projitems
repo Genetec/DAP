@@ -16,5 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SampleBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SdkResolverNetCoreApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SdkResolverNetFramework.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VCardReader.cs" />
   </ItemGroup>
 </Project>

@@ -3,19 +3,21 @@
 
 namespace Genetec.Dap.CodeSamples;
 
+using Genetec.Sdk;
 using Sdk.Workspace.Modules;
 
 public class SampleModule : Module
 {
     private SampleImageExtractor m_imageExtractor;
 
-    static SampleModule() => AssemblyResolver.Initialize();
-
     public override void Load()
     {
-        m_imageExtractor = new SampleImageExtractor();
-        m_imageExtractor.Initialize(Workspace);
-        Workspace.Components.Register(m_imageExtractor);
+        if (Workspace.ApplicationType is ApplicationType.SecurityDesk or ApplicationType.ConfigTool)
+        {
+            m_imageExtractor = new SampleImageExtractor();
+            m_imageExtractor.Initialize(Workspace);
+            Workspace.Components.Register(m_imageExtractor);
+        }
     }
 
     public override void Unload()

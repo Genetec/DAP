@@ -21,6 +21,11 @@ public static class SdkResolver
     public static void Initialize()
     {
         AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
+
+        if (Directory.Exists(s_probingPath))
+        {
+            Environment.CurrentDirectory = s_probingPath;
+        }
     }
 
     private static string GetProbingPath()
@@ -67,7 +72,7 @@ public static class SdkResolver
 
     private static Assembly OnAssemblyResolve(object sender, ResolveEventArgs args)
     {
-        if (args.Name.EndsWith(".resources") || args.Name.EndsWith(".xmlserializers"))
+        if (args.Name.EndsWith(".xmlserializers"))
         {
             return null;
         }
@@ -98,6 +103,12 @@ public static class SdkResolver
     private static IEnumerable<string> GetAssemblyPaths(string probingPath, string assemblyName)
     {
         var parsedAssemblyName = new AssemblyName(assemblyName);
+
+        if (parsedAssemblyName.CultureInfo != null && !string.IsNullOrEmpty(parsedAssemblyName.CultureInfo.Name))
+        {
+            yield return Path.Combine(probingPath, parsedAssemblyName.CultureInfo.Name, $"{parsedAssemblyName.Name}.dll");
+        }
+
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.dll");
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.exe");
 
