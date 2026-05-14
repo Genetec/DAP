@@ -64,7 +64,7 @@ After setting up your environment, you can explore the sample projects in this r
 ## Security Center SDKs
 
   
-The sample projects in this repository are organized into four main SDKs, each building upon the foundational Platform SDK:
+The sample projects in this repository are organized into four Security Center SDKs (each building upon the foundational Platform SDK) and a separate collection of Genetec Web Player samples:
 
   
 
@@ -176,6 +176,33 @@ Server-side plugin development samples that **build upon Platform SDK infrastruc
   
 
 See the [Plugin SDK README](Samples/Plugin%20SDK/README.md).
+
+  
+
+### Genetec Web Player Samples (`/Genetec Web Player/`)
+
+  
+
+Hosting samples for the **Genetec Web Player** (GWP), the JavaScript video player that ships with the Media Gateway. Unlike the SDK samples, these projects do not connect through the .NET Security Center SDK; they demonstrate three different application shells that load `gwp.js` from a Media Gateway and supply it with opaque camera tokens.
+
+  
+
+**Hosting models demonstrated:**
+
+- **GwpDesktopPlayerSample**: A WPF desktop application that hosts GWP in an embedded `WebView2` control, with token retrieval performed natively in .NET.
+- **GwpMinimalApiSample**: An ASP.NET Core Minimal API application that serves a static page and proxies token requests through a server-side endpoint.
+- **GwpRazorPagesSample**: An ASP.NET Core Razor Pages application that adds production-ready CSP nonce support and server-rendered configuration on top of the Minimal API pattern.
+
+  
+
+**Prerequisites differ from the SDK samples**: GWP samples require a reachable Media Gateway, a trusted (or development) Media Gateway certificate, and CORS configuration that allows the hosting page's origin. See each sample's README for details.
+
+  
+
+See the per-sample READMEs:
+- [GwpDesktopPlayerSample](Samples/Genetec%20Web%20Player/GwpDesktopPlayerSample/README.md)
+- [GwpMinimalApiSample](Samples/Genetec%20Web%20Player/GwpMinimalApiSample/README.md)
+- [GwpRazorPagesSample](Samples/Genetec%20Web%20Player/GwpRazorPagesSample/README.md)
 
   
 ## Sample Project Structure
@@ -300,8 +327,9 @@ The following table shows which .NET frameworks are supported by each SDK:
 | **Media SDK** | ✅ | ❌ | .NET 8 support planned for future release |
 | **Workspace SDK** | ✅ | ❌ | Client applications use .NET Framework |
 | **Plugin SDK** | ✅ | ❌ | .NET 8 support planned for future release |
+| **Genetec Web Player** | ❌ | ✅ | Targets .NET 8 only; ASP.NET Core or WPF + WebView2 |
 
-**Important**: Only Platform SDK samples support multi-targeting. All other SDK samples target .NET Framework 4.8.1 exclusively.
+**Important**: Only Platform SDK samples support multi-targeting. The other Security Center SDK samples target .NET Framework 4.8.1 exclusively, and the Genetec Web Player samples target .NET 8 exclusively.
 
   
 
