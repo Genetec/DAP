@@ -198,13 +198,6 @@ Hosting samples for the **Genetec Web Player** (GWP), the JavaScript video playe
 **Prerequisites differ from the SDK samples**: GWP samples require a reachable Media Gateway, a trusted (or development) Media Gateway certificate, and CORS configuration that allows the hosting page's origin. See each sample's README for details.
 
   
-
-See the per-sample READMEs:
-- [GwpDesktopPlayerSample](Samples/Genetec%20Web%20Player/GwpDesktopPlayerSample/README.md)
-- [GwpMinimalApiSample](Samples/Genetec%20Web%20Player/GwpMinimalApiSample/README.md)
-- [GwpRazorPagesSample](Samples/Genetec%20Web%20Player/GwpRazorPagesSample/README.md)
-
-  
 ## Sample Project Structure
 
   
