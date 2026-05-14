@@ -11,7 +11,7 @@
 		<TargetFrameworks Condition="$(Configuration.EndsWith('_NET481'))">net481</TargetFrameworks>
 		<Configurations>Debug;Release;Debug_NET481;Debug_NET8;Release_NET481;Release_NET8</Configurations>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-		<AssemblyName>DiagnosticServer</AssemblyName>
+		<AssemblyName>DiagnosticServerSample</AssemblyName>
 		<Description>Sample project</Description>
 		<Company>Genetec Inc.</Company>
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
