@@ -275,5 +275,5 @@ These samples demonstrate specialized SDK capabilities:
 The classes and concepts demonstrated in these Platform SDK samples form the foundation for all other Security Center SDK development:
 
 - **Media SDK**: These samples build on Platform SDK entity management (cameras, video units) and add media-specific operations like streaming and playback
-- **Workspace SDK**: These samples the Platform SDK within Security Desk and Config Tool client applications  
+- **Workspace SDK**: These samples use the Platform SDK within Security Desk and Config Tool client applications  
 - **Plugin SDK**: These samples extend Platform SDK for server-side role development

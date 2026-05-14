@@ -513,7 +513,7 @@ By properly implementing the `GetSpecificCreationScript` method, you ensure that
 
 #### Overview
 
-`DatabaseUpgradeItem` is a important component for managing database schema evolution in your plugin. It allows you to define and execute database upgrades smoothly as your plugin evolves across different versions.
+`DatabaseUpgradeItem` is an important component for managing database schema evolution in your plugin. It allows you to define and execute database upgrades smoothly as your plugin evolves across different versions.
 
 #### Purpose
 
@@ -664,7 +664,7 @@ public override void DatabaseCleanup(string name, int retentionPeriod)
 
 #### Integration with Security Center
 
-By implementing `DatabaseCleanupThreshold` allows the plugin to:
+Implementing `DatabaseCleanupThreshold` allows the plugin to:
 
 - View and modify retention periods for different types of data
 - Schedule cleanup operations according to the plugin configuration
