@@ -189,9 +189,9 @@ Hosting samples for the **Genetec Web Player** (GWP), the JavaScript video playe
 
 **Hosting models demonstrated:**
 
-- **GwpDesktopPlayerSample**: A WPF desktop application that hosts GWP in an embedded `WebView2` control, with token retrieval performed natively in .NET.
-- **GwpMinimalApiSample**: An ASP.NET Core Minimal API application that serves a static page and proxies token requests through a server-side endpoint.
-- **GwpRazorPagesSample**: An ASP.NET Core Razor Pages application that adds production-ready CSP nonce support and server-rendered configuration on top of the Minimal API pattern.
+- WPF desktop application that hosts GWP in an embedded `WebView2` control, with token retrieval performed natively in .NET
+- ASP.NET Core Minimal API application that serves a static page and proxies token requests through a server-side endpoint
+- ASP.NET Core Razor Pages application that adds production-ready CSP nonce support and server-rendered configuration on top of the Minimal API pattern
 
   
 
