@@ -1,11 +1,15 @@
-﻿using System;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+namespace Genetec.Dap.CodeSamples;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Genetec.Dap.CodeSamples;
 
 public class VCardReader
 {
@@ -175,8 +179,9 @@ public class VCardReader
 
             return bitmap;
         }
-        catch (Exception)
+        catch (Exception ex) when (ex is FormatException or IOException or NotSupportedException)
         {
+            Console.Error.WriteLine($"Failed to decode photo from vCard: {ex.Message}");
             return null;
         }
     }
