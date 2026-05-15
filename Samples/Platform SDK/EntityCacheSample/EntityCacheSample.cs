@@ -78,7 +78,9 @@ public class EntityCacheSample : SampleBase
 
         int totalEntities = 0;
 
+#pragma warning disable CS0612 // EntityType.ReportTemplate is obsolete; we filter it explicitly so it is not iterated
         foreach (var entityType in Enum.GetValues(typeof(EntityType)).OfType<EntityType>().Except(new[] { EntityType.None, EntityType.ReportTemplate }).OrderBy(type => type.ToString()))
+#pragma warning restore CS0612
         {
             int count = engine.GetEntities(entityType).Count;
             totalEntities += count;

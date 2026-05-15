@@ -300,7 +300,7 @@ public class RoleSample : SampleBase
             Console.WriteLine($"    Valid From: {cert.NotBefore:f}");
             Console.WriteLine($"    Valid Until: {cert.NotAfter:f}");
             Console.WriteLine($"    Has Private Key: {cert.HasPrivateKey}");
-            Console.WriteLine($"    Public Key Algorithm: {cert.PublicKey.Key.KeyExchangeAlgorithm}");
+            Console.WriteLine($"    Public Key Algorithm: {cert.PublicKey.Oid.FriendlyName}");
             Console.WriteLine($"    Signature Algorithm: {cert.SignatureAlgorithm.FriendlyName}");
             Console.WriteLine($"    Version: {cert.Version}");
             Console.WriteLine($"    Friendly Name: {cert.FriendlyName}");
