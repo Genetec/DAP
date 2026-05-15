@@ -33,8 +33,8 @@ public class VCardReader
 
     private static string ExtractField(string vCardText, string fieldName)
     {
-        // More flexible regex that handles various VCard formats
-        string pattern = $@"^{Regex.Escape(fieldName)}(?:[^:]*)?:(.*)$";
+        // Match the exact field name, optionally followed by vCard parameters (";..."), then the value separator
+        string pattern = $@"^{Regex.Escape(fieldName)}(?:;[^:]*)?:(.*)$";
         Match match = Regex.Match(vCardText, pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase);
         return match.Success ? match.Groups[1].Value.Trim() : string.Empty;
     }
