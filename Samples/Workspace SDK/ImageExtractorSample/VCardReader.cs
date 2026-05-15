@@ -116,35 +116,68 @@ public class VCardReader
         foreach (string pattern in photoPatterns)
         {
             Match photoMatch = Regex.Match(vCardText, pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            if (photoMatch.Success)
+            ImageSource image = TryCreateImageFromPhotoMatch(photoMatch);
+            if (image != null)
             {
-                try
-                {
-                    string base64Data = photoMatch.Groups[1].Value
-                        .Replace("\n", "")
-                        .Replace("\r", "")
-                        .Replace(" ", "")
-                        .Replace("\t", "");
+                return image;
+            }
+        }
 
-                    byte[] imageBytes = Convert.FromBase64String(base64Data);
-                    using var stream = new MemoryStream(imageBytes);
+        // Fallback for additional valid vCard photo formats:
+        // - PHOTO;ENCODING=b:...
+        // - PHOTO;TYPE=PNG;ENCODING=b:...
+        // - PHOTO:data:image/png;base64,...
+        // - PHOTO:data:image/*;base64,...
+        // - PHOTO:data:<any-media-type>;base64,...
+        var fallbackPatterns = new[]
+        {
+            @"^PHOTO(?:;[^:\r\n]*)?:(?:data:[^;,]+(?:;[^,]*)?,)?([A-Za-z0-9+/=\r\n\t ]+)$",
+            @"^PHOTO(?:;[^:\r\n]*ENCODING=b[^:\r\n]*)?:([A-Za-z0-9+/=\r\n\t ]+)$"
+        };
 
-                    var bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.StreamSource = stream;
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.EndInit();
-                    bitmap.Freeze();
-
-                    return bitmap;
-                }
-                catch (Exception)
-                {
-                    // Continue to next pattern if this one fails
-                }
+        foreach (string pattern in fallbackPatterns)
+        {
+            Match photoMatch = Regex.Match(vCardText, pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase);
+            ImageSource image = TryCreateImageFromPhotoMatch(photoMatch);
+            if (image != null)
+            {
+                return image;
             }
         }
 
         return null;
+    }
+
+    private static ImageSource TryCreateImageFromPhotoMatch(Match photoMatch)
+    {
+        if (!photoMatch.Success || photoMatch.Groups.Count < 2)
+        {
+            return null;
+        }
+
+        try
+        {
+            string base64Data = photoMatch.Groups[1].Value
+                .Replace("\n", "")
+                .Replace("\r", "")
+                .Replace(" ", "")
+                .Replace("\t", "");
+
+            byte[] imageBytes = Convert.FromBase64String(base64Data);
+            using var stream = new MemoryStream(imageBytes);
+
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.StreamSource = stream;
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.EndInit();
+            bitmap.Freeze();
+
+            return bitmap;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 }
