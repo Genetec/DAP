@@ -322,7 +322,7 @@ The following table shows which .NET frameworks are supported by each SDK:
 | **Plugin SDK** | ✅ | ❌ | .NET 8 support planned for future release |
 | **Genetec Web Player** | ❌ | ✅ | Targets .NET 8 only; ASP.NET Core or WPF + WebView2 |
 
-**Important**: Only Platform SDK samples support multi-targeting. The other Security Center SDK samples target .NET Framework 4.8.1 exclusively, and the Genetec Web Player samples target .NET 8 exclusively.
+**Important**: Only Platform SDK samples support multi-targeting. Platform SDK samples may target either .NET Framework 4.8.1 or .NET 8. Media SDK, Workspace SDK, and Plugin SDK samples target .NET Framework 4.8.1 exclusively, while Genetec Web Player samples target .NET 8 exclusively.
 
   
 
