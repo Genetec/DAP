@@ -10,10 +10,11 @@
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net481'">
 		<DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
-		<!-- Auto-generate binding redirects so .NET Framework projects resolve assembly version
-		     drift between the SDK assemblies and their transitive dependencies. -->
+		<!-- Auto-generate binding redirects so .NET Framework executables resolve assembly version
+		     drift between the SDK assemblies and their transitive dependencies. Class libraries
+		     (Plugin / Workspace SDK samples) are loaded by host processes whose own .config governs
+		     resolution, so this property is intentionally not extended to Library outputs. -->
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
