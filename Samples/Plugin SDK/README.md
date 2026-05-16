@@ -52,8 +52,8 @@ By using the Plugin SDK, developers can create powerful, deeply integrated solut
 
 ## Prerequisites
 
-- **.NET Framework 4.8.1**: The Plugin SDK only supports the .NET Framework; it does not support .NET 8 yet.
-- **Security Center SDK**: Installed with `GSC_SDK` environment variable configured
+- **.NET Framework 4.8.1 or .NET 8**: The Plugin SDK supports both runtimes. A plugin's `ServerModule` (the role logic) can target .NET Framework 4.8.1 (any Security Center version), .NET 8 (Security Center 5.13 or later), or .NET 10 (Security Center 5.14.1 or later). The `ClientModule`, when present, must target .NET Framework 4.8.1 because Config Tool and Security Desk run on .NET Framework. See [Building .NET plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8) for project-structure options.
+- **Security Center SDK**: Installed with the `GSC_SDK` environment variable configured (and `GSC_SDK_CORE` for builds targeting .NET 8 or later, available in Security Center 5.13+).
 - **Visual Studio 2022**: Version 17.6 or later for development (must run as Administrator)
 - **Security Center**: Installed and running on your system
 - **Valid Security Center License**: All samples include the development SDK certificate
@@ -513,7 +513,7 @@ By properly implementing the `GetSpecificCreationScript` method, you ensure that
 
 #### Overview
 
-`DatabaseUpgradeItem` is a important component for managing database schema evolution in your plugin. It allows you to define and execute database upgrades smoothly as your plugin evolves across different versions.
+`DatabaseUpgradeItem` is an important component for managing database schema evolution in your plugin. It allows you to define and execute database upgrades smoothly as your plugin evolves across different versions.
 
 #### Purpose
 
@@ -664,7 +664,7 @@ public override void DatabaseCleanup(string name, int retentionPeriod)
 
 #### Integration with Security Center
 
-By implementing `DatabaseCleanupThreshold` allows the plugin to:
+Implementing `DatabaseCleanupThreshold` allows the plugin to:
 
 - View and modify retention periods for different types of data
 - Schedule cleanup operations according to the plugin configuration

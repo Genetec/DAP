@@ -299,9 +299,9 @@ The following table shows which .NET frameworks are supported by each SDK:
 | **Platform SDK** | ✅ | ✅ | .NET 8 requires Security Center SDK 5.12.2+ |
 | **Media SDK** | ✅ | ❌ | .NET 8 support planned for future release |
 | **Workspace SDK** | ✅ | ❌ | Client applications use .NET Framework |
-| **Plugin SDK** | ✅ | ❌ | .NET 8 support planned for future release |
+| **Plugin SDK** | ✅ | ✅ | .NET 8 support for the `ServerModule` requires Security Center 5.13+. The `ClientModule` (Config Tool / Security Desk UI) targets .NET Framework only. See [Building .NET plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8). |
 
-**Important**: Only Platform SDK samples support multi-targeting. All other SDK samples target .NET Framework 4.8.1 exclusively.
+**Important**: Only Platform SDK samples in this repository are configured to multi-target. The Plugin, Workspace, and Media SDK samples target .NET Framework 4.8.1 exclusively, even where the SDK itself supports additional runtimes (see Plugin SDK row above).
 
   
 
