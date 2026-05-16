@@ -49,7 +49,7 @@ Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the pro
 
 -  **.NET Framework 4.8.1**: The sample projects can be built using .NET Framework 4.8.1, which is supported by all versions of Security Center.
 
--  **.NET 8**: Some sample projects can be built using .NET 8, but only with **Security Center SDK 5.12.2 or later**. Currently, only the **Platform SDK** (Genetec.Sdk.dll) supports .NET 8.
+-  **.NET 8**: Some sample projects can be built using .NET 8. Platform SDK samples require **Security Center SDK 5.12.2 or later**; Plugin SDK .NET 8 support applies to server modules in **Security Center 5.13 or later**; Genetec Web Player samples target .NET 8 and do not use the .NET Security Center SDK.
 
   
 
@@ -312,17 +312,17 @@ Remember to use the appropriate version of the Security Center SDK that matches 
 
 ## SDK Framework Support Matrix
 
-The following table shows which .NET frameworks are supported by each SDK:
+The following table shows which .NET frameworks are supported by each SDK or sample group:
 
 | SDK | .NET Framework 4.8.1 | .NET 8 | Notes |
 |-----|:-------------------:|:------:|-------|
+| **Genetec Web Player** | ❌ | ✅ | Targets .NET 8 only; ASP.NET Core or WPF + WebView2 |
 | **Platform SDK** | ✅ | ✅ | .NET 8 requires Security Center SDK 5.12.2+ |
 | **Media SDK** | ✅ | ❌ | .NET 8 support planned for future release |
 | **Workspace SDK** | ✅ | ❌ | Client applications use .NET Framework |
-| **Plugin SDK** | ✅ | ❌ | .NET 8 support planned for future release |
-| **Genetec Web Player** | ❌ | ✅ | Targets .NET 8 only; ASP.NET Core or WPF + WebView2 |
+| **Plugin SDK** | ✅ | ✅ | .NET 8 support for the `ServerModule` requires Security Center 5.13+. The `ClientModule` (Config Tool / Security Desk UI) targets .NET Framework only. See [Building .NET plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8). |
 
-**Important**: Only Platform SDK samples support multi-targeting. Platform SDK samples may target either .NET Framework 4.8.1 or .NET 8. Media SDK, Workspace SDK, and Plugin SDK samples target .NET Framework 4.8.1 exclusively, while Genetec Web Player samples target .NET 8 exclusively.
+**Important**: Only Platform SDK samples in this repository are configured to multi-target. The Plugin, Workspace, and Media SDK samples target .NET Framework 4.8.1 exclusively, even where the SDK itself supports additional runtimes (see Plugin SDK row above).
 
   
 
