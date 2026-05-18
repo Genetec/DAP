@@ -32,7 +32,7 @@ public class CredentialBuilderSample : SampleBase
         await BuildAndDisplayCredential(engine, credentialBuilder, "48-Bit Corporate 1000 Wiegand Credential", new Wiegand48BitCorporate1000CredentialFormat(companyId: 1, cardId: 2));
         await BuildAndDisplayCredential(engine, credentialBuilder, "Corporate 1000 Wiegand Credential", new WiegandCorporate1000CredentialFormat(companyId: 1, cardId: 2));
         await BuildAndDisplayCredential(engine, credentialBuilder, "License Plate Credential", new LicensePlateCredentialFormat(licensePlate: "12345"));
-        await BuildAndDisplayCredential(engine, credentialBuilder, "Keypad Credential", new KeypadCredentialFormat(credentialCode: 12345));
+        await BuildAndDisplayCredential(engine, credentialBuilder, "Keypad Credential", new KeypadCredentialFormat(credentialCode: "12345"));
         await BuildAndDisplayCredential(engine, credentialBuilder, "Raw Card Credential", new RawCardCredentialFormat(rawData: "1234", bitLength: 32));
 
         var fascN75Dict = new Dictionary<string, string>

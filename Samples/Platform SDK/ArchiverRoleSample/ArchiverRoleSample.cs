@@ -194,7 +194,7 @@ public class ArchiverRoleSample : SampleBase
                                    Valid From: {cert.NotBefore}
                                    Valid Until: {cert.NotAfter}
                                    Has Private Key: {cert.HasPrivateKey}
-                                   Public Key Algorithm: {cert.PublicKey.Key.KeyExchangeAlgorithm}
+                                   Public Key Algorithm: {cert.PublicKey.Oid.FriendlyName}
                                    Signature Algorithm: {cert.SignatureAlgorithm.FriendlyName}
                                    Version: {cert.Version}
                                    Friendly Name: {cert.FriendlyName}
