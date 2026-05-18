@@ -49,7 +49,7 @@ Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the pro
 
 -  **.NET Framework 4.8.1**: The sample projects can be built using .NET Framework 4.8.1, which is supported by all versions of Security Center.
 
--  **.NET 8**: Some sample projects can be built using .NET 8, but only with **Security Center SDK 5.12.2 or later**. Currently, only the **Platform SDK** (Genetec.Sdk.dll) supports .NET 8.
+-  **.NET 8**: Some sample projects can be built using .NET 8. Platform SDK samples require **Security Center SDK 5.12.2 or later**; Plugin SDK .NET 8 support applies to server modules in **Security Center 5.13 or later**; Genetec Web Player samples target .NET 8 and do not use the .NET Security Center SDK.
 
   
 
@@ -64,7 +64,7 @@ After setting up your environment, you can explore the sample projects in this r
 ## Security Center SDKs
 
   
-The sample projects in this repository are organized into four main SDKs, each building upon the foundational Platform SDK:
+The sample projects in this repository are organized into four Security Center SDKs (each building upon the foundational Platform SDK) and a separate collection of Genetec Web Player samples:
 
   
 
@@ -176,6 +176,26 @@ Server-side plugin development samples that **build upon Platform SDK infrastruc
   
 
 See the [Plugin SDK README](Samples/Plugin%20SDK/README.md).
+
+  
+
+### Genetec Web Player Samples (`/Samples/Genetec Web Player/`)
+
+  
+
+Hosting samples for the **Genetec Web Player** (GWP), the JavaScript video player that ships with the Media Gateway. Unlike the SDK samples, these projects do not connect through the .NET Security Center SDK; they demonstrate three different application shells that load `gwp.js` from a Media Gateway and supply it with opaque camera tokens.
+
+  
+
+**Hosting models demonstrated:**
+
+- WPF desktop application that hosts GWP in an embedded `WebView2` control, with token retrieval performed natively in .NET
+- ASP.NET Core Minimal API application that serves a static page and proxies token requests through a server-side endpoint
+- ASP.NET Core Razor Pages application that adds production-ready CSP nonce support and server-rendered configuration on top of the Minimal API pattern
+
+  
+
+**Prerequisites differ from the SDK samples**: GWP samples require a reachable Media Gateway, a trusted (or development) Media Gateway certificate, and CORS configuration that allows the hosting page's origin. See each sample's README for details.
 
   
 ## Sample Project Structure
@@ -292,16 +312,17 @@ Remember to use the appropriate version of the Security Center SDK that matches 
 
 ## SDK Framework Support Matrix
 
-The following table shows which .NET frameworks are supported by each SDK:
+The following table shows which .NET frameworks are supported by each SDK or sample group:
 
 | SDK | .NET Framework 4.8.1 | .NET 8 | Notes |
 |-----|:-------------------:|:------:|-------|
+| **Genetec Web Player** | ❌ | ✅ | Targets .NET 8 only; ASP.NET Core or WPF + WebView2 |
 | **Platform SDK** | ✅ | ✅ | .NET 8 requires Security Center SDK 5.12.2+ |
 | **Media SDK** | ✅ | ❌ | .NET 8 support planned for future release |
 | **Workspace SDK** | ✅ | ❌ | Client applications use .NET Framework |
-| **Plugin SDK** | ✅ | ❌ | .NET 8 support planned for future release |
+| **Plugin SDK** | ✅ | ✅ | .NET 8 support for the `ServerModule` requires Security Center 5.13+. The `ClientModule` (Config Tool / Security Desk UI) targets .NET Framework only. See [Building .NET plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8). |
 
-**Important**: Only Platform SDK samples support multi-targeting. All other SDK samples target .NET Framework 4.8.1 exclusively.
+**Important**: Only Platform SDK samples in this repository are configured to multi-target. The Plugin, Workspace, and Media SDK samples target .NET Framework 4.8.1 exclusively, even where the SDK itself supports additional runtimes (see Plugin SDK row above).
 
   
 
