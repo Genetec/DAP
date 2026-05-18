@@ -125,19 +125,14 @@ All samples follow consistent authentication patterns:
 
 The Platform SDK samples support both **.NET Framework 4.8.1** and **.NET 8**, but .NET 8 support requires **Security Center 5.12.2 or later**.
 
-#### Automatic Framework Selection
+#### Build Configuration Model
 
-The projects automatically detect the presence of Security Center .NET 8 SDK and configure the appropriate target frameworks based on environment variables:
+The projects use explicit build configurations for framework targeting:
 
-**Security Center 5.12.2+ (with .NET 8 SDK)**
-- **Target Frameworks**: `net481` + `net8.0-windows`
-- **Environment Variable**: `GSC_SDK_CORE` points to .NET 8 SDK location
-You can build and run samples with both frameworks
+- `Debug` / `Release`: build .NET Framework 4.8.1.
+- `Debug_NET8` / `Release_NET8`: build .NET 8 for Windows.
 
-**Security Center 5.12.1 or earlier**
-- **Target Frameworks**: `net481` only
-- **Environment Variable**: `GSC_SDK_CORE` not set or path doesn't exist
-Only .NET Framework 4.8.1 builds are available
+.NET 8 builds require Security Center SDK 5.12.2 or later. If `GSC_SDK_CORE` is not set to a compatible SDK folder, the `_NET8` configurations fail with a clear build error instead of silently falling back to .NET Framework.
 
 #### Environment Variables
 
@@ -148,15 +143,13 @@ The build system checks these environment variables:
 
 #### Technical Implementation
 
-The Platform SDK samples use multi-targeting in their `.csproj` files to automatically handle both frameworks:
+The Platform SDK samples use conditional target frameworks in their `.csproj` files to map each build configuration to one framework:
 
-**Conditional Framework Detection:**
+**Configuration-Based Framework Selection:**
 ```xml
-<!-- Always support .NET Framework 4.8.1 -->
 <TargetFrameworks>net481</TargetFrameworks>
-
-<!-- Automatically add .NET 8 if GSC_SDK_CORE environment variable exists -->
-<TargetFrameworks Condition="Exists('$(GSC_SDK_CORE)')">net8.0-windows;net481</TargetFrameworks>
+<TargetFrameworks Condition="$(Configuration.EndsWith('_NET8'))">net8.0-windows</TargetFrameworks>
+<Configurations>Debug;Release;Debug_NET8;Release_NET8</Configurations>
 ```
 
 **Framework-Specific Dependencies:**
@@ -168,38 +161,38 @@ The Platform SDK samples use multi-targeting in their `.csproj` files to automat
   - `Microsoft.WindowsDesktop.App.WPF` - WPF framework reference
 
 **Build Configurations:**
-Each project supports multiple build configurations for explicit framework targeting:
-- Standard: `Debug`, `Release` (auto-detects available frameworks)
-- Explicit: `Debug_NET481`, `Debug_NET8`, `Release_NET481`, `Release_NET8`
+Each project supports multiple build configurations:
+- `Debug` / `Release`: build .NET Framework 4.8.1.
+- `Debug_NET8` / `Release_NET8`: build .NET 8 (requires `GSC_SDK_CORE`, available in Security Center SDK 5.12.2 or later).
 
 **Validation System:**
 The build process includes automatic validation that:
 - Shows environment variable detection status during compilation
-- Warns when attempting .NET 8 builds without `GSC_SDK_CORE` set
+- Fails .NET 8 builds when `GSC_SDK_CORE\Genetec.Sdk.dll` is not available
 - Provides clear guidance on resolving compatibility issues
 
 ## Running the Samples
 
 ### Building the Samples
 
-#### Automatic Detection (Recommended)
+#### Default .NET Framework Build
 ```bash
-# Builds all available target frameworks for your SC version
+# Builds .NET Framework 4.8.1
 dotnet build
 
-# Builds and runs with the best available framework
+# Builds and runs with .NET Framework 4.8.1
 dotnet run
 ```
 
-#### Explicit Framework Selection
+#### Explicit Configuration Selection
 ```bash
-# Force .NET Framework 4.8.1 (works with any SC version)
-dotnet build --framework net481
-dotnet run --framework net481
+# Build net481 with the default configuration
+dotnet build -c Debug
+dotnet run -c Debug
 
-# Force .NET 8 (requires SC 5.12.2+)
-dotnet build --framework net8.0-windows
-dotnet run --framework net8.0-windows
+# Build net8.0-windows with the _NET8 configuration (requires SC 5.12.2+)
+dotnet build -c Debug_NET8
+dotnet run -c Debug_NET8
 ```
 
 ### Running a Sample
@@ -210,31 +203,20 @@ dotnet run --framework net8.0-windows
 ### Troubleshooting
 
 **"Can't find .NET 8 target"**
-- **Cause**: Security Center 5.11.x or earlier
-- **Solution**: Use `--framework net481` or upgrade to SC 5.12.2+
+- **Cause**: The project was built with `Debug` or `Release`, which target .NET Framework 4.8.1
+- **Solution**: Use `Debug_NET8` or `Release_NET8` with Security Center SDK 5.12.2 or later
 
 **"MSB3277 dependency conflicts"**
-- **Cause**: You manually forced .NET 8 on an incompatible system
-- **Solution**: Let the auto-detection handle framework selection
+- **Cause**: The project is resolving incompatible SDK assemblies or packages
+- **Solution**: Confirm that `GSC_SDK` and `GSC_SDK_CORE` point to compatible Security Center SDK installations
 
 **"Genetec.Sdk.dll not found"**
 - **Cause**: Environment variables not set correctly
 - **Solution**: Reinstall Security Center SDK or check environment variables
 
-**Warning: .NET 8 target requires Security Center 5.12.2 or later**
-- **Cause**: Trying to build .NET 8 with an incompatible Security Center version
-- **Solution**: Use .NET Framework 4.8.1 instead or upgrade Security Center
-
-#### Advanced: Manual Override
-
-For testing or special scenarios, you can override the auto-detection:
-
-```xml
-<!-- Force include .NET 8 regardless of detection -->
-<PropertyGroup>
-  <TargetFrameworks>net481;net8.0-windows</TargetFrameworks>
-</PropertyGroup>
-```
+**Error: _NET8 configurations require GSC_SDK_CORE**
+- **Cause**: Trying to build an `_NET8` configuration without `GSC_SDK_CORE\Genetec.Sdk.dll`
+- **Solution**: Set `GSC_SDK_CORE` to the SDK folder containing `Genetec.Sdk.dll`, or use `Debug` / `Release` to build `net481`
 
 ## Sample Categories and What They Demonstrate
 
@@ -275,5 +257,5 @@ These samples demonstrate specialized SDK capabilities:
 The classes and concepts demonstrated in these Platform SDK samples form the foundation for all other Security Center SDK development:
 
 - **Media SDK**: These samples build on Platform SDK entity management (cameras, video units) and add media-specific operations like streaming and playback
-- **Workspace SDK**: These samples the Platform SDK within Security Desk and Config Tool client applications  
+- **Workspace SDK**: These samples use the Platform SDK within Security Desk and Config Tool client applications
 - **Plugin SDK**: These samples extend Platform SDK for server-side role development
