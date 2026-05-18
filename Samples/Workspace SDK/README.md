@@ -336,6 +336,8 @@ REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Pl
 
 **Important**: This registry-based approach is for development only. For production deployment, Security Center 5.13+ uses XML configuration files instead of registry entries. See the separate "Deploying Plugins and Workspace Modules" guide for complete production deployment instructions.
 
+The post-build registration writes to `HKEY_LOCAL_MACHINE`, so it requires administrative privileges. Run Visual Studio as an administrator when building samples that include this post-build target.
+
 ## Best Practices
 
 ### Application Type Checking

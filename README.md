@@ -206,7 +206,7 @@ The sample projects in this repository are structured as follows:
 
   
 
--  **Target Frameworks**: The samples support .NET Framework 4.8.1. Some samples may also support .NET 8 for use with Security Center SDK 5.12.2 or later.
+-  **Target Frameworks**: Platform SDK samples build .NET Framework 4.8.1 by default and .NET 8 through the `_NET8` configurations. Media SDK, Workspace SDK, and Plugin SDK samples target .NET Framework 4.8.1. Genetec Web Player samples target .NET 8.
 
   
 
@@ -220,9 +220,11 @@ The sample projects in this repository are structured as follows:
 
 -  **SDK References**:
 
-- For .NET Framework 4.8.1: The projects reference Security Center assemblies from the `$(GSC_SDK)` directory.
+- For .NET Framework 4.8.1: The Security Center SDK projects reference assemblies from the `$(GSC_SDK)` directory.
 
-- For .NET 8: The projects reference Security Center assemblies from the `$(GSC_SDK_CORE)` directory.
+- For Platform SDK .NET 8 builds: The projects reference Security Center assemblies from the `$(GSC_SDK_CORE)` directory.
+
+- Genetec Web Player samples do not reference the .NET Security Center SDK.
 
   
 
@@ -236,79 +238,32 @@ The sample projects in this repository are structured as follows:
 
 ## Targeting .NET Framework or .NET 8
 
-  
+The samples do not all use the same framework-targeting model. Use the configurations already defined in the solution and project files.
 
-The Platform SDK projects support both .NET Framework 4.8.1 and .NET 8, depending on the Security Center SDK version. Here's how to work with different target frameworks:
+### Platform SDK configuration model
 
-  
-
-1.  **Check the current target frameworks:**
-
-- Edit the project file (.csproj) or view its properties in Visual Studio.
-
-- Look for the `<TargetFrameworks>` element.
-
-  
-
-2.  **Target .NET Framework 4.8.1:**
-
-- Ensure your project file includes:
+Platform SDK sample projects target .NET Framework 4.8.1 by default and use explicit `_NET8` configurations for .NET 8:
 
 ```xml
-
 <TargetFrameworks>net481</TargetFrameworks>
-
+<TargetFrameworks Condition="$(Configuration.EndsWith('_NET8'))">net8.0-windows</TargetFrameworks>
+<Configurations>Debug;Release;Debug_NET8;Release_NET8</Configurations>
 ```
 
-  
+Use `Debug` or `Release` to build `net481`. Use `Debug_NET8` or `Release_NET8` to build `net8.0-windows`.
 
-3.  **Target .NET 8:**
-
-- Ensure your project file includes:
-
-```xml
-
-<TargetFrameworks>net8.0-windows</TargetFrameworks>
-
+```bash
+dotnet build "Samples/Platform SDK/CardholderSample/CardholderSample.csproj" -c Debug
+dotnet build "Samples/Platform SDK/CardholderSample/CardholderSample.csproj" -c Debug_NET8
 ```
 
-  
+These examples are scoped to a Platform SDK project so they do not run Workspace SDK or Plugin SDK post-build registration steps. For solution-wide builds, run from an elevated shell or elevated Visual Studio instance because some Workspace SDK and Plugin SDK samples write development registration entries under `HKEY_LOCAL_MACHINE`.
 
-4.  **Target both .NET Framework 4.8.1 and .NET 8:**
+The `_NET8` configurations require Security Center SDK 5.12.2 or later and `GSC_SDK_CORE` pointing to the SDK folder that contains `Genetec.Sdk.dll`. Do not use `-f net8.0-windows` with the default `Debug` or `Release` configurations; select an `_NET8` configuration instead.
 
-- Modify your project file to include:
+### Other sample groups
 
-```xml
-
-<TargetFrameworks>net481;net8.0-windows</TargetFrameworks>
-
-```
-
-  
-
-5.  **Build for a specific framework:**
-
-- In Visual Studio: Use the Configuration Manager to set up different build configurations for each framework (see detailed guide below).
-
-- Command line: Specify the target framework when building:
-
-```
-
-dotnet build -f net481
-
-```
-
-or
-
-```
-
-dotnet build -f net8.0-windows
-
-```
-
-  
-
-Remember to use the appropriate version of the Security Center SDK that matches your target framework. The .NET 8 target requires Security Center SDK 5.12.2 or later.
+The Media SDK, Workspace SDK, and Plugin SDK sample projects in this repository target .NET Framework 4.8.1. The solution maps `Debug_NET8` and `Release_NET8` back to `Debug` and `Release` for those projects so that the solution configuration can focus on Platform SDK framework selection. The Genetec Web Player samples target .NET 8 and do not use the .NET Security Center SDK.
 
 ## SDK Framework Support Matrix
 
@@ -326,91 +281,14 @@ The following table shows which .NET frameworks are supported by each SDK or sam
 
   
 
-### Using Configuration Manager for Multiple Target Frameworks
+### Using Visual Studio configurations
 
-  
+Open `Samples/Genetec.Dap.CodeSamples.sln` and select one of the existing solution configurations:
 
-1.  **Open Configuration Manager:**
+- `Debug` / `Release`: Platform SDK samples build `net481`.
+- `Debug_NET8` / `Release_NET8`: Platform SDK samples build `net8.0-windows`; non-Platform SDK samples continue to build their `Debug` / `Release` configurations.
 
-- In Visual Studio, go to the "Build" menu.
-
-- Select "Configuration Manager" near the bottom of the dropdown.
-
-  
-
-2.  **Create New Configuration:**
-
-- In the Configuration Manager dialog, click on the "Active solution configuration" dropdown.
-
-- Select "New" at the bottom of the list.
-
-- Name your new configuration (e.g., "Debug-net481" for .NET Framework 4.8.1 debug build).
-
-- Choose which existing configuration to copy settings from (usually "Debug").
-
-- Click "OK" to create the new configuration.
-
-  
-
-3.  **Set Project Properties for the New Configuration:**
-
-- Right-click on your project in the Solution Explorer.
-
-- Select "Properties" at the bottom of the context menu.
-
-- In the project properties, ensure the new configuration is selected in the "Configuration" dropdown at the top.
-
-- Go to the "Build" tab.
-
-- In the "Conditional compilation symbols" field, add "NETFRAMEWORK" (without quotes) for .NET Framework builds.
-
-- In the "Target framework" dropdown, select ".NET Framework 4.8.1".
-
-- Save the changes.
-
-  
-
-4.  **Repeat for .NET 8:**
-
-- Follow steps 2 and 3 to create a new configuration for .NET 8 (e.g., "Debug-net8").
-
-- In the project properties for this configuration, set the target framework to ".NET 8.0".
-
-- Instead of "NETFRAMEWORK", use "NET8_0" in the conditional compilation symbols.
-
-  
-
-5.  **Set Up Release Configurations:**
-
-- Repeat steps 2-4 to create Release configurations for both frameworks.
-
-  
-
-6.  **Use the Configurations:**
-
-- In Visual Studio's main toolbar, use the "Solution Configurations" dropdown to switch between your new configurations.
-
-- When you build the project, it will use the settings for the selected configuration.
-
-  
-
-7.  **Conditional Code:**
-
-- You can now use conditional compilation in your code:
-
-```csharp
-
-#if  NETFRAMEWORK
-
-// .NET Framework specific code
-
-#elif  NET8_0
-
-// .NET 8 specific code
-
-#endif
-
-```
+Run Visual Studio as an administrator when building the full solution if you want Workspace SDK and Plugin SDK development registration to succeed.
 
   
 
