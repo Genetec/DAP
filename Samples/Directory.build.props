@@ -1,9 +1,0 @@
-<Project>
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net481'">
-		<DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
-		<DefineConstants>$(DefineConstants);NET8_0</DefineConstants>
-	</PropertyGroup>
-</Project>

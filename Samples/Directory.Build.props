@@ -1,0 +1,23 @@
+<Project>
+	<PropertyGroup>
+		<!-- Demote MSB3277 from warning to message across all target frameworks. The version drift
+		     between the SDK assemblies and their transitive dependencies (System.DirectoryServices.Protocols,
+		     System.ServiceModel.*, Microsoft.Identity.*, etc.) is expected. On .NET Framework, runtime
+		     resolution is handled by the binding redirects below. On .NET 8, the load context resolves
+		     to the higher version automatically. -->
+		<MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net481'">
+		<DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
+		<!-- Auto-generate binding redirects so .NET Framework executables resolve assembly version
+		     drift between the SDK assemblies and their transitive dependencies. Class libraries
+		     (Plugin / Workspace SDK samples) are loaded by host processes whose own .config governs
+		     resolution, so this property is intentionally not extended to Library outputs. -->
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+		<DefineConstants>$(DefineConstants);NET8_0</DefineConstants>
+	</PropertyGroup>
+</Project>
