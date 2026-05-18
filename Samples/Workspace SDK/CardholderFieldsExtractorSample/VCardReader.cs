@@ -1,11 +1,15 @@
-﻿using System;
+﻿// Copyright 2025 Genetec Inc.
+// Licensed under the Apache License, Version 2.0
+
+namespace Genetec.Dap.CodeSamples;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Genetec.Dap.CodeSamples;
 
 public class VCardReader
 {
@@ -33,8 +37,8 @@ public class VCardReader
 
     private static string ExtractField(string vCardText, string fieldName)
     {
-        // More flexible regex that handles various VCard formats
-        string pattern = $@"^{Regex.Escape(fieldName)}(?:[^:]*)?:(.*)$";
+        // Match the exact field name, optionally followed by vCard parameters (";..."), then the value separator
+        string pattern = $@"^{Regex.Escape(fieldName)}(?:;[^:]*)?:(.*)$";
         Match match = Regex.Match(vCardText, pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase);
         return match.Success ? match.Groups[1].Value.Trim() : string.Empty;
     }
@@ -116,35 +120,69 @@ public class VCardReader
         foreach (string pattern in photoPatterns)
         {
             Match photoMatch = Regex.Match(vCardText, pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-            if (photoMatch.Success)
+            ImageSource image = TryCreateImageFromPhotoMatch(photoMatch);
+            if (image != null)
             {
-                try
-                {
-                    string base64Data = photoMatch.Groups[1].Value
-                        .Replace("\n", "")
-                        .Replace("\r", "")
-                        .Replace(" ", "")
-                        .Replace("\t", "");
+                return image;
+            }
+        }
 
-                    byte[] imageBytes = Convert.FromBase64String(base64Data);
-                    using var stream = new MemoryStream(imageBytes);
+        // Fallback for additional valid vCard photo formats:
+        // - PHOTO;ENCODING=b:...
+        // - PHOTO;TYPE=PNG;ENCODING=b:...
+        // - PHOTO:data:image/png;base64,...
+        // - PHOTO:data:image/*;base64,...
+        // - PHOTO:data:<any-media-type>;base64,...
+        var fallbackPatterns = new[]
+        {
+            @"^PHOTO(?:;[^:\r\n]*)?:(?:data:[^;,]+(?:;[^,]*)?,)?([A-Za-z0-9+/=\r\n\t ]+)$",
+            @"^PHOTO(?:;[^:\r\n]*ENCODING=b[^:\r\n]*)?:([A-Za-z0-9+/=\r\n\t ]+)$"
+        };
 
-                    var bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.StreamSource = stream;
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.EndInit();
-                    bitmap.Freeze();
-
-                    return bitmap;
-                }
-                catch (Exception)
-                {
-                    // Continue to next pattern if this one fails
-                }
+        foreach (string pattern in fallbackPatterns)
+        {
+            Match photoMatch = Regex.Match(vCardText, pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase);
+            ImageSource image = TryCreateImageFromPhotoMatch(photoMatch);
+            if (image != null)
+            {
+                return image;
             }
         }
 
         return null;
+    }
+
+    private static ImageSource TryCreateImageFromPhotoMatch(Match photoMatch)
+    {
+        if (!photoMatch.Success || photoMatch.Groups.Count < 2)
+        {
+            return null;
+        }
+
+        try
+        {
+            string base64Data = photoMatch.Groups[1].Value
+                .Replace("\n", "")
+                .Replace("\r", "")
+                .Replace(" ", "")
+                .Replace("\t", "");
+
+            byte[] imageBytes = Convert.FromBase64String(base64Data);
+            using var stream = new MemoryStream(imageBytes);
+
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.StreamSource = stream;
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.EndInit();
+            bitmap.Freeze();
+
+            return bitmap;
+        }
+        catch (Exception ex) when (ex is FormatException or IOException or NotSupportedException)
+        {
+            Console.Error.WriteLine($"Failed to decode photo from vCard: {ex.Message}");
+            return null;
+        }
     }
 }
