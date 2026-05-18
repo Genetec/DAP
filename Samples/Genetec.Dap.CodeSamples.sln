@@ -78,7 +78,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CameraConfigurationSample",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CameraSample", "Platform SDK\CameraSample\CameraSample.csproj", "{C94B535D-7C56-4239-A2FC-5412493C9223}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CopyConfiguratonSample", "Platform SDK\CopyConfiguratonSample\CopyConfiguratonSample.csproj", "{5A3CA774-E381-4E87-B8D9-091644B52222}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CopyConfigurationSample", "Platform SDK\CopyConfigurationSample\CopyConfigurationSample.csproj", "{5A3CA774-E381-4E87-B8D9-091644B52222}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomEntitySample", "Platform SDK\CustomEntitySample\CustomEntitySample.csproj", "{B8F6538A-582C-4D99-BC46-7908785779D5}"
 EndProject
