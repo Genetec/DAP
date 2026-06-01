@@ -147,8 +147,8 @@ The Platform SDK samples use conditional target frameworks in their `.csproj` fi
 
 **Configuration-Based Framework Selection:**
 ```xml
-<TargetFrameworks>net481</TargetFrameworks>
-<TargetFrameworks Condition="$(Configuration.EndsWith('_NET8'))">net8.0-windows</TargetFrameworks>
+<TargetFramework>net481</TargetFramework>
+<TargetFramework Condition="'$(Configuration)' == 'Debug_NET8' OR '$(Configuration)' == 'Release_NET8'">net8.0-windows</TargetFramework>
 <Configurations>Debug;Release;Debug_NET8;Release_NET8</Configurations>
 ```
 
