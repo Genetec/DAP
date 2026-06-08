@@ -245,8 +245,8 @@ The samples do not all use the same framework-targeting model. Use the configura
 Platform SDK sample projects target .NET Framework 4.8.1 by default and use explicit `_NET8` configurations for .NET 8:
 
 ```xml
-<TargetFrameworks>net481</TargetFrameworks>
-<TargetFrameworks Condition="$(Configuration.EndsWith('_NET8'))">net8.0-windows</TargetFrameworks>
+<TargetFramework>net481</TargetFramework>
+<TargetFramework Condition="'$(Configuration)' == 'Debug_NET8' OR '$(Configuration)' == 'Release_NET8'">net8.0-windows</TargetFramework>
 <Configurations>Debug;Release;Debug_NET8;Release_NET8</Configurations>
 ```
 

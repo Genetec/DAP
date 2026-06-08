@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<!-- Base target framework - always supported -->
-		<TargetFrameworks>net481</TargetFrameworks>
-		<TargetFrameworks Condition="$(Configuration.EndsWith('_NET8'))">net8.0-windows</TargetFrameworks>
+		<TargetFramework>net481</TargetFramework>
+		<TargetFramework Condition="'$(Configuration)' == 'Debug_NET8' OR '$(Configuration)' == 'Release_NET8'">net8.0-windows</TargetFramework>
 		<Configurations>Debug;Release;Debug_NET8;Release_NET8</Configurations>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
 		<AssemblyName>UserTaskSample</AssemblyName>
 		<Description>Sample project</Description>
 		<Company>Genetec Inc.</Company>
-		<Copyright>Copyright � Genetec Inc. 2024</Copyright>
+		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
 		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
@@ -101,7 +101,7 @@
 		<Message Text="Security Center SDK Detection:" Importance="normal" />
 		<Message Text="  GSC_SDK (Legacy): $(GSC_SDK)" Importance="normal" />
 		<Message Text="  GSC_SDK_CORE (.NET 8): $(GSC_SDK_CORE)" Importance="normal" />
-		<Message Text="  Target Frameworks: $(TargetFrameworks)" Importance="normal" />
+		<Message Text="  Target Framework: $(TargetFramework)" Importance="normal" />
 
 		<Error Condition="'$(TargetFramework)' == 'net8.0-windows' AND !Exists('$(GSC_SDK_CORE)\Genetec.Sdk.dll')"
 			Text="The _NET8 configurations require Security Center SDK 5.12.2 or later and GSC_SDK_CORE set to the SDK folder containing Genetec.Sdk.dll. Set GSC_SDK_CORE, or use Debug/Release to build net481." />
