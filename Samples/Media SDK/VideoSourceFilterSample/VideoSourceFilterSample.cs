@@ -37,7 +37,7 @@ public class VideoSourceFilterSample : SampleBase
 
     private async Task<byte[]> GetCameraSnapshot(Engine engine, Guid camera)
     {
-        var completion = new TaskCompletionSource<byte[]>();
+        var completion = new TaskCompletionSource<byte[]>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         using (var videoSourceFilter = new VideoSourceFilter())
         {
@@ -52,6 +52,7 @@ public class VideoSourceFilterSample : SampleBase
             finally
             {
                 videoSourceFilter.FrameDecoded -= OnFrameDecoded;
+                videoSourceFilter.PlayerStateChanged -= OnPlayerStateChanged;
                 videoSourceFilter.Stop();
             }
         }
@@ -75,7 +76,8 @@ public class VideoSourceFilterSample : SampleBase
                 }
                 catch (Exception ex)
                 {
-                    completion.SetException(ex);
+                    completion.TrySetException(ex);
+                    return;
                 }
 
                 memoryStream.Position = 0;

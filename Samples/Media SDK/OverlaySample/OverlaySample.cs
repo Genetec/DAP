@@ -51,7 +51,7 @@ public class OverlaySample : SampleBase
     {
         const string layerId = "69A64ACE-6DDC-4142-AD04-06690D8591B3"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
-        Overlay overlay = await InitializeOverlay(cameraId, "Bouncing ball");
+        Overlay overlay = await InitializeOverlay(cameraId, "Bouncing ball", token);
         Layer layer = overlay.CreateLayer(new Guid(layerId), "Bouncing ball");
 
         var bouncingBall = new BouncingBall(50, 50, 50, 50, 25) { CanvasHeight = s_canvasHeight, CanvasWidth = s_canvasWidth };
@@ -73,7 +73,7 @@ public class OverlaySample : SampleBase
     {
         const string layerId = "92AEA5CA-E0F5-4122-872A-DB9A9F7437F7"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
-        Overlay overlay = await InitializeOverlay(cameraId, "Timecode");
+        Overlay overlay = await InitializeOverlay(cameraId, "Timecode", token);
         Layer layer = overlay.CreateLayer(new Guid(layerId), "Timecode");
 
         var timeDisplay = new TimeDisplay();
@@ -95,7 +95,7 @@ public class OverlaySample : SampleBase
     {
         const string layerId = "A1B2C3D4-E5F6-7890-1234-567890ABCDEF"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
-        Overlay overlay = await InitializeOverlay(camera.Guid, "Recording Status");
+        Overlay overlay = await InitializeOverlay(camera.Guid, "Recording Status", token);
         Layer layer = overlay.CreateLayer(new Guid(layerId), "Recording Status");
 
         var recordingStatus = new RecordingStatus(camera);
@@ -113,7 +113,7 @@ public class OverlaySample : SampleBase
         }
     }
 
-    private async Task<Overlay> InitializeOverlay(Guid camera, string overlayName)
+    private async Task<Overlay> InitializeOverlay(Guid camera, string overlayName, CancellationToken token)
     {
         Overlay overlay = OverlayFactory.Get(camera, overlayName);
 
@@ -122,7 +122,7 @@ public class OverlaySample : SampleBase
             overlay.Initialize(s_canvasHeight, s_canvasWidth);
         }
 
-        await overlay.WaitUntilReadyForUpdate();
+        await overlay.WaitUntilReadyForUpdate(token);
         return overlay;
     }
 }

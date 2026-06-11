@@ -208,7 +208,7 @@ public class MediaPlayerSample : SampleBase
 
         void OpenFile()
         {
-            OpenFileDialog openFileDialog = new() { Filter = "Video files (*.mp4;*..g64;*..g64x)|*.mp4;*.g64;*..g64x|All files (*.*)|*.*" };
+            OpenFileDialog openFileDialog = new() { Filter = "Video files (*.mp4;*.g64;*.g64x)|*.mp4;*.g64;*.g64x|All files (*.*)|*.*" };
             if (openFileDialog.ShowDialog().GetValueOrDefault())
             {
                 player.OpenFile(openFileDialog.FileName);

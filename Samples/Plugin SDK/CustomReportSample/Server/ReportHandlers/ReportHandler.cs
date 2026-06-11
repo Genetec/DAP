@@ -45,12 +45,12 @@ public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposab
             int totalSent = 0;
             int maxResults = args.Query.MaximumResultCount;
 
-            await foreach (IAsyncEnumerable<TRecord> batch in records.Buffer(GetBatchSize()).WithCancellation(token))
+            await foreach (IReadOnlyList<TRecord> batch in records.Buffer(GetBatchSize()).WithCancellation(token))
             {
                 token.ThrowIfCancellationRequested();
 
                 DataTable table = CreateDataTable(query);
-                await ProcessBatch(table, batch);
+                ProcessBatch(table, batch);
                 SendQueryResult(args, table);
 
                 totalSent += table.Rows.Count;
@@ -72,9 +72,9 @@ public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposab
         return query.GetNewDataTables().First();
     }
 
-    protected virtual async Task ProcessBatch(DataTable table, IAsyncEnumerable<TRecord> batch)
+    protected virtual void ProcessBatch(DataTable table, IReadOnlyList<TRecord> batch)
     {
-        await foreach (TRecord record in batch)
+        foreach (TRecord record in batch)
         {
             if (record is IRow row)
             {
