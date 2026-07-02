@@ -28,13 +28,13 @@ Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the pro
 
   
 
--  **Install Security Center**: Ensure you have Security Center installed. You can download the installer from the [Genetec Portal](https://portal.genetec.com).
+-  **Install Security Center**: Ensure you have Security Center installed. You can download the installer from the [Genetec Portal](https://www.genetec.com/portal).
 
 -  **Activate Development License**: Activate the Security Center license provided by the DAP. This license allows your integration to connect to Security Center.
 
   
 
--  **Install Security Center SDK**: The SDK contains the necessary libraries to build and run custom integrations. Download and install the Security Center SDK from the [Genetec Portal](https://portal.genetec.com).
+-  **Install Security Center SDK**: The SDK contains the necessary libraries to build and run custom integrations. Download and install the Security Center SDK from the [Genetec Portal](https://www.genetec.com/portal).
 
    The SDK installer automatically:
    - Creates environment variables (`GSC_SDK` for .NET Framework, `GSC_SDK_CORE` for .NET 8)
@@ -320,4 +320,4 @@ While this repository is primarily for reference purposes, contributions such as
 
   
 
-If you encounter any issues or have questions regarding the Security Center SDK or the provided samples, please reach out to the Genetec support team through the [Genetec Technical Assistance Portal](https://portal.genetec.com/).
+If you encounter any issues or have questions regarding the Security Center SDK or the provided samples, please reach out to the Genetec support team through the [Genetec Technical Assistance Portal](https://www.genetec.com/portal).
