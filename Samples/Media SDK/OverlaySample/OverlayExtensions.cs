@@ -3,14 +3,15 @@
 
 namespace Genetec.Dap.CodeSamples;
 
+using System.Threading;
 using System.Threading.Tasks;
 using Sdk.Media.Overlay;
 
 public static class OverlayExtensions
 {
-    public static async Task WaitUntilReadyForUpdate(this Overlay overlay)
+    public static async Task WaitUntilReadyForUpdate(this Overlay overlay, CancellationToken cancellationToken = default)
     {
-        var completion = new TaskCompletionSource<object>();
+        var completion = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         overlay.StateChange += OnStateChange;
         try
@@ -20,7 +21,10 @@ public static class OverlayExtensions
                 return;
             }
 
-            await completion.Task;
+            using (cancellationToken.Register(() => completion.TrySetCanceled(cancellationToken)))
+            {
+                await completion.Task;
+            }
         }
         finally
         {
@@ -31,7 +35,7 @@ public static class OverlayExtensions
         {
             if (e.CanPropagateUpdate)
             {
-                completion.SetResult(null);
+                completion.TrySetResult(null);
             }
         }
     }

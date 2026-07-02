@@ -19,9 +19,9 @@ public class AuditTrailsReportHandler : ReportHandler<AuditTrailQuery, AuditTrai
     {
     }
 
-    protected override async Task ProcessBatch(DataTable table, IAsyncEnumerable<AuditTrailRow> batch)
+    protected override void ProcessBatch(DataTable table, IReadOnlyList<AuditTrailRow> batch)
     {
-        await foreach (AuditTrailRow row in batch)
+        foreach (AuditTrailRow row in batch)
         {
             table.AddIRow(row);
         }

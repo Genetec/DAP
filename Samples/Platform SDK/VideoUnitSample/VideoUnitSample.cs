@@ -120,7 +120,7 @@ public class VideoUnitSample : SampleBase
 
     private async Task<Guid> AddVideoUnit(IVideoUnitManager videoUnitManager, AddVideoUnitInfo videoUnitInfo, Guid archiver, IProgress<EnrollmentResult> progress = default)
     {
-        var completion = new TaskCompletionSource<Guid>();
+        var completion = new TaskCompletionSource<Guid>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         videoUnitManager.EnrollmentStatusChanged += OnEnrollmentStatusChanged;
         try
@@ -136,19 +136,36 @@ public class VideoUnitSample : SampleBase
 
         void OnEnrollmentStatusChanged(object sender, UnitEnrolledEventArgs e)
         {
+            if (!IsEnrollmentForRequestedUnit(e))
+            {
+                return;
+            }
+
             progress?.Report(e.EnrollmentResult);
 
             if (e.EnrollmentResult != EnrollmentResult.Connecting)
             {
                 if (e.Unit != Guid.Empty)
                 {
-                    completion.SetResult(e.Unit);
+                    completion.TrySetResult(e.Unit);
                 }
                 else
                 {
-                    completion.SetException(new Exception($"Unable to enroll the video unit: {e.EnrollmentResult}"));
+                    completion.TrySetException(new Exception($"Unable to enroll the video unit: {e.EnrollmentResult}"));
                 }
             }
+        }
+
+        bool IsEnrollmentForRequestedUnit(UnitEnrolledEventArgs e)
+        {
+            string expectedAddress = videoUnitInfo.Hostname ?? videoUnitInfo.IPEndPoint?.Address.ToString();
+            if (!string.IsNullOrWhiteSpace(expectedAddress) && !string.Equals(e.Address, expectedAddress, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            int expectedPort = videoUnitInfo.Port;
+            return expectedPort < 0 || e.Port == expectedPort;
         }
     }
 }

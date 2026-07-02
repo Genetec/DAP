@@ -18,9 +18,14 @@ public class AccessVerifierSample : SampleBase
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
         // Load the specified entity types into the entity cache
-        await LoadEntities(engine, token, EntityType.Credential, EntityType.AccessPoint, EntityType.Schedule, EntityType.AccessRule);
+        await LoadEntities(engine, token, EntityType.Credential, EntityType.AccessPoint, EntityType.Schedule, EntityType.AccessRule, EntityType.Door);
 
         List<Guid> doorGuids = engine.GetEntities(EntityType.Door).Select(door => door.Guid).ToList();
+        if (doorGuids.Count == 0)
+        {
+            Console.WriteLine("No doors were found. The access matrix cannot be generated.");
+            return;
+        }
 
         DateTime currentTime = DateTime.UtcNow;
 

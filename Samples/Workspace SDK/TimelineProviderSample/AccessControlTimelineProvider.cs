@@ -3,6 +3,7 @@
 
 namespace Genetec.Dap.CodeSamples;
 
+using Genetec.Sdk.Diagnostics.Logging.Core;
 using Sdk;
 using Sdk.Events.AccessPoint;
 using Sdk.Queries;
@@ -17,37 +18,49 @@ using System.Threading.Tasks;
 
 public class AccessControlTimelineProvider : TimelineProvider, IDisposable
 {
+    private readonly Logger m_logger;
     private readonly Workspace m_workspace;
 
     public AccessControlTimelineProvider(Workspace workspace)
     {
+        m_logger = Logger.CreateInstanceLogger(this);
         m_workspace = workspace;
         m_workspace.Sdk.EventReceived += OnEventReceived;
     }
 
     public override void Query(ContentGroup contentGroup, DateTime startTime, DateTime endTime)
     {
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
-            var query = (CardholderActivityQuery)m_workspace.Sdk.ReportManager.CreateReportQuery(ReportType.CardholderActivity);
-            query.TimeRange.SetTimeRange(startTime, endTime);
-            query.Events.Clear();
-            query.Events.Add(EventType.AccessGranted);
-            query.Events.Add(EventType.AccessRefused);
-
-            QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-
-            var events = result.Data.AsEnumerable().Select(row =>
+            try
             {
-                var timestamp = row.Field<DateTime>(AccessControlReportQuery.TimestampColumnName);
-                var cardholderGuid = row.Field<Guid>(AccessControlReportQuery.CardholderGuidColumnName);
-                var eventType = row.Field<EventType>(AccessControlReportQuery.EventTypeColumnName);
+                var query = (CardholderActivityQuery)m_workspace.Sdk.ReportManager.CreateReportQuery(ReportType.CardholderActivity);
+                query.TimeRange.SetTimeRange(startTime, endTime);
+                query.Events.Clear();
+                query.Events.Add(EventType.AccessGranted);
+                query.Events.Add(EventType.AccessRefused);
 
-                return new AccessTimelineEvent(cardholderGuid, timestamp, eventType == EventType.AccessGranted);
-            });
+                QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
-            InsertEvents(events);
-            OnQueryCompleted();
+                var events = result.Data.AsEnumerable().Select(row =>
+                {
+                    var timestamp = row.Field<DateTime>(AccessControlReportQuery.TimestampColumnName);
+                    var cardholderGuid = row.Field<Guid>(AccessControlReportQuery.CardholderGuidColumnName);
+                    var eventType = row.Field<EventType>(AccessControlReportQuery.EventTypeColumnName);
+
+                    return new AccessTimelineEvent(cardholderGuid, timestamp, eventType == EventType.AccessGranted);
+                });
+
+                InsertEvents(events);
+            }
+            catch (Exception ex)
+            {
+                m_logger.TraceError(ex, $"Failed to query access control timeline events: {ex.Message}");
+            }
+            finally
+            {
+                OnQueryCompleted();
+            }
         });
     }
 
@@ -72,5 +85,6 @@ public class AccessControlTimelineProvider : TimelineProvider, IDisposable
     public void Dispose()
     {
         m_workspace.Sdk.EventReceived -= OnEventReceived;
+        m_logger.Dispose();
     }
 }
