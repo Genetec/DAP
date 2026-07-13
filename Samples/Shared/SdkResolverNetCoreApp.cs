@@ -85,7 +85,7 @@ public static class SdkResolver
                                 var packageParts = package.Name.Split('/');
                                 if (packageParts.Length == 2)
                                 {
-                                    var packagePath = Path.Combine(nugetCache, packageParts[0].ToLowerInvariant(), packageParts[1], runtimeName);
+                                    var packagePath = Path.Combine(nugetCache, packageParts[0].ToLowerInvariant(), packageParts[1].ToLowerInvariant(), runtimeName);
                                     if (File.Exists(packagePath))
                                     {
                                         index[dllName] = packagePath;
@@ -101,6 +101,10 @@ public static class SdkResolver
                 // Skip malformed deps.json files
             }
             catch (IOException)
+            {
+                // Skip files that cannot be read
+            }
+            catch (UnauthorizedAccessException)
             {
                 // Skip files that cannot be read
             }
