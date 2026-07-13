@@ -20,6 +20,9 @@ public static class SdkResolver
 
     public static void Initialize()
     {
+        if (string.IsNullOrEmpty(s_probingPath))
+            throw new InvalidOperationException("SDK probing path could not be found.");
+
         AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
 
         if (Directory.Exists(s_probingPath))
@@ -72,7 +75,8 @@ public static class SdkResolver
 
     private static Assembly OnAssemblyResolve(object sender, ResolveEventArgs args)
     {
-        if (args.Name.EndsWith(".xmlserializers"))
+        // args.Name is the full display name; check the suffix on the simple name
+        if (new AssemblyName(args.Name).Name.EndsWith(".XmlSerializers", StringComparison.OrdinalIgnoreCase))
         {
             return null;
         }
