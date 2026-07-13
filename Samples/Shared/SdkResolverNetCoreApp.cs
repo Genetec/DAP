@@ -113,7 +113,7 @@ public static class SdkResolver
     {
         string key = assemblyName.FullName ?? assemblyName.Name;
 
-        if (assemblyName.Name.EndsWith(".xmlserializers"))
+        if (assemblyName.Name.EndsWith(".XmlSerializers", StringComparison.OrdinalIgnoreCase))
         {
             return null;
         }
