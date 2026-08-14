@@ -225,6 +225,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchiverEventQuerySample", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthEventQuerySample", "Platform SDK\HealthEventQuerySample\HealthEventQuerySample.csproj", "{D4E5F6A7-89BC-DEF0-1234-4B5C6D7E8F9A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthStatisticsQuerySample", "Platform SDK\HealthStatisticsQuerySample\HealthStatisticsQuerySample.csproj", "{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LprHitQuerySample", "Platform SDK\LprHitQuerySample\LprHitQuerySample.csproj", "{FD31BFA9-A3B2-671D-7386-DC76767124F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoEventQuerySample", "Platform SDK\VideoEventQuerySample\VideoEventQuerySample.csproj", "{4AB27491-5EDC-4997-70E8-968861C86BC3}"
@@ -1031,6 +1033,14 @@ Global
 		{D4E5F6A7-89BC-DEF0-1234-4B5C6D7E8F9A}.Release_NET8|Any CPU.Build.0 = Release_NET8|Any CPU
 		{D4E5F6A7-89BC-DEF0-1234-4B5C6D7E8F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4E5F6A7-89BC-DEF0-1234-4B5C6D7E8F9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}.Debug_NET8|Any CPU.ActiveCfg = Debug_NET8|Any CPU
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}.Debug_NET8|Any CPU.Build.0 = Debug_NET8|Any CPU
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}.Release_NET8|Any CPU.ActiveCfg = Release_NET8|Any CPU
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}.Release_NET8|Any CPU.Build.0 = Release_NET8|Any CPU
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD31BFA9-A3B2-671D-7386-DC76767124F7}.Debug_NET8|Any CPU.ActiveCfg = Debug_NET8|Any CPU
 		{FD31BFA9-A3B2-671D-7386-DC76767124F7}.Debug_NET8|Any CPU.Build.0 = Debug_NET8|Any CPU
 		{FD31BFA9-A3B2-671D-7386-DC76767124F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -1213,6 +1223,7 @@ Global
 		{DA2456C5-B1E6-445C-A786-8CDAFE61C435} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{C3D4E5F6-A789-BCDE-F012-3A4B5C6D7E8F} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{D4E5F6A7-89BC-DEF0-1234-4B5C6D7E8F9A} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
+		{5CB0B7A0-A7CF-4483-8DD4-7F1A80D67CAC} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{FD31BFA9-A3B2-671D-7386-DC76767124F7} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{4AB27491-5EDC-4997-70E8-968861C86BC3} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 		{1478E835-99CA-0A1B-5E34-6075EE5D9F44} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
@@ -1263,6 +1274,7 @@ Global
 		Shared\Shared.projitems*{544f00a8-8bea-4591-86da-5bd489c3315c}*SharedItemsImports = 5
 		Shared\Shared.projitems*{5a217bbf-eafa-4f52-b81a-02c4232da68e}*SharedItemsImports = 5
 		Shared\Shared.projitems*{5a3ca774-e381-4e87-b8d9-091644b52222}*SharedItemsImports = 5
+		Shared\Shared.projitems*{5cb0b7a0-a7cf-4483-8dd4-7f1a80d67cac}*SharedItemsImports = 5
 		Shared\Shared.projitems*{5d7b3be5-9b6a-4723-a316-78918ade866a}*SharedItemsImports = 5
 		Shared\Shared.projitems*{5e1abc70-44e0-437c-a9ea-90bfd7bb7449}*SharedItemsImports = 5
 		Shared\Shared.projitems*{62ff8f2f-fe3a-4c9e-ab42-fc58184971e0}*SharedItemsImports = 5
