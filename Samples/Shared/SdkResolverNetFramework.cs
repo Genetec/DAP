@@ -28,8 +28,23 @@ public static class SdkResolver
         if (Directory.Exists(s_probingPath))
         {
             Environment.CurrentDirectory = s_probingPath;
+
+            // Native SDK binaries (codecs, hardware decoders, ...) are found by the OS loader through its standard
+            // search path, not through AssemblyResolve. SDK layouts that ship them per architecture place them in
+            // the x64\ or x86\ subfolder instead of the SDK root, so make the subfolder matching the process
+            // architecture visible to the OS loader as well. The SDK root stays the current directory for layouts
+            // without architecture subfolders.
+            string architectureFolder = GetArchitectureFolder(s_probingPath);
+            if (Directory.Exists(architectureFolder))
+            {
+                string path = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+                Environment.SetEnvironmentVariable("PATH", architectureFolder + Path.PathSeparator + path);
+            }
         }
     }
+
+    private static string GetArchitectureFolder(string probingPath) =>
+        Path.Combine(probingPath, Environment.Is64BitProcess ? "x64" : "x86");
 
     private static string GetProbingPath()
     {
@@ -113,19 +128,16 @@ public static class SdkResolver
             yield return Path.Combine(probingPath, parsedAssemblyName.CultureInfo.Name, $"{parsedAssemblyName.Name}.dll");
         }
 
+        // Prefer the copy that matches the process architecture (x64\ or x86\) over the SDK root. SDK layouts that
+        // ship the mixed-mode interop assemblies (SRTP, codecs, decoders, ...) per architecture place them in those
+        // subfolders, and a root copy is not guaranteed to match the process architecture. The SDK root remains
+        // the fallback for layouts that have no architecture subfolders.
+        string architectureFolder = GetArchitectureFolder(probingPath);
+        yield return Path.Combine(architectureFolder, $"{parsedAssemblyName.Name}.dll");
+        yield return Path.Combine(architectureFolder, $"{parsedAssemblyName.Name}.exe");
+
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.dll");
         yield return Path.Combine(probingPath, $"{parsedAssemblyName.Name}.exe");
-
-        if (Environment.Is64BitProcess)
-        {
-            yield return Path.Combine(probingPath, "x64", $"{parsedAssemblyName.Name}.dll");
-            yield return Path.Combine(probingPath, "x64", $"{parsedAssemblyName.Name}.exe");
-        }
-        else
-        {
-            yield return Path.Combine(probingPath, "x86", $"{parsedAssemblyName.Name}.dll");
-            yield return Path.Combine(probingPath, "x86", $"{parsedAssemblyName.Name}.exe");
-        }
     }
 }
 

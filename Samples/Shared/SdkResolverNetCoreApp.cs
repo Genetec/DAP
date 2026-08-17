@@ -196,19 +196,14 @@ public static class SdkResolver
             yield return Path.Combine(probingPath, assemblyName.CultureInfo.Name, $"{assemblyName.Name}.dll");
         }
 
+        // Prefer the copy that matches the process architecture (x64\ or x86\) over the SDK root; the root
+        // remains the fallback for layouts without architecture subfolders (see SdkResolverNetFramework.cs).
+        string architectureFolder = Path.Combine(probingPath, Environment.Is64BitProcess ? "x64" : "x86");
+        yield return Path.Combine(architectureFolder, $"{assemblyName.Name}.dll");
+        yield return Path.Combine(architectureFolder, $"{assemblyName.Name}.exe");
+
         yield return Path.Combine(probingPath, $"{assemblyName.Name}.dll");
         yield return Path.Combine(probingPath, $"{assemblyName.Name}.exe");
-
-        if (Environment.Is64BitProcess)
-        {
-            yield return Path.Combine(probingPath, "x64", $"{assemblyName.Name}.dll");
-            yield return Path.Combine(probingPath, "x64", $"{assemblyName.Name}.exe");
-        }
-        else
-        {
-            yield return Path.Combine(probingPath, "x86", $"{assemblyName.Name}.dll");
-            yield return Path.Combine(probingPath, "x86", $"{assemblyName.Name}.exe");
-        }
     }
 
     private static string GetProbingPath()
