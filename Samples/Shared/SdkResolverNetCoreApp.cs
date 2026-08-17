@@ -1,7 +1,7 @@
 // Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
-#if NET8_0
+#if NET8_0_OR_GREATER
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -50,14 +50,24 @@ public static class SdkResolver
                 using var stream = File.OpenRead(depsFile);
                 using var doc = JsonDocument.Parse(stream);
 
-                if (!doc.RootElement.TryGetProperty("targets", out var targets))
+                // Validate the node kinds before enumerating: TryGetProperty/EnumerateObject throw
+                // InvalidOperationException on non-object nodes, which would abort Initialize()
+                // because of a single structurally unexpected deps.json file.
+                if (doc.RootElement.ValueKind != JsonValueKind.Object
+                    || !doc.RootElement.TryGetProperty("targets", out var targets)
+                    || targets.ValueKind != JsonValueKind.Object)
                     continue;
 
                 foreach (var target in targets.EnumerateObject())
                 {
+                    if (target.Value.ValueKind != JsonValueKind.Object)
+                        continue;
+
                     foreach (var package in target.Value.EnumerateObject())
                     {
-                        if (!package.Value.TryGetProperty("runtime", out var runtime))
+                        if (package.Value.ValueKind != JsonValueKind.Object
+                            || !package.Value.TryGetProperty("runtime", out var runtime)
+                            || runtime.ValueKind != JsonValueKind.Object)
                             continue;
 
                         foreach (var runtimeEntry in runtime.EnumerateObject())
@@ -85,7 +95,7 @@ public static class SdkResolver
                                 var packageParts = package.Name.Split('/');
                                 if (packageParts.Length == 2)
                                 {
-                                    var packagePath = Path.Combine(nugetCache, packageParts[0].ToLowerInvariant(), packageParts[1], runtimeName);
+                                    var packagePath = Path.Combine(nugetCache, packageParts[0].ToLowerInvariant(), packageParts[1].ToLowerInvariant(), runtimeName);
                                     if (File.Exists(packagePath))
                                     {
                                         index[dllName] = packagePath;
@@ -104,6 +114,10 @@ public static class SdkResolver
             {
                 // Skip files that cannot be read
             }
+            catch (UnauthorizedAccessException)
+            {
+                // Skip files that cannot be read
+            }
         }
 
         return index;
@@ -113,17 +127,26 @@ public static class SdkResolver
     {
         string key = assemblyName.FullName ?? assemblyName.Name;
 
-        if (assemblyName.Name.EndsWith(".xmlserializers"))
+        if (assemblyName.Name.EndsWith(".XmlSerializers", StringComparison.OrdinalIgnoreCase))
         {
             return null;
         }
 
         Lazy<Assembly> lazy = s_loaders.GetOrAdd(key, _ => new Lazy<Assembly>(() => LoadAssembly(context, assemblyName)));
 
-        Assembly assembly = lazy.Value;
-
-        if (assembly is null)
-            s_loaders.TryRemove(key, out _);
+        Assembly assembly = null;
+        try
+        {
+            assembly = lazy.Value;
+        }
+        finally
+        {
+            // Only keep successful loads cached. A Lazy<T> caches a thrown exception forever, so a
+            // failed or null load must be evicted to allow a later retry. Remove this specific entry
+            // (key + value) so a newer entry added concurrently by another thread is not discarded.
+            if (assembly is null)
+                s_loaders.TryRemove(new KeyValuePair<string, Lazy<Assembly>>(key, lazy));
+        }
 
         return assembly;
     }
@@ -173,19 +196,14 @@ public static class SdkResolver
             yield return Path.Combine(probingPath, assemblyName.CultureInfo.Name, $"{assemblyName.Name}.dll");
         }
 
+        // Prefer the copy that matches the process architecture (x64\ or x86\) over the SDK root; the root
+        // remains the fallback for layouts without architecture subfolders (see SdkResolverNetFramework.cs).
+        string architectureFolder = Path.Combine(probingPath, Environment.Is64BitProcess ? "x64" : "x86");
+        yield return Path.Combine(architectureFolder, $"{assemblyName.Name}.dll");
+        yield return Path.Combine(architectureFolder, $"{assemblyName.Name}.exe");
+
         yield return Path.Combine(probingPath, $"{assemblyName.Name}.dll");
         yield return Path.Combine(probingPath, $"{assemblyName.Name}.exe");
-
-        if (Environment.Is64BitProcess)
-        {
-            yield return Path.Combine(probingPath, "x64", $"{assemblyName.Name}.dll");
-            yield return Path.Combine(probingPath, "x64", $"{assemblyName.Name}.exe");
-        }
-        else
-        {
-            yield return Path.Combine(probingPath, "x86", $"{assemblyName.Name}.dll");
-            yield return Path.Combine(probingPath, "x86", $"{assemblyName.Name}.exe");
-        }
     }
 
     private static string GetProbingPath()
