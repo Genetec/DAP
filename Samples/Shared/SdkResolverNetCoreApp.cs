@@ -1,7 +1,7 @@
 // Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
-#if NET8_0_OR_GREATER
+#if NET6_0_OR_GREATER
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -214,11 +214,20 @@ public static class SdkResolver
 
         foreach (var (_, folder) in GetInstallationFolders().OrderByDescending(t => t.Version))
         {
+#if NET10_0_OR_GREATER
+            var net10 = Path.Combine(folder, "net10.0-windows");
+            if (Directory.Exists(net10)) return net10;
+#endif
+
+#if NET8_0_OR_GREATER
             var net8 = Path.Combine(folder, "net8.0-windows");
             if (Directory.Exists(net8)) return net8;
+#endif
 
+#if NET6_0_OR_GREATER
             var net6 = Path.Combine(folder, "net6.0-windows");
             if (Directory.Exists(net6)) return net6;
+#endif
         }
 
         return null;
