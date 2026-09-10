@@ -5,7 +5,7 @@ This guide demonstrates how to build a Workspace module for Security Center. Wor
 
 ## Prerequisites
 
-- **.NET Framework 4.8.1**: The Workspace SDK only supports the .NET Framework; it does not support .NET 8 yet.  
+- **.NET Framework 4.8.1 targeting pack**: The samples target `net481`. Workspace modules must target .NET Framework because Security Desk and Config Tool host them in-process on .NET Framework.
 - **Security Center SDK**: Installed with `GSC_SDK` environment variable configured
 - **Visual Studio 2022**: Version 17.6 or later for development
 - **Security Center**: Client applications (Security Desk and Config Tool) installed
@@ -239,7 +239,7 @@ This is a Security Center-specific feature configured during module registration
 **Example:**
 ```xml
 <PluginInstallation>
-  <Version>1</Version>
+  <Version>2</Version>
   <Configuration>
     <Item Key="Enabled" Value="True" />
     <Item Key="ClientModule" Value="C:\MyModule\MyModule.dll" />
@@ -334,7 +334,7 @@ REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Pl
 </Target>
 ```
 
-**Important**: This registry-based approach is for development only. For production deployment, Security Center 5.13+ uses XML configuration files instead of registry entries. See the separate "Deploying Plugins and Workspace Modules" guide for complete production deployment instructions.
+Register the `ClientModule` on each workstation that runs your extension in Security Desk or Config Tool. For deployment on Security Center 5.13 or later, use a `*.Plugin.xml` file as described in [Deploying plugins and Workspace modules](https://github.com/Genetec/DAP/wiki/plugin-sdk-deployment). Registry registration remains available for development and older deployments.
 
 The post-build registration writes to `HKEY_LOCAL_MACHINE`, so it requires administrative privileges. Run Visual Studio as an administrator when building samples that include this post-build target.
 

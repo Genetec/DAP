@@ -9,6 +9,8 @@ This sample demonstrates hosting the Genetec Web Player inside an ASP.NET Core M
 
 ## Run
 
+Install the .NET 8 SDK. This project targets `net8.0`. Configure the Media Gateway connection and certificate trust as described below, then run this command from the `GwpMinimalApiSample` folder:
+
 ```powershell
 dotnet run
 ```
@@ -69,7 +71,7 @@ The sample loads `gwp.js` from `${mediaGatewayEndpoint}/v2/files/gwp.js` so the 
 
 - This sample demonstrates a feasible hosting pattern. It is not a production-ready security design.
 - This sample has no user authentication. Anyone who can reach the application can view camera streams. A real application must add its own authentication layer to control who can access the application.
-- Media Gateway credentials are stored in `appsettings.json`. For production, use a secure configuration provider such as user secrets, Azure Key Vault, or environment variables.
+- Keep development credentials out of source control by using user secrets. For production, use a managed secret store such as Azure Key Vault. User secrets are intended for development.
 - The default SDK certificate is the Genetec development certificate intended for SDK development only.
 - A Content Security Policy meta tag restricts script sources, connections, and media to `self`, `https:`, `wss:`, and `blob:`. The policy allows `'unsafe-inline'` for scripts and styles because the page uses inline markup. The Razor Pages sample demonstrates how to use CSP nonces instead.
 - Player startup is cancellable. Clicking Stop during script load or session establishment cancels the in-flight start and cleans up any partially created player.

@@ -10,6 +10,10 @@ This sample demonstrates the feasible hosting model for the Genetec Web Player i
 
 ## Run
 
+Install the .NET 8 SDK and the Microsoft Edge WebView2 Runtime on Windows. This project targets `net8.0-windows` and runs as a standalone WPF application. It is not a module loaded by Security Desk or Config Tool.
+
+Configure the Media Gateway connection and certificate trust as described below, then run this command from the `GwpDesktopPlayerSample` folder:
+
 ```powershell
 dotnet run
 ```

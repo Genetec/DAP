@@ -2,7 +2,7 @@
 
   
 
-This repository contains sample projects using the Security Center SDK. The samples demonstrate various features and capabilities of the **Security Center SDK**.
+This repository contains Security Center SDK samples for entity management, reports, events, media, plugin roles, and client extensions. It also includes Genetec Web Player hosting samples.
 
   
 
@@ -10,7 +10,7 @@ This repository contains sample projects using the Security Center SDK. The samp
 
   
 
-Security Center is Genetec's unified security platform that blends IP security systems within a single intuitive interface to simplify operations. It combines access control, video surveillance, automatic license plate recognition, communications, and analytics into one solution, enabling organizations to enhance their security operations and gain valuable insights.
+Security Center combines access control, video surveillance, automatic license plate recognition, communications, and analytics. Use its SDKs to build standalone integrations, server-side roles, and extensions for Security Desk and Config Tool.
 
   
 
@@ -37,19 +37,21 @@ Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the pro
 -  **Install Security Center SDK**: The SDK contains the necessary libraries to build and run custom integrations. Download and install the Security Center SDK from the [Genetec Portal](https://www.genetec.com/portal).
 
    The SDK installer automatically:
-   - Creates environment variables (`GSC_SDK` for .NET Framework, `GSC_SDK_CORE` for .NET 8)
+   - Creates environment variables (`GSC_SDK` for .NET Framework, `GSC_SDK_CORE` for modern .NET)
    - Writes the installation path in Windows registry
    - Copies the Security Center SDK assemblies to the SDK directories
    
-   See [Referencing Security Center SDK Assemblies](https://github.com/Genetec/DAP/wiki/Referencing-Security-Center-SDK-Assemblies) for assembly referencing and runtime resolution details. 
+   See [Referencing Security Center SDK assemblies](https://github.com/Genetec/DAP/wiki/platform-sdk-referencing-assemblies) for assembly references, runtime resolution, and dependency deployment.
 
 -  **Development Tools**:
 
--  **Visual Studio**: Ensure you have Visual Studio 2022 version 17.6 (or later) installed.
+-  **Visual Studio**: Use Visual Studio 2022 version 17.8 or later for the existing samples. Use Visual Studio 2026 or later if you retarget a project to .NET 10.
 
--  **.NET Framework 4.8.1**: The sample projects can be built using .NET Framework 4.8.1, which is supported by all versions of Security Center.
+-  **.NET Framework targeting pack**: Install the .NET Framework 4.8.1 targeting pack for sample projects targeting `net481`.
 
 -  **.NET 8**: Some sample projects can be built using .NET 8. Platform SDK samples require **Security Center SDK 5.12.2 or later**; Plugin SDK .NET 8 support applies to server modules in **Security Center 5.13 or later**; Genetec Web Player samples target .NET 8 and do not use the .NET Security Center SDK.
+
+-  **.NET SDK**: Install the .NET 8 SDK or a later SDK that supports the sample's target. A project retargeted to .NET 10 requires the .NET 10 SDK or a later SDK that supports that target. Run `dotnet --list-sdks` to check installed SDKs.
 
   
 
@@ -128,7 +130,7 @@ See the [Media SDK README](Samples/Media%20SDK/README.md).
 
   
 
-Client-side user interface extensions that **leverage Platform SDK entities and services** to create custom components for Security Desk and Config Tool applications.
+Client-side user interface extensions that use Platform SDK entities and services to add components to Security Desk and Config Tool. These modules must target .NET Framework because they run inside the client applications.
 
   
 
@@ -265,19 +267,19 @@ The `_NET8` configurations require Security Center SDK 5.12.2 or later and `GSC_
 
 The Media SDK, Workspace SDK, and Plugin SDK sample projects in this repository target .NET Framework 4.8.1. The solution maps `Debug_NET8` and `Release_NET8` back to `Debug` and `Release` for those projects so that the solution configuration can focus on Platform SDK framework selection. The Genetec Web Player samples target .NET 8 and do not use the .NET Security Center SDK.
 
-## SDK Framework Support Matrix
+## Sample target frameworks
 
-The following table shows which .NET frameworks are supported by each SDK or sample group:
+This table describes the projects in this repository. SDK runtime support can extend beyond the targets configured in these samples.
 
-| SDK | .NET Framework 4.8.1 | .NET 8 | Notes |
-|-----|:-------------------:|:------:|-------|
-| **Genetec Web Player** | ❌ | ✅ | Targets .NET 8 only; ASP.NET Core or WPF + WebView2 |
-| **Platform SDK** | ✅ | ✅ | .NET 8 requires Security Center SDK 5.12.2+ |
-| **Media SDK** | ✅ | ❌ | .NET 8 support planned for future release |
-| **Workspace SDK** | ✅ | ❌ | Client applications use .NET Framework |
-| **Plugin SDK** | ✅ | ✅ | .NET 8 support for the `ServerModule` requires Security Center 5.13+. The `ClientModule` (Config Tool / Security Desk UI) targets .NET Framework only. See [Building .NET plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8). |
+| Sample group | Configured targets | Selection |
+|--------------|--------------------|-----------|
+| Platform SDK | `net481`, `net8.0-windows` | `Debug`/`Release` or `Debug_NET8`/`Release_NET8` |
+| Media SDK | `net481` | `Debug` or `Release` |
+| Workspace SDK | `net481` | `Debug` or `Release` |
+| Plugin SDK | `net481` | `Debug` or `Release` |
+| Genetec Web Player | `net8.0` for web projects; `net8.0-windows` for the desktop project | `Debug` or `Release` |
 
-**Important**: Only Platform SDK samples in this repository are configured to multi-target. The Plugin, Workspace, and Media SDK samples target .NET Framework 4.8.1 exclusively, even where the SDK itself supports additional runtimes (see Plugin SDK row above).
+The Platform SDK samples select one target per build configuration. The solution does not define a .NET 10 configuration. For guidance on retargeting your own application, see [Migrating a Platform SDK application to modern .NET](https://github.com/Genetec/DAP/wiki/platform-sdk-migrating-to-modern-dotnet).
 
   
 
@@ -291,6 +293,22 @@ Open `Samples/Genetec.Dap.CodeSamples.sln` and select one of the existing soluti
 Run Visual Studio as an administrator when building the full solution if you want Workspace SDK and Plugin SDK development registration to succeed.
 
   
+
+## Building modern .NET plugins
+
+The Plugin SDK samples in this repository target .NET Framework. For a modern .NET integration, choose the project and deployment instructions for the Security Center version where the role will run.
+
+### Security Center 5.14 and later
+
+Build a modern .NET ServerModule for server-side logic and an optional .NET Framework ClientModule for custom UI in Config Tool or Security Desk. Register the ServerModule on the server hosting the role and the ClientModule on workstations that use its UI. Security Center 5.14.0 supports .NET 8 role plugins; .NET 10 role hosting requires 5.14.1 or later.
+
+See [Building plugins for Security Center 5.14 and later](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8#security-center-514-and-later) and [Deploying plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-deployment#security-center-514-and-later), including the deployment requirement for modules that declare custom privileges.
+
+### Security Center 5.13
+
+Include a .NET Framework Client discovery assembly alongside the modern .NET ServerModule on the server. Config Tool requests the plugin list from that server. Keep any ClientModule targeting .NET Framework for its client-side UI.
+
+See [Building plugins for Security Center 5.13](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8#security-center-513) for the project structures and registration requirements.
 
 ## Documentation
 
