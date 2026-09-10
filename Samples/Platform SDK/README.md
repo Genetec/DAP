@@ -117,13 +117,17 @@ All samples follow consistent authentication patterns:
 - **Security Center SDK**: Installed with environment variables configured:
   - `GSC_SDK`: Points to SDK location for .NET Framework
   - `GSC_SDK_CORE`: Points to SDK location for .NET 8 (if using .NET 8)
-- **Visual Studio 2022**: Version 17.6 or later for development
-- **Security Center**: Installed and running on your system
+- **Visual Studio 2022**: Version 17.8 or later for the .NET 8 configurations
+- **Security Center**: A running system that you can connect to
 - **Valid Security Center License**: All samples include the development SDK certificate
 
 ### .NET 8 Compatibility
 
-The Platform SDK samples support both **.NET Framework 4.8.1** and **.NET 8**, but .NET 8 support requires **Security Center 5.12.2 or later**.
+The Platform SDK samples target **.NET Framework 4.8.1** or **.NET 8 for Windows**, depending on the build configuration. The .NET 8 configurations require **Security Center SDK 5.12.2 or later**.
+
+Install the .NET Framework 4.8.1 targeting pack for `net481`, or the .NET 8 SDK for `net8.0-windows`. Run `dotnet --list-sdks` to check the installed .NET SDKs.
+
+These projects do not include a .NET 10 build configuration. To retarget your own application, see [Migrating to modern .NET](https://github.com/Genetec/DAP/wiki/platform-sdk-migrating-to-modern-dotnet).
 
 #### Build Configuration Model
 
@@ -138,8 +142,8 @@ The projects use explicit build configurations for framework targeting:
 
 The build system checks these environment variables:
 
-- **`GSC_SDK`**: Points to .NET Framework SDK (legacy, works with all SC versions)
-- **`GSC_SDK_CORE`**: Points to .NET 8 SDK (requires SC 5.12.2+)
+- **`GSC_SDK`**: Points to the Security Center SDK assemblies for .NET Framework.
+- **`GSC_SDK_CORE`**: Points to the Security Center SDK assemblies for modern .NET. For these configurations, use the SDK's `net8.0-windows` folder.
 
 #### Technical Implementation
 
@@ -175,6 +179,8 @@ The build process includes automatic validation that:
 
 ### Building the Samples
 
+Run the following commands from an individual sample project folder, such as `Samples/Platform SDK/CardholderSample`.
+
 #### Default .NET Framework Build
 ```bash
 # Builds .NET Framework 4.8.1
@@ -196,7 +202,7 @@ dotnet run -c Debug_NET8
 ```
 
 ### Running a Sample
-1. **Update Connection Parameters**: Edit the hardcoded connection values in the sample to match your Security Center setup
+1. Edit the connection values in [SampleBase.cs](../Shared/SampleBase.cs) for samples that inherit from `SampleBase`. For other samples, edit their connection code.
 2. **Build and Run**: Use Visual Studio or the dotnet commands above to execute the sample
 3. **Observe the Output**: Each sample provides console output explaining what it's demonstrating
 

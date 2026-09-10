@@ -4,7 +4,7 @@ The Media SDK extends the Platform SDK with comprehensive video capabilities for
 
 ## Prerequisites
 
-- **.NET Framework 4.8.1**: The Media SDK only supports the .NET Framework; it does not support .NET 8 yet.  
+- **.NET Framework 4.8.1 targeting pack**: The Media SDK requires .NET Framework. The samples in this repository target .NET Framework 4.8.1.
 - **Security Center SDK**: Installed with `GSC_SDK` environment variable configured
 - **Visual Studio 2022**: Version 17.6 or later for development
 - **Security Center**: Client applications (Security Desk and Config Tool) installed
