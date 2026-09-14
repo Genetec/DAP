@@ -52,12 +52,26 @@ By using the Plugin SDK, developers can create powerful, deeply integrated solut
 
 ## Prerequisites
 
-- **.NET Framework 4.8.1 or .NET 8**: The Plugin SDK supports both runtimes. A plugin's `ServerModule` (the role logic) can target .NET Framework 4.8.1 (any Security Center version), .NET 8 (Security Center 5.13 or later), or .NET 10 (Security Center 5.14.1 or later). The `ClientModule`, when present, must target .NET Framework 4.8.1 because Config Tool and Security Desk run on .NET Framework. See [Building .NET plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8) for project-structure options.
-- **Security Center SDK**: Installed with the `GSC_SDK` environment variable configured (and `GSC_SDK_CORE` for builds targeting .NET 8 or later, available in Security Center 5.13+).
+- **.NET Framework 4.8.1 targeting pack**: The Plugin SDK samples in this repository target `net481`. Selecting a solution configuration named `_NET8` does not retarget these projects.
+- **Security Center SDK**: Installed with the `GSC_SDK` environment variable pointing to its .NET Framework assemblies.
 - **Visual Studio 2022**: Version 17.6 or later for development (must run as Administrator)
 - **Security Center**: Installed and running on your system
 - **Valid Security Center License**: All samples include the development SDK certificate
 
+
+## Building modern .NET plugins
+
+Choose your `ServerModule` target framework based on the Security Center version deployed on the role server. .NET 8 hosting is available from Security Center 5.13, and .NET 10 hosting is available from Security Center 5.14.1. A `ClientModule` must target .NET Framework because Security Desk and Config Tool host it in-process.
+
+### Security Center 5.14 and later
+
+Deploy and register the `ServerModule` on each server assigned to the role. Add a `ClientModule` on the workstations only if your integration provides a Security Desk or Config Tool extension.
+
+### Security Center 5.13
+
+For a modern .NET `ServerModule`, also deploy and register a .NET Framework `Client` discovery assembly on the role server. This assembly allows Security Center to discover the plugin type. A `ClientModule` for user interface extensions is a separate component.
+
+For project setup, migration steps, and the custom-privilege deployment exception, see [Building .NET plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8) and [Deploying plugins and Workspace modules](https://github.com/Genetec/DAP/wiki/plugin-sdk-deployment).
 
 ## Creating a Plugin
 

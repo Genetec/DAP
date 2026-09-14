@@ -1,6 +1,6 @@
 # GWP Razor Pages Sample
 
-This sample demonstrates hosting the Genetec Web Player inside an ASP.NET Core Razor Pages application with production-ready CSP nonce support:
+This sample demonstrates hosting the Genetec Web Player inside an ASP.NET Core Razor Pages application with Content Security Policy (CSP) nonces:
 
 - ASP.NET Core serves a Razor Page that loads and runs GWP.
 - The page is server-rendered, so the Media Gateway endpoint and server version are injected directly into the markup. No client-side configuration fetch is needed.
@@ -14,6 +14,8 @@ Compared to the Minimal API sample, this sample adds:
 - **Server-rendered configuration** injected directly into the Razor markup, removing the need for a separate `/api/config` endpoint.
 
 ## Run
+
+Install the .NET 8 SDK. This project targets `net8.0`. Configure the Media Gateway connection and certificate trust as described below, then run this command from the `GwpRazorPagesSample` folder:
 
 ```powershell
 dotnet run
@@ -86,7 +88,7 @@ Because the nonce is unique per request and cryptographically random, inline scr
 
 - This sample demonstrates a feasible hosting pattern. It is not a production-ready security design.
 - This sample has no user authentication. Anyone who can reach the application can view camera streams. A real application must add its own authentication layer to control who can access the application.
-- Media Gateway credentials are stored in `appsettings.json`. For production, use a secure configuration provider such as user secrets, Azure Key Vault, or environment variables.
+- Keep development credentials out of source control by using user secrets. For production, use a managed secret store such as Azure Key Vault. User secrets are intended for development.
 - The default SDK certificate is the Genetec development certificate intended for SDK development only.
 - Player startup is cancellable. Clicking Stop during script load or session establishment cancels the in-flight start and cleans up any partially created player.
 - Browser autoplay rules apply to audio.
