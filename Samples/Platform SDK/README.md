@@ -7,7 +7,7 @@ The Platform SDK provides the foundation for all Security Center integrations, o
 
 ### The Engine Class
 
-The `Engine` class is the central component you'll see in every Platform SDK sample. It serves as the main entry point for all SDK operations and provides:
+The `Engine` class is the central component you'll see in every Platform SDK sample. It is the main entry point for all SDK operations and provides:
 
 - **Connection Management**: All samples use the Engine to authenticate and maintain connections to Security Center
 - **Entity Access**: Samples access the entity cache and retrieve Security Center objects through the Engine
@@ -41,10 +41,10 @@ Most Platform SDK samples inherit from the `SampleBase` class, which implements 
 
 ### What SampleBase Provides
 
-**The SampleBase class handles common SDK operations so individual samples can focus on demonstrating specific features:**
+The SampleBase class handles common SDK operations so individual samples can focus on demonstrating specific features:
 
 1. **SDK Initialization**: Automatically calls `SdkResolver.Initialize()` to configure assembly loading
-2. **Connection Management**: Handles server connection and authentication with comprehensive error handling
+2. **Connection Management**: Handles server connection and authentication with error handling
 3. **Event Handling**: Sets up connection state monitoring and provides user feedback
 4. **Cancellation Support**: Implements Ctrl+C handling for graceful shutdown
 5. **Resource Cleanup**: Ensures proper disposal of SDK resources when samples exit
@@ -103,7 +103,7 @@ const string username = "admin";
 const string password = "";
 ```
 
-This hardcoded approach makes samples easy to run but demonstrates basic connection concepts. The samples focus on SDK feature demonstration rather than production-ready configuration management.
+The samples use hardcoded connection parameters for convenience and to keep the examples focused on SDK concepts. Production applications should use a separate configuration mechanism.
 
 ### Authentication Patterns in Samples
 All samples follow consistent authentication patterns:
@@ -203,8 +203,8 @@ dotnet run -c Debug_NET8
 
 ### Running a Sample
 1. Edit the connection values in [SampleBase.cs](../Shared/SampleBase.cs) for samples that inherit from `SampleBase`. For other samples, edit their connection code.
-2. **Build and Run**: Use Visual Studio or the dotnet commands above to execute the sample
-3. **Observe the Output**: Each sample provides console output explaining what it's demonstrating
+2. Use Visual Studio or the dotnet commands above to build and run the sample.
+3. Observe the console output explaining what the sample demonstrates.
 
 ### Troubleshooting
 
