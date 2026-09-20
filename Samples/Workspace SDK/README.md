@@ -1,6 +1,6 @@
 # What is the Workspace SDK?
 
-The Workspace SDK is a development framework that allows you to extend Security Center's client applications (Security Desk and Config Tool) with custom user interface components. It enables developers to create seamless integrations that feel like native parts of the Security Center experience.
+The Workspace SDK is a development framework that allows you to extend Security Center's client applications, Security Desk and Config Tool, with custom user interface components. These components integrate into the client user interface.
 This guide demonstrates how to build a Workspace module for Security Center. Workspace modules allow you to extend Security Desk and Config Tool with custom UI tasks, panels, widgets, options, and other components.
 
 ## Prerequisites
@@ -47,7 +47,7 @@ Security Center has multiple client applications (Security Desk and Config Tool)
 The static constructor with `AssemblyResolver.Initialize()` is only needed when your module depends on third-party libraries or custom assemblies that are not part of the Genetec SDK. The SDK assemblies are automatically resolved by Security Center.
 
 ### Shared Process and AppDomain Architecture
-All workspace modules loaded by Security Desk (or Config Tool) run within the same Windows process and share the same .NET AppDomain. This has several important implications:
+All workspace modules loaded by Security Desk (or Config Tool) run within the same Windows process and share the same .NET AppDomain. Dependency version conflicts and unhandled exceptions in one module can affect other modules:
 
 **What this means:**
 - When Security Desk or Config Tool starts, it loads ALL registered workspace modules into its single process
@@ -75,7 +75,7 @@ All workspace modules loaded by Security Desk (or Config Tool) run within the sa
 
 ## Module Lifecycle and Resource Management
 
-Understanding the workspace module lifecycle is crucial for proper resource management.
+Use the workspace module lifecycle to plan resource initialization and cleanup.
 
 ### Lifecycle Events
 
@@ -218,7 +218,7 @@ Workspace.Options.Register(options);
 
 ## Dependency Resolution: AddFoldersToAssemblyProbe vs AssemblyResolver
 
-There are two mechanisms for resolving non-SDK dependencies in workspace modules, and understanding when to use each is important.
+Workspace modules can resolve non-SDK dependencies with AddFoldersToAssemblyProbe or AssemblyResolver.
 
 ### AddFoldersToAssemblyProbe
 
@@ -280,10 +280,8 @@ public class SampleModule : Module
 ### Which Should You Use?
 
 **Start with AddFoldersToAssemblyProbe** because:
-- Simpler to configure (no code required)
+- No code required
 - Handled by Security Center automatically
-- Works for 95% of scenarios
-- Less prone to errors
 
 **Use AssemblyResolver when:**
 - AddFoldersToAssemblyProbe doesn't work for your scenario
@@ -293,14 +291,13 @@ public class SampleModule : Module
 
 ### Can You Use Both?
 
-**No, typically you choose one approach:**
-- If you set `AddFoldersToAssemblyProbe=True`, Security Center will usually find your dependencies automatically
-- If that's not sufficient, implement a custom AssemblyResolver
-- Using both can lead to confusion about which mechanism is resolving which assemblies
+You can use both mechanisms. When `AddFoldersToAssemblyProbe=True` resolves your module's dependencies, no custom resolver is needed. Add a custom resolver only when you need additional loading behavior.
+
+The sample resolver loads DLLs from its own assembly's directory. Searching other locations or implementing different loading rules requires adapting its implementation.
 
 **Important**: Only implement assembly resolution if your module uses third-party or custom libraries beyond the Genetec SDK.
 
-If your module uses non-SDK dependencies:
+If you choose to use the sample resolver:
 
 1. Place all third-party DLLs in the same directory as your workspace module DLL
 2. Register an assembly resolver in a static constructor
@@ -348,7 +345,7 @@ The post-build registration writes to `HKEY_LOCAL_MACHINE`, so it requires admin
 ### Dependency Management
 
 #### Shared AppDomain
-All workspace modules share the same process and AppDomain. This creates a unique challenge not found in typical application development.
+All workspace modules share the same process and AppDomain. Their dependencies can conflict, as shown below.
 
 **What happens with version conflicts:**
 ```
@@ -422,7 +419,7 @@ Workspace.Components.Register(actionBuilder);
 
 ## Module vs Plugin Distinction
 
-Understanding the difference between workspace modules and plugins is crucial for choosing the right approach for your integration.
+Choose a workspace module for client-side user interface extensions and a plugin for server-side functionality.
 
 ### Workspace Modules
 - **Execution location**: Run inside Security Desk or Config Tool (client-side only)

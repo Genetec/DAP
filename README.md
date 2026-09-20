@@ -20,7 +20,7 @@ Security Center combines access control, video surveillance, automatic license p
 
 ### 1. **Join the Development Acceleration Program (DAP)**:
 
-Visit [Genetec's DAP](https://www.genetec.com/partners/sdk-dap) and join the program. This will provide you with access to the SDK documentation, installer, and a development license for Security Center.
+Visit [Genetec DAP](https://www.genetec.com/partners/sdk-dap) and join the program. This will provide you with access to the SDK documentation, installer, and a development license for Security Center.
 
   
 
@@ -74,7 +74,7 @@ The sample projects in this repository are organized into four Security Center S
 
   
 
-The **core samples** that demonstrate fundamental Security Center SDK functionality. These samples provide the foundation that all other SDKs build upon, including entity management, event monitoring, and reporting.
+The core samples demonstrate fundamental Security Center SDK functionality. These samples provide the foundation that all other SDKs build upon, including entity management, event monitoring, and reporting.
 
   
 
@@ -102,7 +102,7 @@ The **core samples** that demonstrate fundamental Security Center SDK functional
 
   
 
-Video and audio processing samples that **extend the Platform SDK** with specialized media functionality. These samples demonstrate streaming, playback, PTZ control, and media management capabilities.
+Video and audio processing samples extend the Platform SDK with specialized media functionality. These samples demonstrate streaming, playback, PTZ control, and media management capabilities.
 
   
 
@@ -158,7 +158,7 @@ See the [Workspace SDK README](Samples/Workspace%20SDK/README.md).
 
   
 
-Server-side plugin development samples that **build upon Platform SDK infrastructure** to create custom roles with database support, failover capabilities, and deep system integration.
+Server-side plugin development samples build upon Platform SDK infrastructure to create custom roles with database support, failover capabilities, and system integration.
 
   
 
@@ -193,7 +193,7 @@ Hosting samples for the **Genetec Web Player** (GWP), the JavaScript video playe
 
 - WPF desktop application that hosts GWP in an embedded `WebView2` control, with token retrieval performed natively in .NET
 - ASP.NET Core Minimal API application that serves a static page and proxies token requests through a server-side endpoint
-- ASP.NET Core Razor Pages application that adds production-ready CSP nonce support and server-rendered configuration on top of the Minimal API pattern
+- ASP.NET Core Razor Pages application that adds CSP nonce support and server-rendered configuration on top of the Minimal API pattern
 
   
 

@@ -1,14 +1,14 @@
 # Plugin SDK
 
-The Plugin SDK for Genetec Security Center allows technology partners to create advanced, fully embedded integrations that function as custom roles within the system.
+The Plugin SDK for Genetec Security Center allows technology partners to create fully embedded integrations that function as custom roles within the system.
 
 ## Understanding Roles in Security Center
 
-Before diving into plugin development, it's important to understand the concept of Roles in Security Center, as plugins function as custom roles within the system.
+Plugins function as custom roles in Security Center.
 
 ### What are Roles?
 
-In Security Center, Roles are components that perform specific tasks within the system. Each role is associated with one or more servers, which host and execute the role's functions. Roles are essential for various operations such as managing video units, archiving data, or synchronizing users with corporate directories.
+In Security Center, Roles are components that perform specific tasks within the system. Each role is associated with one or more servers, which host and execute the role's functions. Role operations include managing video units, archiving data, or synchronizing users with corporate directories.
 
 ### Core Features of Roles
 
@@ -26,7 +26,7 @@ When you develop a plugin using the Plugin SDK, you're essentially creating a cu
 - Automatic server assignment and failover support
 - Built-in health monitoring and database support
 
-This architecture allows your plugin to seamlessly integrate with Security Center's existing infrastructure and benefit from its robust server-side capabilities.
+This architecture allows your plugin to integrate with Security Center's existing infrastructure and use its server-side capabilities.
 
 ## Overview of the Plugin SDK
 
@@ -36,19 +36,19 @@ This architecture allows your plugin to seamlessly integrate with Security Cente
   - Failover support
   - Health monitoring (status, history, and statistics)
   - Database support
-- Integrate with front-end components (Config Tool and Security Desk) for a seamless user experience.
+- Integrate with front-end components (Config Tool and Security Desk).
 
 ### Key Benefits
 - Full embedding within Security Center as a custom role
-- Automatic inclusion of robust server-side functionality
-- Seamless integration with Security Center's user interface
+- Automatic inclusion of server-side functionality
+- Integration with Security Center's user interface
 - Reduced development time due to inherited role features
 
 ### Important Requirements
 1. **SDK Support Plan**: Creating a Security Center plugin requires purchasing a Gold SDK support plan.
 2. **Licensing**: A specific part number must be included in the end-user's Security Center license to enable plugin functionality.
 
-By using the Plugin SDK, developers can create powerful, deeply integrated solutions that extend Security Center's capabilities while leveraging built-in role features and maintaining consistency with the core product.
+By using the Plugin SDK, developers can create integrated solutions that extend Security Center's capabilities while using built-in role features and maintaining consistency with the core product.
 
 ## Prerequisites
 
@@ -83,7 +83,7 @@ To create a plugin for Security Center, follow these steps:
 4. Implement the required abstract members in both the plugin class and the PluginDescriptor class.
 5. Ensure that your PluginDescriptor class defines a unique PluginGuid for your plugin.
 
-Here's a more detailed example of how your plugin classes should be structured:
+The example shows the structure of the plugin and descriptor classes:
 
 ```csharp
 using System;
@@ -149,7 +149,7 @@ Remember to replace `YourPlugin`, `YourPluginDescriptor`, and `"YOUR-UNIQUE-GUID
 
 ## Post-Build Process
 
-The project file includes a post-build event that automatically registers the plugin with Security Center on the development machine. This process is important for testing and using your plugin.
+The project file includes a post-build event that automatically registers the plugin with Security Center on the development machine for testing and use.
 
 ### Post-Build Event Details
 
@@ -188,13 +188,11 @@ This command performs the following actions:
 - If you rename your project or change the output path, these registry entries will be updated accordingly in subsequent builds.
 - Remember to remove or modify these registry entries if you uninstall or move your plugin.
 
-By including this post-build event, the template ensures that your plugin is ready for testing immediately after each successful build. This streamlines the development and testing process for Security Center plugins.
+The post-build event prepares the plugin for testing immediately after each successful build.
 
 ### Additional considerations:
 
-When developing plugins for Security Center, it's important to understand how the Genetec Server interacts with plugin assemblies. This knowledge will help you avoid compilation issues and optimize your development workflow.
-
-When the Genetec Server service starts, it loads plugin assemblies. This process has important implications for development:
+When the Genetec Server service starts, it loads plugin assemblies. Loaded assembly files can prevent rebuilding the plugin, and loading an updated version typically requires restarting the service:
 
 1. **File Usage**: The Genetec Server process opens and loads the plugin assembly files. This can prevent other processes, including your development environment, from modifying these files.
 2. **Restart Requirement**: For Security Center to load an updated version of your plugin, the Genetec Server service typically needs to be restarted. This allows it to release the existing assembly files and load the new versions.
@@ -237,11 +235,9 @@ If you encounter errors related to file access during compilation:
 2. Check for any other processes that might be accessing your assembly files.
 3. In rare cases, a system restart might be necessary to fully release all file handles.
 
-By understanding these aspects of how Security Center manages plugin assemblies, you can develop more efficiently and troubleshoot issues more effectively.
-
 ## Debugging Techniques for Plugins
 
-Debugging plugins for Security Center requires some specific techniques. Here are effective methods to debug your plugin:
+To debug a plugin, launch a debugger from its code or attach to its running process.
 
 ### 1. Using Debugger.Launch()
 
@@ -322,7 +318,7 @@ Plugins can leverage Security Center's database infrastructure through the `IPlu
 
 #### Overview
 
-The `IPluginDatabaseSupport` interface is an important component in the plugin architecture that enables database operations for plugins. It provides a standardized way for plugins to interact with their associated databases.
+The `IPluginDatabaseSupport` interface enables database operations for plugins and provides a standardized way for plugins to interact with their associated databases.
 
 #### Purpose
 
@@ -375,7 +371,7 @@ public class YourDatabaseManager : DatabaseManager
 
 1. **Resource Management**: Implement proper disposal of database resources such as SqlConnection and SqlCommand instances.
 2. **Connection Management**: Use the `DatabaseConfiguration` provided by the system to create database connections.
-3. **Error Handling**: Implement robust error handling in your DatabaseManager.
+3. **Error Handling**: Implement error handling in your DatabaseManager.
 
 #### Integration with Security Center
 
@@ -417,13 +413,11 @@ public class YourPlugin : Plugin, IPluginDatabaseSupport
 3. **Upgrades and Migrations**: When releasing new versions of your plugin, ensure that your upgrade scripts can handle upgrading from any previous version.
 4. **Testing**: Thoroughly test your plugin to ensure proper functionality of all database operations.
 
-By correctly implementing IPluginDatabaseSupport, you ensure that your plugin can efficiently manage its database operations. This interface is key to integrating your plugin's database needs with the broader application ecosystem.
-
 ### Understanding and Implementing GetSpecificCreationScript
 
 #### Overview
 
-The `GetSpecificCreationScript` method is a crucial component in the initialization of your plugin's database. It provides the SQL script necessary to create the initial database structure, including tables, stored procedures, and other database objects specific to your plugin.
+The `GetSpecificCreationScript` method provides the SQL script used to initialize your plugin's database structure, including tables, stored procedures, and other database objects specific to your plugin.
 
 #### Purpose
 
@@ -455,7 +449,7 @@ public override string GetSpecificCreationScript(string databaseName)
 
 #### Example Creation Script
 
-Here's an example of what a creation script might look like:
+Example creation script:
 
 ```sql
 -- Creation script for MyPlugin
@@ -521,13 +515,11 @@ By providing this script, you ensure that your plugin's database is properly ini
 - Be mindful of the script's execution time, especially for larger databases or complex structures.
 - Test your creation script thoroughly, including on different database server versions if applicable.
 
-By properly implementing the `GetSpecificCreationScript` method, you ensure that your plugin's database is correctly initialized, providing a solid foundation for your plugin's data management needs.
-
 ### Understanding and Implementing DatabaseUpgradeItem
 
 #### Overview
 
-`DatabaseUpgradeItem` is an important component for managing database schema evolution in your plugin. It allows you to define and execute database upgrades smoothly as your plugin evolves across different versions.
+`DatabaseUpgradeItem` lets you define and execute database schema upgrades across versions of your plugin.
 
 #### Purpose
 
@@ -582,7 +574,7 @@ By implementing `DatabaseUpgradeItem`, your plugin integrates with the applicati
 
 #### Example Upgrade Script
 
-Here's an example of what an upgrade script might look like:
+Example upgrade script:
 
 ```sql
 -- Upgrade script from version 50001 to 500002
@@ -608,13 +600,13 @@ BEGIN
 END
 ```
 
-By properly implementing `DatabaseUpgradeItem`, you ensure that your plugin's database schema can evolve smoothly alongside your plugin's functionality, maintaining compatibility and performance across different versions.
+`DatabaseUpgradeItem` supports database schema changes alongside plugin functionality changes, maintaining compatibility and performance across versions.
 
 ### Understanding and Implementing DatabaseCleanupThreshold
 
 #### Overview
 
-`DatabaseCleanupThreshold` is an important component in managing database maintenance for your plugin. It allows you to define rules for automatic cleanup of old data, helping to maintain optimal database performance and manage storage efficiently.
+`DatabaseCleanupThreshold` lets you define rules for automatically cleaning up old plugin data to help maintain database performance and manage storage.
 
 #### Purpose
 
@@ -673,7 +665,7 @@ public override void DatabaseCleanup(string name, int retentionPeriod)
 1. **Meaningful Names**: Choose clear, descriptive names for your cleanup thresholds.
 2. **Appropriate Defaults**: Set sensible default values for `defaultIsEnabled` and `defaultRetentionPeriod`.
 3. **Efficient Cleanup**: Implement cleanup operations efficiently to minimize impact on system performance.
-4. **Error Handling**: Implement robust error handling in your cleanup methods.
+4. **Error Handling**: Implement error handling in your cleanup methods.
 5. **Logging**: Log cleanup activities for troubleshooting purposes.
 
 #### Integration with Security Center

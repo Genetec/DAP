@@ -1,6 +1,6 @@
 # Media SDK Developer Guide
 
-The Media SDK extends the Platform SDK with comprehensive video capabilities for Security Center. It provides real-time video streaming, playback control, audio transmission, PTZ camera operations, and video export functionality. This guide explains the core concepts, classes, and architectural patterns you need to understand when working with media in Security Center integrations.
+The Media SDK extends the Platform SDK with video capabilities for Security Center. It provides real-time video streaming, playback control, audio transmission, PTZ camera operations, and video export functionality. This guide explains the core concepts, classes, and architectural patterns you need to understand when working with media in Security Center integrations.
 
 ## Prerequisites
 
@@ -167,7 +167,7 @@ The Media SDK adds specialized capabilities:
 
 #### MediaFile - Media File Information and Analysis
 
-**Purpose**: MediaFile provides comprehensive analysis and metadata extraction from media files without requiring full video playback.
+**Purpose**: MediaFile provides analysis and metadata extraction from media files without requiring full video playback.
 
 **What it does**:
 - Analyzes media file structure and metadata
