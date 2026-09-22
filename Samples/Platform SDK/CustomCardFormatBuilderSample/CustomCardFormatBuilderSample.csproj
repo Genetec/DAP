@@ -7,7 +7,6 @@
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
 		<AssemblyName>CustomCardFormatBuilderSample</AssemblyName>
 		<Description>Sample project</Description>
-		<Company>Genetec Inc.</Company>
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
 		<OutputType>Exe</OutputType>
 		<GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
@@ -22,7 +21,6 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
@@ -33,7 +31,6 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 	<!-- .NET 8 specific configurations -->
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_NET8|AnyCPU'">
@@ -45,7 +42,6 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_NET8|AnyCPU'">
@@ -56,7 +52,6 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
