@@ -6,24 +6,27 @@ namespace Genetec.Dap.CodeSamples;
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Sdk.ReportExport;
 
 public class JsonReportExporter : ReportExporter
 {
-    private readonly TextWriter m_writer;
+    private readonly JsonTextWriter m_writer;
 
     public JsonReportExporter(TextWriter writer)
     {
-        m_writer = writer;
-        m_writer.Write("[");
+        m_writer = new JsonTextWriter(writer) { Formatting = Formatting.Indented, CloseOutput = true };
+        m_writer.WriteStartArray();
     }
 
     public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
     {
         try
         {
-            string json = JsonConvert.SerializeObject(dataBlock.Data, Formatting.Indented);
-            m_writer.Write($"{json.TrimEnd(']', '\r', '\n')},");
+            foreach (JToken row in JArray.FromObject(dataBlock.Data))
+            {
+                row.WriteTo(m_writer);
+            }
             m_writer.Flush();
             return new QueryExportResult(true);
         }
@@ -37,8 +40,8 @@ public class JsonReportExporter : ReportExporter
     {
         try
         {
-            m_writer.Write("]");
-            m_writer.Close();
+            m_writer.WriteEndArray();
+            m_writer.Flush();
         }
         catch
         {
@@ -46,7 +49,7 @@ public class JsonReportExporter : ReportExporter
         }
         finally
         {
-            m_writer.Dispose();
+            m_writer.Close();
         }
     }
 }
