@@ -18,8 +18,8 @@ public class IntrusionDetectionQuerySample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        await RunIntrusionAreaQuery(engine, token);
-        await RunIntrusionUnitQuery(engine, token);
+        await RunIntrusionAreaQuery(engine);
+        await RunIntrusionUnitQuery(engine);
     }
 
     private static IntrusionDetectionRecord MapToIntrusionDetectionRecord(DataRow row) =>
@@ -36,7 +36,7 @@ public class IntrusionDetectionQuerySample : SampleBase
             InitiatorId = row.Field<Guid>(IntrusionDetectionReportQuery.InitiatorIdColumnName)
         };
 
-    private async Task RunIntrusionAreaQuery(Engine engine, CancellationToken token)
+    private async Task RunIntrusionAreaQuery(Engine engine)
     {
         Console.WriteLine("1. Intrusion Area Activity Query - Zone violations and sensor events");
         Console.WriteLine("-".PadRight(60, '-'));
@@ -82,7 +82,7 @@ public class IntrusionDetectionQuerySample : SampleBase
         Console.WriteLine();
     }
 
-    private async Task RunIntrusionUnitQuery(Engine engine, CancellationToken token)
+    private async Task RunIntrusionUnitQuery(Engine engine)
     {
         Console.WriteLine("2. Intrusion Unit Activity Query - Unit status and hardware events");
         Console.WriteLine("-".PadRight(60, '-'));

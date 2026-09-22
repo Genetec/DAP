@@ -26,9 +26,9 @@ public class VideoEventQuerySample : SampleBase
             return;
         }
 
-        await RunCameraEventQuery(engine, cameras, token);
-        await RunMotionEventQuery(engine, cameras, token);
-        await RunRecordingEventQuery(engine, cameras, token);
+        await RunCameraEventQuery(engine, cameras);
+        await RunMotionEventQuery(engine, cameras);
+        await RunRecordingEventQuery(engine, cameras);
     }
 
     private static VideoEventRecord MapToVideoEvent(DataRow row) => new()
@@ -44,16 +44,16 @@ public class VideoEventQuerySample : SampleBase
         TimeZone = row.Field<string>(VideoEventQuery.TimeZoneColumnName)
     };
 
-    private async Task RunCameraEventQuery(Engine engine, List<Camera> cameras, CancellationToken token)
+    private async Task RunCameraEventQuery(Engine engine, List<Camera> cameras)
     {
         Console.WriteLine("1. Camera Event Query");
         Console.WriteLine("-".PadRight(50, '-'));
 
-        List<VideoEventRecord> events = await QueryCameraEvents(engine, cameras, token);
+        List<VideoEventRecord> events = await QueryCameraEvents(engine, cameras);
         DisplayCameraEvents(engine, events, cameras.Count);
     }
 
-    private async Task<List<VideoEventRecord>> QueryCameraEvents(Engine engine, List<Camera> cameras, CancellationToken token)
+    private async Task<List<VideoEventRecord>> QueryCameraEvents(Engine engine, List<Camera> cameras)
     {
         var query = (CameraEventQuery)engine.ReportManager.CreateReportQuery(ReportType.CameraEvent);
         query.TimeRange.SetTimeRange(DateTime.Now.AddDays(-7), DateTime.Now);
@@ -90,16 +90,16 @@ public class VideoEventQuerySample : SampleBase
         Console.WriteLine();
     }
 
-    private async Task RunMotionEventQuery(Engine engine, List<Camera> cameras, CancellationToken token)
+    private async Task RunMotionEventQuery(Engine engine, List<Camera> cameras)
     {
         Console.WriteLine("2. Motion Event Query");
         Console.WriteLine("-".PadRight(50, '-'));
 
-        List<VideoEventRecord> events = await QueryMotionEvents(engine, cameras, token);
+        List<VideoEventRecord> events = await QueryMotionEvents(engine, cameras);
         DisplayMotionEvents(engine, events);
     }
 
-    private async Task<List<VideoEventRecord>> QueryMotionEvents(Engine engine, List<Camera> cameras, CancellationToken token)
+    private async Task<List<VideoEventRecord>> QueryMotionEvents(Engine engine, List<Camera> cameras)
     {
         var query = (MotionEventQuery)engine.ReportManager.CreateReportQuery(ReportType.MotionEvent);
         query.TimeRange.SetTimeRange(DateTime.Now.AddDays(-3), DateTime.Now);
@@ -128,16 +128,16 @@ public class VideoEventQuerySample : SampleBase
         Console.WriteLine();
     }
 
-    private async Task RunRecordingEventQuery(Engine engine, List<Camera> cameras, CancellationToken token)
+    private async Task RunRecordingEventQuery(Engine engine, List<Camera> cameras)
     {
         Console.WriteLine("3. Recording Event Query");
         Console.WriteLine("-".PadRight(50, '-'));
 
-        List<VideoEventRecord> events = await QueryRecordingEvents(engine, cameras, token);
+        List<VideoEventRecord> events = await QueryRecordingEvents(engine, cameras);
         DisplayRecordingEvents(engine, events);
     }
 
-    private async Task<List<VideoEventRecord>> QueryRecordingEvents(Engine engine, List<Camera> cameras, CancellationToken token)
+    private async Task<List<VideoEventRecord>> QueryRecordingEvents(Engine engine, List<Camera> cameras)
     {
         var query = (RecordingEventQuery)engine.ReportManager.CreateReportQuery(ReportType.RecordingEvent);
         query.TimeRange.SetTimeRange(DateTime.Now.AddDays(-2), DateTime.Now);
