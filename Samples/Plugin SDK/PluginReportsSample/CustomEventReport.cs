@@ -28,6 +28,7 @@ public static class CustomEventReport
     public const string Timestamp = "EventTimestamp";
     public const string Event = "EventId";
     public const string Message = "Message";
+    public const string ExtraHiddenPayload = "ExtraHiddenPayload";
 }
 
 [DataContract]

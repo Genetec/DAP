@@ -14,6 +14,7 @@ public sealed class CustomEventIngestion
     [DataMember(Name = "source")] public Guid? Source { get; set; }
     [DataMember(Name = "timestamp")] public string Timestamp { get; set; }
     [DataMember(Name = "message")] public string Message { get; set; }
+    [DataMember(Name = "extraHiddenPayload")] public string ExtraHiddenPayload { get; set; }
 }
 
 // One payload per report domain. Each maps to the columns of its table (see

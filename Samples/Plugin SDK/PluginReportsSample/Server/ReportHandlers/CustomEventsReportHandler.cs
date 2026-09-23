@@ -20,7 +20,7 @@ public sealed class CustomEventsReportHandler : DatabaseReportHandler<CustomQuer
 
     protected override bool IsQuerySupported(CustomQuery query) => query.CustomReportId == CustomEventReport.Id;
     protected override string TableName => "dbo.CustomEvents";
-    protected override string SelectColumns => "EventTimestamp, CustomEventId, SourceGuid, Message";
+    protected override string SelectColumns => "EventTimestamp, CustomEventId, SourceGuid, Message, ExtraHiddenPayload";
 
     protected override Task AddFiltersAsync(ICollection<string> conditions, SqlCommand command, CustomQuery query)
     {
@@ -58,6 +58,7 @@ public sealed class CustomEventsReportHandler : DatabaseReportHandler<CustomQuer
         table.Columns.Add(new DataColumn(CustomEventReport.Timestamp, typeof(DateTime)) { DateTimeMode = DataSetDateTime.Utc });
         table.Columns.Add(CustomEventReport.Event, typeof(int));
         table.Columns.Add(CustomEventReport.Message, typeof(string));
+        table.Columns.Add(CustomEventReport.ExtraHiddenPayload, typeof(string)).AllowDBNull = true;
         return table;
     }
 
@@ -68,6 +69,7 @@ public sealed class CustomEventsReportHandler : DatabaseReportHandler<CustomQuer
         row[CustomEventReport.Timestamp] = reader.GetUtcDateTime("EventTimestamp");
         row[CustomEventReport.Event] = -reader.GetInt32("CustomEventId"); // The native Event column resolves negative IDs as custom events.
         row[CustomEventReport.Message] = reader.GetString("Message");
+        row[CustomEventReport.ExtraHiddenPayload] = (object)reader.GetStringOrNull("ExtraHiddenPayload") ?? DBNull.Value;
         table.Rows.Add(row);
     }
 }

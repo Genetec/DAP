@@ -414,7 +414,8 @@ CREATE TABLE dbo.CustomEvents
     EventTimestamp DATETIME2 NOT NULL,
     CustomEventId INT NOT NULL,
     SourceGuid UNIQUEIDENTIFIER NOT NULL,
-    Message NVARCHAR(MAX) NOT NULL
+    Message NVARCHAR(MAX) NOT NULL,
+    ExtraHiddenPayload NVARCHAR(MAX) NULL
 );
 
 GO
@@ -427,12 +428,13 @@ CREATE PROCEDURE dbo.InsertCustomEvent
     @EventTimestamp DATETIME2,
     @CustomEventId INT,
     @SourceGuid UNIQUEIDENTIFIER,
-    @Message NVARCHAR(MAX)
+    @Message NVARCHAR(MAX),
+    @ExtraHiddenPayload NVARCHAR(MAX) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
-    INSERT INTO dbo.CustomEvents (EventTimestamp, CustomEventId, SourceGuid, Message)
-    VALUES (@EventTimestamp, @CustomEventId, @SourceGuid, @Message);
+    INSERT INTO dbo.CustomEvents (EventTimestamp, CustomEventId, SourceGuid, Message, ExtraHiddenPayload)
+    VALUES (@EventTimestamp, @CustomEventId, @SourceGuid, @Message, @ExtraHiddenPayload);
 END;
 
 GO

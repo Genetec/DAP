@@ -40,13 +40,14 @@ Send a record to `POST /custom-events` with this JSON shape. Replace the event I
   "customEventId": 4,
   "source": "11111111-1111-1111-1111-111111111111",
   "timestamp": "2026-09-21T02:00:00Z",
-  "message": "External system reported a condition"
+  "message": "External system reported a condition",
+  "extraHiddenPayload": "Opaque value for SDK consumers"
 }
 ```
 
-All four fields are required. `customEventId` must identify an existing definition, `source` must be a nonempty entity GUID, and `timestamp` must be a valid timestamp. `message` can be an empty string. Invalid records return HTTP 400; successful writes return HTTP 204. Ingestion stores a report occurrence; it does not raise a live Security Center event.
+The first four fields are required. `customEventId` must identify an existing definition, `source` must be a nonempty entity GUID, and `timestamp` must be a valid timestamp. `message` can be an empty string. `extraHiddenPayload` is optional and can contain an opaque string for SDK consumers. Invalid records return HTTP 400; successful writes return HTTP 204. Ingestion stores a report occurrence; it does not raise a live Security Center event.
 
-The database stores the positive definition ID. The custom report returns its negative value in the Event column so Security Desk resolves the custom-event name. Results include the source entity, UTC timestamp, event, and message. Definitions deleted from Security Center are excluded from this report, while their stored history remains subject to database retention.
+The database stores the positive definition ID. The custom report returns its negative value in the Event column so Security Desk resolves the custom-event name. Results include the source entity, UTC timestamp, event, message, and extra hidden payload. Security Desk does not display the extra hidden payload, but SDK and API consumers can read it from the result data. Hidden fields are not confidential or access-controlled. Definitions deleted from Security Center are excluded from this report, while their stored history remains subject to database retention.
 
 For SDK clients, use a `Custom` report query with `CustomReportId` set to `975ab1e5-0f1c-43e7-b446-e4f005944e33`. Populate `QueryEntities` with at least one source entity, set its time range, and serialize [CustomEventFilterData](CustomEventReport.cs) into `FilterData` for the custom-event ID and message. The source validates the custom report ID so it does not answer another plugin's custom report.
 

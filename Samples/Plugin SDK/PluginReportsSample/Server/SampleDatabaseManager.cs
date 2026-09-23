@@ -56,6 +56,7 @@ public class SampleDatabaseManager : DatabaseManager
         command.Parameters.Add("@CustomEventId", SqlDbType.Int).Value = e.CustomEventId.Value;
         command.Parameters.Add("@SourceGuid", SqlDbType.UniqueIdentifier).Value = e.Source.Value;
         command.Parameters.Add("@Message", SqlDbType.NVarChar, -1).Value = e.Message;
+        command.Parameters.Add("@ExtraHiddenPayload", SqlDbType.NVarChar, -1).Value = (object)e.ExtraHiddenPayload ?? DBNull.Value;
 
         await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
         await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);

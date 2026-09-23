@@ -22,7 +22,8 @@ public sealed class CustomEventsReportPage : ReportPage
         new ReportField { Type = ReportFieldType.Entity, Name = CustomEventReport.Source, DisplayName = "Source", IsSource = true },
         new ReportField { Type = ReportFieldType.DateTime, Name = CustomEventReport.Timestamp, DisplayName = "Timestamp" },
         new ReportField { Type = ReportFieldType.Event, Name = CustomEventReport.Event, DisplayName = "Custom event" },
-        new ReportField { Type = ReportFieldType.Text, Name = CustomEventReport.Message, DisplayName = "Message" }
+        new ReportField { Type = ReportFieldType.Text, Name = CustomEventReport.Message, DisplayName = "Message" },
+        new ReportField { Type = ReportFieldType.Text, Name = CustomEventReport.ExtraHiddenPayload, DisplayName = "Extra hidden payload", IsVisible = false }
     };
 
     protected override ReportFilter CustomFilter => m_filter;
