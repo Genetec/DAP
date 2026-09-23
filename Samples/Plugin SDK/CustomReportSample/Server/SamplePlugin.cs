@@ -3,7 +3,6 @@
 
 namespace Genetec.Dap.CodeSamples.Server;
 
-using Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.EventsArgs;

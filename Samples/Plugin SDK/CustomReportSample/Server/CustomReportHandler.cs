@@ -1,18 +1,18 @@
 // Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
-namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
+namespace Genetec.Dap.CodeSamples.Server;
 
+using Sdk;
+using Sdk.Entities;
+using Sdk.EventsArgs;
+using Sdk.Queries;
 using System;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Sdk;
-using Sdk.Entities;
-using Sdk.EventsArgs;
-using Sdk.Queries;
 
 public sealed class CustomReportHandler
 {
