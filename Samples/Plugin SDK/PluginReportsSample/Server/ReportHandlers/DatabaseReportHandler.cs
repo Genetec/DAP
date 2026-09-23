@@ -5,32 +5,38 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
 using Genetec.Sdk;
 using Genetec.Sdk.Entities;
+using Genetec.Sdk.EventsArgs;
 using Genetec.Sdk.Plugin.Objects;
 using Genetec.Sdk.Queries;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Runtime.CompilerServices;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 /// <summary>
 /// Base class for the handlers that read their records from a table of the plugin database.
-/// Owns everything the handlers have in common: the database availability check, the connection,
+/// Owns everything the handlers have in common: the database connection,
 /// the TOP clause, the time range condition, the WHERE assembly, the ordering, and the streaming
 /// of the reader. A derived handler only declares its table, its columns, its query-specific
-/// filters, and how a row maps to a record.
+/// filters, and how a reader record is added to the result table.
 /// </summary>
-public abstract class DatabaseReportHandler<TQuery, TRecord> : ReportHandler<TQuery, TRecord> where TQuery : ReportQuery
+public abstract class DatabaseReportHandler<TQuery> : IReportHandler where TQuery : ReportQuery
 {
     private readonly SampleDatabaseManager m_databaseManager;
 
-    protected DatabaseReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role)
+    protected DatabaseReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager)
     {
+        Engine = engine;
+        Role = role;
         m_databaseManager = databaseManager;
     }
+
+    protected IEngine Engine { get; }
+    protected Role Role { get; }
 
     /// <summary>
     /// Gets the table read by this handler.
@@ -38,7 +44,7 @@ public abstract class DatabaseReportHandler<TQuery, TRecord> : ReportHandler<TQu
     protected abstract string TableName { get; }
 
     /// <summary>
-    /// Gets the selected columns, in the order <see cref="MapRecord"/> reads them.
+    /// Gets the selected columns read by <see cref="AddRow"/>.
     /// </summary>
     protected abstract string SelectColumns { get; }
 
@@ -48,21 +54,52 @@ public abstract class DatabaseReportHandler<TQuery, TRecord> : ReportHandler<TQu
     /// </summary>
     protected virtual string TimestampColumn => "EventTimestamp";
 
-    protected sealed override async IAsyncEnumerable<TRecord> GetRecordsAsync(TQuery query, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public async Task<ReportError> HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken cancellationToken)
     {
+        if (args.Query is not TQuery query || !IsQuerySupported(query))
+        {
+            return ReportError.None;
+        }
+
         using SqlConnection connection = m_databaseManager.Configuration.CreateSqlDatabaseConnection();
         await connection.OpenAsync(cancellationToken);
 
         using SqlCommand command = await CreateSelectCommand(connection, query);
         using SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
 
-        // Stream the records instead of loading them all in memory; the ReportHandler
-        // base class batches them and sends partial results as they become available.
+        int totalSent = 0;
+        int maximumResultCount = query.MaximumResultCount;
+        DataTable table = CreateDataTable(query);
+
         while (await reader.ReadAsync(cancellationToken))
         {
-            yield return MapRecord(reader);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // The command reads one extra row to detect overflow. Send the rows accumulated so
+            // far, but do not add or send the extra row.
+            if (maximumResultCount > 0 && totalSent + table.Rows.Count >= maximumResultCount)
+            {
+                SendQueryResult(args, table);
+                return ReportError.TooManyResults;
+            }
+
+            AddRow(table, reader);
+
+            if (table.Rows.Count == 100)
+            {
+                SendQueryResult(args, table);
+                totalSent += table.Rows.Count;
+                table = CreateDataTable(query);
+            }
         }
+
+        SendQueryResult(args, table);
+        return ReportError.None;
     }
+
+    protected virtual bool IsQuerySupported(TQuery query) => true;
+
+    protected virtual DataTable CreateDataTable(TQuery query) => query.GetNewDataTables().First();
 
     // Translates the query filters into a parameterized SQL query
     private async Task<SqlCommand> CreateSelectCommand(SqlConnection connection, TQuery query)
@@ -109,7 +146,26 @@ public abstract class DatabaseReportHandler<TQuery, TRecord> : ReportHandler<TQu
         => Task.CompletedTask;
 
     /// <summary>
-    /// Maps the current row of the reader, whose columns follow <see cref="SelectColumns"/>, to a record.
+    /// Adds the current reader record to the result table.
     /// </summary>
-    protected abstract TRecord MapRecord(SqlDataReader reader);
+    protected abstract void AddRow(DataTable table, SqlDataReader reader);
+
+    private void SendQueryResult(ReportQueryReceivedEventArgs args, DataTable result)
+    {
+        if (result.Rows.Count == 0)
+        {
+            return;
+        }
+
+        DataSet set = new();
+        set.Tables.Add(result);
+        Engine.ReportManager.SendQueryResult(args.MessageId, new ReportQueryResults(args.Query.ReportQueryType)
+        {
+            Results = set,
+            QuerySource = args.QuerySource,
+            ResultSource = Role.Guid,
+            Succeeded = true,
+            WaitForCompletion = false
+        });
+    }
 }

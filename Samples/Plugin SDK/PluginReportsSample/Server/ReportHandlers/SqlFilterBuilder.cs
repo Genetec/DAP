@@ -151,9 +151,9 @@ internal static class SqlFilterBuilder
     /// </summary>
     public static void AppendConditions(StringBuilder sql, IReadOnlyList<string> conditions)
     {
-        for (int i = 0; i < conditions.Count; i++)
+        if (conditions.Count > 0)
         {
-            sql.Append(i == 0 ? " WHERE " : " AND ").Append(conditions[i]);
+            sql.Append(" WHERE ").Append(string.Join(" AND ", conditions));
         }
     }
 

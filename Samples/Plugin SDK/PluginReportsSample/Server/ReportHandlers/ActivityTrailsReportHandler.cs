@@ -6,15 +6,17 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 using Microsoft.Data.SqlClient;
 using Sdk;
 using Sdk.Entities;
+using Sdk.Plugin.Queries.Rows.Extensions;
 using Sdk.Plugin.Queries.Rows.Trails;
 using Sdk.Queries;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Columns = ActivityTrailTable.Columns;
 
-public class ActivityTrailsReportHandler : DatabaseReportHandler<ActivityTrailsQuery, ActivityTrailRow>
+public class ActivityTrailsReportHandler : DatabaseReportHandler<ActivityTrailsQuery>
 {
     public ActivityTrailsReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role, databaseManager)
     {
@@ -40,7 +42,7 @@ public class ActivityTrailsReportHandler : DatabaseReportHandler<ActivityTrailsQ
         return Task.CompletedTask;
     }
 
-    protected override ActivityTrailRow MapRecord(SqlDataReader reader)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
         var row = new ActivityTrailRow(Engine)
             .SetActivity((ActivityType)reader.GetInt32(Columns.ActivityType), reader.GetString(Columns.Description), reader.GetUtcDateTime(Columns.EventTimestamp))
@@ -60,6 +62,6 @@ public class ActivityTrailsReportHandler : DatabaseReportHandler<ActivityTrailsQ
             row.SetInitiator(initiatorGuid);
         }
 
-        return row;
+        table.AddIRow(row);
     }
 }

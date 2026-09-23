@@ -13,7 +13,7 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries;
 using Microsoft.Data.SqlClient;
 
-public sealed class CustomEventsReportHandler : DatabaseReportHandler<CustomQuery, CustomEventRecord>
+public sealed class CustomEventsReportHandler : DatabaseReportHandler<CustomQuery>
 {
     public CustomEventsReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager)
         : base(engine, role, databaseManager) { }
@@ -51,14 +51,6 @@ public sealed class CustomEventsReportHandler : DatabaseReportHandler<CustomQuer
         return Task.CompletedTask;
     }
 
-    protected override CustomEventRecord MapRecord(SqlDataReader reader) => new()
-    {
-        Timestamp = reader.GetUtcDateTime("EventTimestamp"),
-        EventId = reader.GetInt32("CustomEventId"),
-        Source = reader.GetGuid("SourceGuid"),
-        Message = reader.GetString("Message")
-    };
-
     protected override DataTable CreateDataTable(CustomQuery query)
     {
         var table = new DataTable("CustomEvents");
@@ -69,19 +61,13 @@ public sealed class CustomEventsReportHandler : DatabaseReportHandler<CustomQuer
         return table;
     }
 
-    protected override void FillDataRow(DataRow row, CustomEventRecord record)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
-        row[CustomEventReport.Source] = record.Source;
-        row[CustomEventReport.Timestamp] = record.Timestamp;
-        row[CustomEventReport.Event] = -record.EventId; // The native Event column resolves negative IDs as custom events.
-        row[CustomEventReport.Message] = record.Message;
+        DataRow row = table.NewRow();
+        row[CustomEventReport.Source] = reader.GetGuid("SourceGuid");
+        row[CustomEventReport.Timestamp] = reader.GetUtcDateTime("EventTimestamp");
+        row[CustomEventReport.Event] = -reader.GetInt32("CustomEventId"); // The native Event column resolves negative IDs as custom events.
+        row[CustomEventReport.Message] = reader.GetString("Message");
+        table.Rows.Add(row);
     }
-}
-
-public sealed class CustomEventRecord
-{
-    public DateTime Timestamp { get; set; }
-    public int EventId { get; set; }
-    public Guid Source { get; set; }
-    public string Message { get; set; }
 }

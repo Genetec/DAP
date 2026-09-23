@@ -13,7 +13,7 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.HealthMonitoring;
 using Columns = HealthStatisticsTable.Columns;
 
-public class HealthStatisticsReportHandler : DatabaseReportHandler<HealthStatisticsQuery, HealthStatistics>
+public class HealthStatisticsReportHandler : DatabaseReportHandler<HealthStatisticsQuery>
 {
     public HealthStatisticsReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role, databaseManager)
     {
@@ -37,38 +37,22 @@ public class HealthStatisticsReportHandler : DatabaseReportHandler<HealthStatist
         return Task.CompletedTask;
     }
 
-    protected override HealthStatistics MapRecord(SqlDataReader reader)
-        => new()
-        {
-            SourceEntityGuid = reader.GetGuid(Columns.SourceEntityGuid),
-            EventSourceType = reader.GetInt32(Columns.EventSourceType),
-            FailureCount = reader.GetInt32(Columns.FailureCount),
-            RtpPacketLoss = reader.GetInt32(Columns.RtpPacketLoss),
-            CalculationStatus = reader.GetInt32(Columns.CalculationStatus),
-            UnexpectedDowntime = TimeSpan.FromTicks(reader.GetInt64(Columns.UnexpectedDowntimeTicks)),
-            ExpectedDowntime = TimeSpan.FromTicks(reader.GetInt64(Columns.ExpectedDowntimeTicks)),
-            Uptime = TimeSpan.FromTicks(reader.GetInt64(Columns.UptimeTicks)),
-            Mttr = reader.GetFloat(Columns.Mttr),
-            Mtbf = reader.GetFloat(Columns.Mtbf),
-            Availability = reader.GetFloat(Columns.Availability),
-            LastErrorTimestamp = reader.GetUtcDateTime(Columns.LastErrorTimestamp),
-            ObserverEntity = reader.GetGuid(Columns.ObserverEntity)
-        };
-
-    protected override void FillDataRow(DataRow row, HealthStatistics record)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
-        row[HealthStatisticsQuery.FailureCountColumnName] = record.FailureCount;
-        row[HealthStatisticsQuery.RtpPacketLossColumnName] = record.RtpPacketLoss;
-        row[HealthStatisticsQuery.CalculationStatusColumnName] = record.CalculationStatus;
-        row[HealthStatisticsQuery.SourceEntityGuidColumnName] = record.SourceEntityGuid;
-        row[HealthStatisticsQuery.EventSourceTypeColumnName] = record.EventSourceType;
-        row[HealthStatisticsQuery.UnexpectedDowntimeColumnName] = record.UnexpectedDowntime;
-        row[HealthStatisticsQuery.ExpectedDowntimeColumnName] = record.ExpectedDowntime;
-        row[HealthStatisticsQuery.UptimeColumnName] = record.Uptime;
-        row[HealthStatisticsQuery.MttrColumnName] = record.Mttr;
-        row[HealthStatisticsQuery.MtbfColumnName] = record.Mtbf;
-        row[HealthStatisticsQuery.AvailabilityColumnName] = record.Availability;
-        row[HealthStatisticsQuery.LastErrorTimestampColumnName] = record.LastErrorTimestamp;
-        row[HealthStatisticsQuery.ObserverEntityColumnName] = record.ObserverEntity;
+        DataRow row = table.NewRow();
+        row[HealthStatisticsQuery.FailureCountColumnName] = reader.GetInt32(Columns.FailureCount);
+        row[HealthStatisticsQuery.RtpPacketLossColumnName] = reader.GetInt32(Columns.RtpPacketLoss);
+        row[HealthStatisticsQuery.CalculationStatusColumnName] = reader.GetInt32(Columns.CalculationStatus);
+        row[HealthStatisticsQuery.SourceEntityGuidColumnName] = reader.GetGuid(Columns.SourceEntityGuid);
+        row[HealthStatisticsQuery.EventSourceTypeColumnName] = reader.GetInt32(Columns.EventSourceType);
+        row[HealthStatisticsQuery.UnexpectedDowntimeColumnName] = TimeSpan.FromTicks(reader.GetInt64(Columns.UnexpectedDowntimeTicks));
+        row[HealthStatisticsQuery.ExpectedDowntimeColumnName] = TimeSpan.FromTicks(reader.GetInt64(Columns.ExpectedDowntimeTicks));
+        row[HealthStatisticsQuery.UptimeColumnName] = TimeSpan.FromTicks(reader.GetInt64(Columns.UptimeTicks));
+        row[HealthStatisticsQuery.MttrColumnName] = reader.GetFloat(Columns.Mttr);
+        row[HealthStatisticsQuery.MtbfColumnName] = reader.GetFloat(Columns.Mtbf);
+        row[HealthStatisticsQuery.AvailabilityColumnName] = reader.GetFloat(Columns.Availability);
+        row[HealthStatisticsQuery.LastErrorTimestampColumnName] = reader.GetUtcDateTime(Columns.LastErrorTimestamp);
+        row[HealthStatisticsQuery.ObserverEntityColumnName] = reader.GetGuid(Columns.ObserverEntity);
+        table.Rows.Add(row);
     }
 }

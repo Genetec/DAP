@@ -13,7 +13,7 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.IntrusionDetection;
 using Columns = IntrusionEventTable.Columns;
 
-public class IntrusionDetectionReportHandler : DatabaseReportHandler<IntrusionDetectionReportQuery, IntrusionDetectionRecord>
+public class IntrusionDetectionReportHandler : DatabaseReportHandler<IntrusionDetectionReportQuery>
 {
     public IntrusionDetectionReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role, databaseManager)
     {
@@ -60,30 +60,18 @@ public class IntrusionDetectionReportHandler : DatabaseReportHandler<IntrusionDe
         }
     }
 
-    protected override IntrusionDetectionRecord MapRecord(SqlDataReader reader)
-        => new()
-        {
-            Timestamp = reader.GetUtcDateTime(Columns.EventTimestamp),
-            EventType = reader.GetInt32(Columns.EventType),
-            IntrusionUnitId = reader.GetGuid(Columns.IntrusionUnitId),
-            IntrusionAreaId = reader.GetGuid(Columns.IntrusionAreaId),
-            DeviceId = reader.GetGuid(Columns.DeviceId),
-            SourceGuid = reader.GetGuid(Columns.SourceGuid),
-            OccurrencePeriod = reader.GetInt32(Columns.OccurrencePeriod),
-            TimeZoneId = reader.GetString(Columns.TimeZoneId),
-            InitiatorId = reader.GetGuid(Columns.InitiatorId)
-        };
-
-    protected override void FillDataRow(DataRow row, IntrusionDetectionRecord record)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
-        row[IntrusionDetectionReportQuery.TimestampUtcColumnName] = record.Timestamp;
-        row[IntrusionDetectionReportQuery.EventTypeColumnName] = record.EventType;
-        row[IntrusionDetectionReportQuery.IntrusionUnitIdColumnName] = record.IntrusionUnitId;
-        row[IntrusionDetectionReportQuery.IntrusionAreaIdColumnName] = record.IntrusionAreaId;
-        row[IntrusionDetectionReportQuery.DeviceIdColumnName] = record.DeviceId;
-        row[IntrusionDetectionReportQuery.SourceGuidColumnName] = record.SourceGuid;
-        row[IntrusionDetectionReportQuery.OccurrencePeriodColumnName] = record.OccurrencePeriod;
-        row[IntrusionDetectionReportQuery.TimeZoneIdColumnName] = record.TimeZoneId;
-        row[IntrusionDetectionReportQuery.InitiatorIdColumnName] = record.InitiatorId;
+        DataRow row = table.NewRow();
+        row[IntrusionDetectionReportQuery.TimestampUtcColumnName] = reader.GetUtcDateTime(Columns.EventTimestamp);
+        row[IntrusionDetectionReportQuery.EventTypeColumnName] = reader.GetInt32(Columns.EventType);
+        row[IntrusionDetectionReportQuery.IntrusionUnitIdColumnName] = reader.GetGuid(Columns.IntrusionUnitId);
+        row[IntrusionDetectionReportQuery.IntrusionAreaIdColumnName] = reader.GetGuid(Columns.IntrusionAreaId);
+        row[IntrusionDetectionReportQuery.DeviceIdColumnName] = reader.GetGuid(Columns.DeviceId);
+        row[IntrusionDetectionReportQuery.SourceGuidColumnName] = reader.GetGuid(Columns.SourceGuid);
+        row[IntrusionDetectionReportQuery.OccurrencePeriodColumnName] = reader.GetInt32(Columns.OccurrencePeriod);
+        row[IntrusionDetectionReportQuery.TimeZoneIdColumnName] = reader.GetString(Columns.TimeZoneId);
+        row[IntrusionDetectionReportQuery.InitiatorIdColumnName] = reader.GetGuid(Columns.InitiatorId);
+        table.Rows.Add(row);
     }
 }

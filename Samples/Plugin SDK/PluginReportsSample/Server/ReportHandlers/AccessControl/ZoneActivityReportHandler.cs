@@ -12,7 +12,7 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries;
 using Columns = ZoneActivityTable.Columns;
 
-public class ZoneActivityReportHandler : DatabaseReportHandler<ZoneActivityQuery, ZoneActivityRecord>
+public class ZoneActivityReportHandler : DatabaseReportHandler<ZoneActivityQuery>
 {
     public ZoneActivityReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role, databaseManager)
     {
@@ -56,26 +56,16 @@ public class ZoneActivityReportHandler : DatabaseReportHandler<ZoneActivityQuery
         }
     }
 
-    protected override ZoneActivityRecord MapRecord(SqlDataReader reader)
-        => new()
-        {
-            Timestamp = reader.GetUtcDateTime(Columns.EventTimestamp),
-            EventType = reader.GetInt32(Columns.EventType),
-            EventId = reader.GetInt32(Columns.EventId),
-            TimestampLocal = reader.GetDateTime(reader.GetOrdinal(Columns.EventTimestampLocal)),
-            TimeZoneId = reader.GetString(Columns.TimeZoneId),
-            ZoneId = reader.GetGuid(Columns.ZoneId),
-            OfflinePeriod = reader.GetInt32(Columns.OfflinePeriod)
-        };
-
-    protected override void FillDataRow(DataRow row, ZoneActivityRecord record)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
-        row[ZoneActivityQuery.ZoneActivityTimeStampColumnName] = record.Timestamp;
-        row[ZoneActivityQuery.ZoneActivityEventTypeColumnName] = record.EventType;
-        row[ZoneActivityQuery.ZoneActivityEventIdColumnName] = record.EventId;
-        row[ZoneActivityQuery.ZoneActivityTimeStampLocalColumnName] = record.TimestampLocal;
-        row[ZoneActivityQuery.ZoneActivityTimeZoneColumnName] = record.TimeZoneId;
-        row[ZoneActivityQuery.ZoneActivityZoneIdColumnName] = record.ZoneId;
-        row[ZoneActivityQuery.ZoneActivityOccurrencePeriodColumnName] = record.OfflinePeriod;
+        DataRow row = table.NewRow();
+        row[ZoneActivityQuery.ZoneActivityTimeStampColumnName] = reader.GetUtcDateTime(Columns.EventTimestamp);
+        row[ZoneActivityQuery.ZoneActivityEventTypeColumnName] = reader.GetInt32(Columns.EventType);
+        row[ZoneActivityQuery.ZoneActivityEventIdColumnName] = reader.GetInt32(Columns.EventId);
+        row[ZoneActivityQuery.ZoneActivityTimeStampLocalColumnName] = reader.GetDateTime(reader.GetOrdinal(Columns.EventTimestampLocal));
+        row[ZoneActivityQuery.ZoneActivityTimeZoneColumnName] = reader.GetString(Columns.TimeZoneId);
+        row[ZoneActivityQuery.ZoneActivityZoneIdColumnName] = reader.GetGuid(Columns.ZoneId);
+        row[ZoneActivityQuery.ZoneActivityOccurrencePeriodColumnName] = reader.GetInt32(Columns.OfflinePeriod);
+        table.Rows.Add(row);
     }
 }

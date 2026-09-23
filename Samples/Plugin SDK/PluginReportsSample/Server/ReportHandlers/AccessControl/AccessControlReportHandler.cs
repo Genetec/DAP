@@ -14,7 +14,7 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.AccessControl;
 using Columns = AccessControlEventTable.Columns;
 
-public class AccessControlReportHandler : DatabaseReportHandler<AccessControlReportQuery, AccessControlReportRecord>
+public class AccessControlReportHandler : DatabaseReportHandler<AccessControlReportQuery>
 {
     public AccessControlReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role, databaseManager)
     {
@@ -101,39 +101,23 @@ public class AccessControlReportHandler : DatabaseReportHandler<AccessControlRep
         }
     }
 
-    protected override AccessControlReportRecord MapRecord(SqlDataReader reader)
-        => new()
-        {
-            Timestamp = reader.GetUtcDateTime(Columns.EventTimestamp),
-            EventType = (EventType)reader.GetInt32(Columns.EventType),
-            SourceGuid = reader.GetGuid(Columns.SourceGuid),
-            UnitGuid = reader.GetGuidOrDefault(Columns.UnitGuid),
-            DeviceGuid = reader.GetGuidOrDefault(Columns.DeviceGuid),
-            APGuid = reader.GetGuidOrDefault(Columns.APGuid),
-            CredentialGuid = reader.GetGuidOrDefault(Columns.CredentialGuid),
-            CardholderGuid = reader.GetGuidOrDefault(Columns.CardholderGuid),
-            Credential2Guid = reader.GetGuidOrDefault(Columns.Credential2Guid),
-            TimeZone = reader.GetString(Columns.TimeZone),
-            OccurrencePeriod = reader.GetInt32(Columns.OccurrencePeriod),
-            AccessPointGroupGuid = reader.GetGuidOrDefault(Columns.AccessPointGroupGuid),
-            CustomEventMessage = reader.GetStringOrNull(Columns.CustomEventMessage)
-        };
-
-    protected override void FillDataRow(DataRow row, AccessControlReportRecord record)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
-        row[AccessControlReportQuery.TimestampColumnName] = record.Timestamp;
-        row[AccessControlReportQuery.EventTypeColumnName] = record.EventType;
-        row[AccessControlReportQuery.UnitGuidColumnName] = record.UnitGuid;
-        row[AccessControlReportQuery.DeviceGuidColumnName] = record.DeviceGuid;
-        row[AccessControlReportQuery.APGuidColumnName] = record.APGuid;
-        row[AccessControlReportQuery.SourceGuidColumnName] = record.SourceGuid;
-        row[AccessControlReportQuery.CredentialGuidColumnName] = record.CredentialGuid;
-        row[AccessControlReportQuery.CardholderGuidColumnName] = record.CardholderGuid;
-        row[AccessControlReportQuery.Credential2GuidColumnName] = record.Credential2Guid;
-        row[AccessControlReportQuery.TimeZoneColumnName] = record.TimeZone;
-        row[AccessControlReportQuery.OccurrencePeriodColumnName] = record.OccurrencePeriod;
-        row[AccessControlReportQuery.AccessPointGroupGuidColumnName] = record.AccessPointGroupGuid;
-        row[AccessControlReportQuery.CustomEventMessageColumnName] = record.CustomEventMessage;
+        DataRow row = table.NewRow();
+        row[AccessControlReportQuery.TimestampColumnName] = reader.GetUtcDateTime(Columns.EventTimestamp);
+        row[AccessControlReportQuery.EventTypeColumnName] = (EventType)reader.GetInt32(Columns.EventType);
+        row[AccessControlReportQuery.UnitGuidColumnName] = reader.GetGuidOrDefault(Columns.UnitGuid);
+        row[AccessControlReportQuery.DeviceGuidColumnName] = reader.GetGuidOrDefault(Columns.DeviceGuid);
+        row[AccessControlReportQuery.APGuidColumnName] = reader.GetGuidOrDefault(Columns.APGuid);
+        row[AccessControlReportQuery.SourceGuidColumnName] = reader.GetGuid(Columns.SourceGuid);
+        row[AccessControlReportQuery.CredentialGuidColumnName] = reader.GetGuidOrDefault(Columns.CredentialGuid);
+        row[AccessControlReportQuery.CardholderGuidColumnName] = reader.GetGuidOrDefault(Columns.CardholderGuid);
+        row[AccessControlReportQuery.Credential2GuidColumnName] = reader.GetGuidOrDefault(Columns.Credential2Guid);
+        row[AccessControlReportQuery.TimeZoneColumnName] = reader.GetString(Columns.TimeZone);
+        row[AccessControlReportQuery.OccurrencePeriodColumnName] = reader.GetInt32(Columns.OccurrencePeriod);
+        row[AccessControlReportQuery.AccessPointGroupGuidColumnName] = reader.GetGuidOrDefault(Columns.AccessPointGroupGuid);
+        row[AccessControlReportQuery.CustomEventMessageColumnName] = reader.GetStringOrNull(Columns.CustomEventMessage);
+        table.Rows.Add(row);
     }
 
     // Replaces every occurrence of an event type in the list

@@ -6,15 +6,17 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 using Microsoft.Data.SqlClient;
 using Sdk;
 using Sdk.Entities;
+using Sdk.Plugin.Queries.Rows.Extensions;
 using Sdk.Plugin.Queries.Rows.Trails;
 using Sdk.Queries;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Columns = AuditTrailTable.Columns;
 
-public class AuditTrailsReportHandler : DatabaseReportHandler<AuditTrailQuery, AuditTrailRow>
+public class AuditTrailsReportHandler : DatabaseReportHandler<AuditTrailQuery>
 {
     public AuditTrailsReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role, databaseManager)
     {
@@ -38,7 +40,7 @@ public class AuditTrailsReportHandler : DatabaseReportHandler<AuditTrailQuery, A
         return Task.CompletedTask;
     }
 
-    protected override AuditTrailRow MapRecord(SqlDataReader reader)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
         var row = new AuditTrailRow(Engine)
             .SetAuditAttributes((AuditTrailModificationType)reader.GetInt32(Columns.ModificationType), (AuditFormat)reader.GetInt32(Columns.AuditFormat))
@@ -59,6 +61,6 @@ public class AuditTrailsReportHandler : DatabaseReportHandler<AuditTrailQuery, A
             row.SetInitiator(initiatorGuid);
         }
 
-        return row;
+        table.AddIRow(row);
     }
 }

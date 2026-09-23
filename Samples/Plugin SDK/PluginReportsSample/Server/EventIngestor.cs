@@ -48,9 +48,6 @@ public sealed class EventIngestor
         };
     }
 
-    /// <summary>The set of ingestion endpoints, for logging and diagnostics.</summary>
-    public IReadOnlyCollection<string> Routes => m_routes.Keys.ToList();
-
     /// <summary>
     /// Dispatches a request to the matching domain endpoint. Returns 404 for an unknown path,
     /// 405 for a non-POST method, 503 when the database is unavailable, and otherwise the result

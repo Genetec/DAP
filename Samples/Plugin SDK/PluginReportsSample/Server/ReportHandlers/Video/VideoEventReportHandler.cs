@@ -13,7 +13,7 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.Video;
 using Columns = VideoEventTable.Columns;
 
-public class VideoEventReportHandler : DatabaseReportHandler<VideoEventQuery, VideoEvent>
+public class VideoEventReportHandler : DatabaseReportHandler<VideoEventQuery>
 {
     public VideoEventReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role, databaseManager)
     {
@@ -34,32 +34,19 @@ public class VideoEventReportHandler : DatabaseReportHandler<VideoEventQuery, Vi
         return Task.CompletedTask;
     }
 
-    protected override VideoEvent MapRecord(SqlDataReader reader)
-        => new()
-        {
-            EventTime = reader.GetUtcDateTime(Columns.EventTime),
-            CameraGuid = reader.GetGuid(Columns.CameraGuid),
-            ArchiveSourceGuid = reader.GetGuid(Columns.ArchiveSourceGuid),
-            EventType = (EventType)reader.GetInt32(Columns.EventType),
-            Value = (uint)reader.GetInt64(Columns.Value),
-            Notes = reader.GetStringOrNull(Columns.Notes),
-            XmlData = reader.GetStringOrNull(Columns.XmlData),
-            Capabilities = (uint)reader.GetInt64(Columns.Capabilities),
-            TimeZone = reader.GetString(Columns.TimeZone),
-            Thumbnail = reader.GetBytesOrNull(Columns.Thumbnail)
-        };
-
-    protected override void FillDataRow(DataRow row, VideoEvent record)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
-        row[VideoEventQuery.CameraGuidColumnName] = record.CameraGuid;
-        row[VideoEventQuery.ArchiveSourceGuidColumnName] = record.ArchiveSourceGuid;
-        row[VideoEventQuery.EventTimeColumnName] = record.EventTime;
-        row[VideoEventQuery.EventTypeColumnName] = (uint)record.EventType;
-        row[VideoEventQuery.ValueColumnName] = record.Value;
-        row[VideoEventQuery.NotesColumnName] = record.Notes;
-        row[VideoEventQuery.XmlDataColumnName] = record.XmlData;
-        row[VideoEventQuery.CapabilitiesColumnName] = record.Capabilities;
-        row[VideoEventQuery.TimeZoneColumnName] = record.TimeZone;
-        row[VideoEventQuery.ThumbnailColumnName] = record.Thumbnail;
+        DataRow row = table.NewRow();
+        row[VideoEventQuery.CameraGuidColumnName] = reader.GetGuid(Columns.CameraGuid);
+        row[VideoEventQuery.ArchiveSourceGuidColumnName] = reader.GetGuid(Columns.ArchiveSourceGuid);
+        row[VideoEventQuery.EventTimeColumnName] = reader.GetUtcDateTime(Columns.EventTime);
+        row[VideoEventQuery.EventTypeColumnName] = (uint)reader.GetInt32(Columns.EventType);
+        row[VideoEventQuery.ValueColumnName] = (uint)reader.GetInt64(Columns.Value);
+        row[VideoEventQuery.NotesColumnName] = reader.GetStringOrNull(Columns.Notes);
+        row[VideoEventQuery.XmlDataColumnName] = reader.GetStringOrNull(Columns.XmlData);
+        row[VideoEventQuery.CapabilitiesColumnName] = (uint)reader.GetInt64(Columns.Capabilities);
+        row[VideoEventQuery.TimeZoneColumnName] = reader.GetString(Columns.TimeZone);
+        row[VideoEventQuery.ThumbnailColumnName] = reader.GetBytesOrNull(Columns.Thumbnail);
+        table.Rows.Add(row);
     }
 }

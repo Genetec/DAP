@@ -13,7 +13,7 @@ using Genetec.Sdk.Entities;
 using Genetec.Sdk.Queries.HealthMonitoring;
 using Columns = HealthEventTable.Columns;
 
-public class HealthEventsReportHandler : DatabaseReportHandler<HealthEventQuery, HealthEvent>
+public class HealthEventsReportHandler : DatabaseReportHandler<HealthEventQuery>
 {
     public HealthEventsReportHandler(IEngine engine, Role role, SampleDatabaseManager databaseManager) : base(engine, role, databaseManager)
     {
@@ -44,32 +44,19 @@ public class HealthEventsReportHandler : DatabaseReportHandler<HealthEventQuery,
         return Task.CompletedTask;
     }
 
-    protected override HealthEvent MapRecord(SqlDataReader reader)
-        => new()
-        {
-            Timestamp = reader.GetUtcDateTime(Columns.EventTimestamp),
-            HealthEventId = reader.GetInt32(Columns.HealthEventId),
-            EventSourceTypeId = reader.GetInt32(Columns.EventSourceTypeId),
-            SourceEntityGuid = reader.GetGuid(Columns.SourceEntityGuid),
-            EventDescription = reader.GetString(Columns.EventDescription),
-            MachineName = reader.GetString(Columns.MachineName),
-            SeverityId = reader.GetInt32(Columns.SeverityId),
-            ErrorNumber = reader.GetInt32(Columns.ErrorNumber),
-            Occurrence = reader.GetInt64(Columns.Occurrence),
-            ObserverEntity = reader.GetGuid(Columns.ObserverEntity)
-        };
-
-    protected override void FillDataRow(DataRow row, HealthEvent record)
+    protected override void AddRow(DataTable table, SqlDataReader reader)
     {
-        row[HealthEventQuery.HealthEventIdColumnName] = record.HealthEventId;
-        row[HealthEventQuery.EventSourceTypeIdColumnName] = record.EventSourceTypeId;
-        row[HealthEventQuery.SourceEntityGuidColumnName] = record.SourceEntityGuid;
-        row[HealthEventQuery.EventDescriptionColumnName] = record.EventDescription;
-        row[HealthEventQuery.MachineNameColumnName] = record.MachineName;
-        row[HealthEventQuery.TimestampColumnName] = record.Timestamp;
-        row[HealthEventQuery.SeverityIdColumnName] = record.SeverityId;
-        row[HealthEventQuery.ErrorNumberColumnName] = record.ErrorNumber;
-        row[HealthEventQuery.OccurrenceColumnName] = record.Occurrence;
-        row[HealthEventQuery.ObserverEntityColumnName] = record.ObserverEntity;
+        DataRow row = table.NewRow();
+        row[HealthEventQuery.HealthEventIdColumnName] = reader.GetInt32(Columns.HealthEventId);
+        row[HealthEventQuery.EventSourceTypeIdColumnName] = reader.GetInt32(Columns.EventSourceTypeId);
+        row[HealthEventQuery.SourceEntityGuidColumnName] = reader.GetGuid(Columns.SourceEntityGuid);
+        row[HealthEventQuery.EventDescriptionColumnName] = reader.GetString(Columns.EventDescription);
+        row[HealthEventQuery.MachineNameColumnName] = reader.GetString(Columns.MachineName);
+        row[HealthEventQuery.TimestampColumnName] = reader.GetUtcDateTime(Columns.EventTimestamp);
+        row[HealthEventQuery.SeverityIdColumnName] = reader.GetInt32(Columns.SeverityId);
+        row[HealthEventQuery.ErrorNumberColumnName] = reader.GetInt32(Columns.ErrorNumber);
+        row[HealthEventQuery.OccurrenceColumnName] = reader.GetInt64(Columns.Occurrence);
+        row[HealthEventQuery.ObserverEntityColumnName] = reader.GetGuid(Columns.ObserverEntity);
+        table.Rows.Add(row);
     }
 }
