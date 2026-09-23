@@ -22,17 +22,9 @@ public class CustomReportPageDescriptor : PageDescriptor
 
     public override ImageSource Thumbnail { get; } = new BitmapImage(new Uri("pack://application:,,,/CustomReportSample;component/Resources/Images/LargeLogo.png"));
     
-    public override TaskIconColor IconColor => TaskIconColor.DefaultIconColor;
-
     public override string Name => "Custom report";
 
     // This is the identifier of the custom report
     public override Guid Type => CustomReportId.Value;
 
-    // Ensure that the custom report page is only available to users with a specific privilege
-    // This report does not require a specific privilege
-    public override bool HasPrivilege()
-    {
-        return true;
-    }
 }

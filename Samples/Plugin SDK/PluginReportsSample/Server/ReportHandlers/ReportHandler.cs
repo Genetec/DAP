@@ -5,57 +5,73 @@ namespace Genetec.Dap.CodeSamples.Server.ReportHandlers;
 
 using Genetec.Dap.CodeSamples;
 using Genetec.Sdk;
-using Genetec.Sdk.Diagnostics.Logging.Core;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.EventsArgs;
 using Genetec.Sdk.Plugin.Queries.Rows;
 using Genetec.Sdk.Plugin.Queries.Rows.Extensions;
 using Genetec.Sdk.Queries;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposable where TQuery : ReportQuery
+public abstract class ReportHandler<TQuery, TRecord> : IReportHandler where TQuery : ReportQuery
 {
     protected ReportHandler(IEngine engine, Role role)
     {
-        Logger = Logger.CreateInstanceLogger(this);
         Engine = engine;
         Role = role;
     }
 
-    protected Logger Logger { get; }
     protected IEngine Engine { get; }
     protected Role Role { get; }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
 
     public async Task<ReportError> HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken token)
     {
         if (args.Query is TQuery query && IsQuerySupported(query))
         {
-            IAsyncEnumerable<TRecord> records = GetRecordsAsync(query);
+            IAsyncEnumerable<TRecord> records = GetRecordsAsync(query, token);
             int totalSent = 0;
             int maxResults = args.Query.MaximumResultCount;
 
-            await foreach (IReadOnlyList<TRecord> batch in records.Buffer(GetBatchSize()).WithCancellation(token))
+            await foreach (IReadOnlyList<TRecord> batch in records.Buffer(100).WithCancellation(token))
             {
                 token.ThrowIfCancellationRequested();
 
                 DataTable table = CreateDataTable(query);
-                ProcessBatch(table, batch);
-                SendQueryResult(args, table);
+                foreach (TRecord record in batch)
+                {
+                    if (record is IRow row)
+                    {
+                        table.AddIRow(row);
+                    }
+                    else
+                    {
+                        DataRow dataRow = table.NewRow();
+                        FillDataRow(dataRow, record);
+                        table.Rows.Add(dataRow);
+                    }
+                }
+
+                // The database reads one extra row to detect overflow. Do not send that row.
+                bool tooManyResults = maxResults > 0 && table.Rows.Count > maxResults - totalSent;
+                if (tooManyResults)
+                {
+                    while (table.Rows.Count > maxResults - totalSent)
+                    {
+                        table.Rows.RemoveAt(table.Rows.Count - 1);
+                    }
+                }
+
+                if (table.Rows.Count > 0)
+                {
+                    SendQueryResult(args, table);
+                }
 
                 totalSent += table.Rows.Count;
 
-                if (maxResults > 0 && totalSent > maxResults)
+                if (tooManyResults)
                 {
                     return ReportError.TooManyResults;
                 }
@@ -72,33 +88,11 @@ public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposab
         return query.GetNewDataTables().First();
     }
 
-    protected virtual void ProcessBatch(DataTable table, IReadOnlyList<TRecord> batch)
-    {
-        foreach (TRecord record in batch)
-        {
-            if (record is IRow row)
-            {
-                table.AddIRow(row);
-            }
-            else
-            {
-                DataRow dataRow = table.NewRow();
-                FillDataRow(dataRow, record);
-                table.Rows.Add(dataRow);
-            }
-        }
-    }
-
     protected virtual void FillDataRow(DataRow row, TRecord record)
     {
     }
 
-    protected abstract IAsyncEnumerable<TRecord> GetRecordsAsync(TQuery query);
-
-    protected virtual int GetBatchSize()
-    {
-        return 100; // Default batch size for most reports
-    }
+    protected abstract IAsyncEnumerable<TRecord> GetRecordsAsync(TQuery query, CancellationToken cancellationToken);
 
     protected void SendQueryResult(ReportQueryReceivedEventArgs args, DataTable result)
     {
@@ -114,11 +108,4 @@ public abstract class ReportHandler<TQuery, TRecord> : IReportHandler, IDisposab
         });
     }
 
-    protected virtual void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            Logger.Dispose();
-        }
-    }
 }

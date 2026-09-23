@@ -1,34 +1,83 @@
-﻿// Copyright 2025 Genetec Inc.
+// Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
 namespace Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
 
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Sdk;
 using Sdk.Entities;
+using Sdk.EventsArgs;
 using Sdk.Queries;
 
-public class CustomReportHandler : ReportHandler<CustomQuery, CustomReportRecord>
+public sealed class CustomReportHandler
 {
-    public CustomReportHandler(IEngine engine, Role role) : base(engine, role)
+    private const int BatchSize = 100;
+
+    private readonly IEngine m_engine;
+    private readonly Role m_role;
+
+    public CustomReportHandler(IEngine engine, Role role)
     {
+        m_engine = engine;
+        m_role = role;
     }
 
-    // Ensure that the custom report handler only handles the custom report with the specified identifier
-    protected override bool IsQuerySupported(CustomQuery query)
+    public async Task<ReportError> HandleAsync(ReportQueryReceivedEventArgs args, CancellationToken cancellationToken)
     {
-        return query.CustomReportId == CustomReportId.Value;
+        if (args.Query is not CustomQuery query || query.CustomReportId != CustomReportId.Value)
+        {
+            return ReportError.None;
+        }
+
+        await Task.Yield();
+
+        CustomReportFilterData filter = CustomReportFilterData.Deserialize(query.FilterData);
+        DataTable table = CreateDataTable();
+        int totalRows = 0;
+
+        foreach (Guid entityId in query.QueryEntities)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (query.MaximumResultCount > 0 && totalRows == query.MaximumResultCount)
+            {
+                SendQueryResult(args, table);
+                return ReportError.TooManyResults;
+            }
+
+            DataRow row = table.NewRow();
+            row[CustomReportColumnName.SourceId] = entityId;
+            row[CustomReportColumnName.EventId] = filter.CustomEvent.HasValue ? -filter.CustomEvent.Value : 0;
+            row[CustomReportColumnName.Message] = filter.Message;
+            row[CustomReportColumnName.Numeric] = filter.NumericValue;
+            row[CustomReportColumnName.EventTimestamp] = query.TimeRange.DateTime;
+            row[CustomReportColumnName.Decimal] = filter.DecimalValue;
+            row[CustomReportColumnName.Boolean] = filter.Enabled;
+            row[CustomReportColumnName.Picture] = (object)ConvertImageToByteArray((m_engine.GetEntity(entityId) as Cardholder)?.Picture) ?? DBNull.Value;
+            row[CustomReportColumnName.Duration] = query.TimeRange.TimeSpan;
+            row[CustomReportColumnName.Hidden] = "This is the content of the hidden field";
+            table.Rows.Add(row);
+            totalRows++;
+
+            if (table.Rows.Count == BatchSize)
+            {
+                SendQueryResult(args, table);
+                table = CreateDataTable();
+            }
+        }
+
+        SendQueryResult(args, table);
+        return ReportError.None;
     }
 
-    protected override DataTable CreateDataTable(CustomQuery query)
+    private static DataTable CreateDataTable()
     {
         var table = new DataTable();
-
         table.Columns.Add(CustomReportColumnName.SourceId, typeof(Guid));
         table.Columns.Add(CustomReportColumnName.EventId, typeof(int));
         table.Columns.Add(CustomReportColumnName.Message, typeof(string));
@@ -39,60 +88,37 @@ public class CustomReportHandler : ReportHandler<CustomQuery, CustomReportRecord
         table.Columns.Add(CustomReportColumnName.Picture, typeof(byte[])).AllowDBNull = true;
         table.Columns.Add(CustomReportColumnName.Duration, typeof(TimeSpan));
         table.Columns.Add(CustomReportColumnName.Hidden, typeof(string));
-
         return table;
     }
 
-    protected override void FillDataRow(DataRow row, CustomReportRecord record)
+    private static byte[] ConvertImageToByteArray(Image image)
     {
-        row[CustomReportColumnName.SourceId] = record.SourceId;
-        row[CustomReportColumnName.EventId] = record.EventId;
-        row[CustomReportColumnName.Message] = record.Message;
-        row[CustomReportColumnName.Numeric] = record.Numeric;
-        row[CustomReportColumnName.EventTimestamp] = record.EventTimestamp;
-        row[CustomReportColumnName.Decimal] = record.Decimal;
-        row[CustomReportColumnName.Boolean] = record.Boolean;
-        row[CustomReportColumnName.Picture] = record.Picture;
-        row[CustomReportColumnName.Duration] = record.Duration;
-        row[CustomReportColumnName.Hidden] = record.Hidden;
+        if (image is null)
+        {
+            return null;
+        }
+
+        using var stream = new MemoryStream();
+        image.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+        return stream.ToArray();
     }
 
-    protected override async IAsyncEnumerable<CustomReportRecord> GetRecordsAsync(CustomQuery query)
+    private void SendQueryResult(ReportQueryReceivedEventArgs args, DataTable table)
     {
-        // Deserialize the custom report filter data
-        CustomReportFilterData filter = CustomReportFilterData.Deserialize(query.FilterData);
-
-        // TODO: Implement the logic to retrieve the custom report records
-        // Consider implementing batched database queries or paginated API calls for large datasets
-        // to avoid loading all data into memory at once.
-
-        await Task.Yield(); // Simulates asynchronous work (remove this in actual implementation)
-
-        // This is an example of how to return a record
-
-        foreach (var guid in query.QueryEntities)
+        if (table.Rows.Count == 0)
         {
-            yield return new CustomReportRecord
-            {
-                SourceId = guid,
-                EventTimestamp = query.TimeRange.DateTime,
-                Message = filter.Message,
-                Numeric = filter.NumericValue,
-                Decimal = filter.DecimalValue,
-                Boolean = filter.Enabled,
-                Duration = query.TimeRange.TimeSpan,
-                Picture = ConvertImageToByteArray((Engine.GetEntity(guid) as Cardholder)?.Picture),
-                Hidden = "This is the content of the hidden field",
-                EventId = -filter.CustomEvent ?? 0
-            };
+            return;
         }
 
-        byte[] ConvertImageToByteArray(Image image)
+        var results = new DataSet();
+        results.Tables.Add(table);
+        m_engine.ReportManager.SendQueryResult(args.MessageId, new ReportQueryResults(args.Query.ReportQueryType)
         {
-            if (image is null) return null;
-            using MemoryStream stream = new();
-            image.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            return stream.ToArray();
-        }
+            Results = results,
+            QuerySource = args.QuerySource,
+            ResultSource = m_role.Guid,
+            Succeeded = true,
+            WaitForCompletion = false
+        });
     }
 }

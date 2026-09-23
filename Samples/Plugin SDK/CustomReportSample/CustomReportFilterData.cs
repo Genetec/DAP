@@ -3,7 +3,6 @@
 
 namespace Genetec.Dap.CodeSamples;
 
-using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -17,9 +16,7 @@ public class CustomReportFilterData
     private static readonly DataContractJsonSerializer s_serializer = new(typeof(CustomReportFilterData));
 
     public string Message { get; set; }
-  
-    public TimeSpan Duration { get; set; }
- 
+
     public int NumericValue { get; set; }
 
     public decimal DecimalValue { get; set; }
