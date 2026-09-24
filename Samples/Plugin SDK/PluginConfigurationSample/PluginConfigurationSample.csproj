@@ -61,13 +61,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="System.Reactive" Version="6.0.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="Certificates\Genetec.Dap.CodeSamples.Server.SamplePlugin.cert">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 
 	<Target Name="CopyCertificates" AfterTargets="Build">
@@ -81,7 +74,7 @@
 		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
 	</Target>
 	
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(SkipPluginRegistration)' != 'true'">
 		<Exec Command="REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ServerModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v AddFoldersToAssemblyProbe /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v Enabled /t REG_SZ /d &quot;True&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ClientModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v ServerModule /t REG_SZ /d &quot;$(TargetPath)&quot; /f&#xD;&#xA;REG ADD &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)&quot; /v AddFoldersToAssemblyProbe /t REG_SZ /d &quot;True&quot; /f" />
 	</Target>
 

@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading.Tasks;
 using Genetec.Dap.CodeSamples;
+using Genetec.Sdk;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.EventsArgs;
 using Genetec.Sdk.Plugin;
@@ -17,8 +18,6 @@ using Genetec.Sdk.Workflows;
 [PluginProperty(typeof(SamplePluginDescriptor))]
 public class SamplePlugin : Plugin
 {
-    private IDisposable m_disposable;
-
     private readonly RoleConfiguration m_configuration = new();
 
     private Role m_role;
@@ -29,7 +28,13 @@ public class SamplePlugin : Plugin
         Engine.RequestManager.AddAsyncRequestHandler<RestrictedConfigurationValueChanged, VoidResponse>(OnRestrictedConfigurationValueChanged);
 
         m_role = (Role)Engine.GetEntity(PluginGuid);
-        m_disposable = m_role.ObserveSpecificConfiguration().Subscribe(m_configuration.Load);
+        m_role.FieldsChanged += OnRoleFieldsChanged;
+        m_configuration.Load(m_role.SpecificConfiguration);
+    }
+
+    private void OnRoleFieldsChanged(object sender, FieldsChangedEventArgs e)
+    {
+        m_configuration.Load(m_role.SpecificConfiguration);
     }
 
     private void OnConfigurationPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -64,9 +69,9 @@ public class SamplePlugin : Plugin
 
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (disposing && m_role is not null)
         {
-            m_disposable?.Dispose();
+            m_role.FieldsChanged -= OnRoleFieldsChanged;
         }
     }
 
