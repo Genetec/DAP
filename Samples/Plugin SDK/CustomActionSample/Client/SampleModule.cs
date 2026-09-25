@@ -4,6 +4,7 @@
 namespace Genetec.Dap.CodeSamples.Client;
 
 using Genetec.Sdk;
+using Genetec.Sdk.Workspace.Components.CustomAction;
 using Genetec.Sdk.Workspace.Modules;
 
 public class SampleModule : Module
@@ -14,7 +15,12 @@ public class SampleModule : Module
     {
         if (Workspace.ApplicationType is ApplicationType.ConfigTool or ApplicationType.SecurityDesk)
         {
-            SampleCustomActionBuilder builder = new();
+            Register(new SampleCustomActionBuilder());
+            Register(new HttpRequestActionBuilder());
+        }
+
+        void Register(CustomActionBuilder builder)
+        {
             builder.Initialize(Workspace);
             Workspace.Components.Register(builder);
         }

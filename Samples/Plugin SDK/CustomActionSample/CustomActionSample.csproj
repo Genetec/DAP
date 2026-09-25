@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net481</TargetFrameworks>
+		<TargetFramework>net481</TargetFramework>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
 		<AssemblyName>CustomActionSample</AssemblyName>
 		<Description>Sample project</Description>
-		<Company>Genetec Inc.</Company>
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
 		<OutputType>Library</OutputType>
 		<UseWPF>true</UseWPF>
@@ -21,7 +20,6 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
@@ -32,10 +30,9 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
+	<ItemGroup>
 		<Reference Include="Genetec.Sdk">
 			<HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
 			<Private>False</Private>
@@ -55,6 +52,7 @@
 		<Reference Include="PresentationCore" />
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
+		<Reference Include="System.Net.Http" />
 		<Reference Include="PresentationFramework" />
 		<Reference Include="WindowsBase" />
 	</ItemGroup>
@@ -81,6 +79,9 @@
 
 	<ItemGroup>
 	  <None Update="Certificates\Genetec.Dap.CodeSamples.Client.SampleCustomActionBuilder.cert">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Certificates\Genetec.Dap.CodeSamples.Client.HttpRequestActionBuilder.cert">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Certificates\Genetec.Dap.CodeSamples.Server.SamplePlugin.cert">
