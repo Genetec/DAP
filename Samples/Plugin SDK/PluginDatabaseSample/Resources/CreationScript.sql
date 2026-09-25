@@ -27,6 +27,6 @@ AS
 BEGIN
     BEGIN
         DELETE FROM Logs
-        WHERE Timestamp < DATEADD(DAY, -@DaysOld, GETDATE());
+        WHERE Timestamp < DATEADD(DAY, -@DaysOld, SYSUTCDATETIME());
     END
 END
