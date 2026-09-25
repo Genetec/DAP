@@ -19,16 +19,16 @@ using Sdk.Workspace.Services;
 public partial class SampleCustomActionView : CustomActionView, INotifyPropertyChanged
 {
     private Camera m_camera;
-
     private EncoderCommandInfo m_encoderCommand;
+    private bool m_loading;
 
     public SampleCustomActionView()
     {
         InitializeComponent();
         DataContext = this;
 
-        ActionName = "Launch encoder command"; // The name of the action that will be displayed in the action list.
-        ActionDescription = "Launch a video encoder command"; // The description of the action that will be displayed in the action list.
+        ActionName = "Launch encoder command";
+        ActionDescription = "Launch a video encoder command";
 
         SelectCameraCommand = new DelegateCommand(() =>
         {
@@ -50,8 +50,7 @@ public partial class SampleCustomActionView : CustomActionView, INotifyPropertyC
         {
             if (SetProperty(ref m_encoderCommand, value))
             {
-                OnModified();
-                LoadRecipients();
+                RaiseModified();
             }
         }
     }
@@ -75,14 +74,15 @@ public partial class SampleCustomActionView : CustomActionView, INotifyPropertyC
                     }
                 }
 
-                EncoderCommand = EncoderCommands.FirstOrDefault();
-                OnModified();
-                LoadRecipients();
+                SetProperty(ref m_encoderCommand, EncoderCommands.FirstOrDefault(), nameof(EncoderCommand));
+                RaiseModified();
             }
         }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
+
+    protected override void OnInternalInitializationDone() => LoadRecipients();
 
     private void LoadRecipients()
     {
@@ -103,8 +103,25 @@ public partial class SampleCustomActionView : CustomActionView, INotifyPropertyC
         LaunchEncoderCommandAction data = LaunchEncoderCommandAction.Deserialize(payload);
         if (data != null)
         {
-            Camera = Workspace.Sdk.GetEntity(data.Camera) as Camera;
-            EncoderCommand = EncoderCommands.FirstOrDefault(commandInfo => commandInfo.Id == data.EncoderCommand);
+            m_loading = true;
+            try
+            {
+                Camera = Workspace.Sdk.GetEntity(data.Camera) as Camera;
+                EncoderCommand = EncoderCommands.FirstOrDefault(commandInfo => commandInfo.Id == data.EncoderCommand);
+            }
+            finally
+            {
+                m_loading = false;
+            }
+        }
+    }
+
+    private void RaiseModified()
+    {
+        if (!m_loading)
+        {
+            LoadRecipients();
+            OnModified();
         }
     }
 
