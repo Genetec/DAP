@@ -314,6 +314,14 @@ Remember to build your plugin in Debug mode and ensure that the PDB (Program Dat
 
 Plugins can leverage Security Center's database infrastructure through the `IPluginDatabaseSupport` interface. This provides a standardized way to manage plugin-specific database operations.
 
+The [PluginDatabaseSample](./PluginDatabaseSample/) adds a row to the `Logs` table each time its database enters `DatabaseState.Connected`. A reconnect adds another row. To see these entries, run this query in the plugin role's database:
+
+```sql
+SELECT TOP (10) Timestamp, LogLevel, Message
+FROM dbo.Logs
+ORDER BY Timestamp DESC;
+```
+
 ### Understanding and Implementing IPluginDatabaseSupport
 
 #### Overview
