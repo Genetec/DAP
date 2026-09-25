@@ -33,7 +33,7 @@ public class SamplePlugin : Plugin, IPluginDatabaseSupport // Implement the IPlu
 
             if (m_databaseManager.State == DatabaseState.Connected) // Insert a log message when the database is connected
             {
-                m_databaseManager.InsertLog(DateTime.UtcNow, 1, "This is a test log message.");
+                m_databaseManager.InsertLog(DateTime.UtcNow, 1, "Plugin database connected");
             }
         };
     }
