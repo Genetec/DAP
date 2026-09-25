@@ -27,17 +27,20 @@ public class AudioTransmitterSample : SampleBase
         }
 
         AudioTransmitter audioTransmitter = new();
+        bool startAttempted = false;
         try
         {
             audioTransmitter.Initialize(engine, camera.Guid);
 
             Console.WriteLine("Starting audio transmission...");
+            startAttempted = true;
             await audioTransmitter.StartTransmitting();
 
             var generator = new PcmAudioGenerator();
 
             // Transmit a 440 Hz sine wave for 30 seconds
-            byte[] audioData = generator.GenerateSineWave(440.0, 30.0);
+            const int durationSeconds = 30;
+            byte[] audioData = generator.GenerateSineWave(440.0, durationSeconds);
 
             // Determine optimal payload size for the AudioTransmitter
             int payloadSize = audioTransmitter.IdealPayloadSize;
@@ -52,13 +55,25 @@ public class AudioTransmitterSample : SampleBase
                 offset += size;
             }
 
-            Console.WriteLine($"Transmitted {audioData.Length} bytes of audio data.");
-
-            audioTransmitter.StopTransmitting();
+            Console.WriteLine($"Queued {audioData.Length} bytes of audio data.");
+            await Task.Delay(TimeSpan.FromSeconds(durationSeconds), token);
+            Console.WriteLine("Audio transmission complete.");
         }
         finally
         {
-            audioTransmitter.Dispose();
+            try
+            {
+                if (startAttempted)
+                {
+                    audioTransmitter.StopTransmitting();
+                    // Stop is asynchronous. Allow the session to close before disposal.
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                }
+            }
+            finally
+            {
+                audioTransmitter.Dispose();
+            }
         }
     }
 }

@@ -47,39 +47,64 @@ public abstract class SampleBase
 
         // Set up cancellation support to allow graceful shutdown via Ctrl+C
         using var cancellationTokenSource = new CancellationTokenSource();
+        object cancellationGate = new();
+        Task cancellationTask = Task.CompletedTask;
+        bool cancellationRequested = false;
+        bool stopping = false;
         Console.CancelKeyPress += OnCancelKeyPress;
 
-        Console.WriteLine($"Logging in to {server}... Press Ctrl+C to cancel");
-
-        // Attempt to connect to Security Center using the provided credentials
-        ConnectionStateCode state = await engine.LoginManager.LogOnAsync(server, username, password, cancellationTokenSource.Token);
-
-        if (state == ConnectionStateCode.Success)
+        try
         {
-            try
+            Console.WriteLine($"Logging in to {server}... Press Ctrl+C to cancel");
+
+            // Attempt to connect to Security Center using the provided credentials
+            ConnectionStateCode state = await engine.LoginManager.LogOnAsync(server, username, password, cancellationTokenSource.Token);
+
+            if (state == ConnectionStateCode.Success)
             {
                 // Execute the sample-specific logic implemented by the derived class
                 await RunAsync(engine, cancellationTokenSource.Token);
             }
-            catch (OperationCanceledException)
+            else
             {
-                // Operation was cancelled, likely due to Ctrl+C being pressed
-                Console.WriteLine("Operation cancelled");
+                Console.WriteLine($"Logon failed: {state}");
             }
-            catch (Exception ex)
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("Operation cancelled");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+        finally
+        {
+            Task pendingCancellation;
+            bool wasCancelled;
+            lock (cancellationGate)
             {
-                // Handle any unexpected exceptions during sample execution
-                Console.WriteLine(ex);
+                stopping = true;
+                pendingCancellation = cancellationTask;
+                wasCancelled = cancellationRequested;
+            }
+
+            if (wasCancelled)
+            {
+                // Cancellation can resume this method inside Cancel; let that callback return first.
+                await Task.Yield();
             }
             Console.CancelKeyPress -= OnCancelKeyPress;
-        }
-        else
-        {
-            Console.WriteLine($"Logon failed: {state}");
+            await pendingCancellation;
         }
 
         // Only prompt for keypress if the app wasn't cancelled via Ctrl+C
-        if (!cancellationTokenSource.IsCancellationRequested)
+        bool shouldPrompt;
+        lock (cancellationGate)
+        {
+            shouldPrompt = !cancellationRequested;
+        }
+        if (shouldPrompt)
         {
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey(true);
@@ -87,12 +112,19 @@ public abstract class SampleBase
 
         void OnCancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            if (!cancellationTokenSource.IsCancellationRequested)
+            e.Cancel = true;
+            lock (cancellationGate)
             {
+                if (cancellationRequested)
+                    return;
+
+                cancellationRequested = true;
+                if (stopping)
+                    return;
+
                 Console.WriteLine("Cancelling...");
-                cancellationTokenSource.Cancel();
-                // Prevent the default Ctrl+C behavior (which would terminate immediately)
-                e.Cancel = true;
+                // Let the console handler return before cancellation resumes the sample.
+                cancellationTask = Task.Run(() => cancellationTokenSource.Cancel());
             }
         }
     }
