@@ -41,10 +41,13 @@ The plugin appends configured query parameters to any query string already prese
 
 ## Explore the code
 
+Each custom action view is its own binding source. It holds the editable settings, validates them, and serializes them into the action payload. Loading a saved payload updates the bindings without marking the action as modified. The HTTP view detaches row notifications when rows are removed, replaced during loading, or disposed.
+
 These files contain the action definitions, registrations, views, and execution logic:
 
 - `Client/SampleCustomActionView.xaml` configures the encoder-command action.
 - `Client/HttpRequestActionView.xaml` configures the HTTP action.
+- [EditableNameValue.cs](Client/EditableNameValue.cs) provides property notifications for editable query-parameter and header rows.
 - `LaunchEncoderCommandAction.cs` and `SendHttpRequestAction.cs` define the serialized payloads.
 - `Client/SampleModule.cs` registers both action builders.
 - `Server/SamplePlugin.cs` registers and executes both action types.

@@ -6,7 +6,6 @@ namespace Genetec.Dap.CodeSamples.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,6 +16,8 @@ using Sdk.Workspace.Components.CustomAction;
 
 public partial class HttpRequestActionView : CustomActionView, INotifyPropertyChanged
 {
+    private readonly ObservableCollection<EditableNameValue> m_queryParameters = new();
+    private readonly ObservableCollection<EditableNameValue> m_headers = new();
     private string m_method = "GET";
     private string m_url = "https://";
     private string m_contentType = "application/json";
@@ -26,13 +27,12 @@ public partial class HttpRequestActionView : CustomActionView, INotifyPropertyCh
     public HttpRequestActionView()
     {
         InitializeComponent();
+        QueryParameters = new ReadOnlyObservableCollection<EditableNameValue>(m_queryParameters);
+        Headers = new ReadOnlyObservableCollection<EditableNameValue>(m_headers);
         DataContext = this;
 
-        ActionName = "Send HTTP request"; // The name of the action that will be displayed in the action list.
-        ActionDescription = "Send an HTTP request to a configured endpoint"; // The description of the action that will be displayed in the action list.
-
-        WireCollection(QueryParameters);
-        WireCollection(Headers);
+        ActionName = "Send HTTP request";
+        ActionDescription = "Send an HTTP request to a configured endpoint";
     }
 
     // The HTTP methods offered in the Method dropdown.
@@ -42,10 +42,9 @@ public partial class HttpRequestActionView : CustomActionView, INotifyPropertyCh
     public IReadOnlyList<string> ContentTypes { get; } =
         new[] { "application/json", "application/xml", "text/plain", "application/x-www-form-urlencoded" };
 
-    // The editable rows of the query-parameter and header grids.
-    public ObservableCollection<EditableNameValue> QueryParameters { get; } = new();
+    public ReadOnlyObservableCollection<EditableNameValue> QueryParameters { get; }
 
-    public ObservableCollection<EditableNameValue> Headers { get; } = new();
+    public ReadOnlyObservableCollection<EditableNameValue> Headers { get; }
 
     public string Method
     {
@@ -108,27 +107,27 @@ public partial class HttpRequestActionView : CustomActionView, INotifyPropertyCh
 
     private void AddQueryParameter(object sender, RoutedEventArgs e)
     {
-        QueryParameters.Add(new EditableNameValue());
+        AddRow(m_queryParameters, new EditableNameValue());
     }
 
     private void RemoveQueryParameter(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement element && element.DataContext is EditableNameValue row)
         {
-            QueryParameters.Remove(row);
+            RemoveRow(m_queryParameters, row);
         }
     }
 
     private void AddHeader(object sender, RoutedEventArgs e)
     {
-        Headers.Add(new EditableNameValue());
+        AddRow(m_headers, new EditableNameValue());
     }
 
     private void RemoveHeader(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement element && element.DataContext is EditableNameValue row)
         {
-            Headers.Remove(row);
+            RemoveRow(m_headers, row);
         }
     }
 
@@ -174,8 +173,8 @@ public partial class HttpRequestActionView : CustomActionView, INotifyPropertyCh
             ContentType = data.ContentType;
             Body = data.Body;
 
-            LoadRows(QueryParameters, data.QueryParameters);
-            LoadRows(Headers, data.Headers);
+            LoadRows(m_queryParameters, data.QueryParameters);
+            LoadRows(m_headers, data.Headers);
         }
         finally
         {
@@ -185,6 +184,11 @@ public partial class HttpRequestActionView : CustomActionView, INotifyPropertyCh
 
     private void LoadRows(ObservableCollection<EditableNameValue> target, List<NameValuePair> source)
     {
+        foreach (EditableNameValue row in target)
+        {
+            row.PropertyChanged -= OnRowEdited;
+        }
+
         target.Clear();
         if (source is null)
         {
@@ -193,34 +197,24 @@ public partial class HttpRequestActionView : CustomActionView, INotifyPropertyCh
 
         foreach (NameValuePair pair in source)
         {
-            target.Add(new EditableNameValue { Name = pair.Name, Value = pair.Value });
+            AddRow(target, new EditableNameValue { Name = pair.Name, Value = pair.Value });
         }
     }
 
-    private void WireCollection(ObservableCollection<EditableNameValue> collection)
+    private void AddRow(ObservableCollection<EditableNameValue> target, EditableNameValue row)
     {
-        collection.CollectionChanged += OnRowsChanged;
-    }
-
-    private void OnRowsChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (e.NewItems != null)
-        {
-            foreach (EditableNameValue row in e.NewItems.OfType<EditableNameValue>())
-            {
-                row.PropertyChanged += OnRowEdited;
-            }
-        }
-
-        if (e.OldItems != null)
-        {
-            foreach (EditableNameValue row in e.OldItems.OfType<EditableNameValue>())
-            {
-                row.PropertyChanged -= OnRowEdited;
-            }
-        }
-
+        row.PropertyChanged += OnRowEdited;
+        target.Add(row);
         RaiseModified();
+    }
+
+    private void RemoveRow(ObservableCollection<EditableNameValue> target, EditableNameValue row)
+    {
+        if (target.Remove(row))
+        {
+            row.PropertyChanged -= OnRowEdited;
+            RaiseModified();
+        }
     }
 
     private void OnRowEdited(object sender, PropertyChangedEventArgs e)
@@ -252,44 +246,14 @@ public partial class HttpRequestActionView : CustomActionView, INotifyPropertyCh
 
         return false;
     }
-}
 
-// An editable name/value row for the query-parameter and header grids.
-public class EditableNameValue : INotifyPropertyChanged
-{
-    private string m_name;
-    private string m_value;
-
-    public string Name
+    public override void Dispose()
     {
-        get => m_name;
-        set
+        foreach (EditableNameValue row in QueryParameters.Concat(Headers))
         {
-            if (!Equals(m_name, value))
-            {
-                m_name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
-            }
+            row.PropertyChanged -= OnRowEdited;
         }
-    }
 
-    public string Value
-    {
-        get => m_value;
-        set
-        {
-            if (!Equals(m_value, value))
-            {
-                m_value = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
-            }
-        }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public NameValuePair ToPair()
-    {
-        return new NameValuePair { Name = Name, Value = Value };
+        base.Dispose();
     }
 }
