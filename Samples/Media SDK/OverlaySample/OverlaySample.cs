@@ -51,8 +51,8 @@ public class OverlaySample : SampleBase
     {
         const string layerId = "69A64ACE-6DDC-4142-AD04-06690D8591B3"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
-        Overlay overlay = await InitializeOverlay(cameraId, "Bouncing ball", token);
-        Layer layer = overlay.CreateLayer(new Guid(layerId), "Bouncing ball");
+        using Overlay overlay = await InitializeOverlay(cameraId, "Bouncing ball", token);
+        using Layer layer = overlay.CreateLayer(new Guid(layerId), "Bouncing ball");
 
         var bouncingBall = new BouncingBall(50, 50, 50, 50, 25) { CanvasHeight = s_canvasHeight, CanvasWidth = s_canvasWidth };
 
@@ -73,8 +73,8 @@ public class OverlaySample : SampleBase
     {
         const string layerId = "92AEA5CA-E0F5-4122-872A-DB9A9F7437F7"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
-        Overlay overlay = await InitializeOverlay(cameraId, "Timecode", token);
-        Layer layer = overlay.CreateLayer(new Guid(layerId), "Timecode");
+        using Overlay overlay = await InitializeOverlay(cameraId, "Timecode", token);
+        using Layer layer = overlay.CreateLayer(new Guid(layerId), "Timecode");
 
         var timeDisplay = new TimeDisplay();
 
@@ -95,8 +95,8 @@ public class OverlaySample : SampleBase
     {
         const string layerId = "A1B2C3D4-E5F6-7890-1234-567890ABCDEF"; // Replace with a unique layer ID for your overlay. Layer ID must be unique and deterministic
 
-        Overlay overlay = await InitializeOverlay(camera.Guid, "Recording Status", token);
-        Layer layer = overlay.CreateLayer(new Guid(layerId), "Recording Status");
+        using Overlay overlay = await InitializeOverlay(camera.Guid, "Recording Status", token);
+        using Layer layer = overlay.CreateLayer(new Guid(layerId), "Recording Status");
 
         var recordingStatus = new RecordingStatus(camera);
 

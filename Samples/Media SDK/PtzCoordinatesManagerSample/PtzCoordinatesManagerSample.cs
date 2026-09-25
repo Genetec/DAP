@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,15 +62,15 @@ public class PtzCoordinatesManagerSample : SampleBase
             return;
         }
 
-        List<int> presets = Enumerable.Range(camera.PtzCapabilities.PresetBase, camera.PtzCapabilities.NumberOfPresets).ToList();
-        if (!presets.Any())
+        int presetCount = camera.PtzCapabilities.NumberOfPresets;
+        if (presetCount == 0)
         {
             Console.WriteLine($"No presets found for camera '{camera.Name}'.\n");
             return;
         }
 
-        Console.WriteLine($"Moving through {presets.Count} presets:\n");
-        foreach (int preset in presets)
+        Console.WriteLine($"Moving through {presetCount} presets:\n");
+        foreach (int preset in Enumerable.Range(camera.PtzCapabilities.PresetBase, presetCount))
         {
             Console.WriteLine($"Moving to {camera.GetPtzPresetName(preset) ?? $"Preset {preset}"}... (Preset number: {preset})");
 
@@ -92,15 +91,15 @@ public class PtzCoordinatesManagerSample : SampleBase
             return;
         }
 
-        List<int> patterns = Enumerable.Range(camera.PtzCapabilities.PatternBase, camera.PtzCapabilities.NumberOfPatterns).ToList();
-        if (!patterns.Any())
+        int patternCount = camera.PtzCapabilities.NumberOfPatterns;
+        if (patternCount == 0)
         {
             Console.WriteLine($"No patterns found for camera '{camera.Name}'.\n");
             return;
         }
 
-        Console.WriteLine($"Running {patterns.Count} patterns:\n");
-        foreach (int pattern in patterns)
+        Console.WriteLine($"Running {patternCount} patterns:\n");
+        foreach (int pattern in Enumerable.Range(camera.PtzCapabilities.PatternBase, patternCount))
         {
             Console.WriteLine($"Running {camera.GetPtzPatternName(pattern) ?? $"Pattern {pattern}"}... (Pattern number: {pattern})");
 
@@ -121,15 +120,15 @@ public class PtzCoordinatesManagerSample : SampleBase
             return;
         }
 
-        List<int> presetTours = Enumerable.Range(camera.PtzCapabilities.PresetTourBase, camera.PtzCapabilities.NumberOfPresetTours).ToList();
-        if (!presetTours.Any())
+        int presetTourCount = camera.PtzCapabilities.NumberOfPresetTours;
+        if (presetTourCount == 0)
         {
             Console.WriteLine($"No preset tours found for camera '{camera.Name}'.\n");
             return;
         }
 
-        Console.WriteLine($"Running {presetTours.Count} preset tours:\n");
-        foreach (int tour in presetTours)
+        Console.WriteLine($"Running {presetTourCount} preset tours:\n");
+        foreach (int tour in Enumerable.Range(camera.PtzCapabilities.PresetTourBase, presetTourCount))
         {
             Console.WriteLine($"Running preset tour {tour}");
 

@@ -1,13 +1,13 @@
 ﻿// Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
+using Genetec.Dap.CodeSamples;
+using Genetec.Sdk.Media.Export;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples;
-using Genetec.Sdk.Media.Export;
 using File = System.IO.File;
 
 SdkResolver.Initialize();
@@ -56,7 +56,7 @@ async Task ProcessFile(string filePath)
     Console.WriteLine("Converting to MP4...");
     try
     {
-        string convertedFile = await ConvertToMp4(filePath, true, new Progress<(int Percent, string Message)>(ReportProgress), cancellationTokenSource.Token);
+        string convertedFile = await ConvertToMp4(filePath, new Progress<(int Percent, string Message)>(ReportProgress), cancellationTokenSource.Token);
         Console.WriteLine($"\nConversion to MP4 completed: {convertedFile}");
     }
     catch (OperationCanceledException)
@@ -72,7 +72,7 @@ async Task ProcessFile(string filePath)
     Console.WriteLine("\nConverting to ASF...");
     try
     {
-        string convertedFile = await ConvertToAsf(filePath, true, new Progress<(int Percent, string Message)>(ReportProgress), cancellationTokenSource.Token);
+        string convertedFile = await ConvertToAsf(filePath, new Progress<(int Percent, string Message)>(ReportProgress), cancellationTokenSource.Token);
         Console.WriteLine($"\nConversion to ASF completed: {convertedFile}");
     }
     catch (OperationCanceledException)
@@ -94,19 +94,19 @@ async Task ProcessFile(string filePath)
     }
 }
 
-async Task<string> ConvertToMp4(string filePath, bool exportAudio = true, IProgress<(int Percent, string Message)> progress = default, CancellationToken token = default)
+async Task<string> ConvertToMp4(string filePath, IProgress<(int Percent, string Message)> progress, CancellationToken token)
 {
     using var converter = new G64ToMp4Converter();
 
     converter.Initialize(
         filePath: filePath,
-        exportAudio: exportAudio,
+        exportAudio: true,
         outputFilePath: Path.ChangeExtension(filePath, ".mp4"));
 
     return (await converter.ConvertAsync(progress, token)).FirstOrDefault();
 }
 
-async Task<string> ConvertToAsf(string filePath, bool exportAudio = true, IProgress<(int Percent, string Message)> progress = default, CancellationToken token = default)
+async Task<string> ConvertToAsf(string filePath, IProgress<(int Percent, string Message)> progress, CancellationToken token)
 {
     using var converter = new G64ToAsfConverter();
 
@@ -114,7 +114,7 @@ async Task<string> ConvertToAsf(string filePath, bool exportAudio = true, IProgr
         filePath: filePath,
         displayDateTime: false,
         writeCameraName: false,
-        exportAudio: exportAudio,
+        exportAudio: true,
         outputFilePath: Path.ChangeExtension(filePath, ".asf"),
         profileId: G64ToAsfConverter.GetAsfProfiles().First().Profile);
 

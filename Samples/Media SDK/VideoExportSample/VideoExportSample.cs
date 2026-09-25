@@ -45,7 +45,7 @@ public class VideoExportSample : SampleBase
         exporter.StatisticsReceived += OnStatisticsReceived;
         try
         {
-            exporter.Initialize(engine, Environment.CurrentDirectory);
+            exporter.Initialize(engine, AppDomain.CurrentDomain.BaseDirectory);
             exporter.SetExportFileFormat(MediaExportFileFormat.G64X); // G64X is Genetec's proprietary format that preserves metadata and supports encryption
 
             var config = new CameraExportConfig(camera.Guid, Enumerable.Repeat(new DateTimeRange(startTime, endTime), 1));

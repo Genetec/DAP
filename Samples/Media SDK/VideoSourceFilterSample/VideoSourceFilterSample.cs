@@ -26,16 +26,16 @@ public class VideoSourceFilterSample : SampleBase
             return;
         }
 
-        byte[] snapshot = await GetCameraSnapshot(engine, camera.Guid);
+        byte[] snapshot = await GetCameraSnapshot(engine, camera.Guid, token);
 
         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        string fileName = $"{camera.Name}_{timestamp}.bmp";
+        string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{camera.Name}_{timestamp}.bmp");
         System.IO.File.WriteAllBytes(fileName, snapshot);
 
         Console.WriteLine($"Snapshot saved: {fileName}");
     }
 
-    private async Task<byte[]> GetCameraSnapshot(Engine engine, Guid camera)
+    private async Task<byte[]> GetCameraSnapshot(Engine engine, Guid camera, CancellationToken token)
     {
         var completion = new TaskCompletionSource<byte[]>(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -47,6 +47,7 @@ public class VideoSourceFilterSample : SampleBase
             {
                 videoSourceFilter.Initialize(engine, camera);
                 videoSourceFilter.PlayLive();
+                using CancellationTokenRegistration registration = token.Register(() => completion.TrySetCanceled(token));
                 return await completion.Task;
             }
             finally

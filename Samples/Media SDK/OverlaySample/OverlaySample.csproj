@@ -48,7 +48,6 @@
 		<Reference Include="System.Data.DataSetExtensions" />
 		<Reference Include="System.Drawing" />
 		<Reference Include="WindowsBase" />
-		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
 	</ItemGroup>
 
 	<Target Name="CopyCertificates" AfterTargets="Build">
