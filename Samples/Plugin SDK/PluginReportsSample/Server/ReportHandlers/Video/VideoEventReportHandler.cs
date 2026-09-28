@@ -31,6 +31,13 @@ public class VideoEventReportHandler : DatabaseReportHandler<VideoEventQuery>
     {
         SqlFilterBuilder.AddIntFilter(conditions, Columns.EventType, query.Events.Where(eventType => eventType != EventType.None).Select(eventType => (int)eventType).ToList());
         SqlFilterBuilder.AddGuidFilter(conditions, command, Columns.CameraGuid, query.Cameras, "Camera");
+
+        if (query is MotionEventQuery motionQuery)
+        {
+            conditions.Add($"{Columns.Value} >= @MotionThreshold");
+            command.Parameters.Add("@MotionThreshold", SqlDbType.Int).Value = motionQuery.MotionThreshold;
+        }
+
         return Task.CompletedTask;
     }
 
