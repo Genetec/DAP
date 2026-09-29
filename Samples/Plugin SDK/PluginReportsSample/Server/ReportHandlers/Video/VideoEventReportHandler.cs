@@ -37,6 +37,13 @@ public class VideoEventReportHandler : DatabaseReportHandler<VideoEventQuery>
             conditions.Add($"{Columns.Value} >= @MotionThreshold");
             command.Parameters.Add("@MotionThreshold", SqlDbType.Int).Value = motionQuery.MotionThreshold;
         }
+        else if (query is CameraEventQuery cameraQuery && cameraQuery.ValueFilter != 0 &&
+                 cameraQuery.Events.Any(eventType => eventType is EventType.CameraMotion or EventType.CameraMotionOn or EventType.CameraMotionOff))
+        {
+            // The Archiver enables this query-wide comparison when motion events are selected.
+            conditions.Add($"{Columns.Value} >= @ValueFilter");
+            command.Parameters.Add("@ValueFilter", SqlDbType.Int).Value = cameraQuery.ValueFilter;
+        }
 
         return Task.CompletedTask;
     }
