@@ -80,23 +80,6 @@ public class SampleDatabaseManager : DatabaseManager, IDisposable
     {
         m_logger.TraceDebug($"Deleting logs older than {daysOld} days");
 
-        // When using version 5.11 or earlier, use System.Data.SqlClient.SqlConnection
-        //using System.Data.SqlClient.SqlConnection connection = Configuration.CreateSqlConnection();
-        //using var command = new System.Data.SqlClient.SqlCommand("DeleteOldLogs", connection);
-        //command.CommandType = CommandType.StoredProcedure;
-        //command.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DaysOld", daysOld));
-        //try
-        //{
-        //    connection.Open();
-
-        //    int rowsAffected = command.ExecuteNonQuery();
-        //    m_logger.TraceDebug($"{rowsAffected} rows were deleted.");
-        //}
-        //catch (Exception ex)
-        //{
-        //    m_logger.TraceError(ex, $"An error occurred: {ex.Message}");
-        //}
-
         // When using version 5.12 or later, use Microsoft.Data.SqlClient.SqlConnection
         using Microsoft.Data.SqlClient.SqlConnection connection = Configuration.CreateSqlDatabaseConnection();
         using var command = new Microsoft.Data.SqlClient.SqlCommand("DeleteOldLogs", connection);
@@ -127,24 +110,6 @@ public class SampleDatabaseManager : DatabaseManager, IDisposable
     /// </remarks>
     public void InsertLog(DateTime timestamp, int logLevel, string message)
     {
-        // When using version 5.11 or earlier, use System.Data.SqlClient.SqlConnection
-        //using System.Data.SqlClient.SqlConnection connection = Configuration.CreateSqlConnection();
-        //using var command = new System.Data.SqlClient.SqlCommand("InsertLog", connection);
-        //command.CommandType = CommandType.StoredProcedure;
-
-        //command.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Timestamp", timestamp));
-        //command.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LogLevel", logLevel));
-        //command.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Message", message));
-        //try
-        //{
-        //    connection.Open();
-        //    command.ExecuteNonQuery();
-        //}
-        //catch (Exception ex)
-        //{
-        //    m_logger.TraceError(ex, $"An error occurred while inserting log: {ex.Message}");
-        //}
-
         // When using version 5.12 or later, use Microsoft.Data.SqlClient.SqlConnection
         using Microsoft.Data.SqlClient.SqlConnection connection = Configuration.CreateSqlDatabaseConnection();
         using var command = new Microsoft.Data.SqlClient.SqlCommand("InsertLog", connection);
