@@ -25,8 +25,6 @@ public class HealthEventsReportHandler : DatabaseReportHandler<HealthEventQuery>
         $"{Columns.EventTimestamp}, {Columns.HealthEventId}, {Columns.EventSourceTypeId}, {Columns.SourceEntityGuid}, {Columns.EventDescription}, " +
         $"{Columns.MachineName}, {Columns.SeverityId}, {Columns.ErrorNumber}, {Columns.Occurrence}, {Columns.ObserverEntity}";
 
-    protected override string TimestampColumn => Columns.EventTimestamp;
-
     protected override Task AddFiltersAsync(ICollection<string> conditions, SqlCommand command, HealthEventQuery query)
     {
         SqlFilterBuilder.AddIntFilter(conditions, Columns.HealthEventId, query.HealthEvents.Select(healthEvent => (int)healthEvent).ToList());

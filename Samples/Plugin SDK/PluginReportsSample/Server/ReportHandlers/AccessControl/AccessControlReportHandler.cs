@@ -27,8 +27,6 @@ public class AccessControlReportHandler : DatabaseReportHandler<AccessControlRep
         $"{Columns.CredentialGuid}, {Columns.CardholderGuid}, {Columns.Credential2Guid}, {Columns.TimeZone}, {Columns.OccurrencePeriod}, " +
         $"{Columns.AccessPointGroupGuid}, {Columns.CustomEventMessage}";
 
-    protected override string TimestampColumn => Columns.EventTimestamp;
-
     protected override async Task AddFiltersAsync(ICollection<string> conditions, SqlCommand command, AccessControlReportQuery query)
     {
         // Event filter, remapped per report: the cardholder-centric reports use the Cardholder*

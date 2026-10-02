@@ -25,8 +25,6 @@ public class IntrusionDetectionReportHandler : DatabaseReportHandler<IntrusionDe
         $"{Columns.EventTimestamp}, {Columns.EventType}, {Columns.IntrusionUnitId}, {Columns.IntrusionAreaId}, {Columns.DeviceId}, " +
         $"{Columns.SourceGuid}, {Columns.OccurrencePeriod}, {Columns.TimeZoneId}, {Columns.InitiatorId}";
 
-    protected override string TimestampColumn => Columns.EventTimestamp;
-
     protected override async Task AddFiltersAsync(ICollection<string> conditions, SqlCommand command, IntrusionDetectionReportQuery query)
     {
         SqlFilterBuilder.AddEventTypeFilter(conditions, Columns.EventType, query);

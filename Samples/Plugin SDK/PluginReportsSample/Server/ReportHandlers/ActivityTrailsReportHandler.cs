@@ -28,8 +28,6 @@ public class ActivityTrailsReportHandler : DatabaseReportHandler<ActivityTrailsQ
         $"{Columns.EventTimestamp}, {Columns.ActivityType}, {Columns.Description}, {Columns.EntityGuid}, {Columns.EntityType}, {Columns.EntityName}, " +
         $"{Columns.InitiatorGuid}, {Columns.InitiatorType}, {Columns.InitiatorName}, {Columns.ApplicationType}, {Columns.ApplicationName}, {Columns.MachineName}";
 
-    protected override string TimestampColumn => Columns.EventTimestamp;
-
     protected override Task AddFiltersAsync(ICollection<string> conditions, SqlCommand command, ActivityTrailsQuery query)
     {
         SqlFilterBuilder.AddIntFilter(conditions, Columns.ActivityType, query.Activities.Select(activity => (int)activity).ToList());
