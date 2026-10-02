@@ -29,8 +29,6 @@ public class AuditTrailsReportHandler : DatabaseReportHandler<AuditTrailQuery>
         $"{Columns.EntityGuid}, {Columns.EntityType}, {Columns.EntityName}, {Columns.InitiatorGuid}, {Columns.InitiatorType}, {Columns.InitiatorName}, " +
         $"{Columns.ApplicationType}, {Columns.ApplicationName}, {Columns.MachineName}";
 
-    protected override string TimestampColumn => Columns.EventTimestamp;
-
     protected override Task AddFiltersAsync(ICollection<string> conditions, SqlCommand command, AuditTrailQuery query)
     {
         SqlFilterBuilder.AddIntFilter(conditions, Columns.EntityType, query.EntityTypes.Select(entityType => (int)entityType).ToList());

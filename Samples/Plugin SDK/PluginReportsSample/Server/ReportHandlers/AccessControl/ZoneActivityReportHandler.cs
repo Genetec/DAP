@@ -23,8 +23,6 @@ public class ZoneActivityReportHandler : DatabaseReportHandler<ZoneActivityQuery
     protected override string SelectColumns =>
         $"{Columns.EventTimestamp}, {Columns.EventType}, {Columns.EventId}, {Columns.EventTimestampLocal}, {Columns.TimeZoneId}, {Columns.ZoneId}, {Columns.OfflinePeriod}";
 
-    protected override string TimestampColumn => Columns.EventTimestamp;
-
     protected override async Task AddFiltersAsync(ICollection<string> conditions, SqlCommand command, ZoneActivityQuery query)
     {
         SqlFilterBuilder.AddEventTypeFilter(conditions, Columns.EventType, query);
