@@ -19,9 +19,8 @@ using Genetec.Sdk.Queries;
 internal static class QueryEntityExpander
 {
     /// <summary>
-    /// Expands direct query entities and included expansion entities, then applies entities
-    /// contained by the excluded expansion entities. The result distinguishes a finite inclusion
-    /// set from a system-wide selection with finite exclusions.
+    /// Expands direct, included, and excluded query entities. Keeps exclusions separate so
+    /// report handlers can apply them to every relevant record field.
     /// </summary>
     public static Task<QueryEntitySelection> ExpandAccessControlSelectionAsync(
         IEngine engine,
@@ -67,8 +66,7 @@ internal static class QueryEntityExpander
 
         var selection = new HashSet<Guid>(direct);
         selection.UnionWith(included);
-        selection.ExceptWith(excluded);
-        return QueryEntitySelection.Restricted(selection);
+        return QueryEntitySelection.Restricted(selection, excluded);
     }
 
     private static async Task<IReadOnlyCollection<Guid>> ExpandAsync(IEngine engine, IEnumerable<Guid> entityIds, AreaExpansionMode areaExpansionMode)
@@ -182,8 +180,8 @@ internal sealed class QueryEntitySelection
     public IReadOnlyCollection<Guid> Included { get; }
     public IReadOnlyCollection<Guid> Excluded { get; }
 
-    public static QueryEntitySelection Restricted(IReadOnlyCollection<Guid> included)
-        => new(false, included, Array.Empty<Guid>());
+    public static QueryEntitySelection Restricted(IReadOnlyCollection<Guid> included, IReadOnlyCollection<Guid> excluded = null)
+        => new(false, included, excluded ?? Array.Empty<Guid>());
 
     public static QueryEntitySelection Unrestricted(IReadOnlyCollection<Guid> excluded)
         => new(true, Array.Empty<Guid>(), excluded);

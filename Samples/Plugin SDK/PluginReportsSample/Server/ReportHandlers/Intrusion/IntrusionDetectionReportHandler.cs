@@ -40,20 +40,18 @@ public class IntrusionDetectionReportHandler : DatabaseReportHandler<IntrusionDe
                 query.QueryEntities,
                 query.ExcludedExpansionEntities);
 
-            if (selection.IsUnrestricted)
+            if (selection.Excluded.Count > 0)
             {
-                if (selection.Excluded.Count > 0)
-                {
-                    string excluded = SqlFilterBuilder.AddGuidList(command, selection.Excluded, "ExcludedEntity");
-                    conditions.Add($"({Columns.IntrusionAreaId} NOT IN ({excluded}) AND {Columns.IntrusionUnitId} NOT IN ({excluded}) AND {Columns.SourceGuid} NOT IN ({excluded}))");
-                }
+                string excluded = SqlFilterBuilder.AddGuidList(command, selection.Excluded, "ExcludedEntity");
+                conditions.Add($"({Columns.IntrusionAreaId} NOT IN ({excluded}) AND {Columns.IntrusionUnitId} NOT IN ({excluded}) AND {Columns.SourceGuid} NOT IN ({excluded}))");
             }
-            else if (selection.Included.Count > 0)
+
+            if (!selection.IsUnrestricted && selection.Included.Count > 0)
             {
                 string parameterNames = SqlFilterBuilder.AddGuidList(command, selection.Included, "Entity");
                 conditions.Add($"({Columns.IntrusionAreaId} IN ({parameterNames}) OR {Columns.IntrusionUnitId} IN ({parameterNames}) OR {Columns.SourceGuid} IN ({parameterNames}))");
             }
-            else
+            else if (!selection.IsUnrestricted)
             {
                 conditions.Add("1 = 0");
             }

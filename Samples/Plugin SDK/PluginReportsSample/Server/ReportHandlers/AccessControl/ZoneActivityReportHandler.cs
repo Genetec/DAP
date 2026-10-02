@@ -37,19 +37,17 @@ public class ZoneActivityReportHandler : DatabaseReportHandler<ZoneActivityQuery
                 query.IncludedExpansionEntities,
                 query.ExcludedExpansionEntities);
 
-            if (selection.IsUnrestricted)
+            if (selection.Excluded.Count > 0)
             {
-                if (selection.Excluded.Count > 0)
-                {
-                    string excluded = SqlFilterBuilder.AddGuidList(command, selection.Excluded, "ExcludedZone");
-                    conditions.Add($"{Columns.ZoneId} NOT IN ({excluded})");
-                }
+                string excluded = SqlFilterBuilder.AddGuidList(command, selection.Excluded, "ExcludedZone");
+                conditions.Add($"{Columns.ZoneId} NOT IN ({excluded})");
             }
-            else if (selection.Included.Count > 0)
+
+            if (!selection.IsUnrestricted && selection.Included.Count > 0)
             {
                 SqlFilterBuilder.AddGuidFilter(conditions, command, Columns.ZoneId, selection.Included, "Zone");
             }
-            else
+            else if (!selection.IsUnrestricted)
             {
                 conditions.Add("1 = 0");
             }
