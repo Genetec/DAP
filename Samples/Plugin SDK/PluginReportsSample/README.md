@@ -51,11 +51,11 @@ The database stores the positive definition ID. The custom report returns its ne
 
 For SDK clients, use a `Custom` report query with `CustomReportId` set to `975ab1e5-0f1c-43e7-b446-e4f005944e33`. Populate `QueryEntities` with at least one source entity, set its time range, and serialize [CustomEventFilterData](CustomEventReport.cs) into `FilterData` for the custom-event ID and message. The source validates the custom report ID so it does not answer another plugin's custom report.
 
-Use `FilterData` for the event selector rather than Web SDK's `CustomEvents@ID` syntax: in the tested SDK build, that collection expression does not persist the selection. Web SDK returns the custom report's timestamp text without a timezone suffix; interpret this report's `EventTimestamp` column as UTC.
+For this sample's custom report, use `FilterData` to specify the custom-event ID and message filter. Web SDK returns the custom report's timestamp text without a timezone suffix; interpret this report's `EventTimestamp` column as UTC.
 
 ## Audit report formatting
 
-Audit report output is formatted by Security Center. The selected `auditFormat` controls the generated description and modification category; `modificationType` and `description` are not independent values that always round-trip. For example, `EntityPropertyFormatter` produces a properties-modified description, even when the payload specifies an entity-rename modification. The tested SDK also changes the supplied audit application type to `AccessDatastore`. The plugin database retains the original submitted values. Do not rely on the native audit report to preserve all payload metadata in this SDK build.
+Audit report output is formatted by Security Center. The selected `auditFormat` controls the generated description and modification category; `modificationType` and `description` are not independent values that always round-trip. For example, `EntityPropertyFormatter` produces a properties-modified description, even when the payload specifies an entity-rename modification. The plugin database retains the original submitted values.
 
 ## How ingestion works
 
@@ -71,14 +71,14 @@ This keeps the learning path visible in one project:
 
 ## Configure the sample
 
-Use a Windows development system with Security Center, its SDK, SQL Server, the .NET Framework 4.8.1 targeting pack, and a compiler supporting C# 12. Set `GSC_SDK` to the installed SDK directory containing the .NET Framework assemblies. The project targets `net481`; its build has been checked against SDK 5.14. The bundled Plugin SDK certificate and application ID are for a development system.
+Use a Windows development system with Security Center, its SDK, SQL Server, the .NET Framework 4.8.1 targeting pack, and a compiler supporting C# 12. Set `GSC_SDK` to the installed SDK directory containing the .NET Framework assemblies. The project targets `net481`. The bundled Plugin SDK certificate and application ID are for a development system.
 
 1. Build the project from an elevated Visual Studio instance. The post-build target registers the client and server modules on that computer. Restart Config Tool to load the client module.
 2. Create the plugin role in Config Tool and configure a new sample database.
 3. On the role's **Properties** page, keep the default port or select another unused port.
 4. Activate the role and confirm that its state shows `http://127.0.0.1:<port>`.
 
-The listener accepts requests only from the role's server. This keeps the sample easy to run without exposing an unauthenticated network endpoint. It is not a production or remote-ingestion endpoint. A production integration must provide authenticated HTTPS through a dedicated service or an authentication design appropriate to its deployment.
+The listener accepts requests only from the role's server. The listener avoids exposing an unauthenticated network endpoint. It is not a production or remote-ingestion endpoint. A production integration must provide authenticated HTTPS through a dedicated service or an authentication design appropriate to its deployment.
 
 If the role reports an access-denied listener error, reserve the loopback URL for the account running the plugin host. Run the following command in an elevated terminal after replacing the account name:
 

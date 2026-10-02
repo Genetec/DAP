@@ -70,22 +70,20 @@ public class AccessControlReportHandler : DatabaseReportHandler<AccessControlRep
                 query.IncludedExpansionEntities,
                 query.ExcludedExpansionEntities);
 
-            if (selection.IsUnrestricted)
+            if (selection.Excluded.Count > 0)
             {
-                if (selection.Excluded.Count > 0)
-                {
-                    string excluded = SqlFilterBuilder.AddGuidList(command, selection.Excluded, "ExcludedEntity");
-                    conditions.Add($"({Columns.SourceGuid} NOT IN ({excluded}) AND " +
-                        $"({Columns.UnitGuid} IS NULL OR {Columns.UnitGuid} NOT IN ({excluded})) AND " +
-                        $"({Columns.DeviceGuid} IS NULL OR {Columns.DeviceGuid} NOT IN ({excluded})) AND " +
-                        $"({Columns.APGuid} IS NULL OR {Columns.APGuid} NOT IN ({excluded})) AND " +
-                        $"({Columns.CardholderGuid} IS NULL OR {Columns.CardholderGuid} NOT IN ({excluded})) AND " +
-                        $"({Columns.CredentialGuid} IS NULL OR {Columns.CredentialGuid} NOT IN ({excluded})) AND " +
-                        $"({Columns.Credential2Guid} IS NULL OR {Columns.Credential2Guid} NOT IN ({excluded})) AND " +
-                        $"({Columns.AccessPointGroupGuid} IS NULL OR {Columns.AccessPointGroupGuid} NOT IN ({excluded})))");
-                }
+                string excluded = SqlFilterBuilder.AddGuidList(command, selection.Excluded, "ExcludedEntity");
+                conditions.Add($"({Columns.SourceGuid} NOT IN ({excluded}) AND " +
+                    $"({Columns.UnitGuid} IS NULL OR {Columns.UnitGuid} NOT IN ({excluded})) AND " +
+                    $"({Columns.DeviceGuid} IS NULL OR {Columns.DeviceGuid} NOT IN ({excluded})) AND " +
+                    $"({Columns.APGuid} IS NULL OR {Columns.APGuid} NOT IN ({excluded})) AND " +
+                    $"({Columns.CardholderGuid} IS NULL OR {Columns.CardholderGuid} NOT IN ({excluded})) AND " +
+                    $"({Columns.CredentialGuid} IS NULL OR {Columns.CredentialGuid} NOT IN ({excluded})) AND " +
+                    $"({Columns.Credential2Guid} IS NULL OR {Columns.Credential2Guid} NOT IN ({excluded})) AND " +
+                    $"({Columns.AccessPointGroupGuid} IS NULL OR {Columns.AccessPointGroupGuid} NOT IN ({excluded})))");
             }
-            else if (selection.Included.Count > 0)
+
+            if (!selection.IsUnrestricted && selection.Included.Count > 0)
             {
                 string included = SqlFilterBuilder.AddGuidList(command, selection.Included, "Entity");
                 conditions.Add($"({Columns.SourceGuid} IN ({included}) OR {Columns.UnitGuid} IN ({included}) OR " +
@@ -93,9 +91,9 @@ public class AccessControlReportHandler : DatabaseReportHandler<AccessControlRep
                     $"{Columns.CardholderGuid} IN ({included}) OR {Columns.CredentialGuid} IN ({included}) OR " +
                     $"{Columns.Credential2Guid} IN ({included}) OR {Columns.AccessPointGroupGuid} IN ({included}))");
             }
-            else
+            else if (!selection.IsUnrestricted)
             {
-                // A selected empty group, or a selection emptied by exclusions, matches no records.
+                // A selected empty group matches no records.
                 conditions.Add("1 = 0");
             }
         }
