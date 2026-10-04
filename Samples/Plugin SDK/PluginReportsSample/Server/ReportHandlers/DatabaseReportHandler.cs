@@ -64,7 +64,8 @@ public abstract class DatabaseReportHandler<TQuery> : IReportHandler where TQuer
         using SqlConnection connection = m_databaseManager.Configuration.CreateSqlDatabaseConnection();
         await connection.OpenAsync(cancellationToken);
 
-        using SqlCommand command = await CreateSelectCommand(connection, query);
+        using var command = new SqlCommand { Connection = connection };
+        await ConfigureSelectCommandAsync(command, query);
         using SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
 
         int totalSent = 0;
@@ -102,9 +103,8 @@ public abstract class DatabaseReportHandler<TQuery> : IReportHandler where TQuer
     protected virtual DataTable CreateDataTable(TQuery query) => query.GetNewDataTables().First();
 
     // Translates the query filters into a parameterized SQL query
-    private async Task<SqlCommand> CreateSelectCommand(SqlConnection connection, TQuery query)
+    private async Task ConfigureSelectCommandAsync(SqlCommand command, TQuery query)
     {
-        var command = new SqlCommand { Connection = connection };
         var sql = new StringBuilder("SELECT")
             .Append(SqlFilterBuilder.Top(query.MaximumResultCount))
             .Append(' ').Append(SelectColumns)
@@ -136,7 +136,6 @@ public abstract class DatabaseReportHandler<TQuery> : IReportHandler where TQuer
         }
 
         command.CommandText = sql.ToString();
-        return command;
     }
 
     /// <summary>
