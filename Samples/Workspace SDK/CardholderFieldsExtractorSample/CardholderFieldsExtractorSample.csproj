@@ -49,6 +49,11 @@
 		<Reference Include="WindowsBase" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Compile Include="..\Shared\VCardReader.cs" Link="Shared\VCardReader.cs" />
+		<Compile Include="..\Shared\VCard.cs" Link="Shared\VCard.cs" />
+	</ItemGroup>
+
 	<Target Name="CopyCertificates" AfterTargets="Build">
 		<PropertyGroup>
 			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>

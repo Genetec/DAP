@@ -161,13 +161,7 @@ public class VCardReader
 
         try
         {
-            string base64Data = photoMatch.Groups[1].Value
-                .Replace("\n", "")
-                .Replace("\r", "")
-                .Replace(" ", "")
-                .Replace("\t", "");
-
-            byte[] imageBytes = Convert.FromBase64String(base64Data);
+            byte[] imageBytes = Convert.FromBase64String(photoMatch.Groups[1].Value);
             using var stream = new MemoryStream(imageBytes);
 
             var bitmap = new BitmapImage();
