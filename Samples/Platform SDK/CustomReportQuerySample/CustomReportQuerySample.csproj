@@ -82,13 +82,7 @@
 	  <Compile Include="..\..\Plugin SDK\CustomReportSample\CustomReportColumnName.cs" Link="CustomReportSample\CustomReportColumnName.cs" />
 	  <Compile Include="..\..\Plugin SDK\CustomReportSample\CustomReportFilterData.cs" Link="CustomReportSample\CustomReportFilterData.cs" />
 	  <Compile Include="..\..\Plugin SDK\CustomReportSample\CustomReportId.cs" Link="CustomReportSample\CustomReportId.cs" />
-	  <Compile Include="..\..\Plugin SDK\CustomReportSample\Server\ReportHandlers\Custom\CustomReportRecord.cs" Link="CustomReportSample\CustomReportRecord.cs" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="CustomReportSample\" />
-	</ItemGroup>
-
 
 	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
 

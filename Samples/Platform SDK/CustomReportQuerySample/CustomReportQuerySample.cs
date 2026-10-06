@@ -1,17 +1,16 @@
 // Copyright 2025 Genetec Inc.
 // Licensed under the Apache License, Version 2.0
 
+using Genetec.Sdk;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.EventsArgs.Query;
+using Genetec.Sdk.Queries;
+using Genetec.Sdk.Queries.AsyncResult;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Genetec.Dap.CodeSamples.Server.ReportHandlers.Custom;
-using Genetec.Sdk;
-using Genetec.Sdk.Entities;
-using Genetec.Sdk.Queries;
-using Genetec.Sdk.Queries.AsyncResult;
 
 namespace Genetec.Dap.CodeSamples;
 
@@ -36,20 +35,21 @@ public class CustomReportQuerySample : SampleBase
 
         var query = (CustomQuery)engine.ReportManager.CreateReportQuery(ReportType.Custom);
         query.CustomReportId = CustomReportId.Value; // Custom report identifier
+        // The plugin returns the time range length in its Duration column.
+        query.TimeRange.SetTimeRange(TimeSpan.FromMinutes(30));
         query.FilterData = new CustomReportFilterData
         {
             Enabled = true,
             DecimalValue = 3.14m,
             Message = "Hello, World!",
-            NumericValue = 42,
-            Duration = TimeSpan.FromMinutes(30)
+            NumericValue = 42
         }.Serialize();
 
         // Load cardholders into the entity cache
         await LoadEntities(engine, token, EntityType.Cardholder);
 
         // Add cardholders to query
-        query.QueryEntities.AddRange(engine.GetEntities(EntityType.Cardholder).Select(entity => entity.Guid));
+        query.QueryEntities.AddRange(engine.GetEntities(EntityType.Cardholder).Take(10).Select(entity => entity.Guid));
 
         Console.WriteLine("\nExecuting custom report query...");
         Console.WriteLine("Press Ctrl+C to cancel at any time\n");
@@ -59,10 +59,12 @@ public class CustomReportQuerySample : SampleBase
 
             if (result.Results.Any())
             {
-                IEnumerable<CustomReportRecord> records = result.Results[0].ResultContainer.DataSet.Tables[0].AsEnumerable().Select(CreateCustomReportRecord);
-                foreach (CustomReportRecord record in records)
+                foreach (IReportQueryResultReceivedEventArgs queryResult in result.Results)
                 {
-                    DisplayCustomReportRecord(record);
+                    foreach (DataRow row in queryResult.ResultContainer.DataSet.Tables[0].Rows)
+                    {
+                        DisplayCustomReportRecord(row);
+                    }
                 }
             }
             else
@@ -76,33 +78,22 @@ public class CustomReportQuerySample : SampleBase
         }
     }
 
-    private void DisplayCustomReportRecord(CustomReportRecord record)
+    private void DisplayCustomReportRecord(DataRow row)
     {
+        byte[] picture = row.Field<byte[]>(CustomReportColumnName.Picture);
+        string hidden = row.Field<string>(CustomReportColumnName.Hidden);
+
         Console.WriteLine("\n--- Custom Report Record ---");
-        Console.WriteLine($"Source ID: {record.SourceId}");
-        Console.WriteLine($"Event ID:  {record.EventId}");
-        Console.WriteLine($"Message:   {record.Message}");
-        Console.WriteLine($"Numeric:   {record.Numeric}");
-        Console.WriteLine($"Timestamp: {record.EventTimestamp:yyyy-MM-dd HH:mm:ss}");
-        Console.WriteLine($"Decimal:   {record.Decimal:F2}");
-        Console.WriteLine($"Boolean:   {record.Boolean}");
-        Console.WriteLine($"Picture:   {(record.Picture?.Length > 0 ? $"{record.Picture.Length} bytes" : "No picture")}");
-        Console.WriteLine($"Duration:  {record.Duration:hh\\:mm\\:ss}");
-        Console.WriteLine($"Hidden:    {(string.IsNullOrEmpty(record.Hidden) ? "N/A" : record.Hidden)}");
+        Console.WriteLine($"Source ID: {row.Field<Guid>(CustomReportColumnName.SourceId)}");
+        Console.WriteLine($"Event ID:  {row.Field<int>(CustomReportColumnName.EventId)}");
+        Console.WriteLine($"Message:   {row.Field<string>(CustomReportColumnName.Message)}");
+        Console.WriteLine($"Numeric:   {row.Field<int>(CustomReportColumnName.Numeric)}");
+        Console.WriteLine($"Timestamp: {row.Field<DateTime>(CustomReportColumnName.EventTimestamp):yyyy-MM-dd HH:mm:ss}");
+        Console.WriteLine($"Decimal:   {row.Field<decimal>(CustomReportColumnName.Decimal):F2}");
+        Console.WriteLine($"Boolean:   {row.Field<bool>(CustomReportColumnName.Boolean)}");
+        Console.WriteLine($"Picture:   {(picture?.Length > 0 ? $"{picture.Length} bytes" : "No picture")}");
+        Console.WriteLine($"Duration:  {row.Field<TimeSpan>(CustomReportColumnName.Duration):hh\\:mm\\:ss}");
+        Console.WriteLine($"Hidden:    {(string.IsNullOrEmpty(hidden) ? "N/A" : hidden)}");
         Console.WriteLine();
     }
-
-    private CustomReportRecord CreateCustomReportRecord(DataRow row) => new()
-    {
-        SourceId = row.Field<Guid>(CustomReportColumnName.SourceId),
-        EventId = row.Field<int>(CustomReportColumnName.EventId),
-        Message = row.Field<string>(CustomReportColumnName.Message),
-        Numeric = row.Field<int>(CustomReportColumnName.Numeric),
-        EventTimestamp = row.Field<DateTime>(CustomReportColumnName.EventTimestamp),
-        Decimal = row.Field<decimal>(CustomReportColumnName.Decimal),
-        Boolean = row.Field<bool>(CustomReportColumnName.Boolean),
-        Picture = row.Field<byte[]>(CustomReportColumnName.Picture),
-        Duration = row.Field<TimeSpan>(CustomReportColumnName.Duration),
-        Hidden = row.Field<string>(CustomReportColumnName.Hidden)
-    };
 }
