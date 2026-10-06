@@ -4,4 +4,8 @@
 		<AssemblyCopyright>Copyright © Genetec Inc. 2024</AssemblyCopyright>
 		<LangVersion>12</LangVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Update="Certificates\*.cert" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 </Project>

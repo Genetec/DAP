@@ -88,16 +88,6 @@
 		<Error Condition="'$(TargetFramework)' == 'net8.0-windows' AND !Exists('$(GSC_SDK_CORE)\Genetec.Sdk.dll')" Text="The _NET8 configurations require Security Center SDK 5.12.2 or later and GSC_SDK_CORE set to the SDK folder containing Genetec.Sdk.dll. Set GSC_SDK_CORE, or use Debug/Release to build net481." />
 	</Target>
 
-	<Target Name="CopyCertificates" AfterTargets="Build">
-		<PropertyGroup>
-			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
-		</PropertyGroup>
-		<ItemGroup>
-			<Certificates Include="Certificates\*.cert" />
-		</ItemGroup>
-		<MakeDir Directories="$(CertOutputPath)" />
-		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
-	</Target>
 
 	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
 
