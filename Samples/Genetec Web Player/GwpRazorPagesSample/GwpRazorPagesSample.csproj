@@ -7,7 +7,6 @@
     <AssemblyName>GwpRazorPagesSample</AssemblyName>
     <RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
     <Description>Sample project</Description>
-    <Company>Genetec Inc.</Company>
     <Copyright>Copyright © Genetec Inc. 2025</Copyright>
   </PropertyGroup>
 

@@ -5,7 +5,6 @@
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
 		<AssemblyName>MediaFileSample</AssemblyName>
 		<Description>Sample project</Description>
-		<Company>Genetec Inc.</Company>
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
 		<OutputType>Exe</OutputType>
 	</PropertyGroup>
@@ -19,7 +18,6 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
@@ -30,7 +28,6 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<LangVersion>12</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net481'">
