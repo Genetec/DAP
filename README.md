@@ -261,7 +261,9 @@ dotnet build "Samples/Platform SDK/CardholderSample/CardholderSample.csproj" -c 
 
 These examples are scoped to a Platform SDK project so they do not run Workspace SDK or Plugin SDK post-build registration steps. For solution-wide builds, run from an elevated shell or elevated Visual Studio instance because some Workspace SDK and Plugin SDK samples write development registration entries under `HKEY_LOCAL_MACHINE`.
 
-The `_NET8` configurations require Security Center SDK 5.12.2 or later and `GSC_SDK_CORE` pointing to the SDK folder that contains `Genetec.Sdk.dll`. Do not use `-f net8.0-windows` with the default `Debug` or `Release` configurations; select an `_NET8` configuration instead.
+The `_NET8` configurations require Security Center SDK 5.12.2 or later with SDK assemblies compatible with .NET 8. Set `GSC_SDK_CORE` to the SDK's `net8.0-windows` folder. Another SDK installation can change this variable to a `net10.0-windows` folder, which cannot be used by these .NET 8 configurations.
+
+Do not use `-f net8.0-windows` with the default `Debug` or `Release` configurations; select an `_NET8` configuration instead.
 
 ### Other sample groups
 

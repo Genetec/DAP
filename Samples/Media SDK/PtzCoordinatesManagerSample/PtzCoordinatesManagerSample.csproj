@@ -47,16 +47,6 @@
 		<Reference Include="System.Data.DataSetExtensions" />
 	</ItemGroup>
 
-	<Target Name="CopyCertificates" AfterTargets="Build">
-		<PropertyGroup>
-			<CertOutputPath>$(OutputPath)Certificates</CertOutputPath>
-		</PropertyGroup>
-		<ItemGroup>
-			<Certificates Include="Certificates\*.cert" />
-		</ItemGroup>
-		<MakeDir Directories="$(CertOutputPath)" />
-		<Copy SourceFiles="@(Certificates)" DestinationFiles="@(Certificates->'$(CertOutputPath)\%(Filename)%(Extension)')" />
-	</Target>
 
 	<Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
 
