@@ -146,7 +146,7 @@ public class MapSample : SampleBase
             Console.WriteLine($"      Linked Entity: {(mapObject.LinkedEntity != Guid.Empty ? engine.GetEntity(mapObject.LinkedEntity)?.Name ?? "Unknown" : "None")}");
 
             // Display links
-            if (mapObject.Links.Any())
+            if (mapObject.Links?.Any() == true)
             {
                 Console.WriteLine("      Links:");
                 foreach (Uri link in mapObject.Links)
