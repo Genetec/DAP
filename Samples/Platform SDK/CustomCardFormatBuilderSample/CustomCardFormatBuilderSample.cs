@@ -31,7 +31,7 @@ public class CustomCardFormatBuilderSample : SampleBase
 
         await DemonstrateCreateCredential(engine, customCardService);
 
-        DemonstrateExportAndImport(customCardService);
+        DemonstrateImport(customCardService);
 
         DemonstrateDeleteCardFormat(customCardService);
     }
@@ -223,35 +223,55 @@ public class CustomCardFormatBuilderSample : SampleBase
         }
     }
 
-    private void DemonstrateExportAndImport(ICustomCardFormatService service)
+    private void DemonstrateImport(ICustomCardFormatService service)
     {
-        Console.WriteLine("Exporting and Importing Custom Format");
+        Console.WriteLine("Importing Custom Format from XML");
         Console.WriteLine(new string('-', 50));
 
         string formatName = "Demo Format With Fields";
-        CustomCardFormat format = service.GetCustomCardFormats().FirstOrDefault(f => f.Name == formatName);
-
-        if (format == null)
-        {
-            Console.WriteLine($"Format '{formatName}' not found. Cannot export.\n");
-            return;
-        }
-
-        string exportPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{formatName}.xml");
 
         try
         {
-            service.ExportToXMLFile(exportPath, format.FormatID);
-            Console.WriteLine($"Successfully exported format to: {exportPath}");
-
             string importFormatName = $"{formatName}_Imported";
             CustomCardFormat existingImport = service.GetCustomCardFormats().FirstOrDefault(f => f.Name == importFormatName);
 
             if (existingImport == null)
             {
+                // Import an independently supplied XML definition.
+                const string xml = """
+                    <CardFormat Version="1.0.0">
+                      <Name>Demo Wiegand 26</Name>
+                      <FormatLength>26</FormatLength>
+                      <FormatType>Wiegand</FormatType>
+                      <CodeFormatString />
+                      <Description>Demonstrates XML string import</Description>
+                      <FormatFields>
+                        <WiegandField Order="1" Fixed="false">
+                          <Name>FacilityCode</Name>
+                          <ValueRepresentation>Decimal</ValueRepresentation>
+                          <Value />
+                          <MinRange />
+                          <MaxRange />
+                          <AcceptsRange>false</AcceptsRange>
+                          <Mask>2-9</Mask>
+                        </WiegandField>
+                        <WiegandField Order="2" Fixed="false">
+                          <Name>CardNumber</Name>
+                          <ValueRepresentation>Decimal</ValueRepresentation>
+                          <Value />
+                          <MinRange />
+                          <MaxRange />
+                          <AcceptsRange>false</AcceptsRange>
+                          <Mask>10-25</Mask>
+                        </WiegandField>
+                      </FormatFields>
+                      <ParityChecks />
+                    </CardFormat>
+                    """;
+
                 ICustomCardFormatBuilder builder = service.GetCustomCardFormatBuilder();
                 CustomCardFormat importedFormat = builder
-                    .SetFromXmlFile(exportPath)
+                    .SetFromXmlString(xml)
                     .SetName(importFormatName)
                     .SetFormatId(Guid.NewGuid())
                     .Build();
@@ -274,7 +294,7 @@ public class CustomCardFormatBuilderSample : SampleBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error during export/import: {ex.Message}");
+            Console.WriteLine($"Error during import: {ex.Message}");
         }
 
         Console.WriteLine();
