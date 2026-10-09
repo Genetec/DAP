@@ -30,6 +30,11 @@
 		<Reference Include="System" />
 		<Reference Include="System.Core" />
 		<Reference Include="System.Data.DataSetExtensions" />
+		<PackageReference Include="System.ValueTuple" Version="4.6.1" GeneratePathProperty="true" />
+		<None Include="$(PkgSystem_ValueTuple)\lib\net462\System.ValueTuple.dll"
+		      Link="System.ValueTuple.dll"
+		      CopyToOutputDirectory="PreserveNewest"
+		      CopyToPublishDirectory="PreserveNewest" />
 	</ItemGroup>
 	<!-- .NET 8 dependencies - only when Security Center 5.12.2+ SDK is available -->
 
