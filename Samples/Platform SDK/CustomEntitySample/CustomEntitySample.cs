@@ -59,7 +59,7 @@ public class CustomEntitySample : SampleBase
     {
         var id = new Guid(s_customEntityId);
 
-        if (config.GetCustomActionTypeDescriptor(id) is not null)
+        if (config.GetCustomEntityTypeDescriptor(id) is not null)
         {
             Console.WriteLine($"Custom Entity Type with ID {s_customEntityId} already exists.");
             return;
