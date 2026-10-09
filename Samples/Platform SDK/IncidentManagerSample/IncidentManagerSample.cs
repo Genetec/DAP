@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Genetec.Sdk;
 using Genetec.Sdk.Queries;
 using Genetec.Sdk.Workflows;
@@ -76,24 +77,38 @@ public class IncidentManagerSample : SampleBase
         Console.WriteLine($"{(categoryDeleted ? "✓" : "✗")} Incident category '{newCategory}' deleted");
     }
 
-    private IncidentData CreateIncidentData(DataRow row) => new()
+    private IncidentData CreateIncidentData(DataRow row)
     {
-        InstanceGuid = row.Field<Guid>(IncidentSdkQuery.InstanceGuidColumnName),
-        Latitude = row.Field<double>(IncidentSdkQuery.LatitudeColumnName),
-        Longitude = row.Field<double>(IncidentSdkQuery.LongitudeColumnName),
-        Title = row.Field<string>(IncidentSdkQuery.TitleColumnName),
-        Notes = row.Field<string>(IncidentSdkQuery.NoteColumnName),
-        AlarmInstance = row.Field<int>(IncidentSdkQuery.AlarmInstanceColumnName),
-        Category = row.Field<string>(IncidentSdkQuery.CategoryColumnName),
-        CreatedBy = row.Field<Guid>(IncidentSdkQuery.CreatedByColumnName),
-        CreationTime = row.Field<DateTime>(IncidentSdkQuery.CreationTimestampColumnName),
-        Data = row.Field<string>(IncidentSdkQuery.DataColumnName),
-        AttachedData = row.Field<string>(IncidentSdkQuery.AttachedDataColumnName),
-        Timestamp = row.Field<DateTime>(IncidentSdkQuery.IncidentTimestamp),
-        Event = row.Field<EventType>(IncidentSdkQuery.EventTypeColumnName),
-        LastModifiedBy = row.Field<Guid>(IncidentSdkQuery.ModifiedByColumnName),
-        References = string.IsNullOrEmpty(row.Field<string>(IncidentSdkQuery.GuidReferenceColumnName)) ? new Collection<Guid>() : new Collection<Guid>(row.Field<string>(IncidentSdkQuery.GuidReferenceColumnName).Split(',').Select(Guid.Parse).ToList())
-    };
+        return new IncidentData
+        {
+            InstanceGuid = row.Field<Guid>(IncidentSdkQuery.InstanceGuidColumnName),
+            Latitude = row.Field<double>(IncidentSdkQuery.LatitudeColumnName),
+            Longitude = row.Field<double>(IncidentSdkQuery.LongitudeColumnName),
+            Title = row.Field<string>(IncidentSdkQuery.TitleColumnName),
+            Notes = row.Field<string>(IncidentSdkQuery.NoteColumnName),
+            AlarmInstance = row.Field<int>(IncidentSdkQuery.AlarmInstanceColumnName),
+            Category = row.Field<string>(IncidentSdkQuery.CategoryColumnName),
+            CreatedBy = row.Field<Guid>(IncidentSdkQuery.CreatedByColumnName),
+            CreationTime = row.Field<DateTime>(IncidentSdkQuery.CreationTimestampColumnName),
+            Data = row.Field<string>(IncidentSdkQuery.DataColumnName),
+            AttachedData = row.Field<string>(IncidentSdkQuery.AttachedDataColumnName),
+            Timestamp = row.Field<DateTime>(IncidentSdkQuery.IncidentTimestamp),
+            Event = row.Field<EventType>(IncidentSdkQuery.EventTypeColumnName),
+            LastModifiedBy = row.Field<Guid>(IncidentSdkQuery.ModifiedByColumnName),
+            References = ParseReferences(row.Field<string>(IncidentSdkQuery.GuidReferenceColumnName))
+        };
+
+        Collection<Guid> ParseReferences(string references)
+        {
+            if (string.IsNullOrEmpty(references))
+                return new Collection<Guid>();
+
+            return new Collection<Guid>(XElement.Parse(references)
+                .Elements("entity")
+                .Select(entity => Guid.Parse(entity.Value))
+                .ToList());
+        }
+    }
 
     private void PrintIncidentDetails(IncidentData data)
     {
