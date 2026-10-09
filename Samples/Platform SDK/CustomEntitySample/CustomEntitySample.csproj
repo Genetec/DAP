@@ -10,6 +10,7 @@
 		<Description>Sample project</Description>
 		<Copyright>Copyright © Genetec Inc. 2024</Copyright>
 		<OutputType>Exe</OutputType>
+		<UseWPF>true</UseWPF>
 		<GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 
@@ -38,7 +39,6 @@
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
 		<PackageReference Include="System.ServiceModel.Primitives" Version="4.10.3" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
-		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
 	</ItemGroup>
 
 	<ItemGroup>
