@@ -146,7 +146,7 @@ public class AccessControlUnitSample : SampleBase
         {
             Console.WriteLine("Unit:");
             Console.WriteLine($"  Name: {accessControlUnit.Name}");
-            Console.WriteLine($"  Access Manager: {accessControlUnit.AccessManagerRole.Name}");
+            Console.WriteLine($"  Access Manager: {accessControlUnit.AccessManagerRole?.Name ?? "Unavailable"}");
             Console.WriteLine($"  State: {accessControlUnit.RunningState}");
             Console.WriteLine($"  MAC address: {accessControlUnit.MacAddress}");
             Console.WriteLine($"  IP address: {accessControlUnit.IPAddress}");
