@@ -46,8 +46,16 @@ public class RoleSample : SampleBase
         Console.WriteLine($"Running State: {role.RunningState}");
 
         Console.WriteLine("\nNetwork Binding:");
-        Console.WriteLine($"  MAC Address: {role.CurrentNetworkBinding.MacAddress}");
-        Console.WriteLine($"  IP address: {role.CurrentNetworkBinding.IpAddress}");
+        try
+        {
+            var binding = role.CurrentNetworkBinding;
+            Console.WriteLine($"  MAC Address: {binding.MacAddress}");
+            Console.WriteLine($"  IP address: {binding.IpAddress}");
+        }
+        catch (SdkException ex) when (ex.ErrorCode == SdkError.InvalidOperation)
+        {
+            Console.WriteLine("  Not available (role has no current server binding).");
+        }
 
         if (!string.IsNullOrEmpty(role.DatabaseServer))
         {
