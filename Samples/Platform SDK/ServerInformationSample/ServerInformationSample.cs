@@ -32,28 +32,31 @@ public class ServerInformationSample : SampleBase
 
         foreach (Server server in servers)
         {
-            IServerInformation serverInfo = server.GetServerInformation();
+            token.ThrowIfCancellationRequested();
 
             Console.WriteLine("SERVER INFORMATION:");
+            Console.WriteLine($"  Server Name: {server.FullyQualifiedName}");
+            Console.WriteLine($"  Is Main Server: {server.IsMainServer}");
+
+            if (!server.IsOnline)
+            {
+                Console.WriteLine("  Server is offline. Remote information is unavailable.");
+                continue;
+            }
 
             try
             {
-                Console.WriteLine($"  Server Name: {serverInfo.GetServerName()}");
-                Console.WriteLine($"  Is Main Server: {serverInfo.IsMainServer}");
+                IServerInformation serverInfo = server.GetServerInformation();
                 Console.WriteLine($"  Current Time: {serverInfo.GetCurrentTime().ToLocalTime():f}");
+
+                await ListDrives(serverInfo);
+                await ListDirectories(serverInfo);
+                await ListProductFiles(serverInfo);
             }
-            catch (Exception)
+            catch (Exception ex) when (ex is not OperationCanceledException)
             {
-                Console.WriteLine($"  Server Name: {server.FullyQualifiedName}");
-                Console.WriteLine($"  Is Main Server: {server.IsMainServer}");
-                Console.WriteLine($"  Current Time: {TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, server.TimeZone).ToLocalTime():f}");
+                Console.WriteLine($"  Could not retrieve information for server '{server.FullyQualifiedName}': {ex.Message}");
             }
-
-            await ListDrives(serverInfo);
-
-            await ListDirectories(serverInfo);
-
-            await ListProductFiles(serverInfo);
         }
     }
 
