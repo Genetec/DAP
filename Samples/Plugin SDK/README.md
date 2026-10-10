@@ -75,13 +75,13 @@ All Plugin SDK samples in this repository target .NET Framework 4.8.1. Their `De
 
 4. Use `-c Release` for a release build, or replace the project path with another plugin sample. Follow that sample's instructions for role creation and activation.
 
-`PluginReportsSample` and `PluginConfigurationSample` support `SkipPluginRegistration=true` to build without updating local registration. For example, from the repository root:
+`PluginReportsSample`, `PluginConfigurationSample`, and `CustomReportSample` support `SkipPluginRegistration=true` to build without updating local registration. For example, from the repository root:
 
 ```powershell
 dotnet build "Samples/Plugin SDK/PluginReportsSample/PluginReportsSample.csproj" -c Debug -f net481 -p:SkipPluginRegistration=true
 ```
 
-That property is specific to those two projects. Other samples' post-build targets register their modules.
+That property is specific to those three projects. Other samples' post-build targets register their modules.
 
 ## Build and deployment dependencies
 

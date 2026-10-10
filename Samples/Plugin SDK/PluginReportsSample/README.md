@@ -129,7 +129,7 @@ A successful write returns **HTTP 204 No Content**, with an empty body.
 
 To view the record in Security Desk:
 
-1. Open the *Door activity* task.
+1. Open the *Door activities* task.
 2. Select the door used as `source`.
 3. Include **Access granted**.
 4. Select a time range containing the request time.

@@ -117,9 +117,11 @@ Create a class that inherits from `Sdk.Workspace.Modules.Module` and override th
 
 ### Example: basic task registration
 
+This example uses [NotepadTask.cs](TaskSample/NotepadTask.cs) from [TaskSample](TaskSample/). The project includes the task's image resources and registration.
+
 ```csharp
-using Sdk;
-using Sdk.Workspace.Modules;
+using Genetec.Sdk;
+using Genetec.Sdk.Workspace.Modules;
 
 namespace Genetec.Dap.CodeSamples
 {
@@ -144,9 +146,11 @@ namespace Genetec.Dap.CodeSamples
 
 ### Example: application-specific registration
 
+This example is incomplete. `CustomWidgetBuilder` and `ConfigPageTask` are placeholders for classes you must supply. Replace them with your own widget builder and Config Tool task before compiling.
+
 ```csharp
-using Sdk;
-using Sdk.Workspace.Modules;
+using Genetec.Sdk;
+using Genetec.Sdk.Workspace.Modules;
 
 namespace Genetec.Dap.CodeSamples
 {
@@ -190,9 +194,11 @@ namespace Genetec.Dap.CodeSamples
 
 ### Example: options extension registration
 
+Use [OptionsExtensionSample](OptionsExtensionSample/) as the complete project for this example. It supplies [SampleOptionsExtensions.cs](OptionsExtensionSample/SampleOptionsExtensions.cs), its option page, settings serialization, and resources. The example also uses [AssemblyResolver.cs](../Shared/AssemblyResolver.cs) for non-SDK dependencies.
+
 ```csharp
-using Sdk;
-using Sdk.Workspace.Modules;
+using Genetec.Sdk;
+using Genetec.Sdk.Workspace.Modules;
 
 namespace Genetec.Dap.CodeSamples
 {
@@ -258,8 +264,8 @@ This registration option affects dependency resolution as follows:
 
 - Set it in the registration XML file: `<Item Key="AddFoldersToAssemblyProbe" Value="True" />`.
 - For legacy registry registration, use `AddFoldersToAssemblyProbe = True`.
-- Security Center automatically configures .NET's private probing paths to include your module's directory.
-- The option works at the AppDomain level, affecting assembly resolution for the entire application.
+- Security Center adds the registered module directories to an additional dependency lookup.
+- The additional lookup uses `AppDomain.AssemblyResolve` and loads a DLL only when its complete assembly identity matches the requested identity.
 
 Use automatic probing when the following conditions apply:
 
@@ -279,7 +285,7 @@ Use automatic probing when the following conditions apply:
 </PluginInstallation>
 ```
 
-Your dependencies in `C:\MyModule\` will be found automatically.
+This registration adds `C:\MyModule\` to the additional dependency lookup. A dependency in that directory can be loaded through this lookup only when its complete assembly identity matches the requested identity.
 
 ### Custom assembly resolution with AssemblyResolver
 

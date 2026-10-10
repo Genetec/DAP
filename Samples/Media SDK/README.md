@@ -232,7 +232,7 @@ The class supports these operations:
 
 ### Audio
 
-These classes send audio to Security Center camera audio outputs. `AudioRecorder` uses the computer's microphone; `AudioTransmitter` uses PCM audio buffers supplied by the application.
+These classes send audio to Security Center camera audio outputs. `AudioRecorder` uses the computer's microphone; `AudioTransmitter` uses pulse-code modulation (PCM) audio buffers supplied by the application.
 
 #### AudioRecorder - microphone capture and transmission
 
