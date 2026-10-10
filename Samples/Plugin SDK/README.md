@@ -1,67 +1,115 @@
 # Plugin SDK
 
-The Plugin SDK for Genetec Security Center allows technology partners to create fully embedded integrations that function as custom roles within the system.
+The Plugin SDK for Genetec™ Security Center lets technology partners create integrations that run as custom roles.
 
-## Understanding Roles in Security Center
+## Roles in Security Center
 
 Plugins function as custom roles in Security Center.
 
-### What are Roles?
+### What are roles?
 
-In Security Center, Roles are components that perform specific tasks within the system. Each role is associated with one or more servers, which host and execute the role's functions. Role operations include managing video units, archiving data, or synchronizing users with corporate directories.
+In Security Center, roles are components that perform specific tasks within the system. Each role is associated with one or more servers, which host and execute the role's functions. Role operations include managing video units, archiving data, or synchronizing users with corporate directories.
 
-### Core Features of Roles
+### Role features
 
-1. **Role Type:** Each role has a defined type that determines its specific functions. For example, a role could be responsible for managing video units and their associated archives.
-2. **Role Settings:** These settings specify the parameters within which the role operates, such as data retention periods or database configurations.
-3. **Server Assignment:** Roles can be assigned to one or multiple servers. This allows for load balancing and failover capabilities.
-4. **Failover Support:** Roles support failover, meaning they can automatically switch to a secondary server if the primary server fails, ensuring continuous operation of critical system functions.
+- **Role type:** each role has a defined type that determines its specific functions. For example, a role could be responsible for managing video units and their associated archives.
+- **Role settings:** these settings specify the parameters within which the role operates, such as data retention periods or database configurations.
+- **Server assignment:** roles can be assigned to one or multiple servers. This allows for load balancing and failover capabilities.
+- **Failover support:** a role can automatically switch to a secondary server if the primary server fails.
 
-### Plugins as Custom Roles
+### Plugins as custom roles
 
-When you develop a plugin using the Plugin SDK, you're essentially creating a custom role within Security Center. Your plugin will inherit many of the core features of roles, including:
+A plugin developed with the Plugin SDK implements a custom Security Center role. It inherits role features, including:
 
 - The ability to define a specific role type with custom functionality
 - Configurable settings for your plugin's operation
 - Automatic server assignment and failover support
 - Built-in health monitoring and database support
 
-This architecture allows your plugin to integrate with Security Center's existing infrastructure and use its server-side capabilities.
+## Plugin SDK overview
 
-## Overview of the Plugin SDK
+The Plugin SDK provides server role capabilities and client integration.
 
 ### Capabilities
-- Develop custom role entities similar to built-in roles like Archiver and Access Manager.
-- Benefit from built-in server-side features, which are automatically inherited:
+
+The Plugin SDK provides these capabilities:
+
+- Develop custom role entities similar to built-in roles such as the Archiver and Access Manager roles.
+- Use built-in server-side features, which are automatically inherited:
   - Failover support
-  - Health monitoring (status, history, and statistics)
+  - Health monitoring with status, history, and statistics
   - Database support
-- Integrate with front-end components (Config Tool and Security Desk).
+- Integrate with client components in Config Tool and Security Desk.
 
-### Key Benefits
-- Full embedding within Security Center as a custom role
-- Automatic inclusion of server-side functionality
-- Integration with Security Center's user interface
-- Reduced development time due to inherited role features
+### Support and licensing requirements
 
-### Important Requirements
-1. **SDK Support Plan**: Creating a Security Center plugin requires purchasing a Gold SDK support plan.
-2. **Licensing**: A specific part number must be included in the end-user's Security Center license to enable plugin functionality.
+The Plugin SDK has these support and licensing requirements:
 
-By using the Plugin SDK, developers can create integrated solutions that extend Security Center's capabilities while using built-in role features and maintaining consistency with the core product.
+- **SDK support plan**: creating a Security Center plugin requires purchasing a Gold SDK support plan.
+- **Licensing**: the end user's Security Center license must include the part number assigned to your plugin.
 
 ## Prerequisites
 
-- **.NET Framework 4.8.1 targeting pack**: The Plugin SDK samples in this repository target `net481`. Selecting a solution configuration named `_NET8` does not retarget these projects.
-- **Security Center SDK**: Installed with the `GSC_SDK` environment variable pointing to its .NET Framework assemblies.
-- **Visual Studio 2022**: Version 17.6 or later for development (must run as Administrator)
-- **Security Center**: Installed and running on your system
-- **Valid Security Center License**: All samples include the development SDK certificate
+- **.NET Framework 4.8.1 targeting pack**: the Plugin SDK samples in this repository target `net481`. Selecting a solution configuration named `_NET8` does not retarget these projects.
+- **Security Center SDK**: installed with the `GSC_SDK` environment variable pointing to its .NET Framework assemblies.
+- **Build tools**: Visual Studio 2022 version 17.8 or later, or the .NET 8 SDK or a later compatible SDK for command-line builds. The samples compile with C# 12. Build with administrative privileges when running post-build registration.
+- **Security Center**: installed and running on your system.
+- **Valid Security Center license**: all samples include the development SDK certificate.
 
+## Building a sample
+
+All Plugin SDK samples in this repository target .NET Framework 4.8.1. Their `Debug` and `Release` configurations produce `net481` assemblies, including when the solution maps an `_NET8` configuration to them.
+
+1. Open an elevated PowerShell terminal or run Visual Studio as an administrator. The samples' post-build registration writes to `HKEY_LOCAL_MACHINE`.
+2. Set `GSC_SDK` to the installed SDK directory containing the .NET Framework assemblies. Replace the example path with your installation:
+
+   ```powershell
+   $env:GSC_SDK = 'C:\Program Files (x86)\Genetec Security Center 5.14 SDK'
+   ```
+
+3. From the repository root, build the `BasicPluginTemplate` sample:
+
+   ```powershell
+   dotnet build "Samples/Plugin SDK/BasicPluginTemplate/BasicPluginTemplate.csproj" -c Debug -f net481
+   ```
+
+4. Use `-c Release` for a release build, or replace the project path with another plugin sample. Follow that sample's instructions for role creation and activation.
+
+`PluginReportsSample` and `PluginConfigurationSample` support `SkipPluginRegistration=true` to build without updating local registration. For example, from the repository root:
+
+```powershell
+dotnet build "Samples/Plugin SDK/PluginReportsSample/PluginReportsSample.csproj" -c Debug -f net481 -p:SkipPluginRegistration=true
+```
+
+That property is specific to those two projects. Other samples' post-build targets register their modules.
+
+## Build and deployment dependencies
+
+Server modules reference `Genetec.Sdk.dll` and `Genetec.Sdk.Plugin.dll`. Samples containing client user interface code also reference `Genetec.Sdk.Workspace.dll` and, where needed, `Genetec.Sdk.Controls.dll`. The existing samples resolve these references through `GSC_SDK`.
+
+Project files declare their non-SDK dependencies. `dotnet build` restores the packages automatically:
+
+| Sample | Declared NuGet packages |
+|--------|-------------------------|
+| `PluginConfigurationSample` | `Microsoft.Bcl.AsyncInterfaces`, `Newtonsoft.Json` |
+| `PluginDatabaseSample` and `PluginReportsSample` | `Microsoft.Data.SqlClient` |
+| `CustomActionSample` | `Prism.Core`, `System.Resources.Extensions` |
+
+Database samples also require SQL Server and a configured role database. Install the .NET Framework 4.8.1 runtime on computers running the existing samples. For modern server modules, Security Center supplies the supported host runtime. Keep client UI modules on .NET Framework and deploy required non-SDK dependencies beside each registered module. Keep **Copy Local** set to `False` for Genetec SDK assemblies; the host supplies them. See [Shared sample helpers](../Shared/README.md#choosing-an-assembly-resolver) for dependency probing and placement.
 
 ## Building modern .NET plugins
 
 Choose your `ServerModule` target framework based on the Security Center version deployed on the role server. .NET 8 hosting is available from Security Center 5.13, and .NET 10 hosting is available from Security Center 5.14.1. A `ClientModule` must target .NET Framework because Security Desk and Config Tool host it in-process.
+
+| Security Center on the role server | Supported server module targets | SDK references for a modern module |
+|------------------------------------|----------------------------------|-------------------------------------|
+| 5.12 and earlier | .NET Framework | Use .NET Framework SDK assemblies |
+| 5.13 and 5.14.0 | .NET Framework or .NET 8 | Use SDK 5.13 or later containing compatible `net8.0-windows` assemblies |
+| 5.14.1 and later | .NET Framework, .NET 8, or .NET 10 | Use compatible modern SDK assemblies; use SDK 5.14.1 or later for `net10.0-windows` assemblies |
+
+Use Visual Studio 2022 version 17.8 or later for a .NET 8 server module and Visual Studio 2026 or later for .NET 10. Command-line builds require a .NET SDK supporting the selected target. Set `GSC_SDK_CORE` to the corresponding modern SDK directory. A .NET 8 module cannot reference SDK assemblies built for .NET 10, even when the role server supports .NET 10.
+
+Creating a modern server module requires project and reference changes. The existing samples have no .NET 8 or .NET 10 plugin configuration. Build a separate modern server project and keep client UI code in a .NET Framework project using the setup and registration instructions linked below.
 
 ### Security Center 5.14 and later
 
@@ -73,20 +121,21 @@ For a modern .NET `ServerModule`, also deploy and register a .NET Framework `Cli
 
 For project setup, migration steps, and the custom-privilege deployment exception, see [Building .NET plugins](https://github.com/Genetec/DAP/wiki/plugin-sdk-net8) and [Deploying plugins and Workspace modules](https://github.com/Genetec/DAP/wiki/plugin-sdk-deployment).
 
-## Creating a Plugin
+## Creating a plugin
 
 To create a plugin for Security Center, follow these steps:
 
 1. Create a new class that inherits from the `Plugin` class found in `Genetec.Sdk.Plugin.dll`.
 2. Ensure your plugin class has a default constructor.
 3. Add the `PluginProperty` attribute to your class, specifying a class that inherits from `PluginDescriptor`.
-4. Implement the required abstract members in both the plugin class and the PluginDescriptor class.
-5. Ensure that your PluginDescriptor class defines a unique PluginGuid for your plugin.
+4. Implement the required abstract members in the plugin class and the `PluginDescriptor` class.
+5. Define a unique `PluginGuid` in the `PluginDescriptor` class.
 
 The example shows the structure of the plugin and descriptor classes:
 
 ```csharp
 using System;
+using Genetec.Sdk.EventsArgs;
 using Genetec.Sdk.Plugin;
 
 [PluginProperty(typeof(YourPluginDescriptor))]
@@ -97,7 +146,7 @@ public class YourPlugin : Plugin
         // Default public constructor
     }
 
-    // Implement abstract members
+    // Optional lifecycle callbacks
     protected override void OnPluginStart()
     {
         // Plugin startup logic
@@ -108,9 +157,20 @@ public class YourPlugin : Plugin
         // Plugin loaded logic
     }
 
+    // Implement required query handling
     protected override void OnQueryReceived(ReportQueryReceivedEventArgs args)
     {
         // Handle queries
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            // Dispose of managed resources owned by this plugin.
+        }
+
+        // Release unmanaged resources owned by this plugin.
     }
 
     // Other overrides and custom methods as needed
@@ -123,39 +183,45 @@ public class YourPluginDescriptor : PluginDescriptor
     public override string Description => "Description of your plugin";
     public override Guid PluginGuid => new Guid("YOUR-UNIQUE-GUID-HERE");
 
+    // This example has no plugin-specific default configuration.
+    public override string SpecificDefaultConfig => null;
+
     // Override other virtual properties as needed
 }
 ```
 
-### Important Notes:
+### Plugin members and identifiers
 
-1. **Abstract Members in Plugin Class:**
-   - `OnPluginLoaded()`: Called when the plugin is loaded. Use this for any setup that needs to happen before the plugin starts.
-   - `OnPluginStart()`: Called when the plugin is started. Use this method to initialize your plugin's resources and start any background tasks.
-   - `OnQueryReceived(ReportQueryReceivedEventArgs args)`: Called when the plugin receives a query. Implement this to handle any native or custom queries your plugin supports.
-   - `Dispose(bool disposing)`: Called when the plugin is deactivated. Call this method to clean up any resources used by your plugin.
+- **Required plugin methods:**
+   - `OnQueryReceived(ReportQueryReceivedEventArgs args)`: implement query handling for the reports your plugin supports.
+   - `Dispose(bool disposing)`: implement cleanup for resources owned by your plugin.
 
-2. **Abstract Properties in PluginDescriptor Class:**
-   - `Name`: The name of your plugin as it will appear in Security Center.
-   - `Description`: A brief description of your plugin's functionality.
-   - `PluginGuid`: A unique identifier for your plugin. This must be unique across all plugins.
+- **Optional lifecycle callbacks:**
+   - `OnPluginLoaded()`: override this callback for setup before the plugin starts.
+   - `OnPluginStart()`: override this callback to initialize resources and start background tasks.
 
-3. **Unique PluginGuid:**
+- **Required descriptor properties:**
+   - `Name`: the plugin name shown in Security Center.
+   - `Description`: a brief description of the plugin's functionality.
+   - `PluginGuid`: a unique identifier that must differ from other plugins.
+   - `SpecificDefaultConfig`: the plugin-specific default configuration.
+
+- **Unique PluginGuid:**
    - Each plugin must have its own unique `PluginGuid`. This GUID is used by Security Center to identify and manage your plugin.
-   - Generate a new GUID for each plugin you create. You can use tools like Visual Studio's Create GUID tool or online GUID generators.
+   - Generate a new GUID for each plugin you create. You can use tools like Visual Studio's **Create GUID** tool or online GUID generators.
    - Never reuse a `PluginGuid` from another plugin, as this can cause conflicts in Security Center.
 
 Remember to replace `YourPlugin`, `YourPluginDescriptor`, and `"YOUR-UNIQUE-GUID-HERE"` with appropriate names and a unique GUID for your plugin.
 
-## Post-Build Process
+## Post-build registration
 
 The project file includes a post-build event that automatically registers the plugin with Security Center on the development machine for testing and use.
 
-### Post-Build Event Details
+### Post-build command
 
-Here's the post-build event command from the project file:
+The project file defines this post-build command:
 
-```
+```bat
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)" /v Enabled /t REG_SZ /d "True" /f
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)" /v ServerModule /t REG_SZ /d "$(TargetPath)" /f
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)" /v AddFoldersToAssemblyProbe /t REG_SZ /d "True" /f
@@ -167,67 +233,61 @@ REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins
 
 This command performs the following actions:
 
-1. Adds registry entries for the plugin under both 32-bit and 64-bit registry hives:
+- Adds registry entries for the plugin under both 32-bit and 64-bit registry hives:
    - `HKEY_LOCAL_MACHINE\SOFTWARE\Genetec\Security Center\Plugins\$(ProjectName)`
    - `HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Genetec\Security Center\Plugins\$(ProjectName)`
 
-2. Sets three key values for each registry entry:
-   - `Enabled`: Set to "True" to enable the plugin.
-   - `ServerModule`: Set to the full path of the built plugin DLL.
-   - `AddFoldersToAssemblyProbe`: Set to "True" to allow Security Center to probe for additional assemblies in the plugin's folder.
+- Sets three key values for each registry entry:
+   - `Enabled`: set to `True` to enable the plugin.
+   - `ServerModule`: set to the full path of the built plugin DLL.
+   - `AddFoldersToAssemblyProbe`: set to `True` to allow Security Center to probe for additional assemblies in the plugin's folder.
 
-### Why is this helpful?
+### Registration requirements
 
-1. **Automatic Registration**: This process automatically registers your plugin with Security Center, eliminating the need for manual registration steps.
-2. **Consistency**: Ensures that the correct registry entries are always created or updated, reducing the chance of configuration errors.
-
-### Important Notes:
-
-- This post-build event requires administrative privileges to modify the registry. Make sure you're running Visual Studio as an administrator.
+- This post-build event requires administrative privileges to modify the registry. Run Visual Studio as an administrator.
 - The `$(ProjectName)` and `$(TargetPath)` are MSBuild variables that automatically use your project's name and the built DLL's path.
 - If you rename your project or change the output path, these registry entries will be updated accordingly in subsequent builds.
-- Remember to remove or modify these registry entries if you uninstall or move your plugin.
+- Remove or modify these registry entries if you uninstall or move your plugin.
 
-The post-build event prepares the plugin for testing immediately after each successful build.
-
-### Additional considerations:
+### Assembly reload considerations
 
 When the Genetec Server service starts, it loads plugin assemblies. Loaded assembly files can prevent rebuilding the plugin, and loading an updated version typically requires restarting the service:
 
-1. **File Usage**: The Genetec Server process opens and loads the plugin assembly files. This can prevent other processes, including your development environment, from modifying these files.
-2. **Restart Requirement**: For Security Center to load an updated version of your plugin, the Genetec Server service typically needs to be restarted. This allows it to release the existing assembly files and load the new versions.
+- **File usage**: the Genetec Server process opens and loads the plugin assembly files. This can prevent other processes, including your development environment, from modifying these files.
+- **Restart requirement**: for Security Center to load an updated version of your plugin, the Genetec Server service typically needs to be restarted. This allows it to release the existing assembly files and load the new versions.
 
-### Impact on Development
+### Effect on development
 
 This approach to handling plugin assemblies affects your development process in the following ways:
 
-1. **Compilation Errors**: Attempting to rebuild your plugin while the Genetec Server service is running may result in build process failures. This occurs because the build cannot replace the existing assembly file that's being loaded by the Genetec Server process.
-2. **Delayed Updates**: Changes to your plugin won't take effect in Security Center until the Genetec Server service is restarted, allowing it to load the new assembly versions.
+- **Compilation errors**: attempting to rebuild your plugin while the Genetec Server service is running may result in build process failures. This occurs because the build cannot replace the existing assembly file that's being loaded by the Genetec Server process.
+- **Delayed updates**: changes to your plugin won't take effect in Security Center until the Genetec Server service is restarted, allowing it to load the new assembly versions.
 
-### Managing Plugin Development
+### Managing plugin development
 
 To effectively develop plugins given these considerations:
 
-1. **Service Restart Cycle**: 
-   - Stop the Genetec Server service before rebuilding your plugin.
-   - Rebuild your solution.
-   - Start the Genetec Server service to test your changes.
+1. Stop the Genetec Server service before rebuilding your plugin.
+2. Rebuild your solution.
+3. Start the Genetec Server service to test your changes.
 
-2. **Build Event Automation**: Consider automating service management in your build process, but use caution in shared environments.
+Consider automating service management in your build process, but use caution in shared environments.
 
-### Example Build Events
+### Build events
 
 Pre-build event to stop the service:
-```
+
+```bat
 net stop "GenetecServer"
 ```
 
 Post-build event to start the service:
-```
+
+```bat
 net start "GenetecServer"
 ```
 
-### Troubleshooting Compilation Issues
+### Troubleshooting file access errors during compilation
 
 If you encounter errors related to file access during compilation:
 
@@ -235,17 +295,18 @@ If you encounter errors related to file access during compilation:
 2. Check for any other processes that might be accessing your assembly files.
 3. In rare cases, a system restart might be necessary to fully release all file handles.
 
-## Debugging Techniques for Plugins
+## Debugging plugins
 
 To debug a plugin, launch a debugger from its code or attach to its running process.
 
-### 1. Using Debugger.Launch()
+### Using `Debugger.Launch()`
 
-You can add `Debugger.Launch()` in your plugin's code to trigger the debugger attachment when that part of the code is executed. This is particularly useful for debugging initialization issues.
+Add `Debugger.Launch()` to trigger debugger attachment when execution reaches the call, such as during plugin initialization.
 
 Common places to add `Debugger.Launch()`:
+
 - In the plugin's public default constructor
-- In the `OnLoaded` method
+- In the `OnPluginLoaded` method
 - Anywhere you want to start debugging
 
 Example:
@@ -262,57 +323,51 @@ public class YourPlugin : Plugin
 #endif
     }
 
-    // You can also place it in OnLoaded or other methods as needed
+    // You can also place it in OnPluginLoaded or other methods as needed
 }
 ```
 
-When `Debugger.Launch()` is executed, it will prompt you to choose a debugger to attach to the process.
+When `Debugger.Launch()` executes, it prompts you to select a debugger for the process.
 
-Benefits of using #IF DEBUG:
-- Prevents accidental debugging prompts in production environments.
-- Keeps your release builds clean and optimized.
-- Allows you to include debugging code without impacting production performance.
+The `#if DEBUG` block includes the call only when `DEBUG` is defined. Otherwise, the call is excluded from the build, preventing its debugger prompts and runtime overhead.
 
-Remember to always build your plugin in Release mode for production deployments to ensure that debug code is not included.
+Build your plugin in `Release` mode for production deployments, with `DEBUG` undefined so the `#if DEBUG` block is excluded.
 
-### 2. Manually Attaching to the GenetecPlugin.exe Process
+### Attaching to `GenetecPlugin.exe`
 
-For each instance of a plugin running, Security Center starts a separate GenetecPlugin.exe process. You can attach your debugger to this process to debug your plugin.
+For each instance of a plugin running, Security Center starts a separate `GenetecPlugin.exe` process. You can attach your debugger to this process to debug your plugin.
 
 Steps to attach the debugger:
 
-1. In Visual Studio, go to Debug > Attach to Process.
-2. Look for GenetecPlugin.exe in the list of available processes.
-3. If there are multiple GenetecPlugin.exe processes, you need to identify the correct one.
+1. In Visual Studio, select **Debug > Attach to Process**.
+2. Find `GenetecPlugin.exe` in the process list.
+3. If multiple `GenetecPlugin.exe` processes are listed, identify the one running your plugin.
 
-To determine which GenetecPlugin.exe process corresponds to your plugin:
+To determine which `GenetecPlugin.exe` process corresponds to your plugin:
 
 1. Open Windows Task Manager.
-2. Go to the Details tab.
-3. Find the GenetecPlugin.exe processes.
-4. Look at the "Command line" column (you may need to add this column if it's not visible).
-5. The command line argument will contain the name of your plugin.
+2. Select the **Details** tab.
+3. Find the `GenetecPlugin.exe` processes.
+4. If the **Command line** column is not visible, add it.
+5. Identify your plugin's process using the plugin name in the **Command line** column.
 
 Example of a command line argument:
 
-```
+```text
 "GenetecPlugin.exe" /CustomActionSample_1098577fb9949c6812beb3c8c3bdc9ff "33800"
 ```
 
-In this example, "CustomActionSample" is the name of the plugin.
+In this example, `CustomActionSample` is the name of the plugin.
 
-Once you've identified the correct process, select it in Visual Studio's "Attach to Process" dialog and click "Attach".
+Select the correct process in Visual Studio's *Attach to Process* dialog box and click **Attach**.
 
-Benefits of attaching to the process:
-- You can debug your plugin while it's running within Security Center.
-- You can set breakpoints in your code and step through it as it executes.
-- You can inspect variables and the call stack at runtime.
+Attaching to your plugin's process in Security Center lets you set breakpoints, step through its code, and inspect variables and the call stack at runtime.
 
-Remember to build your plugin in Debug mode and ensure that the PDB (Program Database) files are generated and available for the best debugging experience.
+Build your plugin in `Debug` mode and generate program database (PDB) files. Make these files available to the debugger.
 
-## Database Support for Plugins
+## Database support for plugins
 
-Plugins can leverage Security Center's database infrastructure through the `IPluginDatabaseSupport` interface. This provides a standardized way to manage plugin-specific database operations.
+Plugins can use Security Center's database infrastructure through the `IPluginDatabaseSupport` interface to manage their database operations.
 
 The [PluginDatabaseSample](./PluginDatabaseSample/) adds a row to the `Logs` table each time its database enters `DatabaseState.Connected`. A reconnect adds another row. To see these entries, run this query in the plugin role's database:
 
@@ -322,7 +377,9 @@ FROM dbo.Logs
 ORDER BY Timestamp DESC;
 ```
 
-### Understanding and Implementing IPluginDatabaseSupport
+### Implementing `IPluginDatabaseSupport`
+
+Use this interface to provide a `DatabaseManager` for the plugin.
 
 #### Overview
 
@@ -330,11 +387,9 @@ The `IPluginDatabaseSupport` interface enables database operations for plugins a
 
 #### Purpose
 
-The primary purposes of IPluginDatabaseSupport are:
-1. To indicate that a plugin requires database support.
-2. To provide a standardized way for Security Center to interact with the plugin's database operations.
+The `IPluginDatabaseSupport` interface indicates that a plugin requires database support and defines how Security Center interacts with the plugin's database operations.
 
-#### Interface Definition
+#### Interface definition
 
 ```csharp
 public interface IPluginDatabaseSupport
@@ -343,13 +398,13 @@ public interface IPluginDatabaseSupport
 }
 ```
 
-#### Key Concepts
+#### `DatabaseManager` property
 
-**DatabaseManager Property**: This property provides access to the DatabaseManager, which handles all database-related operations for the plugin.
+**DatabaseManager property**: this property provides access to the `DatabaseManager`, which handles all database-related operations for the plugin.
 
 #### Implementation
 
-To implement IPluginDatabaseSupport in your plugin:
+To implement `IPluginDatabaseSupport` in your plugin:
 
 1. Implement the interface in your main plugin class:
 
@@ -365,7 +420,7 @@ public class YourPlugin : Plugin, IPluginDatabaseSupport
 }
 ```
 
-2. Create a custom DatabaseManager class:
+2. Create a custom `DatabaseManager` class:
 
 ```csharp
 public class YourDatabaseManager : DatabaseManager
@@ -375,53 +430,30 @@ public class YourDatabaseManager : DatabaseManager
 }
 ```
 
-#### Best Practices
+#### Database resource management
 
-1. **Resource Management**: Implement proper disposal of database resources such as SqlConnection and SqlCommand instances.
-2. **Connection Management**: Use the `DatabaseConfiguration` provided by the system to create database connections.
-3. **Error Handling**: Implement error handling in your DatabaseManager.
+Dispose of database resources such as `SqlConnection` and `SqlCommand` instances. Use the `DatabaseConfiguration` provided by the system to create database connections. Handle errors in your `DatabaseManager`.
 
 #### Integration with Security Center
 
-By implementing IPluginDatabaseSupport:
+Security Center recognizes that a plugin implementing `IPluginDatabaseSupport` requires database support. It calls the plugin's `DatabaseManager` methods for operations such as database creation, upgrades, or cleanup.
 
-1. Security Center recognizes that your plugin requires database support.
-2. It calls your DatabaseManager methods at appropriate times (e.g., for creation, upgrades, or cleanup).
+#### Example usage
 
-#### Example Usage
+Wait for `DatabaseState.Connected` in `DatabaseManager.OnDatabaseStateChanged` before accessing the plugin database. `OnPluginStart` does not guarantee that the database is ready.
 
-Here's how you might use the DatabaseManager in your plugin operations:
-
-```csharp
-public class YourPlugin : Plugin, IPluginDatabaseSupport
-{
-    private readonly YourDatabaseManager m_databaseManager = new YourDatabaseManager();
-
-    public DatabaseManager DatabaseManager => m_databaseManager;
-
-    protected override void OnPluginStart()
-    {
-        base.OnPluginStart();
-
-        // Example of using the database
-        using (var connection = m_databaseManager.Configuration.CreateSqlDatabaseConnection())
-        {
-            // Perform some database operation
-        }
-    }
-
-    // ... other plugin methods ...
-}
-```
+The [PluginDatabaseSample database manager](PluginDatabaseSample/SampleDatabaseManager.cs) overrides `OnDatabaseStateChanged`, stores the current state, and raises its own `DatabaseStateChanged` event. The [sample plugin](PluginDatabaseSample/SamplePlugin.cs) subscribes in `OnPluginLoaded` and inserts a log entry when the state becomes `Connected`.
 
 #### Considerations
 
-1. **Performance**: Optimize your database operations for efficiency.
-2. **Scalability**: Design your database schema and operations to work efficiently as your plugin's data grows.
-3. **Upgrades and Migrations**: When releasing new versions of your plugin, ensure that your upgrade scripts can handle upgrading from any previous version.
-4. **Testing**: Thoroughly test your plugin to ensure proper functionality of all database operations.
+- **Performance**: optimize your database operations for efficiency.
+- **Scalability**: design your database schema and operations to work efficiently as your plugin's data grows.
+- **Upgrades and migrations**: when releasing a new version of your plugin, provide and test upgrade paths from each supported earlier database schema version.
+- **Testing**: thoroughly test your plugin to ensure proper functionality of all database operations.
 
-### Understanding and Implementing GetSpecificCreationScript
+### Implementing `GetSpecificCreationScript`
+
+Provide the SQL script that creates the plugin database structure.
 
 #### Overview
 
@@ -429,9 +461,7 @@ The `GetSpecificCreationScript` method provides the SQL script used to initializ
 
 #### Purpose
 
-The primary purposes of GetSpecificCreationScript are:
-1. To define the initial database schema for your plugin
-2. To create any necessary stored procedures, functions, or other database objects
+The script returned by `GetSpecificCreationScript` defines the plugin's initial database schema and creates any required stored procedures, functions, or other database objects.
 
 #### Implementation
 
@@ -444,18 +474,17 @@ public override string GetSpecificCreationScript(string databaseName)
 }
 ```
 
-##### Key Points:
+##### Method parameters and return value
 
-1. The method takes a `databaseName` parameter, which you can use if your script needs to reference the database name dynamically.
-2. It returns a string containing the entire SQL script for creating your database objects.
-3. Typically, this script is stored as a resource in your project (as seen in the `Resources.CreationScript` reference).
+- The method takes a `databaseName` parameter, which you can use if your script needs to reference the database name dynamically.
+- It returns a string containing the entire SQL script for creating your database objects.
+- The script is typically stored as a resource in your project, as shown by `Resources.CreationScript`.
 
-#### Best Practices
+#### Creation script design
 
-1. **Comprehensive Script**: Ensure your creation script includes all necessary database objects (tables, indexes, stored procedures, functions, etc.) for your plugin to function correctly.
-2. **Idempotent Script**: Write your script to be idempotent, meaning it can be run multiple times without error. Use `IF NOT EXISTS` checks before creating objects.
+Include all required tables, indexes, stored procedures, functions, and other database objects in the creation script. Make the script idempotent so it can run multiple times without error. Use `IF NOT EXISTS` checks before creating objects.
 
-#### Example Creation Script
+#### Example creation script
 
 Example creation script:
 
@@ -510,20 +539,18 @@ END
 
 #### Integration with Security Center
 
-The `GetSpecificCreationScript` method is typically called by the main application when:
-- Your plugin is being installed for the first time
-- The application is verifying or repairing the database structure
-
-By providing this script, you ensure that your plugin's database is properly initialized and structured, regardless of when or where it's installed.
+The main application typically calls `GetSpecificCreationScript` when the plugin is installed for the first time or when the application verifies or repairs the database structure.
 
 #### Considerations
 
-- The creation script should create a database structure that is compatible with the current version of your plugin.
-- Any future changes to the database structure should be handled through `DatabaseUpgradeItem`s, not by modifying this creation script.
-- Be mindful of the script's execution time, especially for larger databases or complex structures.
-- Test your creation script thoroughly, including on different database server versions if applicable.
+- Keep the creation script up to date so new databases are created with the schema required by the current plugin version.
+- Use `DatabaseUpgradeItem`s to migrate existing databases from supported earlier schema versions.
+- Check the script's execution time, especially for larger databases or complex structures.
+- Test the creation script thoroughly, including on different database server versions when applicable.
 
-### Understanding and Implementing DatabaseUpgradeItem
+### Implementing `DatabaseUpgradeItem`
+
+Define the database schema changes for an upgrade and their execution order.
 
 #### Overview
 
@@ -531,40 +558,41 @@ By providing this script, you ensure that your plugin's database is properly ini
 
 #### Purpose
 
-The primary purposes of DatabaseUpgradeItem are:
-1. To define database schema changes required when upgrading from one version to another
-2. To provide a structured way to apply these changes in the correct order
-3. To ensure database compatibility across different versions of your plugin
+`DatabaseUpgradeItem` defines the database schema changes for a plugin upgrade and their execution order to maintain database compatibility across plugin versions.
 
 #### Implementation
 
-##### Defining Upgrade Items
+Define upgrade items and their SQL scripts in your plugin's `DatabaseManager`.
+
+##### Defining upgrade items
 
 In your `DatabaseManager` derived class, override the `GetDatabaseUpgradeItems` method to define your upgrade items:
 
 ```csharp
 public override IEnumerable<DatabaseUpgradeItem> GetDatabaseUpgradeItems()
 {
-    // Upgrade from version 50001 to 500002
-    yield return new DatabaseUpgradeItem(50001, 500002, Resources.UpgradeScript_50002);
+    // Upgrade from version 50001 to 50002
+    yield return new DatabaseUpgradeItem(50001, 50002, Resources.UpgradeScript_50002);
 
-    // Upgrade from version 50002 to 500003
-    yield return new DatabaseUpgradeItem(50002, 500003, Resources.UpgradeScript_50003);
+    // Upgrade from version 50002 to 50003
+    yield return new DatabaseUpgradeItem(50002, 50003, Resources.UpgradeScript_50003);
 
     // You can add more upgrade items as your plugin evolves
 }
 ```
 
-##### Creating Upgrade Scripts
+##### Creating upgrade scripts
 
 1. Create SQL scripts for each upgrade step. These scripts should contain all necessary SQL commands to migrate the database schema from the source version to the target version.
-2. Store these scripts as resources in your project (as seen in the `Resources.UpgradeScript_XXXXX` references).
+2. Store the scripts as resources in your project, as shown by `Resources.UpgradeScript_XXXXX`.
 
-#### Best Practices
+#### Upgrade script design
 
-1. **Incremental Upgrades**: Define upgrade items for each incremental version change. This allows for step-by-step upgrades and makes it easier to test and troubleshoot.
-2. **Idempotent Scripts**: Write your upgrade scripts to be idempotent (can be run multiple times without changing the result beyond the initial application). This helps prevent issues if an upgrade is interrupted and needs to be rerun.
-3. **Testing**: Thoroughly test each upgrade path, including upgrades that skip versions (e.g., 50001 to 500003).
+Use these guidelines when designing upgrade scripts:
+
+- Define an upgrade item for each incremental version change. This supports upgrades in sequence and simplifies testing and troubleshooting.
+- Make upgrade scripts idempotent so running them again does not change the result beyond the initial application. This helps prevent issues if an interrupted upgrade must be retried.
+- Test each upgrade path thoroughly, including paths that skip versions, such as 50001 to 50003.
 
 #### Integration with Security Center
 
@@ -577,15 +605,15 @@ By implementing `DatabaseUpgradeItem`, your plugin integrates with the applicati
 #### Considerations
 
 - Upgrades are typically applied automatically by the main application when your plugin is updated.
-- Your plugin should be prepared to work with any version of the database schema from the minimum supported version up to the current version.
+- Define the earliest database schema version your plugin supports upgrading to the current schema.
 - Consider data migration needs in addition to schema changes. Some upgrades may require moving or transforming existing data.
 
-#### Example Upgrade Script
+#### Example upgrade script
 
 Example upgrade script:
 
 ```sql
--- Upgrade script from version 50001 to 500002
+-- Upgrade script from version 50001 to 50002
 
 -- Add a new column to an existing table
 IF NOT EXISTS (SELECT * FROM sys.columns 
@@ -608,9 +636,9 @@ BEGIN
 END
 ```
 
-`DatabaseUpgradeItem` supports database schema changes alongside plugin functionality changes, maintaining compatibility and performance across versions.
+### Implementing `DatabaseCleanupThreshold`
 
-### Understanding and Implementing DatabaseCleanupThreshold
+Define data retention settings and cleanup operations.
 
 #### Overview
 
@@ -618,14 +646,13 @@ END
 
 #### Purpose
 
-The primary purposes of DatabaseCleanupThreshold are:
-1. To define what data should be cleaned up
-2. To specify how long data should be retained before cleanup
-3. To provide a mechanism for the main application to manage database maintenance across multiple plugins
+`DatabaseCleanupThreshold` defines what data to clean up and how long to retain it. It provides a mechanism for the main application to manage database maintenance across multiple plugins.
 
 #### Implementation
 
-##### Defining Cleanup Thresholds
+Define cleanup thresholds and their cleanup logic in your plugin's `DatabaseManager`.
+
+##### Defining cleanup thresholds
 
 In your `DatabaseManager` derived class, override the `GetDatabaseCleanupThresholds` method to define your cleanup thresholds:
 
@@ -649,7 +676,7 @@ public override IEnumerable<DatabaseCleanupThreshold> GetDatabaseCleanupThreshol
 }
 ```
 
-##### Implementing Cleanup Logic
+##### Implementing cleanup logic
 
 Override the `DatabaseCleanup` method to implement the actual cleanup logic:
 
@@ -668,13 +695,9 @@ public override void DatabaseCleanup(string name, int retentionPeriod)
 }
 ```
 
-#### Best Practices
+#### Cleanup configuration and handling
 
-1. **Meaningful Names**: Choose clear, descriptive names for your cleanup thresholds.
-2. **Appropriate Defaults**: Set sensible default values for `defaultIsEnabled` and `defaultRetentionPeriod`.
-3. **Efficient Cleanup**: Implement cleanup operations efficiently to minimize impact on system performance.
-4. **Error Handling**: Implement error handling in your cleanup methods.
-5. **Logging**: Log cleanup activities for troubleshooting purposes.
+Use descriptive names for cleanup thresholds and defaults for `defaultIsEnabled` and `defaultRetentionPeriod` that suit the plugin's data retention needs. Implement cleanup operations efficiently to minimize their effect on system performance. Handle errors in cleanup methods and log cleanup activities for troubleshooting.
 
 #### Integration with Security Center
 
@@ -685,6 +708,6 @@ Implementing `DatabaseCleanupThreshold` allows the plugin to:
 
 #### Considerations
 
-- The cleanup operation is triggered by Security Center, not your plugin directly.
+- Security Center triggers cleanup operations; the plugin does not trigger them directly.
 - Your plugin should be prepared to handle cleanup requests at any time.
-- Consider the impact of cleanup operations on any active processes in your plugin.
+- Account for the effect of cleanup operations on active plugin processes.

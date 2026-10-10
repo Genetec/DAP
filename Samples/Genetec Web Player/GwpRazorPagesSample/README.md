@@ -1,6 +1,6 @@
-# GWP Razor Pages Sample
+# GWP Razor Pages sample
 
-This sample demonstrates hosting the Genetec Web Player inside an ASP.NET Core Razor Pages application with Content Security Policy (CSP) nonces:
+This sample demonstrates hosting the Genetec™ Web Player inside an ASP.NET Core Razor Pages application with Content Security Policy (CSP) nonces:
 
 - ASP.NET Core serves a Razor Page that loads and runs GWP.
 - The page is server-rendered, so the Media Gateway endpoint and server version are injected directly into the markup. No client-side configuration fetch is needed.
@@ -13,15 +13,23 @@ Compared to the Minimal API sample, this sample adds:
 - **CSP nonces** instead of `'unsafe-inline'`, demonstrating how to tighten the Content Security Policy for production use.
 - **Server-rendered configuration** injected directly into the Razor markup, removing the need for a separate `/api/config` endpoint.
 
-## Run
+## Running the sample
 
-Install the .NET 8 SDK. This project targets `net8.0`. Configure the Media Gateway connection and certificate trust as described below, then run this command from the `GwpRazorPagesSample` folder:
+Install the .NET 8 SDK. This project targets `net8.0`. Configure the Media Gateway connection and certificate trust as described below, and then run this command from the `GwpRazorPagesSample` folder:
 
 ```powershell
 dotnet run
 ```
 
-Then open the URL shown in the console output (for example, `https://localhost:5001`).
+Open the URL shown in the console output, for example, `https://localhost:5001`.
+
+For deployment:
+
+1. Run `dotnet publish -c Release` from the project folder.
+2. Install the ASP.NET Core 8 runtime on the hosting machine.
+3. Deploy the published application and static files.
+
+The project uses the ASP.NET Core shared framework and has no NuGet package references. It loads GWP from Media Gateway and does not reference the .NET Security Center SDK. Installing the .NET 10 SDK does not retarget this project.
 
 ### Configuration
 
@@ -48,15 +56,17 @@ dotnet user-secrets set "MediaGateway:Password" "your-password"
 
 ## Required environment setup
 
-### 1. Trust the Media Gateway certificate
+Check certificate trust, the page origin settings, and the GWP build before starting playback.
+
+### 1. Trusting the Media Gateway certificate
 
 If the Media Gateway certificate is self-signed or otherwise untrusted, the browser will fail to load `gwp.js` or connect to the gateway.
 
 For development, the sample automatically allows certificate warnings when connecting to the Media Gateway from the server-side token endpoint. The browser must still trust the certificate for the `gwp.js` script load and WebSocket connections. Add the certificate to the browser's trust store or use a trusted certificate.
 
-### 2. Allow the page origin in Media Gateway CORS
+### 2. Allowing the page origin in Media Gateway CORS
 
-If strict CORS is enabled, add the ASP.NET application origin (the URL shown when you run the app, for example `https://localhost:5001`) to `MediaGateway.gconfig`:
+If strict CORS is enabled, add the ASP.NET application origin to `MediaGateway.gconfig`. Use the URL shown when the application runs, for example, `https://localhost:5001`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -70,17 +80,17 @@ If strict CORS is enabled, add the ASP.NET application origin (the URL shown whe
 
 Restart the Media Gateway role after the change.
 
-### 3. Use a matching GWP build
+### 3. Selecting a matching GWP build
 
 The sample loads `gwp.js` from `${mediaGatewayEndpoint}/v2/files/gwp.js` so the player version matches the Security Center version.
 
 ## CSP nonce implementation
 
-The Content Security Policy is enforced via HTTP response header, not a meta tag. Each request receives a fresh cryptographic nonce:
+The Content Security Policy is enforced through an HTTP response header, not a meta tag. Each request receives a fresh cryptographic nonce through these stages:
 
 1. **Middleware** in `Program.cs` generates a random nonce using `RandomNumberGenerator`, stores it in `HttpContext.Items`, and writes the `Content-Security-Policy` header.
-2. **Page model** (`Index.cshtml.cs`) reads the nonce from `HttpContext.Items` and exposes it as a property.
-3. **Razor markup** (`Index.cshtml`) applies the nonce to each `<script nonce="@nonce">` and `<style nonce="@nonce">` tag.
+2. **Page model** in `Index.cshtml.cs` reads the nonce from `HttpContext.Items` and exposes it as a property.
+3. **Razor markup** in `Index.cshtml` applies the nonce to each `<script nonce="@nonce">` and `<style nonce="@nonce">` tag.
 
 Because the nonce is unique per request and cryptographically random, inline scripts and styles are allowed only when they carry the correct nonce. An attacker who injects markup cannot predict the nonce value.
 
@@ -90,6 +100,6 @@ Because the nonce is unique per request and cryptographically random, inline scr
 - This sample has no user authentication. Anyone who can reach the application can view camera streams. A real application must add its own authentication layer to control who can access the application.
 - Keep development credentials out of source control by using user secrets. For production, use a managed secret store such as Azure Key Vault. User secrets are intended for development.
 - The default SDK certificate is the Genetec development certificate intended for SDK development only.
-- Player startup is cancellable. Clicking Stop during script load or session establishment cancels the in-flight start and cleans up any partially created player.
+- Player startup is cancellable. Clicking **Stop** during script load or session establishment cancels the in-flight start and cleans up any partially created player.
 - Browser autoplay rules apply to audio.
 - Video rendering and overlays remain in the HTML layer, not the ASP.NET server.

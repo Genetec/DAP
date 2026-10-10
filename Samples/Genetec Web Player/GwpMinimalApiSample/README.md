@@ -1,21 +1,29 @@
-# GWP Minimal API Sample
+# GWP Minimal API sample
 
-This sample demonstrates hosting the Genetec Web Player inside an ASP.NET Core Minimal API application:
+This sample demonstrates hosting the Genetec™ Web Player inside an ASP.NET Core Minimal API application:
 
 - ASP.NET Core serves a static HTML page that loads and runs GWP.
 - A server-side `/api/token/{cameraId}` endpoint proxies token requests to the Media Gateway using credentials from `appsettings.json`. Media Gateway credentials never reach the browser.
 - A `/api/config` endpoint provides the Media Gateway endpoint and server version to the page without exposing authentication details.
 - The page loads `gwp.js` directly from the target Media Gateway and uses the browser environment GWP expects.
 
-## Run
+## Running the sample
 
-Install the .NET 8 SDK. This project targets `net8.0`. Configure the Media Gateway connection and certificate trust as described below, then run this command from the `GwpMinimalApiSample` folder:
+Install the .NET 8 SDK. This project targets `net8.0`. Configure the Media Gateway connection and certificate trust as described below, and then run this command from the `GwpMinimalApiSample` folder:
 
 ```powershell
 dotnet run
 ```
 
-Then open the URL shown in the console output (for example, `https://localhost:5001`).
+Open the URL shown in the console output, for example, `https://localhost:5001`.
+
+For deployment:
+
+1. Run `dotnet publish -c Release` from the project folder.
+2. Install the ASP.NET Core 8 runtime on the hosting machine.
+3. Deploy the published application and static files.
+
+The project uses the ASP.NET Core shared framework and has no NuGet package references. It loads GWP from Media Gateway and does not reference the .NET Security Center SDK. Installing the .NET 10 SDK does not retarget this project.
 
 ### Configuration
 
@@ -42,13 +50,15 @@ dotnet user-secrets set "MediaGateway:Password" "your-password"
 
 ## Required environment setup
 
-### 1. Trust the Media Gateway certificate
+Check certificate trust, the page origin settings, and the GWP build before starting playback.
+
+### 1. Trusting the Media Gateway certificate
 
 If the Media Gateway certificate is self-signed or otherwise untrusted, the browser will fail to load `gwp.js` or connect to the gateway.
 
 For development, the sample automatically allows certificate warnings when connecting to the Media Gateway from the server-side token endpoint. The browser must still trust the certificate for the `gwp.js` script load and WebSocket connections. Add the certificate to the browser's trust store or use a trusted certificate.
 
-### 2. Allow the page origin in Media Gateway CORS
+### 2. Allowing the page origin in Media Gateway CORS
 
 If strict CORS is enabled, add the ASP.NET application origin to `MediaGateway.gconfig`:
 
@@ -63,7 +73,7 @@ If strict CORS is enabled, add the ASP.NET application origin to `MediaGateway.g
 
 Restart the Media Gateway role after the change.
 
-### 3. Use a matching GWP build
+### 3. Selecting a matching GWP build
 
 The sample loads `gwp.js` from `${mediaGatewayEndpoint}/v2/files/gwp.js` so the player version matches the Security Center version.
 
@@ -74,6 +84,6 @@ The sample loads `gwp.js` from `${mediaGatewayEndpoint}/v2/files/gwp.js` so the 
 - Keep development credentials out of source control by using user secrets. For production, use a managed secret store such as Azure Key Vault. User secrets are intended for development.
 - The default SDK certificate is the Genetec development certificate intended for SDK development only.
 - A Content Security Policy meta tag restricts script sources, connections, and media to `self`, `https:`, `wss:`, and `blob:`. The policy allows `'unsafe-inline'` for scripts and styles because the page uses inline markup. The Razor Pages sample demonstrates how to use CSP nonces instead.
-- Player startup is cancellable. Clicking Stop during script load or session establishment cancels the in-flight start and cleans up any partially created player.
+- Player startup is cancellable. Clicking **Stop** during script load or session establishment cancels the in-flight start and cleans up any partially created player.
 - Browser autoplay rules apply to audio.
 - Video rendering and overlays remain in the HTML layer, not the ASP.NET server.

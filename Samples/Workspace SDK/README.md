@@ -1,24 +1,53 @@
 # What is the Workspace SDK?
 
-The Workspace SDK is a development framework that allows you to extend Security Center's client applications, Security Desk and Config Tool, with custom user interface components. These components integrate into the client user interface.
-This guide demonstrates how to build a Workspace module for Security Center. Workspace modules allow you to extend Security Desk and Config Tool with custom UI tasks, panels, widgets, options, and other components.
+Use the Workspace SDK to extend Security Desk and Config Tool with custom tasks, panels, widgets, options, and other user interface components. These samples show how to build Workspace modules for those client applications.
 
 ## Prerequisites
 
-- **.NET Framework 4.8.1 targeting pack**: The samples target `net481`. Workspace modules must target .NET Framework because Security Desk and Config Tool host them in-process on .NET Framework.
-- **Security Center SDK**: Installed with `GSC_SDK` environment variable configured
-- **Visual Studio 2022**: Version 17.6 or later for development
-- **Security Center**: Client applications (Security Desk and Config Tool) installed
-- **Valid Security Center License**: All samples include the development SDK certificate
+- **.NET Framework 4.8.1 targeting pack**: the samples target `net481`. Workspace modules must target .NET Framework because Security Desk and Config Tool host them in-process on .NET Framework. Client modules targeting .NET 8 or .NET 10 are not supported.
+- **Security Center SDK**: installed with the `GSC_SDK` environment variable configured.
+- **Build tools**: Visual Studio 2022 version 17.8 or later, or the .NET 8 SDK or a later compatible SDK for command-line builds. The samples compile with C# 12.
+- **Security Center**: the Security Desk and Config Tool client applications are installed.
+- **Valid Security Center license**: all samples include the development SDK certificate.
+
+## Building a sample
+
+The Workspace SDK projects use `Debug` and `Release` configurations and target .NET Framework 4.8.1. Selecting `Debug_NET8` or `Release_NET8` in the solution still builds these projects for `net481`.
+
+1. Open an elevated PowerShell terminal or run Visual Studio as an administrator. The samples' post-build registration writes to `HKEY_LOCAL_MACHINE`.
+2. Set `GSC_SDK` to the installed SDK directory containing the .NET Framework assemblies. Replace the example path with your installation:
+
+   ```powershell
+   $env:GSC_SDK = 'C:\Program Files (x86)\Genetec Security Center 5.14 SDK'
+   ```
+
+3. From the repository root, build the PageTask sample:
+
+   ```powershell
+   dotnet build "Samples/Workspace SDK/PageTaskSample/PageTaskSample.csproj" -c Debug -f net481
+   ```
+
+4. Use `-c Release` for a release build, or replace the project path with another Workspace sample. Restart Security Desk or Config Tool to load the registered module.
+
+A Workspace module is a class library loaded by a client application. Launch the client to use it. For registration and deployment, see [Development-time registration](#development-time-registration).
+
+## Build and deployment dependencies
+
+The samples reference `Genetec.Sdk.dll` and `Genetec.Sdk.Workspace.dll` through `GSC_SDK`. Some also reference `Genetec.Sdk.Controls.dll`. Their project files declare non-SDK packages as needed, including `Prism.Core`, `Newtonsoft.Json`, and `System.Resources.Extensions`; `dotnet build` restores these packages automatically.
+
+Install the .NET Framework 4.8.1 runtime on workstations running these samples. Keep **Copy Local** set to `False` for SDK references because Security Desk and Config Tool supply the SDK assemblies at runtime. Deploy required non-SDK dependencies beside the registered module DLL. Use versions compatible with the client and other loaded modules; older packages are not necessarily compatible. See [Dependency resolution](#dependency-resolution-with-addfolderstoassemblyprobe-and-assemblyresolver) for probing and custom resolution.
 
 ## Overview
 
-Workspace modules run inside the Security Center client applications (Security Desk or Config Tool). They are loaded by these applications and provide custom user interface functionality. Unlike plugins, Workspace modules do not run as server-side Roles and are intended exclusively for client-side extensions.
+Workspace modules run inside Security Desk or Config Tool. These client applications load the modules to provide custom user interface components. Workspace modules are exclusively client-side extensions and do not run as server-side roles.
 
-## Key Concepts
+## Module requirements
 
-### Module Class Requirements
-Your workspace module must have a **default public constructor** (parameterless constructor). Security Center uses reflection to instantiate your module, and it requires a constructor that takes no parameters.
+Workspace modules have constructor, inheritance, registration, and dependency requirements.
+
+### Module constructor requirements
+
+Your Workspace module must have a **public parameterless constructor**. Security Center uses reflection to instantiate the module.
 
 ```csharp
 public class SampleModule : Module
@@ -34,61 +63,59 @@ public class SampleModule : Module
 ```
 
 If you don't explicitly define a constructor, C# provides an implicit default constructor, which satisfies this requirement.
-### Module Inheritance
+
+### Module inheritance
+
 Your workspace module must inherit from `Sdk.Workspace.Modules.Module`. This base class provides the framework for integrating with Security Center's client applications and handles the module lifecycle.
 
-### Registration in Load() Method
-The `Load()` method is called when Security Center starts up and loads your module. This is where you register all your UI extensions (tasks, widgets, options, etc.) with the workspace. Registration tells Security Center what components your module provides and makes them available to users.
+### Registration in `Load()`
 
-### Application Type Checking
-Security Center has multiple client applications (Security Desk and Config Tool), and your module may need to behave differently in each. Use `Workspace.ApplicationType` to determine which application is currently running your module and register only appropriate components for that context.
+The `Load()` method is called when Security Center starts and loads your module. Register all your user interface extensions, such as tasks, widgets, and options, with the workspace in this method. Registration identifies the components your module provides and makes them available to users.
 
-### Assembly Resolution for Dependencies
+### Application type checking
+
+Security Center has multiple client applications, including Security Desk and Config Tool. Your module may need to behave differently in each. Use `Workspace.ApplicationType` to identify the running application and register only components appropriate for that application.
+
+### Assembly resolution for dependencies
+
 The static constructor with `AssemblyResolver.Initialize()` is only needed when your module depends on third-party libraries or custom assemblies that are not part of the Genetec SDK. The SDK assemblies are automatically resolved by Security Center.
 
-### Shared Process and AppDomain Architecture
-All workspace modules loaded by Security Desk (or Config Tool) run within the same Windows process and share the same .NET AppDomain. Dependency version conflicts and unhandled exceptions in one module can affect other modules:
+### Shared process and AppDomain
 
-**What this means:**
-- When Security Desk or Config Tool starts, it loads ALL registered workspace modules into its single process
-- All modules share the same memory space and runtime environment
-- Modules can potentially interfere with each other if not designed carefully
+At startup, each instance of Security Desk or Config Tool loads all registered Workspace modules into its Windows process and .NET AppDomain. The modules share that application's memory space and runtime environment. Dependency version conflicts and unhandled exceptions in one module can affect other modules in that application.
 
-**Implications for developers:**
-- **Assembly version conflicts**: If Module A uses Newtonsoft.Json v10.0 and Module B uses v12.0, only the first version loaded will be used. The second module may fail with type loading errors
-- **Global state sharing**: Static variables and singletons are shared across all modules
-- **Shared Engine instance**: All modules share the same Security Center Engine instance, which means:
-  - **Single Directory connection**: All modules use the same connection to the Directory Server
-  - **Shared entity cache**: Changes made by one module to cached entities are immediately visible to all other modules
-  - **Common credentials**: All modules operate under the same user credentials that were used to log into Config Tool or Security Desk
-  - **Unified privileges**: Module operations are subject to the logged-in user's access rights and privileges in Security Center
-- **Exception handling**: An unhandled exception in one module can potentially crash the entire Security Desk application, affecting all modules
-- **Performance impact**: A poorly performing module (CPU/memory intensive operations) can affect the responsiveness of Security Desk and other modules
-- **Assembly loading**: Once an assembly is loaded, it cannot be unloaded until the entire process shuts down
+Module developers must account for these shared resources and possible failures:
 
-**Best practices:**
-- Use compatible versions of third-party dependencies across all your organization's modules
-- Avoid long-running operations in UI threads
-- Implement proper exception handling to prevent crashes
-- Test modules together, not just individually
-- Consider the impact of your module on the overall Security Desk performance
+- **Assembly version conflicts**: if Module A uses Newtonsoft.Json v10.0 and Module B uses v12.0, a binding configuration that selects an incompatible version for Module B can cause type loading errors.
+- **Global state sharing**: modules using the same loaded type share that type's static variables and singletons.
+- **Shared Engine instance**: All modules share the same Security Center Engine instance, with these consequences:
 
-## Module Lifecycle and Resource Management
+  - **Single Directory connection**: all modules use the same connection to the Directory Server.
+  - **Shared entity cache**: changes made by one module to cached entities are immediately visible to all other modules.
+  - **Common credentials**: all modules operate under the same user credentials used to log on to Config Tool or Security Desk.
+  - **Unified privileges**: module operations are subject to the Security Center access rights and privileges of the user who is logged on.
+- **Exception handling**: an unhandled exception in one module can potentially crash the entire Security Desk application, affecting all modules.
+- **Performance impact**: a module that performs operations requiring high CPU or memory usage can affect the responsiveness of Security Desk and other modules.
+- **Assembly loading**: once an assembly is loaded, it cannot be unloaded until the entire process shuts down.
+
+Use compatible versions of third-party dependencies across your organization's modules. Avoid long-running operations on UI threads, handle exceptions, and test modules together to check their effect on Security Desk performance. Use `async` and `await` for I/O operations to avoid blocking the UI thread, and avoid lengthy operations in `Load()`.
+
+## Module lifecycle and resource management
 
 Use the workspace module lifecycle to plan resource initialization and cleanup.
 
-### Lifecycle Events
+### Lifecycle events
 
-1. **Constructor**: Runs when Security Center instantiates your module (must be parameterless)
-2. **Initialize()**: Called by the framework to provide the Workspace instance
-3. **Load()**: Called when Security Center loads your module - register all components here
-4. **Unload()**: Called when Security Center shuts down - clean up resources here
+1. **Constructor**: runs when Security Center instantiates your module; the constructor must be parameterless.
+2. **Initialize()**: the framework calls this method to provide the Workspace instance.
+3. **Load()**: Security Center calls this method when loading your module; register components here.
+4. **Unload()**: Security Center calls this method during shutdown; clean up resources here.
 
-## Creating a Workspace Module
+## Creating a Workspace module
 
 Create a class that inherits from `Sdk.Workspace.Modules.Module` and override the `Load()` and `Unload()` methods. Register your extensions in `Load()` based on the application type.
 
-### Example: Basic Task Registration
+### Example: basic task registration
 
 ```csharp
 using Sdk;
@@ -115,7 +142,7 @@ namespace Genetec.Dap.CodeSamples
 }
 ```
 
-### Example: Application-Specific Registration
+### Example: application-specific registration
 
 ```csharp
 using Sdk;
@@ -161,7 +188,7 @@ namespace Genetec.Dap.CodeSamples
 }
 ```
 
-### Example: Options Extension Registration
+### Example: options extension registration
 
 ```csharp
 using Sdk;
@@ -191,50 +218,54 @@ namespace Genetec.Dap.CodeSamples
 }
 ```
 
-## Component Registration Types
+## Component registration types
 
-Workspace modules can register various types of components:
+Workspace modules can register these component types:
 
 ### Tasks
+
 ```csharp
 var task = new CustomTask();
 task.Initialize(Workspace);
 Workspace.Tasks.Register(task);
 ```
 
-### Components (Widgets, Builders)
+### Widgets and component builders
+
 ```csharp
 var builder = new CustomWidgetBuilder();
 builder.Initialize(Workspace);
 Workspace.Components.Register(builder);
 ```
 
-### Options Extensions
+### Options extensions
+
 ```csharp
 var options = new CustomOptionsExtensions();
 options.Initialize(Workspace);
 Workspace.Options.Register(options);
 ```
 
-## Dependency Resolution: AddFoldersToAssemblyProbe vs AssemblyResolver
+## Dependency resolution with AddFoldersToAssemblyProbe and AssemblyResolver
 
-Workspace modules can resolve non-SDK dependencies with AddFoldersToAssemblyProbe or AssemblyResolver.
+Workspace modules can resolve non-SDK dependencies with `AddFoldersToAssemblyProbe` or a custom resolver such as the sample `AssemblyResolver`.
 
 ### AddFoldersToAssemblyProbe
 
 This is a Security Center-specific feature configured during module registration.
 
-**How it works:**
-- Set in the registration XML file: `<Item Key="AddFoldersToAssemblyProbe" Value="True" />`
-- Or in registry (legacy): `AddFoldersToAssemblyProbe = True`
-- Security Center automatically configures .NET's private probing paths to include your module's directory
-- Works at the AppDomain level, affecting assembly resolution for the entire application
+This registration option affects dependency resolution as follows:
 
-**When to use:**
-- Your module has simple dependencies (DLLs that just need to be found)
-- Dependencies don't require special loading logic
-- You want Security Center to handle the resolution automatically
-- Most common scenario for workspace modules
+- Set it in the registration XML file: `<Item Key="AddFoldersToAssemblyProbe" Value="True" />`.
+- For legacy registry registration, use `AddFoldersToAssemblyProbe = True`.
+- Security Center automatically configures .NET's private probing paths to include your module's directory.
+- The option works at the AppDomain level, affecting assembly resolution for the entire application.
+
+Use automatic probing when the following conditions apply:
+
+- Your module's dependencies are DLLs that need to be found.
+- Dependencies do not require special loading logic.
+- You want Security Center to handle resolution automatically.
 
 **Example:**
 ```xml
@@ -250,22 +281,23 @@ This is a Security Center-specific feature configured during module registration
 
 Your dependencies in `C:\MyModule\` will be found automatically.
 
-### AssemblyResolver (Custom Assembly Resolution)
+### Custom assembly resolution with AssemblyResolver
 
-This is a .NET mechanism that you implement in code.
+The sample `AssemblyResolver` implements custom dependency loading through the .NET `AppDomain.AssemblyResolve` event.
 
-**How it works:**
-- You register a custom handler for the `AppDomain.AssemblyResolve` event
-- When .NET cannot find an assembly, your handler is called
-- Your code decides how to locate and load the assembly
-- Provides full control over the loading process
+The sample resolver handles dependency loading as follows:
 
-**When to use:**
-- You need custom logic for loading assemblies (version selection, conditional loading, etc.)
-- Dependencies are located in non-standard locations
-- You need to load assemblies from embedded resources
-- You want to implement fallback loading strategies
-- AddFoldersToAssemblyProbe is not sufficient for your needs
+- Calling `AssemblyResolver.Initialize()` registers a handler for the `AppDomain.AssemblyResolve` event.
+- When .NET cannot resolve an assembly, it calls the handler.
+- The handler looks for a DLL with the requested assembly name in the resolver's own assembly directory and loads it if present.
+
+A custom resolver can address these requirements; adapt the sample helper if needed:
+
+- You need custom logic for loading assemblies, such as version selection or conditional loading.
+- Dependencies are located in other directories.
+- You need to load assemblies from embedded resources.
+- You need fallback loading strategies.
+- `AddFoldersToAssemblyProbe` is not sufficient for your needs.
 
 **Example:**
 ```csharp
@@ -277,31 +309,23 @@ public class SampleModule : Module
 }
 ```
 
-### Which Should You Use?
+### Choosing a resolution mechanism
 
-**Start with AddFoldersToAssemblyProbe** because:
-- No code required
-- Handled by Security Center automatically
+Start with `AddFoldersToAssemblyProbe` when Security Center can resolve your module's dependencies automatically without custom code. Use a custom resolver when automatic probing is insufficient, dependencies are in other locations, or you need conditional loading or version selection. Adapt the sample `AssemblyResolver` if you need behavior beyond loading DLLs from its own assembly directory.
 
-**Use AssemblyResolver when:**
-- AddFoldersToAssemblyProbe doesn't work for your scenario
-- You need custom loading logic
-- Dependencies are in multiple locations
-- You need version-specific loading behavior
-
-### Can You Use Both?
+### Using both mechanisms
 
 You can use both mechanisms. When `AddFoldersToAssemblyProbe=True` resolves your module's dependencies, no custom resolver is needed. Add a custom resolver only when you need additional loading behavior.
 
 The sample resolver loads DLLs from its own assembly's directory. Searching other locations or implementing different loading rules requires adapting its implementation.
 
-**Important**: Only implement assembly resolution if your module uses third-party or custom libraries beyond the Genetec SDK.
+Only implement assembly resolution if your module uses third-party or custom libraries beyond the Genetec SDK.
 
 If you choose to use the sample resolver:
 
-1. Place all third-party DLLs in the same directory as your workspace module DLL
-2. Register an assembly resolver in a static constructor
-3. Use the provided `AssemblyResolver` class from the samples
+1. Place all third-party DLLs in the same directory as your Workspace module DLL.
+2. Register an assembly resolver in a static constructor.
+3. Use the provided `AssemblyResolver` class from the samples.
 
 ```csharp
 public class SampleModule : Module
@@ -313,9 +337,9 @@ public class SampleModule : Module
 }
 ```
 
-**Note**: The Genetec SDK assemblies are automatically resolved by Security Center. Do not attempt to resolve them manually.
+Security Center automatically resolves the Genetec SDK assemblies. Do not attempt to resolve them manually.
 
-## Development-Time Registration
+## Development-time registration
 
 For development and testing, workspace modules need to be registered with Security Center. The SDK samples include post-build steps that automatically register modules during development:
 
@@ -335,95 +359,103 @@ Register the `ClientModule` on each workstation that runs your extension in Secu
 
 The post-build registration writes to `HKEY_LOCAL_MACHINE`, so it requires administrative privileges. Run Visual Studio as an administrator when building samples that include this post-build target.
 
-## Best Practices
+## Module requirements during development
 
-### Application Type Checking
-* Always check `Workspace.ApplicationType` before registering components
-* Only register components appropriate for the current application
-* Use specific checks rather than registering everything everywhere
+Plan registration, dependency compatibility, resource cleanup, logging, and testing when developing a Workspace module.
 
-### Dependency Management
+### Application type checking
+
+Check `Workspace.ApplicationType` before registering components. Register only components used by the running application.
+
+### Dependency management
+
+Workspace modules loaded by the same client application share a process and AppDomain, so coordinate their dependencies.
 
 #### Shared AppDomain
-All workspace modules share the same process and AppDomain. Their dependencies can conflict, as shown below.
 
-**What happens with version conflicts:**
-```
+Workspace modules loaded by the same client application share its process and AppDomain. Their dependencies can conflict. The version used by a module depends on assembly identity and the client's binding configuration. See [How the runtime locates assemblies](https://learn.microsoft.com/en-us/dotnet/framework/deployment/how-the-runtime-locates-assemblies).
+
+The following example illustrates a possible conflict when binding settings select a dependency version incompatible with another module:
+
+```text
 Security Desk Process
 ├── Module A (loads Newtonsoft.Json v10.0.3)
 ├── Module B (tries to load Newtonsoft.Json v12.0.1) FAILS
 └── Module C (expects Newtonsoft.Json v11.0.2) FAILS
 ```
 
-When Module A loads first, its version of Newtonsoft.Json becomes the "winning" version. Modules B and C will be forced to use v10.0.3, which may cause:
-- `TypeLoadException` if the API has changed
-- `MissingMethodException` if methods were added/removed
-- Runtime behavior differences if internal logic changed
+If the client resolves Modules B and C to Module A's Newtonsoft.Json v10.0.3 and their required APIs are incompatible, this can cause:
 
-#### Coordination Strategies
+- `TypeLoadException` if the API has changed.
+- `MissingMethodException` if methods were added or removed.
+- Runtime behavior differences if internal logic changed.
 
-1. **Organization-wide dependency management**: If you develop multiple modules, maintain a shared dependency matrix specifying which versions to use across all modules
+#### Dependency coordination
 
-2. **Conservative versioning**: Use older, stable versions of dependencies rather than the latest versions to maximize compatibility
+- If you develop multiple modules, maintain a dependency matrix specifying versions for all your organization's modules.
+- Select dependency versions compatible with the Security Center client and other loaded modules. Check the APIs and assembly versions required by each component before updating packages.
+- Reduce third-party dependencies where possible; each dependency can introduce a conflict.
+- Test your modules with other Workspace modules that will be deployed in the same environment.
 
-3. **Minimal dependencies**: Reduce third-party dependencies where possible. Each dependency is a potential conflict point
+#### Detecting dependency conflicts
 
-4. **Testing with other modules**: Always test your modules alongside other workspace modules that will be deployed in the same environment
+Use these checks to detect dependency conflicts:
 
-#### Detection and Prevention
+- Use `dotnet list package` to audit dependencies across projects.
+- Implement integration tests that load multiple modules together.
 
-- Use tools like `dotnet list package` to audit dependencies across projects
-- Implement integration tests that load multiple modules together
+### Error handling
 
-### Error Handling
-* Implement proper error handling in `Load()` to prevent module loading failures
-* Consider wrapping registration calls in try-catch blocks for non-critical components
+Handle errors in `Load()` to prevent failures when loading the module. Consider try-catch blocks around registration calls for components that are not critical.
 
-### Resource Management
-* **Clean up resources in `Unload()`**: Always dispose of loggers, unsubscribe from events, and release any resources your module acquired
-* **Event subscription management**: Subscribe to events in `Load()` and unsubscribe in `Unload()` to prevent memory leaks
-* Be mindful that `Unload()` may not always be called during application shutdown, so design for graceful degradation
+### Resource management
 
-### Logging and Diagnostics
-* **Use SDK logging**: Implement proper logging using the Genetec SDK's `Logger` class for consistency with Security Center's logging infrastructure
-* **Dispose loggers**: Always dispose logger instances in your `Unload()` method to prevent resource leaks
-* **Diagnostic methods**: Consider implementing debug methods with `[DebugMethod]` attributes for troubleshooting
+Subscribe to events in `Load()`. In `Unload()`, unsubscribe from events, dispose of loggers, and release acquired resources to prevent resource leaks. Because `Unload()` may not run during application shutdown, plan cleanup for that possibility as well.
+
+### Logging and diagnostics
+
+Use the SDK's `Logger` class for logging, and dispose of logger instances in `Unload()`. Consider methods with `[DebugMethod]` attributes for runtime diagnostics. To debug a module, attach Visual Studio's debugger to the Security Desk or Config Tool process running it. Check Security Center logs for error details.
 
 ### Testing
-* Test your module on all supported Security Center versions
-* Verify compatibility when Security Center is upgraded
-* Test with other workspace modules to ensure no conflicts
 
-## Common Registration Patterns
+Test your module with every Security Center version you support and with other Workspace modules. Repeat compatibility checks after Security Center upgrades. Confirm that required dependencies are deployed in the correct directory, the workstation has the required .NET Framework runtime, and dependency versions are compatible with other loaded modules.
 
-### Page Tasks
+## Registration examples
+
+These examples register page tasks, dashboard widgets, and custom actions.
+
+### Page tasks
+
 ```csharp
 var pageTask = new CreatePageTask<CustomPage>();
 pageTask.Initialize(Workspace);
 Workspace.Tasks.Register(pageTask);
 ```
 
-### Dashboard Widgets
+### Dashboard widgets
+
 ```csharp
 var widgetBuilder = new CustomWidgetBuilder();
 widgetBuilder.Initialize(Workspace);
 Workspace.Components.Register(widgetBuilder);
 ```
 
-### Custom Actions
+### Custom actions
+
 ```csharp
 var actionBuilder = new CustomActionBuilder();
 actionBuilder.Initialize(Workspace);
 Workspace.Components.Register(actionBuilder);
 ```
 
-## Module vs Plugin Distinction
+## Workspace modules and plugins
 
 Choose a workspace module for client-side user interface extensions and a plugin for server-side functionality.
 
-### Workspace Modules
-- **Execution location**: Run inside Security Desk or Config Tool (client-side only)
-- **Purpose**: Extend the user interface with custom tasks, panels, widgets, and options
+### Workspace modules
+
+- **Execution location**: run inside Security Desk or Config Tool as client extensions.
+- **Purpose**: extend the user interface with custom tasks, panels, widgets, and options.
 - **Capabilities**: 
   - Create custom UI components
   - Add menu items and tasks
@@ -438,9 +470,10 @@ Choose a workspace module for client-side user interface extensions and a plugin
   - Third-party system integrations that only need UI components
   - Custom configuration pages
 
-### Plugins (Custom Roles)
-- **Execution location**: Run on the Security Center server as custom roles
-- **Purpose**: Extend Security Center's server-side functionality
+### Plugins as custom roles
+
+- **Execution location**: run on the Security Center server as custom roles.
+- **Purpose**: extend Security Center's server-side functionality.
 - **Capabilities**:
   - Support custom database
   - Failover support
@@ -451,34 +484,21 @@ Choose a workspace module for client-side user interface extensions and a plugin
   - Custom events and alarms processing
   - Background data processing tasks
 
-### Decision Matrix
+### Choosing a module or plugin
 
-**Choose Workspace Module when you need:**
+Choose the component based on whether the integration needs a client user interface or server processing.
+
+Choose a Workspace module for these requirements:
+
 - Custom UI components only
 - Client-side data visualization
 - Custom reporting interfaces
 
-**Choose Plugin when you need:**
+Choose a plugin for these requirements:
+
 - Server-side processing
 - Database access
 - Background services
 - Custom business logic that runs independently of UI
 
-**Hybrid Approach:**
-Many integrations use both: a plugin for server-side logic and a workspace module for the user interface. The plugin handles data processing and business logic, while the workspace module provides the UI for configuration and monitoring.
-
-## Troubleshooting
-* Check Security Center logs for detailed error messages
-* Verify all dependencies are in the correct directory
-* Ensure .NET Framework version compatibility
-* Check for conflicting assembly versions with other modules
-
-### Performance Issues
-* Use async/await for I/O operations to avoid blocking the UI thread
-* Avoid heavy operations in the `Load()` method
-
-### Debugging Tips
-* Use the SDK's logging framework for consistent logging with Security Center
-* Implement debug methods with `[DebugMethod]` attributes for runtime diagnostics
-* Test with multiple modules loaded to identify interaction issues
-* Use Visual Studio's debugger by attaching to the Security Desk or Config Tool process
+A plugin can process data and apply business logic while a Workspace module provides the user interface for configuration and monitoring.
