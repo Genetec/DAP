@@ -29,11 +29,18 @@ Every record comes from a local HTTP request; the plugin does not generate sampl
 
 ## Custom event activities
 
-The **Custom event activities** task appears in Security Desk. Its event selector reads the custom-event definitions in Security Center and displays each event's configured source entity type. The entity picker allows the union of those types. Select one custom event or **All custom events**, select at least one source entity, set the native time-range filter, and optionally enter **Message contains**.
+The *Custom event activities* task appears in Security Desk. Its event selector reads the custom-event definitions in Security Center and displays each event's configured source entity type. The entity picker allows the union of those types.
+
+Configure the report filters:
+
+1. Select one custom event or **All custom events**.
+2. Select at least one source entity.
+3. Set the native time-range filter.
+4. Optionally, enter text in **Message contains**.
 
 Message matching treats SQL wildcard characters such as `%` and `_` literally. Case sensitivity follows the plugin database's collation. An empty message filter matches any message. All filters apply together. Reopen the task after adding or changing custom-event definitions so its event list and available entity types refresh. A saved selection whose event was deleted is marked unavailable instead of silently querying all events.
 
-Send a record to `POST /custom-events` with this JSON shape. Replace the event ID and source GUID with values from your system; the source must exist and have the definition's configured source entity type.
+Send a record to `POST /custom-events` with this JSON format. Replace the event ID and source GUID with values from your system; the source must exist and have the definition's configured source entity type.
 
 ```json
 {
@@ -47,11 +54,15 @@ Send a record to `POST /custom-events` with this JSON shape. Replace the event I
 
 The first four fields are required. `customEventId` must identify an existing definition, `source` must be a nonempty entity GUID, and `timestamp` must be a valid timestamp. `message` can be an empty string. `extraHiddenPayload` is optional and can contain an opaque string for SDK consumers. Invalid records return HTTP 400; successful writes return HTTP 204. Ingestion stores a report occurrence; it does not raise a live Security Center event.
 
-The database stores the positive definition ID. The custom report returns its negative value in the Event column so Security Desk resolves the custom-event name. Results include the source entity, UTC timestamp, event, message, and extra hidden payload. Security Desk does not display the extra hidden payload, but SDK and API consumers can read it from the result data. Hidden fields are not confidential or access-controlled. Definitions deleted from Security Center are excluded from this report, while their stored history remains subject to database retention.
+The database stores the positive definition ID. The custom report returns its negative value in the Event column so Security Desk resolves the custom-event name. Results include the source entity, UTC timestamp, event, message, and extra hidden payload.
 
-For SDK clients, use a `Custom` report query with `CustomReportId` set to `975ab1e5-0f1c-43e7-b446-e4f005944e33`. Populate `QueryEntities` with at least one source entity, set its time range, and serialize [CustomEventFilterData](CustomEventReport.cs) into `FilterData` for the custom-event ID and message. The source validates the custom report ID so it does not answer another plugin's custom report.
+Security Desk does not display the extra hidden payload, but SDK and API consumers can read it from the result data. Hidden fields are not confidential or access-controlled.
 
-For this sample's custom report, use `FilterData` to specify the custom-event ID and message filter. Web SDK returns the custom report's timestamp text without a timezone suffix; interpret this report's `EventTimestamp` column as UTC.
+After you delete a custom-event definition in Security Center, the *Custom event activities* report stops returning records for that event. Those records remain in the plugin database. When **Keep custom events** is enabled, database cleanup deletes records older than the configured number of days.
+
+For SDK clients, use a `Custom` report query with `CustomReportId` set to `975ab1e5-0f1c-43e7-b446-e4f005944e33`. Populate `QueryEntities` with at least one source entity, set its time range, and serialize [CustomEventFilterData](CustomEventReport.cs) into `FilterData` for the custom-event ID and message. The plugin validates the custom report ID so it does not answer another plugin's custom report.
+
+For this sample's custom report, use `FilterData` to specify the custom-event ID and message filter. Interpret the report's `EventTimestamp` values as UTC. When you request legacy XML with `Accept: application/xml`, Web SDK omits the timezone suffix.
 
 ## Audit report formatting
 
@@ -61,7 +72,7 @@ Audit report output is formatted by Security Center. The selected `auditFormat` 
 
 `EventIngestor` validates each request and selects the domain-specific insert method on `SampleDatabaseManager`. The database manager calls the matching `InsertXxx` stored procedure defined in `Resources/CreationScript.sql`. The native report handler reads the same table and applies the filters from the Security Center report query.
 
-This keeps the learning path visible in one project:
+The ingestion sequence is:
 
 1. JSON request
 2. Payload validation
@@ -69,16 +80,21 @@ This keeps the learning path visible in one project:
 4. Plugin database table
 5. Native report query and result rows
 
-## Configure the sample
+## Configuring the sample
 
 Use a Windows development system with Security Center, its SDK, SQL Server, the .NET Framework 4.8.1 targeting pack, and a compiler supporting C# 12. Set `GSC_SDK` to the installed SDK directory containing the .NET Framework assemblies. The project targets `net481`. The bundled Plugin SDK certificate and application ID are for a development system.
 
-1. Build the project from an elevated Visual Studio instance. The post-build target registers the client and server modules on that computer. Restart Config Tool to load the client module.
-2. Create the plugin role in Config Tool and configure a new sample database.
-3. On the role's **Properties** page, keep the default port or select another unused port.
-4. Activate the role and confirm that its state shows `http://127.0.0.1:<port>`.
+Use Visual Studio 2022 version 17.8 or later, or the .NET 8 SDK or a later compatible SDK for command-line builds. Both the server and client modules use .NET Framework in this project. Selecting an `_NET8` solution configuration does not retarget it; see [Plugin SDK runtime support](../README.md#building-modern-net-plugins) for modern server projects.
 
-The listener accepts requests only from the role's server. The listener avoids exposing an unauthenticated network endpoint. It is not a production or remote-ingestion endpoint. A production integration must provide authenticated HTTPS through a dedicated service or an authentication design appropriate to its deployment.
+The project declares `Microsoft.Data.SqlClient` version 6.0.5; the build restores it automatically. Deploy its required managed and native dependencies with the module using the build output, and keep **Copy Local** set to `False` for Genetec™ SDK references. Security Center supplies the SDK assemblies. See [Plugin SDK dependencies](../README.md#build-and-deployment-dependencies) for runtime and module deployment requirements.
+
+1. Build the project from an elevated Visual Studio instance. The post-build target registers the client and server modules on that computer.
+2. Restart Config Tool to load the client module.
+3. Create the plugin role in Config Tool and configure a new sample database.
+4. On the role's *Properties* page, keep the default port or select another unused port.
+5. Activate the role and confirm that its state shows `http://127.0.0.1:<port>`.
+
+The listener accepts requests only from the role's server, which limits the unauthenticated endpoint to that server. It is not a production or remote-ingestion endpoint. A production integration must provide authenticated HTTPS through a dedicated service or an authentication design appropriate to its deployment.
 
 If the role reports an access-denied listener error, reserve the loopback URL for the account running the plugin host. Run the following command in an elevated terminal after replacing the account name:
 
@@ -87,9 +103,9 @@ netsh http add urlacl url=http://127.0.0.1:8085/ `
   user='DOMAIN\SERVICE-ACCOUNT' listen=yes
 ```
 
-Create a new sample database using the complete creation script. This unreleased sample does not provide database upgrades for earlier development copies.
+Create a new sample database using the complete creation script. The sample does not provide database upgrades for earlier development copies.
 
-## Send a test record
+## Sending a test record
 
 Run this example in PowerShell on the role's server. Replace `DOOR-GUID` with an existing door's GUID. Omitting `timestamp` stores the current UTC time.
 
@@ -109,7 +125,17 @@ $response = Invoke-WebRequest `
 $response.StatusCode
 ```
 
-A successful write returns **HTTP 204 No Content**, with an empty body. In Security Desk, open **Door activity**, select the door used as `source`, include **Access granted**, select a time range containing the request time, and run the report. Posting a report record does not unlock the door or raise a live event.
+A successful write returns **HTTP 204 No Content**, with an empty body.
+
+To view the record in Security Desk:
+
+1. Open the *Door activities* task.
+2. Select the door used as `source`.
+3. Include **Access granted**.
+4. Select a time range containing the request time.
+5. Run the report.
+
+Posting a report record does not unlock the door or raise a live event.
 
 To compile without changing the local plugin registry, use:
 
@@ -133,7 +159,11 @@ Send one JSON object per POST. Requests require `Content-Length` and must not ex
 | `/audit-trails` | A JSON object; populate the modification and entity fields for a meaningful report |
 | `/custom-events` | Defined positive `customEventId`, matching nonempty `source`, `timestamp`, and `message` |
 
-Use existing Security Center entity GUIDs and event types appropriate to the selected report. Built-in event types use SDK enumeration names; custom event IDs must already exist in Security Center. Other type fields use numeric SDK enumeration values. Supply timestamps in ISO 8601 format with an explicit UTC offset. Event timestamps default to the current UTC time; an omitted health-statistics `lastErrorTimestamp` uses the "never" sentinel. For zone activity, `timeZoneId` must be a Windows time-zone identifier. When `localTimestamp` is present, its offset must match that time zone. When it is omitted, the plugin derives the local timestamp from the event timestamp and `timeZoneId`.
+Use existing Security Center entity GUIDs and event types appropriate to the selected report. Built-in event types use SDK enumeration names; custom event IDs must already exist in Security Center. Other type fields use numeric SDK enumeration values.
+
+Supply timestamps in ISO 8601 format with an explicit UTC offset. Event timestamps default to the current UTC time; an omitted health-statistics `lastErrorTimestamp` uses the never sentinel.
+
+For zone activity, `timeZoneId` must be a Windows time-zone identifier. When `localTimestamp` is present, its offset must match that time zone. When it is omitted, the plugin derives the local timestamp from the event timestamp and `timeZoneId`.
 
 Health statistics keep one current snapshot per `source`, `eventSourceType`, and `observer`. A later successful POST replaces that snapshot. These rows are not filtered by report time range. Health events retain history, but only the last successfully ingested record for the same `healthEventId`, `source`, and `observer` can be active. Ingestion order determines this state, including for backfilled timestamps.
 
@@ -150,7 +180,9 @@ Health statistics keep one current snapshot per `source`, `eventSourceType`, and
 
 Event and trail endpoints append records, so retrying a request after losing its response can create a duplicate.
 
-## Explore the code
+## Exploring the code
+
+These files define the ingestion contract, database operations, and native report handling:
 
 - `Ingestion/IngestionPayloads.cs` defines the JSON contract for every endpoint.
 - `Server/EventIngestor.cs` validates requests and routes them to insert methods.

@@ -17,9 +17,13 @@ The server plugin registers each action type with a stable GUID, display name, d
 
 When an operator configures an action, its view serializes the settings into the custom-action payload and selects the plugin role as the recipient. When Security Center triggers the action, the plugin receives `Engine.ActionReceived`, identifies the action GUID, deserializes the payload, and performs the operation.
 
-## Configure the sample
+## Configuring the sample
 
 Use a Windows development system with Security Center, its SDK, and the .NET Framework 4.8.1 targeting pack. Set `GSC_SDK` to the installed SDK directory containing the .NET Framework assemblies.
+
+The project targets `net481` for both its server and client modules. Use Visual Studio 2022 version 17.8 or later because the sample compiles with C# 12. Its client UI runs inside Config Tool or Security Desk and must remain on .NET Framework. Building a modern .NET server module requires a separate project; see [Plugin SDK runtime support](../README.md#building-modern-net-plugins).
+
+The project declares `Prism.Core` and `System.Resources.Extensions` package references. The build restores these packages. Deploy required non-SDK dependencies beside the registered module, and keep **Copy Local** set to `False` for Genetec™ SDK assemblies. See [Plugin SDK build and dependency instructions](../README.md#building-a-sample) for command-line builds, SDK paths, and deployment requirements.
 
 1. Build `CustomActionSample.csproj` from an elevated Visual Studio instance. The post-build target registers the client and server modules.
 2. Restart Config Tool and Security Desk so they load the client module.
@@ -27,19 +31,19 @@ Use a Windows development system with Security Center, its SDK, and the .NET Fra
 4. Create an event-to-action or another supported action configuration.
 5. Select either **Launch encoder command** or **Send HTTP request**.
 
-## Launch an encoder command
+## Launching an encoder command
 
-Select a camera, then select one of the encoder commands reported by that camera. The action is valid only when both values are selected.
+Select a camera, and then select one of the encoder commands reported by that camera. The action is valid only when both values are selected.
 
 When the action runs, the plugin resolves the camera entity and calls `LaunchEncoderCommand` with the configured command ID.
 
-## Send an HTTP request
+## Sending an HTTP request
 
 Select an HTTP method and enter an absolute HTTP or HTTPS URL. You can add query parameters and request headers, and supply a body and content type for POST, PUT, and PATCH requests.
 
 The plugin appends configured query parameters to any query string already present in the URL. It reuses one `HttpClient`, applies a 30-second timeout, and writes the response status or failure to the plugin log.
 
-## Explore the code
+## Exploring the code
 
 Each custom action view is its own binding source. It holds the editable settings, validates them, and serializes them into the action payload. Loading a saved payload updates the bindings without marking the action as modified. The HTTP view detaches row notifications when rows are removed, replaced during loading, or disposed.
 
