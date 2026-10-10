@@ -28,12 +28,20 @@ public class VideoUnitSample : SampleBase
         if (productInfo != null)
         {
             Console.WriteLine("Enrolling video unit from Generic RTSP stream...");
+            Console.Write("Enter a valid RTSP stream URI using an IP address: ");
 
-            var uri = new Uri("rtsp://127.0.0.1:554/mystream/live"); // TODO: Replace with your RTSP stream URI
+            if (!Uri.TryCreate(Console.ReadLine(), UriKind.Absolute, out Uri uri)
+                || !string.Equals(uri.Scheme, "rtsp", StringComparison.OrdinalIgnoreCase)
+                || !IPAddress.TryParse(uri.Host, out IPAddress address)
+                || uri.Port <= 0)
+            {
+                Console.WriteLine("Enter an absolute RTSP URI with an IP address and a valid port.");
+                return;
+            }
 
             // Create the AddVideoUnitInfo object without duplicating IP/port
             AddVideoUnitInfo addVideoUnitInfo = new(videoUnitProductInfo: productInfo,
-                ipEndPoint: new IPEndPoint(IPAddress.Parse(uri.Host), uri.Port),
+                ipEndPoint: new IPEndPoint(address, uri.Port),
                 useDefaultCredentials: true);
 
             addVideoUnitInfo.SpecialFeatures.Add("StreamUri", uri.OriginalString);
@@ -44,9 +52,13 @@ public class VideoUnitSample : SampleBase
                 try
                 {
                     Progress<EnrollmentResult> progress = new(result => Console.WriteLine(result));
-                    Guid videoUnitId = await AddVideoUnit(engine.VideoUnitManager, addVideoUnitInfo, archiver.Guid, progress);
+                    Guid videoUnitId = await AddVideoUnit(engine.VideoUnitManager, addVideoUnitInfo, archiver.Guid, token, progress);
                     var videoUnit = (VideoUnit)engine.GetEntity(videoUnitId);
                     Console.WriteLine($"Video unit: {videoUnit} has been created.");
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {
@@ -118,20 +130,37 @@ public class VideoUnitSample : SampleBase
 
     private IEnumerable<VideoUnitProductInfo> ListSupportedCameras(IVideoUnitManager videoUnitManager) => videoUnitManager.Manufacturers.SelectMany(videoUnitManager.FindProductsByManufacturer);
 
-    private async Task<Guid> AddVideoUnit(IVideoUnitManager videoUnitManager, AddVideoUnitInfo videoUnitInfo, Guid archiver, IProgress<EnrollmentResult> progress = default)
+    private async Task<Guid> AddVideoUnit(IVideoUnitManager videoUnitManager, AddVideoUnitInfo videoUnitInfo, Guid archiver, CancellationToken token, IProgress<EnrollmentResult> progress = default)
     {
+        token.ThrowIfCancellationRequested();
         var completion = new TaskCompletionSource<Guid>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         videoUnitManager.EnrollmentStatusChanged += OnEnrollmentStatusChanged;
         try
         {
-            AddUnitResponse response = await videoUnitManager.AddVideoUnit(videoUnitInfo, archiver);
+            AddUnitResponse response = await WaitForEnrollment(videoUnitManager.AddVideoUnit(videoUnitInfo, archiver), token);
 
-            return response.Error != Error.None ? throw new Exception($"Fail to add video unit {response.Error}") : await completion.Task;
+            return response.Error != Error.None ? throw new Exception($"Fail to add video unit {response.Error}") : await WaitForEnrollment(completion.Task, token);
         }
         finally
         {
             videoUnitManager.EnrollmentStatusChanged -= OnEnrollmentStatusChanged;
+        }
+
+        static async Task<T> WaitForEnrollment<T>(Task<T> task, CancellationToken cancellationToken)
+        {
+            var cancellation = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var registration = cancellationToken.Register(() => cancellation.TrySetResult(true));
+
+            if (await Task.WhenAny(task, cancellation.Task) != task)
+            {
+                // The SDK request can continue after this wait ends; observe any later fault.
+                _ = task.ContinueWith(completed => _ = completed.Exception, CancellationToken.None,
+                    TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+
+            return await task;
         }
 
         void OnEnrollmentStatusChanged(object sender, UnitEnrolledEventArgs e)
