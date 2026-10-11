@@ -45,7 +45,10 @@ public class HealthStatisticsQuerySample : SampleBase
             RtpPacketLoss = row.Field<int>(HealthStatisticsQuery.RtpPacketLossColumnName),
             CalculationStatus = (AvailabilityCalculationStatus)row.Field<int>(HealthStatisticsQuery.CalculationStatusColumnName),
             LastErrorTimestamp = row.Field<DateTime>(HealthStatisticsQuery.LastErrorTimestampColumnName),
-            LastSeenOnline = row.Field<DateTime>(HealthStatisticsQuery.LastSeenOnlineColumnName)
+            // Older SDK versions do not define this optional column.
+            LastSeenOnline = row.Table.Columns.Contains("LastSeenOnline")
+                ? row.Field<DateTime?>("LastSeenOnline") ?? DateTime.MinValue
+                : DateTime.MinValue
         };
     }
 

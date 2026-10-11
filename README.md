@@ -228,7 +228,7 @@ The sample projects in this repository are structured as follows:
 
   
 
--  **Target Frameworks**: Platform SDK samples build .NET Framework 4.8.1 by default and .NET 8 through the `_NET8` configurations. Media SDK, Workspace SDK, and Plugin SDK samples target .NET Framework 4.8.1. Genetec Web Player samples target .NET 8.
+-  **Target Frameworks**: Platform SDK samples build .NET Framework 4.8.1 by default, .NET 8 through the `_NET8` configurations, and .NET 10 through the `_NET10` configurations. Media SDK, Workspace SDK, and Plugin SDK samples target .NET Framework 4.8.1. Genetec Web Player samples target .NET 8.
 
   
 
@@ -254,21 +254,22 @@ Projects can include certificate-copy steps and shared source files:
 - Some projects include a post-build step to copy certificate files to the output directory.
 - Projects may share common code through the use of shared project items.
 
-## Targeting .NET Framework or .NET 8
+## Selecting a target framework
 
 The samples do not all use the same framework-targeting model. Use the configurations already defined in the solution and project files.
 
 ### Platform SDK configuration model
 
-Platform SDK sample projects target .NET Framework 4.8.1 by default and use explicit `_NET8` configurations for .NET 8:
+Platform SDK sample projects select .NET Framework 4.8.1, .NET 8, or .NET 10 through explicit build configurations:
 
 ```xml
 <TargetFramework>net481</TargetFramework>
 <TargetFramework Condition="'$(Configuration)' == 'Debug_NET8' OR '$(Configuration)' == 'Release_NET8'">net8.0-windows</TargetFramework>
-<Configurations>Debug;Release;Debug_NET8;Release_NET8</Configurations>
+<TargetFramework Condition="'$(Configuration)' == 'Debug_NET10' OR '$(Configuration)' == 'Release_NET10'">net10.0-windows</TargetFramework>
+<Configurations>Debug;Release;Debug_NET8;Release_NET8;Debug_NET10;Release_NET10</Configurations>
 ```
 
-Use `Debug` or `Release` to build `net481`. Use `Debug_NET8` or `Release_NET8` to build `net8.0-windows`.
+Use `Debug` or `Release` for `net481`, `Debug_NET8` or `Release_NET8` for `net8.0-windows`, and `Debug_NET10` or `Release_NET10` for `net10.0-windows`.
 
 ```powershell
 dotnet build "Samples/Platform SDK/CardholderSample/CardholderSample.csproj" -c Debug
@@ -286,11 +287,18 @@ dotnet build "Samples/Platform SDK/CardholderSample/CardholderSample.csproj" -c 
 
 Replace the installation path with your SDK's `net8.0-windows` folder. The `_NET8` configurations require Security Center SDK 5.12.2 or later with assemblies targeting .NET 8. Another SDK installation can change `GSC_SDK_CORE` to a `net10.0-windows` folder, which cannot be used by these .NET 8 configurations.
 
-Do not use `-f net8.0-windows` with the default `Debug` or `Release` configurations; select an `_NET8` configuration instead.
+Select the installed .NET 10 SDK assemblies before building an `_NET10` configuration:
+
+```powershell
+$env:GSC_SDK_CORE = 'C:\Program Files (x86)\Genetec Security Center 5.14 SDK\net10.0-windows'
+dotnet build "Samples/Platform SDK/CardholderSample/CardholderSample.csproj" -c Debug_NET10
+```
+
+Replace the path with your SDK's `net10.0-windows` directory. The .NET 10 package profile uses the dependencies supplied with SDK 5.14.1 or later. Select the build configuration for the target instead of overriding the framework with `-f` while using the default `Debug` or `Release` configuration.
 
 ### Other sample groups
 
-The Media SDK, Workspace SDK, and Plugin SDK sample projects in this repository target .NET Framework 4.8.1. The solution maps `Debug_NET8` and `Release_NET8` back to `Debug` and `Release` for those projects so that the solution configuration can focus on Platform SDK framework selection. The Genetec Web Player samples target .NET 8 and do not use the .NET Security Center SDK.
+The Media SDK, Workspace SDK, and Plugin SDK sample projects in this repository target .NET Framework 4.8.1. The solution maps the `_NET8` and `_NET10` configurations back to `Debug` and `Release` for those projects so that the solution configuration can focus on Platform SDK framework selection. The Genetec Web Player samples target .NET 8 and do not use the .NET Security Center SDK.
 
 ## Sample target frameworks
 
@@ -298,13 +306,13 @@ This table describes the projects in this repository. SDK runtime support can ex
 
 | Sample group | Configured targets | Selection |
 |--------------|--------------------|-----------|
-| Platform SDK | `net481`, `net8.0-windows` | `Debug`/`Release` or `Debug_NET8`/`Release_NET8` |
+| Platform SDK | `net481`, `net8.0-windows`, `net10.0-windows` | `Debug`/`Release`, `Debug_NET8`/`Release_NET8`, or `Debug_NET10`/`Release_NET10` |
 | Media SDK | `net481` | `Debug` or `Release` |
 | Workspace SDK | `net481` | `Debug` or `Release` |
 | Plugin SDK | `net481` | `Debug` or `Release` |
 | Genetec Web Player | `net8.0` for web projects; `net8.0-windows` for the desktop project | `Debug` or `Release` |
 
-The Platform SDK samples select one target per build configuration. Installing the .NET 10 SDK does not create a .NET 10 sample configuration. The solution has no `Debug_NET10` or `Release_NET10` configuration.
+The Platform SDK samples select one target per build configuration. Install a .NET SDK that supports the selected target.
 
 ### Using Visual Studio configurations
 
@@ -312,6 +320,7 @@ Open `Samples/Genetec.Dap.CodeSamples.sln` and select one of the existing soluti
 
 - `Debug` / `Release`: Platform SDK samples build `net481`.
 - `Debug_NET8` / `Release_NET8`: Platform SDK samples build `net8.0-windows`; non-Platform SDK samples continue to build their `Debug` / `Release` configurations.
+- `Debug_NET10` / `Release_NET10`: Platform SDK samples build `net10.0-windows`; non-Platform SDK samples continue to build their `Debug` / `Release` configurations.
 
 Run Visual Studio as an administrator when building the full solution if you want Workspace SDK and Plugin SDK development registration to succeed.
 
@@ -332,7 +341,7 @@ For a standalone Platform SDK application targeting .NET 10:
    dotnet build YOUR-PROJECT.csproj -c Debug -f net10.0-windows
    ```
 
-Replace `YOUR-PROJECT.csproj` with your application's project file. These steps require project changes; passing `-f net10.0-windows` to an unchanged sample does not add the target or its SDK references. For project changes and Media SDK restrictions, see [Migrating a Platform SDK application to modern .NET](https://github.com/Genetec/DAP/wiki/platform-sdk-migrating-to-modern-dotnet). For the SDK 5.14 .NET 10 package references and serialization settings, see [Starting an ASP.NET Core application](https://github.com/Genetec/DAP/wiki/platform-sdk-aspnet-hosting#starting-an-aspnet-core-application).
+Replace `YOUR-PROJECT.csproj` with your application's project file. For repository samples, select `Debug_NET10` or `Release_NET10` to use the configured target and dependency profile. For project changes and Media SDK restrictions, see [Migrating a Platform SDK application to modern .NET](https://github.com/Genetec/DAP/wiki/platform-sdk-migrating-to-modern-dotnet). For the SDK 5.14 .NET 10 package references and serialization settings, see [Starting an ASP.NET Core application](https://github.com/Genetec/DAP/wiki/platform-sdk-aspnet-hosting#starting-an-aspnet-core-application).
 
 ## Build and deployment dependencies
 
@@ -342,11 +351,11 @@ The .NET SDK supplies the compiler and build tools. The Security Center SDK supp
 |------------|---------------|----------------------------|
 | .NET Framework 4.8.1 | Targeting pack for `net481` projects | .NET Framework 4.8.1 runtime |
 | .NET 8 | .NET 8 SDK or a later compatible SDK for .NET 8 projects | .NET 8 Windows Desktop Runtime for standalone Platform samples and the GWP desktop sample; ASP.NET Core 8 runtime for the GWP web samples |
-| .NET 10 | .NET 10 SDK or a later compatible SDK for your own .NET 10 project | .NET 10 Windows Desktop Runtime for standalone Platform applications using WPF framework references |
+| .NET 10 | .NET 10 SDK or a later compatible SDK for .NET 10 projects | .NET 10 Windows Desktop Runtime for standalone Platform applications using WPF framework references |
 | Security Center SDK assemblies | Installed SDK, selected through `GSC_SDK` or `GSC_SDK_CORE` | Installed SDK or compatible Security Center installation; hosted plugins and Workspace modules use their host's assemblies |
 | NuGet packages | `dotnet build` restores the packages declared in each project | Deploy required non-SDK dependencies with the application or module |
 
-The standalone Platform samples reference `Microsoft.WindowsDesktop.App.WPF` for .NET 8, including console projects. Installing only the base .NET runtime does not supply that framework. Check installed runtimes with `dotnet --list-runtimes`. A .NET 10 SDK can build a .NET 8 project, but running that project still requires the .NET 8 runtime and any shared frameworks it references.
+The standalone Platform samples reference `Microsoft.WindowsDesktop.App.WPF` for .NET 8 and .NET 10, including console projects. Installing only the base .NET runtime does not supply that framework. Check installed runtimes with `dotnet --list-runtimes`. A .NET 10 SDK can build a .NET 8 project, but running that project still requires the .NET 8 runtime and any shared frameworks it references.
 
 Keep **Copy Local** set to `False` for Genetec SDK references. Standalone applications use the shared SDK resolver to load installed SDK assemblies. Deploy non-SDK dependencies with the application rather than relying on the developer's NuGet cache. Hosted plugins and Workspace modules load SDK assemblies supplied by Security Center and require their non-SDK dependencies beside their registered modules. See [Shared sample helpers](Samples/Shared/README.md#choosing-an-assembly-resolver) for resolver and dependency placement.
 
