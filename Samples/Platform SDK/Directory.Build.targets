@@ -4,7 +4,7 @@
 	<Target Name="ValidateSecurityCenterVersion" BeforeTargets="Build">
 		<Message Text="Security Center SDK Detection:" Importance="normal" />
 		<Message Text="  GSC_SDK (Legacy): $(GSC_SDK)" Importance="normal" />
-		<Message Text="  GSC_SDK_CORE (.NET 8): $(GSC_SDK_CORE)" Importance="normal" />
+		<Message Text="  GSC_SDK_CORE (modern .NET): $(GSC_SDK_CORE)" Importance="normal" />
 		<Message Text="  Target Framework: $(TargetFramework)" Importance="normal" />
 
 		<Error Condition="'$(TargetFramework)' == 'net8.0-windows' AND !Exists('$(GSC_SDK_CORE)\Genetec.Sdk.dll')"

@@ -117,7 +117,7 @@ All samples follow consistent authentication patterns:
 
 ## Prerequisites
 
-- **Runtime target**: these samples target .NET Framework 4.8.1 or .NET 8 for Windows. The Platform SDK also supports standalone .NET 10 applications; the samples have no .NET 10 configuration.
+- **Runtime target**: these samples target .NET Framework 4.8.1, .NET 8 for Windows, or .NET 10 for Windows.
 - **Security Center SDK**: installed with these environment variables configured:
   - `GSC_SDK`: points to the SDK location for .NET Framework.
   - `GSC_SDK_CORE`: points to the SDK location when building for .NET 8.
@@ -134,13 +134,13 @@ Choose compatible SDK assemblies for the application's target:
 |--------------------|---------------------------------|--------------------|
 | `net481` | SDK .NET Framework assemblies | SDK installation root, selected through `GSC_SDK` |
 | `net8.0-windows` | SDK 5.12.2 or later containing .NET 8 assemblies | `net8.0-windows`, selected through `GSC_SDK_CORE` |
-| `net10.0-windows`, your own application | Use SDK 5.14.1 or later for .NET 10 assemblies, or compatible .NET 8 assemblies from SDK 5.12.2 or later | `net10.0-windows` or compatible `net8.0-windows`, selected through `GSC_SDK_CORE` |
+| `net10.0-windows` | SDK 5.14.1 or later containing .NET 10 assemblies | `net10.0-windows`, selected through `GSC_SDK_CORE` |
 
-Install the .NET Framework 4.8.1 targeting pack for `net481`, or the .NET 8 SDK for `net8.0-windows`. Run `dotnet --list-sdks` to check the installed .NET SDKs.
+Install the .NET Framework 4.8.1 targeting pack for `net481`, a compatible .NET SDK for .NET 8 builds, or the .NET 10 SDK for .NET 10 builds. Run `dotnet --list-sdks` to check the installed .NET SDKs.
 
 A .NET 8 application cannot reference SDK assemblies built for .NET 10. A .NET 10 application can reference compatible SDK assemblies built for .NET 8 or .NET 10. Installing a newer .NET SDK does not change a project's target framework.
 
-To build your own .NET 10 application, use the [repository's .NET 10 build instructions](../../README.md#building-your-own-net-10-application). Retargeting requires changing the project's target, conditional SDK references, and package dependencies. See [Migrating to modern .NET](https://github.com/Genetec/DAP/wiki/platform-sdk-migrating-to-modern-dotnet) for the complete migration procedure and Media SDK restrictions.
+To build a .NET 10 sample, select `Debug_NET10` or `Release_NET10`. For other applications, see the [repository's .NET 10 build instructions](../../README.md#building-your-own-net-10-application). See [Migrating to modern .NET](https://github.com/Genetec/DAP/wiki/platform-sdk-migrating-to-modern-dotnet) for the complete migration procedure and Media SDK restrictions.
 
 #### Build configuration model
 
@@ -148,6 +148,7 @@ The projects use explicit build configurations for framework targeting:
 
 - `Debug` / `Release`: build .NET Framework 4.8.1.
 - `Debug_NET8` / `Release_NET8`: build .NET 8 for Windows.
+- `Debug_NET10` / `Release_NET10`: build .NET 10 for Windows.
 
 .NET 8 builds require Security Center SDK 5.12.2 or later with `GSC_SDK_CORE` selecting its `net8.0-windows` assemblies. A missing `Genetec.Sdk.dll` produces a build error; an existing DLL from an incompatible target can also cause reference or compilation errors.
 
@@ -156,7 +157,7 @@ The projects use explicit build configurations for framework targeting:
 The build system checks these environment variables:
 
 - **`GSC_SDK`**: Points to the Security Center SDK assemblies for .NET Framework.
-- **`GSC_SDK_CORE`**: Points to the Security Center SDK assemblies for modern .NET. For these configurations, use the SDK's `net8.0-windows` folder.
+- **`GSC_SDK_CORE`**: Points to the Security Center SDK assemblies for modern .NET. Use the SDK's `net8.0-windows` directory for `_NET8`, or its `net10.0-windows` directory for `_NET10`.
 
 For example, select the SDK 5.13 installation for the current PowerShell terminal:
 
@@ -174,7 +175,8 @@ The Platform SDK samples use conditional target frameworks in their `.csproj` fi
 ```xml
 <TargetFramework>net481</TargetFramework>
 <TargetFramework Condition="'$(Configuration)' == 'Debug_NET8' OR '$(Configuration)' == 'Release_NET8'">net8.0-windows</TargetFramework>
-<Configurations>Debug;Release;Debug_NET8;Release_NET8</Configurations>
+<TargetFramework Condition="'$(Configuration)' == 'Debug_NET10' OR '$(Configuration)' == 'Release_NET10'">net10.0-windows</TargetFramework>
+<Configurations>Debug;Release;Debug_NET8;Release_NET8;Debug_NET10;Release_NET10</Configurations>
 ```
 
 The framework-specific dependencies are:
@@ -184,11 +186,14 @@ The framework-specific dependencies are:
   - `Microsoft.Windows.Compatibility`: legacy Windows API support
   - `System.ServiceModel.Primitives`: WCF communication support
   - `Microsoft.Bcl.AsyncInterfaces`: async interface types
+  - `Microsoft.Extensions.Caching.Memory`: cache support required for SDK authentication
   - `Microsoft.WindowsDesktop.App.WPF`: WPF framework reference
 
-`dotnet build` restores the NuGet packages declared in each project. Package lists vary by sample; inspect its `PackageReference` entries before changing dependencies. The WPF framework reference requires the .NET 8 Windows Desktop Runtime on machines running these samples, including console applications. For `net481`, install the .NET Framework 4.8.1 runtime on the machine running the sample.
+The .NET 10 profile references `Genetec.Sdk.dll` from `GSC_SDK_CORE`, uses the SDK 5.14 package versions in `PlatformSamples.props`, and includes `System.Runtime.Serialization.Formatters` with the serialization compatibility setting required by the SDK.
 
-The SDK references set **Copy Local** to `False`. The shared resolver loads SDK assemblies from the installed SDK or Security Center installation. Deploy the application's non-SDK dependencies with it. Choose package versions compatible with the SDK loaded at runtime; the .NET 8 package versions configured here are not a .NET 10 dependency profile. See [Shared sample helpers](../Shared/README.md#choosing-an-assembly-resolver) for assembly loading and deployment guidance.
+`dotnet build` restores the NuGet packages declared in each project. Package lists vary by sample; inspect its `PackageReference` entries before changing dependencies. The WPF framework reference requires the matching .NET 8 or .NET 10 Windows Desktop Runtime on machines running these samples, including console applications. For `net481`, install the .NET Framework 4.8.1 runtime on the machine running the sample.
+
+The SDK references set **Copy Local** to `False`. The shared resolver loads SDK assemblies from the installed SDK or Security Center installation. Deploy the application's non-SDK dependencies with it. Choose package versions compatible with the SDK loaded at runtime; the shared build file defines separate .NET 8 and .NET 10 profiles. See [Shared sample helpers](../Shared/README.md#choosing-an-assembly-resolver) for assembly loading and deployment guidance.
 
 The build reports the detected SDK paths and fails a .NET 8 build when `GSC_SDK_CORE\Genetec.Sdk.dll` is unavailable. Use the displayed SDK path to correct the installation selection.
 
@@ -218,6 +223,10 @@ dotnet run -c Debug
 # Build net8.0-windows with the _NET8 configuration (requires SC 5.12.2+)
 dotnet build -c Debug_NET8
 dotnet run -c Debug_NET8
+
+# Select the net10.0-windows SDK directory first.
+dotnet build -c Debug_NET10
+dotnet run -c Debug_NET10
 ```
 
 ### Running a sample

@@ -38,7 +38,7 @@ Use `SdkResolver` for standalone samples that load SDK assemblies from an instal
 - For .NET Framework, set `GSC_SDK` to the SDK directory.
 - For modern .NET, set `GSC_SDK_CORE` to a Windows-specific SDK framework directory compatible with the application. A .NET 8 application requires `net8.0-windows` SDK assemblies, available from Security Center SDK 5.12.2. A .NET 10 application can use compatible `net8.0-windows` assemblies or `net10.0-windows` assemblies from SDK 5.14.1 or later.
 
-Both implementations also support discovery through Windows registration data. Set the environment variable explicitly when choosing between installed SDK versions. Build-time assembly references are configured separately in the consuming project; see the [repository README](../../README.md#targeting-net-framework-or-net-8).
+Both implementations also support discovery through Windows registration data. Set the environment variable explicitly when choosing between installed SDK versions. Build-time assembly references are configured separately in the consuming project; see the [repository README](../../README.md#selecting-a-target-framework).
 
 The environment variable takes precedence when it points to an existing directory. Select a directory compatible with the application target; the presence of `Genetec.Sdk.dll` does not establish framework compatibility. Check the [runtime and dependency requirements](../../README.md#build-and-deployment-dependencies) before deploying a standalone application. The shared project does not select a target framework for its importing projects.
 
