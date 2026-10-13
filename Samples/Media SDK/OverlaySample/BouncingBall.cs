@@ -23,8 +23,6 @@ public class BouncingBall
 
     private double m_verticalVelocity;
 
-    private readonly SolidColorBrush m_brush;
-
     private readonly Pen m_pen;
 
     public BouncingBall(double x, double y, double horizontalVelocity, double verticalVelocity, double radius)
@@ -35,17 +33,14 @@ public class BouncingBall
         m_verticalVelocity = verticalVelocity;
         m_radius = radius;
 
-        m_brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Red"));
-        m_brush.Freeze();
-
-        m_pen = new Pen(m_brush, 1.0);
+        m_pen = new Pen(Brushes.Red, 1.0);
         m_pen.Freeze();
     }
 
     public void Draw(Layer layer)
     {
         Update(); // Update the position of the ball before drawing
-        layer.DrawEllipse(m_brush, m_pen, new Point(m_x, m_y), m_radius, m_radius);
+        layer.DrawEllipse(Brushes.Red, m_pen, new Point(m_x, m_y), m_radius, m_radius);
     }
 
     private void Update()
