@@ -31,46 +31,9 @@ public static class FileCryptingManagerExtensions
         if (Encoding.ASCII.GetByteCount(password) is not (16 or 24 or 32))
             throw new ArgumentException("Password must be 16, 24, or 32 ASCII characters long.", nameof(password));
 
-        TaskCompletionSource<FileEncryptionResult> completion = new();
-
-        object state = new();
-        manager.ProgressUpdated += OnProgressUpdated;
-        try
-        {
-            IAsyncResult asyncResult = manager.BeginEncryption(filePath, password, OnCompleted, state);
-            using CancellationTokenRegistration register = token.Register(() => Cancel(asyncResult));
-            return await completion.Task;
-        }
-        finally
-        {
-            manager.ProgressUpdated -= OnProgressUpdated;
-        }
-
-        void OnCompleted(IAsyncResult result)
-        {
-            try
-            {
-                completion.TrySetResult(manager.EndEncryption(result));
-            }
-            catch (Exception ex)
-            {
-                completion.TrySetException(ex);
-            }
-        }
-
-        void Cancel(IAsyncResult result)
-        {
-            manager.CancelEncryption(result);
-            completion.TrySetCanceled();
-        }
-
-        void OnProgressUpdated(object sender, ProgressChangedEventArgs e)
-        {
-            if (ReferenceEquals(e.UserState, state))
-            {
-                progress?.Report(e.ProgressPercentage);
-            }
-        }
+        return await ProcessAsync(manager,
+            (callback, state) => manager.BeginEncryption(filePath, password, callback, state),
+            manager.EndEncryption, manager.CancelEncryption, progress, token);
     }
 
     /// <summary>
@@ -88,13 +51,26 @@ public static class FileCryptingManagerExtensions
         if (password is null)
             throw new ArgumentNullException(nameof(password));
 
+        return await ProcessAsync(manager,
+            (callback, state) => manager.BeginDecryption(filePath, password, callback, state),
+            manager.EndDecryption, manager.CancelDecryption, progress, token);
+    }
+
+    private static async Task<FileEncryptionResult> ProcessAsync(
+        FileCryptingManager manager,
+        Func<AsyncCallback, object, IAsyncResult> begin,
+        Func<IAsyncResult, FileEncryptionResult> end,
+        Action<IAsyncResult> cancel,
+        IProgress<int> progress,
+        CancellationToken token)
+    {
         TaskCompletionSource<FileEncryptionResult> completion = new();
 
         object state = new();
         manager.ProgressUpdated += OnProgressUpdated;
         try
         {
-            IAsyncResult asyncResult = manager.BeginDecryption(filePath, password, OnCompleted, state);
+            IAsyncResult asyncResult = begin(OnCompleted, state);
             using CancellationTokenRegistration register = token.Register(() => Cancel(asyncResult));
             return await completion.Task;
         }
@@ -107,7 +83,7 @@ public static class FileCryptingManagerExtensions
         {
             try
             {
-                completion.TrySetResult(manager.EndDecryption(result));
+                completion.TrySetResult(end(result));
             }
             catch (Exception ex)
             {
@@ -117,7 +93,7 @@ public static class FileCryptingManagerExtensions
 
         void Cancel(IAsyncResult result)
         {
-            manager.CancelDecryption(result);
+            cancel(result);
             completion.TrySetCanceled();
         }
 
