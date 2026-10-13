@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,7 +73,7 @@ string ReadPassword()
             continue;
         }
 
-        if (Encoding.ASCII.GetByteCount(password) is not (16 or 24 or 32))
+        if (password.Length is not (16 or 24 or 32) || password.Any(character => character > 127))
         {
             Console.WriteLine("Password must be 16, 24, or 32 ASCII characters long.");
             continue;
