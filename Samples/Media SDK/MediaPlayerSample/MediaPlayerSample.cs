@@ -185,11 +185,12 @@ public class MediaPlayerSample : SampleBase
             if (player.IsPlayingLiveStream)
                 return;
 
-            int currentIndex = Array.IndexOf(Enum.GetValues(typeof(PlaySpeed)), player.PlaySpeed);
-            if (currentIndex < Enum.GetValues(typeof(PlaySpeed)).Length - 1)
+            var speeds = (PlaySpeed[])Enum.GetValues(typeof(PlaySpeed));
+            int currentIndex = Array.IndexOf(speeds, player.PlaySpeed);
+            if (currentIndex < speeds.Length - 1)
             {
                 Console.WriteLine("Increasing playback speed...");
-                player.PlaySpeed = (PlaySpeed)Enum.GetValues(typeof(PlaySpeed)).GetValue(currentIndex + 1);
+                player.PlaySpeed = speeds[currentIndex + 1];
             }
         }
 
@@ -198,11 +199,12 @@ public class MediaPlayerSample : SampleBase
             if (player.IsPlayingLiveStream)
                 return;
 
-            int currentIndex = Array.IndexOf(Enum.GetValues(typeof(PlaySpeed)), player.PlaySpeed);
+            var speeds = (PlaySpeed[])Enum.GetValues(typeof(PlaySpeed));
+            int currentIndex = Array.IndexOf(speeds, player.PlaySpeed);
             if (currentIndex > 0)
             {
                 Console.WriteLine("Decreasing playback speed...");
-                player.PlaySpeed = (PlaySpeed)Enum.GetValues(typeof(PlaySpeed)).GetValue(currentIndex - 1);
+                player.PlaySpeed = speeds[currentIndex - 1];
             }
         }
 
