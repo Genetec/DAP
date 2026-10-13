@@ -81,7 +81,6 @@ public class VideoSourceFilterSample : SampleBase
                     return;
                 }
 
-                memoryStream.Position = 0;
                 completion.TrySetResult(memoryStream.ToArray());
             }
         }
