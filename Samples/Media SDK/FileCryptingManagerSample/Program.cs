@@ -14,6 +14,7 @@ SdkResolver.Initialize();
 
 // Get the file path and password from user input
 string filePath = ReadFilePath();
+bool decrypt = Path.GetExtension(filePath).ToLower() == ".gek";
 string password = ReadPassword();
 
 // Set up cancellation support
@@ -57,8 +58,8 @@ string ReadFilePath()
 }
 
 // Prompts user for a valid encryption/decryption password
-// Password must be exactly 16, 24, or 32 ASCII characters
-// This matches AES key length requirements (128, 192, or 256 bits)
+// New encryption passwords must be 16, 24, or 32 ASCII characters to avoid lossy conversion.
+// For decryption, pass the existing password to the SDK unchanged.
 string ReadPassword()
 {
     while (true)
@@ -73,7 +74,7 @@ string ReadPassword()
             continue;
         }
 
-        if (password.Length is not (16 or 24 or 32) || password.Any(character => character > 127))
+        if (!decrypt && (password.Length is not (16 or 24 or 32) || password.Any(character => character > 127)))
         {
             Console.WriteLine("Password must be 16, 24, or 32 ASCII characters long.");
             continue;
@@ -113,8 +114,6 @@ string ReadPassword()
 // Operation is determined by file extension (.gek files are decrypted, others are encrypted)
 async Task ProcessFile(CancellationToken token)
 {
-    // Determine operation based on file extension
-    bool decrypt = Path.GetExtension(filePath).ToLower() == ".gek";
     Console.WriteLine(decrypt ? "File will be decrypted." : "File will be encrypted.");
 
     // Create a FileCryptingManager instance to handle encryption/decryption
