@@ -151,6 +151,14 @@ The class supports these operations:
 - Supports seeking to specific timestamps with high precision
 - Handles multiple stream types (video, audio, metadata)
 
+The [PlaybackStreamReader sample](PlaybackStreamReaderSample/PlaybackStreamReaderSample.cs) prints recorded metadata content before reading video and audio. Set `cameraGuid`, the UTC start and end times, and optionally `metadataStreamName` in the sample. An empty stream name reads all metadata streams associated with the camera, including streams retained only for playback.
+
+For Security Center overlay frames, the sample prints layer identifiers, canvas dimensions, depth, duration, and default visibility. It also prints lines, circles, ellipses, rectangles, text runs with baseline and font information, embedded image byte counts and SHA-256 hashes, image destination rectangles, and empty layer drawings used to clear content. Image bytes are inspected in memory; the sample does not write image files.
+
+The sample decodes version 1 overlay payloads and reports unsupported versions. It reads drawing XAML as XML without loading WPF objects. The decoded information describes drawings; it does not render them into video frames.
+
+ONVIF analytics frames are printed as XML. Other payload formats are identified by media type and encoding, with a message when no content decoder is available. Native metadata must be supported by the camera integration and recorded by Security Center before the playback reader can retrieve it.
+
 #### PlaybackSequenceQuerier - archive timeline discovery
 
 **Purpose**: PlaybackSequenceQuerier discovers available video sequences in Security Center archives to build timeline interfaces and determine data availability.
