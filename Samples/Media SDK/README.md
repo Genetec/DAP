@@ -47,11 +47,11 @@ The Media SDK builds on the Platform SDK. Many classes require an `Engine` insta
 ### Media extensions
 
 The Media SDK adds specialized capabilities:
-- **Real-time Streaming**: Live video feeds from cameras
-- **Playback Control**: Archived video playback with seeking and speed control
-- **Media Processing**: Video overlays and frame-level processing
-- **PTZ Camera Control**: PTZ controls for pan, tilt, and zoom operations
-- **Export Operations**: Video export and format conversion
+- **Real-time streaming**: Live video feeds from cameras
+- **Playback control**: Archived video playback with seeking and speed control
+- **Media processing**: Video overlays and frame-level processing
+- **PTZ camera control**: PTZ controls for pan, tilt, and zoom operations
+- **Export operations**: Video export and format conversion
 
 ## Media SDK classes
 
@@ -63,7 +63,7 @@ Use these classes to display video, access decoded frames, and synchronize playb
 
 #### MediaPlayer - primary video display control
 
-**Purpose**: MediaPlayer is the main WPF UserControl for displaying video in Security Center applications. It handles live streaming, archive and file playback.
+MediaPlayer is the main WPF UserControl for displaying video in Security Center applications. It handles live streaming, archive playback, and file playback.
 
 The class supports these operations:
 
@@ -78,7 +78,7 @@ The class supports these operations:
 
 #### VideoSourceFilter - frame-level video processing
 
-**Purpose**: `VideoSourceFilter` gives applications direct access to decoded video frames for programmatic processing without displaying them in a UI control.
+`VideoSourceFilter` gives applications direct access to decoded video frames for programmatic processing without displaying them in a UI control.
 
 The class supports these operations:
 
@@ -90,7 +90,7 @@ The class supports these operations:
 
 #### AudioVideoSourceFilter - combined audio and video processing
 
-**Purpose**: AudioVideoSourceFilter extends VideoSourceFilter to provide simultaneous access to both audio and video streams from the same source.
+AudioVideoSourceFilter extends VideoSourceFilter to provide simultaneous access to both audio and video streams from the same source.
 
 The class supports these operations:
 
@@ -100,7 +100,7 @@ The class supports these operations:
 
 #### MediaPlayerSynchronizer - multi-camera coordination
 
-**Purpose**: MediaPlayerSynchronizer coordinates playback across multiple MediaPlayer instances to ensure synchronized viewing of multiple camera feeds.
+MediaPlayerSynchronizer coordinates playback across multiple MediaPlayer instances to ensure synchronized viewing of multiple camera feeds.
 
 The class supports these operations:
 
@@ -117,7 +117,7 @@ These classes coordinate camera PTZ operations.
 
 #### AggregatePtzCoordinatesManager - enterprise PTZ management
 
-**Purpose**: AggregatePtzCoordinatesManager provides centralized PTZ control across multiple cameras.
+AggregatePtzCoordinatesManager provides centralized PTZ control across multiple cameras.
 
 The class supports these operations:
 
@@ -127,7 +127,7 @@ The class supports these operations:
 
 #### PtzCoordinatesManager - simplified PTZ control
 
-**Purpose**: PtzCoordinatesManager provides PTZ control for single camera scenarios with a simpler interface than the aggregate manager.
+PtzCoordinatesManager provides PTZ control for single camera scenarios with a simpler interface than the aggregate manager.
 
 The class supports these operations:
 
@@ -142,7 +142,7 @@ These classes provide stream data and information about archive sequences.
 
 #### PlaybackStreamReader - low-level stream access
 
-**Purpose**: PlaybackStreamReader provides direct access to raw media stream data for applications that need complete control over media processing.
+PlaybackStreamReader provides direct access to raw media stream data for applications that need complete control over media processing.
 
 The class supports these operations:
 
@@ -151,9 +151,19 @@ The class supports these operations:
 - Supports seeking to specific timestamps with high precision
 - Handles multiple stream types (video, audio, metadata)
 
+Native metadata must be supported by the camera integration and recorded by Security Center before the playback reader can retrieve it.
+
+The [PlaybackStreamReader sample](PlaybackStreamReaderSample/PlaybackStreamReaderSample.cs) prints recorded metadata content before reading video and audio. Set `cameraGuid`, the UTC start and end times, and optionally `metadataStreamName` in the sample. An empty stream name reads all metadata streams associated with the camera, including streams retained only for playback.
+
+For Security Center overlay frames, the sample prints layer identifiers, canvas dimensions, depth, duration, and default visibility. It also prints lines, circles, ellipses, rectangles, text runs with baseline and font information, embedded image byte counts and SHA-256 hashes, image destination rectangles, and empty layer drawings used to clear content. Image bytes are inspected in memory; the sample does not write image files.
+
+The sample decodes version 1 overlay payloads and reports unsupported versions. It reads drawing XAML as XML without loading WPF objects. The decoded information describes drawings; it does not render them into video frames.
+
+ONVIF analytics frames are printed as XML. Other payload formats are identified by media type and encoding, with a message when no content decoder is available.
+
 #### PlaybackSequenceQuerier - archive timeline discovery
 
-**Purpose**: PlaybackSequenceQuerier discovers available video sequences in Security Center archives to build timeline interfaces and determine data availability.
+PlaybackSequenceQuerier discovers available video sequences in Security Center archives to build timeline interfaces and determine data availability.
 
 The class supports these operations:
 
@@ -167,7 +177,7 @@ These classes export, encrypt, decrypt, and convert media files.
 
 #### MediaExporter - video export
 
-**Purpose**: MediaExporter handles the export of video data from Security Center.
+MediaExporter handles the export of video data from Security Center.
 
 The class supports these operations:
 
@@ -176,7 +186,7 @@ The class supports these operations:
 
 #### FileCryptingManager - file security and encryption
 
-**Purpose**: FileCryptingManager provides encryption and decryption capabilities for media files to protect sensitive video content.
+FileCryptingManager provides encryption and decryption capabilities for media files to protect sensitive video content.
 
 The class supports these operations:
 
@@ -191,7 +201,7 @@ These converters produce MP4 or Advanced Systems Format (ASF) files or add passw
 
 ##### G64ToMp4Converter - standard format conversion
 
-**Purpose**: `G64ToMp4Converter` converts Security Center's native G64 video format to MP4 for sharing and playback compatibility.
+`G64ToMp4Converter` converts Security Center's native G64 video format to MP4 for sharing and playback compatibility.
 
 The class supports these operations:
 
@@ -200,7 +210,7 @@ The class supports these operations:
 
 ##### G64ToAsfConverter - Windows Media format conversion
 
-**Purpose**: G64ToAsfConverter converts Security Center's G64 format to ASF (Advanced Systems Format) for Windows-based media applications.
+G64ToAsfConverter converts Security Center's G64 format to ASF (Advanced Systems Format) for Windows-based media applications.
 
 The class supports these operations:
 
@@ -208,7 +218,7 @@ The class supports these operations:
 
 ##### G64xPasswordProtectionConverter - secure archive conversion
 
-**Purpose**: G64xPasswordProtectionConverter adds password protection to G64X archive files for secure distribution and storage.
+G64xPasswordProtectionConverter adds password protection to G64X archive files for secure distribution and storage.
 
 The class supports these operations:
 
@@ -222,7 +232,7 @@ Use `MediaFile` to read source information, filenames, start and end times, time
 
 #### MediaFile - media file information
 
-**Purpose**: MediaFile provides analysis and metadata extraction from media files without requiring full video playback.
+MediaFile provides analysis and metadata extraction from media files without requiring full video playback.
 
 The class supports these operations:
 
@@ -236,7 +246,7 @@ These classes send audio to Security Center camera audio outputs. `AudioRecorder
 
 #### AudioRecorder - microphone capture and transmission
 
-**Purpose**: `AudioRecorder` captures audio from the computer's microphone and sends it to the selected camera's audio output.
+`AudioRecorder` captures audio from the computer's microphone and sends it to the selected camera's audio output.
 
 The class supports these operations:
 
@@ -245,7 +255,7 @@ The class supports these operations:
 
 #### AudioTransmitter - audio communication
 
-**Purpose**: AudioTransmitter sends audio data to Security Center cameras and devices.
+AudioTransmitter sends audio data to Security Center cameras and devices.
 
 The class supports these operations:
 
@@ -258,7 +268,7 @@ Use overlays to add text and shapes to camera video.
 
 #### Overlay - dynamic video overlays
 
-**Purpose**: Overlay provides the ability to draw dynamic graphics, text, and visual elements on top of live streams.
+Overlay provides the ability to draw dynamic graphics, text, and visual elements on top of live streams.
 
 The class supports these operations:
 
