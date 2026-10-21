@@ -142,7 +142,6 @@ public class PlaybackStreamReaderSample : SampleBase
         uint payloadSize = reader.ReadUInt32();
         byte version = reader.ReadByte();
 
-        // ponytail: decode version 1 overlay frames; add a version branch if the recording format changes.
         if (version != 1 || payloadType != 1)
         {
             Console.WriteLine($"  Unsupported overlay version {version} or payload type {payloadType}.");
