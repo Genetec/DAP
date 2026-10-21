@@ -3,7 +3,7 @@
 
 using System;
 using System.ComponentModel;
-using System.Text;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Genetec.Sdk.Media.Export;
@@ -28,7 +28,7 @@ public static class FileCryptingManagerExtensions
         if (password is null)
             throw new ArgumentNullException(nameof(password));
 
-        if (Encoding.ASCII.GetByteCount(password) is not (16 or 24 or 32))
+        if (password.Length is not (16 or 24 or 32) || password.Any(character => character > 127))
             throw new ArgumentException("Password must be 16, 24, or 32 ASCII characters long.", nameof(password));
 
         return await ProcessAsync(manager,
