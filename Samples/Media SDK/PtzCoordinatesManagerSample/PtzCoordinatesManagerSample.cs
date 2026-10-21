@@ -13,194 +13,209 @@ namespace Genetec.Dap.CodeSamples;
 
 public class PtzCoordinatesManagerSample : SampleBase
 {
+    private const int ObservationMilliseconds = 2000;
+
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        // Load all cameras into the entity cache
+        // Load all cameras into the entity cache.
         await LoadEntities(engine, token, EntityType.Camera);
 
-        // Find a suitable PTZ camera
         Camera camera = engine.GetEntities(EntityType.Camera).OfType<Camera>().FirstOrDefault(camera => camera.IsPtz && camera.IsOnline);
         if (camera is null)
         {
-            Console.WriteLine("No suitable PTZ camera found. Ensure a PTZ camera is online.\n");
+            Console.WriteLine("No suitable PTZ camera found. Ensure a PTZ camera is online.");
             return;
         }
 
-        // Load all networks into the entity cache
         await LoadEntities(engine, token, EntityType.Network);
 
-        // Get the network (client subnet) used by the camera.
-        // In this sample, we assume the first network is the one we want to use.
+        // This sample assumes the first network represents the application's workstation.
+        // Select the appropriate client network for your deployment.
         Network network = engine.GetEntities(EntityType.Network).OfType<Network>().FirstOrDefault();
         if (network is null)
         {
-            Console.WriteLine("No network found. Ensure at least one network is configured.\n");
+            Console.WriteLine("No network found. Ensure at least one network is configured.");
             return;
         }
 
         using var manager = new PtzCoordinatesManager();
+        manager.PtzStarted += (sender, e) => Console.WriteLine($"PTZ started. Coordinates: {e.Coordinates}");
+        manager.PtzStopped += (sender, e) => Console.WriteLine($"PTZ stopped. Coordinates: {e.Coordinates}");
+        manager.CoordinatesReceived += (sender, e) => Console.WriteLine($"Coordinates received. Coordinates: {e.Coordinates}");
+        manager.UnhandledException += (sender, e) =>
+        {
+            Console.Error.WriteLine($"PTZ exception for camera {camera.Guid}: {e.ExceptionObject}");
+            ReportErrorDetails(manager);
+        };
 
-        manager.PtzStarted += (sender, e) => Console.WriteLine($"PTZ started. Coordinates: {e.Coordinates}\n");
-        manager.PtzStopped += (sender, e) => Console.WriteLine($"PTZ stopped. Coordinates: {e.Coordinates}\n");
-        manager.CoordinatesReceived += (sender, e) => Console.WriteLine($"Coordinates received. Coordinates: {e.Coordinates}\n");
-
-        Console.WriteLine($"Initializing PTZ control for camera '{camera.Name}' using network '{network.Name}'.\n");
+        Console.WriteLine($"Initializing PTZ control for camera '{camera.Name}' using network '{network.Name}'.");
         manager.Initialize(sdkEngine: engine, cameraGuid: camera.Guid, clientSubnet: network.Guid);
 
-        await GoToPresets(manager, camera, token);
-        await RunPatterns(manager, camera, token);
-        await RunPresetTours(manager, camera, token);
-        await DemonstratePtzControls(manager, camera, token);
+        await GoToPresets(engine, manager, camera, token);
+        await RunPatterns(engine, manager, camera, token);
+        await RunPresetTours(engine, manager, camera, token);
+        await DemonstratePtzControls(engine, manager, camera, token);
     }
 
-    // Demonstrates moving through all available presets
-    private async Task GoToPresets(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    private static bool CanControlPtz(Engine engine, Camera camera, PtzCommandType command,
+        SdkPrivilege privilege, PtzCommandType? stopCommand = null)
     {
-        if (!camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.GoToPreset))
+        if (!camera.PtzCapabilities.IsSupportedCommand(command))
         {
-            Console.WriteLine("The camera does not support the GoToPreset command.\n");
-            return;
+            Console.WriteLine($"Skipping {command}: camera {camera.Guid} does not support it.");
+            return false;
         }
 
+        if (stopCommand.HasValue && !camera.PtzCapabilities.IsSupportedCommand(stopCommand.Value))
+        {
+            Console.WriteLine($"Skipping {command}: camera {camera.Guid} does not support {stopCommand.Value}.");
+            return false;
+        }
+
+        if (!engine.SecurityManager.IsPrivilegeGranted(privilege, camera.Guid))
+        {
+            Console.WriteLine($"Skipping {command}: privilege check returned false for user {engine.LoggedUser.Guid}, camera {camera.Guid}, required privilege {privilege}.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private static void ReportErrorDetails(PtzCoordinatesManager manager)
+    {
+        var error = manager.ErrorDetails;
+        if (error != null)
+            Console.Error.WriteLine($"Current PTZ error state: {error.Code}. {error.Details}");
+    }
+
+    // Requests presets in the camera's supported ID range.
+    private async Task GoToPresets(Engine engine, PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    {
         int presetCount = camera.PtzCapabilities.NumberOfPresets;
-        if (presetCount == 0)
+        if (presetCount <= 0)
         {
-            Console.WriteLine($"No presets found for camera '{camera.Name}'.\n");
+            Console.WriteLine($"Camera '{camera.Name}' reports no supported presets.");
             return;
         }
 
-        Console.WriteLine($"Moving through {presetCount} presets:\n");
         foreach (int preset in Enumerable.Range(camera.PtzCapabilities.PresetBase, presetCount))
         {
-            Console.WriteLine($"Moving to {camera.GetPtzPresetName(preset) ?? $"Preset {preset}"}... (Preset number: {preset})");
+            token.ThrowIfCancellationRequested();
+            if (!CanControlPtz(engine, camera, PtzCommandType.GoToPreset, SdkPrivilege.UsePtzPresets))
+                return;
 
+            token.ThrowIfCancellationRequested();
             manager.ControlPtz(PtzCommandType.GoToPreset, preset, 0);
+            Console.WriteLine($"Requested preset {preset}: {camera.GetPtzPresetName(preset) ?? $"Preset {preset}"}");
 
-            await Task.Delay(2000, token); // Wait for 2 seconds before moving to the next preset
+            // Allow time for observation. A returned call or elapsed delay does not confirm arrival.
+            await Task.Delay(ObservationMilliseconds, token);
+            ReportErrorDetails(manager);
         }
-
-        Console.WriteLine("Completed moving through all presets.\n");
     }
 
-    // Demonstrates running all available patterns
-    private async Task RunPatterns(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    // Requests patterns in the camera's supported ID range.
+    private async Task RunPatterns(Engine engine, PtzCoordinatesManager manager, Camera camera, CancellationToken token)
     {
-        if (!camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.RunPattern))
-        {
-            Console.WriteLine("The camera does not support the RunPattern command.\n");
-            return;
-        }
-
         int patternCount = camera.PtzCapabilities.NumberOfPatterns;
-        if (patternCount == 0)
+        if (patternCount <= 0)
         {
-            Console.WriteLine($"No patterns found for camera '{camera.Name}'.\n");
+            Console.WriteLine($"Camera '{camera.Name}' reports no supported patterns.");
             return;
         }
 
-        Console.WriteLine($"Running {patternCount} patterns:\n");
         foreach (int pattern in Enumerable.Range(camera.PtzCapabilities.PatternBase, patternCount))
         {
-            Console.WriteLine($"Running {camera.GetPtzPatternName(pattern) ?? $"Pattern {pattern}"}... (Pattern number: {pattern})");
+            token.ThrowIfCancellationRequested();
+            if (!CanControlPtz(engine, camera, PtzCommandType.RunPattern, SdkPrivilege.UsePtzPatterns))
+                return;
 
+            token.ThrowIfCancellationRequested();
             manager.ControlPtz(PtzCommandType.RunPattern, pattern, 0);
+            Console.WriteLine($"Requested pattern {pattern}: {camera.GetPtzPatternName(pattern) ?? $"Pattern {pattern}"}");
 
-            await Task.Delay(2000, token); // Wait for 2 seconds before stopping the pattern
+            await Task.Delay(ObservationMilliseconds, token); // Pause before requesting the next pattern.
+            ReportErrorDetails(manager);
         }
-
-        Console.WriteLine("Completed running all patterns.\n");
     }
 
-    // Demonstrates running all available preset tours
-    private async Task RunPresetTours(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    // Starts and stops preset tours in the camera's supported ID range.
+    private async Task RunPresetTours(Engine engine, PtzCoordinatesManager manager, Camera camera, CancellationToken token)
     {
-        if (!camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.RunTour))
-        {
-            Console.WriteLine("The camera does not support the RunTour command.\n");
-            return;
-        }
-
         int presetTourCount = camera.PtzCapabilities.NumberOfPresetTours;
-        if (presetTourCount == 0)
+        if (presetTourCount <= 0)
         {
-            Console.WriteLine($"No preset tours found for camera '{camera.Name}'.\n");
+            Console.WriteLine($"Camera '{camera.Name}' reports no supported preset tours.");
             return;
         }
 
-        Console.WriteLine($"Running {presetTourCount} preset tours:\n");
         foreach (int tour in Enumerable.Range(camera.PtzCapabilities.PresetTourBase, presetTourCount))
         {
-            Console.WriteLine($"Running preset tour {tour}");
+            token.ThrowIfCancellationRequested();
+            if (!CanControlPtz(engine, camera, PtzCommandType.StartPresetTour, SdkPrivilege.UsePtzPatterns,
+                PtzCommandType.StopPresetTour))
+                return;
 
-            manager.ControlPtz(PtzCommandType.RunTour, tour, 0);
-
-            await Task.Delay(2000, token); // Wait for 2 seconds before stopping the preset tour
+            token.ThrowIfCancellationRequested();
+            try
+            {
+                manager.ControlPtz(PtzCommandType.StartPresetTour, tour, 0);
+                Console.WriteLine($"Requested StartPresetTour for tour {tour}.");
+                await Task.Delay(ObservationMilliseconds, token);
+            }
+            finally
+            {
+                // Attempt cleanup even after cancellation or a privilege change. The SDK still checks privileges.
+                manager.ControlPtz(PtzCommandType.StopPresetTour, tour, 0);
+                Console.WriteLine($"Requested StopPresetTour for tour {tour}.");
+                // Keep the manager alive for asynchronous stop processing, including during cancellation.
+                await Task.Delay(ObservationMilliseconds);
+                ReportErrorDetails(manager);
+            }
         }
-
-        Console.WriteLine("Completed running all preset tours.\n");
     }
 
-    // Demonstrates basic PTZ controls (pan, tilt, zoom, iris, focus)
-    private async Task DemonstratePtzControls(PtzCoordinatesManager manager, Camera camera, CancellationToken token)
+    // Demonstrates basic PTZ controls (pan, tilt, zoom, iris, focus).
+    private async Task DemonstratePtzControls(Engine engine, PtzCoordinatesManager manager, Camera camera, CancellationToken token)
     {
-        if (camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.StartPanTilt))
+        // Pan right and tilt up. Both speeds use the range -100 to 100.
+        await RunMovement(PtzCommandType.StartPanTilt, PtzCommandType.StopPanTilt,
+            SdkPrivilege.BasicPtzOperations, arg1: 50, arg2: 50);
+
+        // Zoom in (0) at speed 50. Use 1 to zoom out.
+        await RunMovement(PtzCommandType.StartZoom, PtzCommandType.StopZoom,
+            SdkPrivilege.BasicPtzOperations, arg1: 0, arg2: 50);
+
+        // Open the iris (0) at speed 50. Use 1 to close it.
+        await RunMovement(PtzCommandType.StartIris, PtzCommandType.StopIris,
+            SdkPrivilege.ChangeFocusAndIris, arg1: 0, arg2: 50);
+
+        // Focus near (0) at speed 50. Use 1 for far focus.
+        await RunMovement(PtzCommandType.StartFocus, PtzCommandType.StopFocus,
+            SdkPrivilege.ChangeFocusAndIris, arg1: 0, arg2: 50);
+
+        async Task RunMovement(PtzCommandType startCommand, PtzCommandType stopCommand,
+            SdkPrivilege privilege, int arg1, int arg2)
         {
-            Console.WriteLine("Executing StartPanTilt (pan right, tilt up).");
+            token.ThrowIfCancellationRequested();
+            if (!CanControlPtz(engine, camera, startCommand, privilege, stopCommand))
+                return;
 
-            // arg1: Horizontal speed (-100 to 100, negative is left, positive is right)
-            // arg2: Vertical speed (-100 to 100, negative is down, positive is up)
-            manager.ControlPtz(commandType: PtzCommandType.StartPanTilt, arg1: 50, arg2: 50);
-
-            await Task.Delay(2000, token); // Wait for 2 seconds before stopping pan/tilt
-
-            manager.ControlPtz(commandType: PtzCommandType.StopPanTilt, 0, 0);
-
-            Console.WriteLine("Executed StopPanTilt.");
-        }
-
-        if (camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.StartZoom))
-        {
-            Console.WriteLine("Executing StartZoom (zoom in).");
-
-            // arg1: Zoom direction (0 for zoom in, 1 for zoom out)
-            // arg2: Zoom speed (0 to 100)
-            manager.ControlPtz(commandType: PtzCommandType.StartZoom, 0, 50);
-
-            await Task.Delay(2000, token); // Wait for 2 seconds before stopping zoom
-
-            manager.ControlPtz(commandType: PtzCommandType.StopZoom, 0, 0);
-
-            Console.WriteLine("Executed StopZoom.");
-        }
-
-        if (camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.StartIris))
-        {
-            Console.WriteLine("Executing StartIris (open iris).");
-
-            // arg1: Iris direction (0 for open iris, 1 for close iris)
-            // arg2: Iris adjustment speed (0 to 100)
-            manager.ControlPtz(commandType: PtzCommandType.StartIris, 0, 50);
-
-            await Task.Delay(2000, token); // Wait for 2 seconds before stopping iris
-
-            manager.ControlPtz(commandType: PtzCommandType.StopIris, 0, 0);
-
-            Console.WriteLine("Executed StopIris.");
-        }
-
-        if (camera.PtzCapabilities.IsSupportedCommand(PtzCommandType.StartFocus))
-        {
-            Console.WriteLine("Executing StartFocus (focus near).");
-
-            // arg1: Focus direction (0 for focus near, 1 for focus far)
-            // arg2: Focus adjustment speed (0 to 100)
-            manager.ControlPtz(commandType: PtzCommandType.StartFocus, arg1: 0, arg2: 50);
-
-            await Task.Delay(2000, token); // Wait for 2 seconds before stopping focus
-
-            manager.ControlPtz(commandType: PtzCommandType.StopFocus, arg1: 0, arg2: 0);
-
-            Console.WriteLine("Executed StopFocus.");
+            token.ThrowIfCancellationRequested();
+            try
+            {
+                manager.ControlPtz(startCommand, arg1, arg2);
+                Console.WriteLine($"Requested {startCommand} with arguments {arg1}, {arg2}.");
+                await Task.Delay(ObservationMilliseconds, token);
+            }
+            finally
+            {
+                // Do not let another application-side privilege check suppress the stop attempt.
+                manager.ControlPtz(stopCommand, 0, 0);
+                Console.WriteLine($"Requested {stopCommand}.");
+                await Task.Delay(ObservationMilliseconds);
+                ReportErrorDetails(manager);
+            }
         }
     }
 }
