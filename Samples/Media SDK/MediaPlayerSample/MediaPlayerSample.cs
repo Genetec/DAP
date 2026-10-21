@@ -36,6 +36,12 @@ public class MediaPlayerSample : SampleBase
     {
         MediaPlayer player = new();
 
+        // The SDK now allows users to enable hardware acceleration (GPU video decoding), which was previously restricted to Security Desk only.
+        // This change means SDK applications can leverage GPU decoding for improved video performance.
+        // Hardware acceleration is NOT enabled by default in the SDK.
+        // You must explicitly enable it for each MediaPlayer instance in your SDK application.
+        // This is to avoid changing the behavior of existing SDK apps unexpectedly.
+        // Developers must opt-in to use this feature.
         player.HardwareAccelerationEnabled = true; // Enable hardware acceleration if supported by the workstation
 
         CancellationTokenSource cts = new();
