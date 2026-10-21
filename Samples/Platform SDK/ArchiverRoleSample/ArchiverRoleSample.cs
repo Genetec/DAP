@@ -218,5 +218,4 @@ public class ArchiverRoleSample : SampleBase
     // Retrieves the name of an entity given its GUID
     string GetEntityName(Engine engine, Guid entity) => engine.GetEntity(entity) is { } entityObj ? entityObj.Name : "Unknown";
 
-    // Loads roles asynchronously
 }

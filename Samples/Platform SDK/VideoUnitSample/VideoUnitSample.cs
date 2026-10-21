@@ -39,7 +39,7 @@ public class VideoUnitSample : SampleBase
                 return;
             }
 
-            // Create the AddVideoUnitInfo object without duplicating IP/port
+            // Use the IP address and port from the RTSP URI.
             AddVideoUnitInfo addVideoUnitInfo = new(videoUnitProductInfo: productInfo,
                 ipEndPoint: new IPEndPoint(address, uri.Port),
                 useDefaultCredentials: true);

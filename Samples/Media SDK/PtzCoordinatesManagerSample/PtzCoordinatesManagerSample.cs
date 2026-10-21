@@ -108,7 +108,6 @@ public class PtzCoordinatesManagerSample : SampleBase
             manager.ControlPtz(PtzCommandType.GoToPreset, preset, 0);
             Console.WriteLine($"Requested preset {preset}: {camera.GetPtzPresetName(preset) ?? $"Preset {preset}"}");
 
-            // Allow time for observation. A returned call or elapsed delay does not confirm arrival.
             await Task.Delay(ObservationMilliseconds, token);
             ReportErrorDetails(manager);
         }
@@ -165,10 +164,9 @@ public class PtzCoordinatesManagerSample : SampleBase
             }
             finally
             {
-                // Attempt cleanup even after cancellation or a privilege change. The SDK still checks privileges.
                 manager.ControlPtz(PtzCommandType.StopPresetTour, tour, 0);
                 Console.WriteLine($"Requested StopPresetTour for tour {tour}.");
-                // Keep the manager alive for asynchronous stop processing, including during cancellation.
+                // Allow the stop request to be processed before disposing the manager.
                 await Task.Delay(ObservationMilliseconds);
                 ReportErrorDetails(manager);
             }
@@ -210,7 +208,6 @@ public class PtzCoordinatesManagerSample : SampleBase
             }
             finally
             {
-                // Do not let another application-side privilege check suppress the stop attempt.
                 manager.ControlPtz(stopCommand, 0, 0);
                 Console.WriteLine($"Requested {stopCommand}.");
                 await Task.Delay(ObservationMilliseconds);

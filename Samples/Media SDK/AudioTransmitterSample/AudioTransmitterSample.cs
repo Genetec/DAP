@@ -11,8 +11,8 @@ using Genetec.Sdk.Media;
 namespace Genetec.Dap.CodeSamples;
 
 /// <summary>
-/// // This sample demonstrates how to transmit audio to a Security Center camera
-/// // using the AudioTransmitter class. It generates and transmits a simple sine wave tone.
+/// This sample demonstrates how to transmit audio to a Security Center camera
+/// using the AudioTransmitter class. It generates and transmits a simple sine wave tone.
 /// </summary>
 public class AudioTransmitterSample : SampleBase
 {

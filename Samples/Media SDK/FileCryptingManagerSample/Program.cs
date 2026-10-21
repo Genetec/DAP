@@ -58,7 +58,7 @@ string ReadFilePath()
 }
 
 // Prompts user for a valid encryption/decryption password
-// New encryption passwords must be 16, 24, or 32 ASCII characters to avoid lossy conversion.
+// New encryption passwords must be 16, 24, or 32 ASCII characters.
 // For decryption, pass the existing password to the SDK unchanged.
 string ReadPassword()
 {
