@@ -1,0 +1,25 @@
+<UserControl
+    x:Class="Genetec.Dap.CodeSamples.PinnablePopupSampleView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    MinWidth="280"
+    MinHeight="180">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label
+            Margin="0,0,0,4"
+            Content="Notes"
+            Target="{Binding ElementName=notesTextBox}"
+            Style="{Styles {x:Static LabelStyles.Intro}}" />
+        <TextBox
+            x:Name="notesTextBox"
+            Grid.Row="1"
+            MinHeight="120"
+            AcceptsReturn="True"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
+    </Grid>
+</UserControl>

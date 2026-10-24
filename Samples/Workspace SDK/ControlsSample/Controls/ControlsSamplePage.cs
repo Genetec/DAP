@@ -3,13 +3,19 @@
 
 namespace Genetec.Dap.CodeSamples;
 
+using System;
 using Sdk.Workspace.Pages;
 
 [Page(typeof(ControlsSamplePageDescriptor))]
-public class ControlsSamplePage : Page
+public class ControlsSamplePage : Page, IDisposable
 {
-    public ControlsSamplePage()
+    protected override void Initialize()
     {
-        View = new ControlsSampleView();
+        View = new ControlsSampleView(Workspace);
+    }
+
+    public void Dispose()
+    {
+        (View as IDisposable)?.Dispose();
     }
 }

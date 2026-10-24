@@ -381,6 +381,36 @@
                     <TextBlock x:Name="customWindowResult" TextWrapping="Wrap" />
                 </StackPanel>
             </Expander>
+            <Expander
+                Margin="0,0,0,10"
+                HorizontalContentAlignment="Left"
+                Header="PinnablePopup"
+                Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
+                <StackPanel Margin="10" MaxWidth="460">
+                    <TextBlock
+                        Margin="0,0,0,8"
+                        Text="Open the popup and use its pin button to attach the notes to the monitor window. Notes are kept while this sample page remains open."
+                        TextWrapping="Wrap" />
+                    <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                        <Button
+                            x:Name="showPopupButton"
+                            Margin="0,0,8,0"
+                            Click="OnShowPopupClicked"
+                            Content="Show popup"
+                            Style="{Styles {x:Static ButtonStyles.Default}}" />
+                        <Button
+                            x:Name="hidePopupButton"
+                            Click="OnHidePopupClicked"
+                            Content="Hide popup"
+                            IsEnabled="False"
+                            Style="{Styles {x:Static ButtonStyles.Default}}" />
+                    </StackPanel>
+                    <TextBlock
+                        x:Name="popupStatus"
+                        Text="Popup has not been opened."
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Expander>
         </StackPanel>
     </ScrollViewer>
 
