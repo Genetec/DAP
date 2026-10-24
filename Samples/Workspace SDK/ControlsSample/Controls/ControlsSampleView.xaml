@@ -362,6 +362,25 @@
                     </GroupBox>
                 </Grid>
             </Expander>
+            <Expander
+                Margin="0,0,0,10"
+                HorizontalContentAlignment="Left"
+                Header="CustomWindow"
+                Style="{Styles {x:Static ExpanderStyles.NamedSeparator}}">
+                <StackPanel Margin="10" MaxWidth="460">
+                    <TextBlock
+                        Margin="0,0,0,8"
+                        Text="Open a modal window to edit a display name. OK saves the change; Cancel keeps the previous value."
+                        TextWrapping="Wrap" />
+                    <Button
+                        Margin="0,0,0,8"
+                        HorizontalAlignment="Left"
+                        Click="OnOpenCustomWindowClicked"
+                        Content="Open window"
+                        Style="{Styles {x:Static ButtonStyles.Default}}" />
+                    <TextBlock x:Name="customWindowResult" TextWrapping="Wrap" />
+                </StackPanel>
+            </Expander>
         </StackPanel>
     </ScrollViewer>
 
