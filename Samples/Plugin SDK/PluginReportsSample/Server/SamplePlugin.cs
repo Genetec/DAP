@@ -49,7 +49,7 @@ public class SamplePlugin : Plugin, IPluginDatabaseSupport
     public override List<Guid> SupportedCustomReports => new() { CustomEventReport.Id };
 
     // The queries this plugin answers: the whole access-control activity family, zone, intrusion,
-    // video, health, and the two trail reports.
+    // video, and the two trail reports.
     public sealed override List<ReportQueryType> SupportedQueries => new()
     {
         ReportQueryType.Custom,
@@ -65,9 +65,7 @@ public class SamplePlugin : Plugin, IPluginDatabaseSupport
         ReportQueryType.IntrusionAreaActivity,
         ReportQueryType.IntrusionUnitActivity,
         ReportQueryType.CameraEvent,
-        ReportQueryType.VideoMotionEvent,
-        ReportQueryType.HealthEvent,
-        ReportQueryType.HealthStatistics
+        ReportQueryType.VideoMotionEvent
     };
 
     protected override void OnPluginLoaded()
@@ -137,9 +135,6 @@ public class SamplePlugin : Plugin, IPluginDatabaseSupport
         var video = new VideoEventReportHandler(Engine, role, m_databaseManager);
         m_reportHandlers.Add(ReportQueryType.CameraEvent, video);
         m_reportHandlers.Add(ReportQueryType.VideoMotionEvent, video);
-
-        m_reportHandlers.Add(ReportQueryType.HealthEvent, new HealthEventsReportHandler(Engine, role, m_databaseManager));
-        m_reportHandlers.Add(ReportQueryType.HealthStatistics, new HealthStatisticsReportHandler(Engine, role, m_databaseManager));
     }
 
     // Starts the HTTP server on the specified configuration's port and reports the outcome as

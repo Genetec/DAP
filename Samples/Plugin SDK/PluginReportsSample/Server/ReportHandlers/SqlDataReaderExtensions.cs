@@ -31,9 +31,6 @@ internal static class SqlDataReaderExtensions
     public static long GetInt64(this SqlDataReader reader, string column)
         => reader.GetInt64(reader.GetOrdinal(column));
 
-    public static float GetFloat(this SqlDataReader reader, string column)
-        => reader.GetFloat(reader.GetOrdinal(column));
-
     public static string GetString(this SqlDataReader reader, string column)
         => reader.GetString(reader.GetOrdinal(column));
 

@@ -21,8 +21,6 @@ Every record comes from a local HTTP request; the plugin does not generate sampl
 | `POST /zone-activities` | Zone activity |
 | `POST /intrusion-events` | Intrusion area and intrusion unit activity |
 | `POST /video-events` | Camera events and video motion |
-| `POST /health-events` | Health history |
-| `POST /health-statistics` | Health statistics |
 | `POST /activity-trails` | Activity trails |
 | `POST /audit-trails` | Audit trails |
 | `POST /custom-events` | Custom event activities (custom report) |
@@ -153,19 +151,15 @@ Send one JSON object per POST. Requests require `Content-Length` and must not ex
 | `/zone-activities` | Nonempty `zone`; either `eventType` or `customEventId` |
 | `/intrusion-events` | At least one of `intrusionUnit`, `intrusionArea`, or `source`; either `eventType` or `customEventId` |
 | `/video-events` | Nonempty `camera` and built-in `eventType` |
-| `/health-events` | Nonempty `source` |
-| `/health-statistics` | Nonempty `source` |
 | `/activity-trails` | A JSON object; populate the activity and entity fields for a meaningful report |
 | `/audit-trails` | A JSON object; populate the modification and entity fields for a meaningful report |
 | `/custom-events` | Defined positive `customEventId`, matching nonempty `source`, `timestamp`, and `message` |
 
 Use existing Security Center entity GUIDs and event types appropriate to the selected report. Built-in event types use SDK enumeration names; custom event IDs must already exist in Security Center. Other type fields use numeric SDK enumeration values.
 
-Supply timestamps in ISO 8601 format with an explicit UTC offset. Event timestamps default to the current UTC time; an omitted health-statistics `lastErrorTimestamp` uses the never sentinel.
+Supply timestamps in ISO 8601 format with an explicit UTC offset. Event timestamps default to the current UTC time.
 
 For zone activity, `timeZoneId` must be a Windows time-zone identifier. When `localTimestamp` is present, its offset must match that time zone. When it is omitted, the plugin derives the local timestamp from the event timestamp and `timeZoneId`.
-
-Health statistics keep one current snapshot per `source`, `eventSourceType`, and `observer`. A later successful POST replaces that snapshot. These rows are not filtered by report time range. Health events retain history, but only the last successfully ingested record for the same `healthEventId`, `source`, and `observer` can be active. Ingestion order determines this state, including for backfilled timestamps.
 
 | HTTP status | Meaning |
 | --- | --- |

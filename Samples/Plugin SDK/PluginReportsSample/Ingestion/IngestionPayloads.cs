@@ -95,42 +95,6 @@ public class VideoEventIngestion
     [DataMember(Name = "thumbnail")] public string Thumbnail { get; set; }
 }
 
-/// <summary>POST /health-events. Feeds the Health history report.</summary>
-[DataContract]
-public class HealthEventIngestion
-{
-    [DataMember(Name = "timestamp")] public string Timestamp { get; set; }
-    [DataMember(Name = "healthEventId")] public int? HealthEventId { get; set; }
-    [DataMember(Name = "eventSourceTypeId")] public int? EventSourceTypeId { get; set; }
-    [DataMember(Name = "source")] public Guid? Source { get; set; }
-    [DataMember(Name = "description")] public string Description { get; set; }
-    [DataMember(Name = "machineName")] public string MachineName { get; set; }
-    [DataMember(Name = "severityId")] public int? SeverityId { get; set; }
-    [DataMember(Name = "errorNumber")] public int? ErrorNumber { get; set; }
-    [DataMember(Name = "occurrence")] public long? Occurrence { get; set; }
-    [DataMember(Name = "observer")] public Guid? Observer { get; set; }
-    [DataMember(Name = "isActive")] public bool? IsActive { get; set; }
-}
-
-/// <summary>POST /health-statistics. Feeds the Health statistics report.</summary>
-[DataContract]
-public class HealthStatisticsIngestion
-{
-    [DataMember(Name = "source")] public Guid? Source { get; set; }
-    [DataMember(Name = "eventSourceType")] public int? EventSourceType { get; set; }
-    [DataMember(Name = "failureCount")] public int? FailureCount { get; set; }
-    [DataMember(Name = "rtpPacketLoss")] public int? RtpPacketLoss { get; set; }
-    [DataMember(Name = "calculationStatus")] public int? CalculationStatus { get; set; }
-    [DataMember(Name = "unexpectedDowntimeSeconds")] public double? UnexpectedDowntimeSeconds { get; set; }
-    [DataMember(Name = "expectedDowntimeSeconds")] public double? ExpectedDowntimeSeconds { get; set; }
-    [DataMember(Name = "uptimeSeconds")] public double? UptimeSeconds { get; set; }
-    [DataMember(Name = "mttr")] public float? Mttr { get; set; }
-    [DataMember(Name = "mtbf")] public float? Mtbf { get; set; }
-    [DataMember(Name = "availability")] public float? Availability { get; set; }
-    [DataMember(Name = "lastErrorTimestamp")] public string LastErrorTimestamp { get; set; }
-    [DataMember(Name = "observer")] public Guid? Observer { get; set; }
-}
-
 /// <summary>POST /activity-trails. Feeds the Activity trails report.</summary>
 [DataContract]
 public class ActivityTrailIngestion
