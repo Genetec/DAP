@@ -40,8 +40,6 @@ public sealed class EventIngestor
             ["/zone-activities"] = IngestZoneActivityAsync,
             ["/intrusion-events"] = IngestIntrusionEventAsync,
             ["/video-events"] = IngestVideoEventAsync,
-            ["/health-events"] = IngestHealthEventAsync,
-            ["/health-statistics"] = IngestHealthStatisticAsync,
             ["/activity-trails"] = IngestActivityTrailAsync,
             ["/audit-trails"] = IngestAuditTrailAsync,
             ["/custom-events"] = IngestCustomEventAsync
@@ -139,27 +137,6 @@ public sealed class EventIngestor
 
         await m_databaseManager.InsertVideoEventAsync(e, eventType, eventTime, thumbnail, cancellationToken).ConfigureAwait(false);
         return Accepted("video event");
-    }
-
-    private async Task<(HttpStatusCode, string)> IngestHealthEventAsync(Stream body, CancellationToken cancellationToken)
-    {
-        if (!IngestionParsing.TryDeserialize(body, out HealthEventIngestion e, out string error)) return Bad(error);
-        if (!Require(e.Source, "source", out error)) return Bad(error);
-        if (!IngestionParsing.TryParseTimestamp(e.Timestamp, out DateTime timestamp, out error)) return Bad(error);
-
-        await m_databaseManager.InsertHealthEventAsync(e, timestamp, cancellationToken).ConfigureAwait(false);
-        return Accepted("health event");
-    }
-
-    private async Task<(HttpStatusCode, string)> IngestHealthStatisticAsync(Stream body, CancellationToken cancellationToken)
-    {
-        if (!IngestionParsing.TryDeserialize(body, out HealthStatisticsIngestion e, out string error)) return Bad(error);
-        if (!Require(e.Source, "source", out error)) return Bad(error);
-        // "Last error" is not an occurrence time; when omitted it is a sentinel (never), not "now".
-        if (!IngestionParsing.TryParseTimestamp(e.LastErrorTimestamp, DateTime.MinValue, out DateTime lastError, out error)) return Bad(error);
-
-        await m_databaseManager.InsertHealthStatisticAsync(e, lastError, cancellationToken).ConfigureAwait(false);
-        return Accepted("health statistic");
     }
 
     private async Task<(HttpStatusCode, string)> IngestActivityTrailAsync(Stream body, CancellationToken cancellationToken)

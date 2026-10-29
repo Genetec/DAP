@@ -21,8 +21,7 @@ using Sdk.Plugin.Objects;
 /// </summary>
 public class SampleDatabaseManager : DatabaseManager
 {
-    // One cleanup threshold per time-stamped event table. HealthStatistics is excluded because it
-    // holds aggregate rows, not an ever-growing event log; audit trails default to no cleanup.
+    // One cleanup threshold per time-stamped event table; audit trails default to no cleanup.
     private static readonly Dictionary<string, (string Title, string TimestampColumn, bool DefaultIsEnabled, int DefaultRetentionPeriod)> s_cleanupThresholds = new()
     {
         [ActivityTrailTable.Name] = ("Keep activity trails", ActivityTrailTable.Columns.EventTimestamp, true, 90),
@@ -31,7 +30,6 @@ public class SampleDatabaseManager : DatabaseManager
         [ZoneActivityTable.Name] = ("Keep zone activities", ZoneActivityTable.Columns.EventTimestamp, true, 90),
         [IntrusionEventTable.Name] = ("Keep intrusion events", IntrusionEventTable.Columns.EventTimestamp, true, 90),
         [VideoEventTable.Name] = ("Keep video events", VideoEventTable.Columns.EventTime, true, 90),
-        [HealthEventTable.Name] = ("Keep health events", HealthEventTable.Columns.EventTimestamp, true, 90),
         ["CustomEvents"] = ("Keep custom events", "EventTimestamp", true, 90)
     };
 
@@ -136,50 +134,6 @@ public class SampleDatabaseManager : DatabaseManager
         command.Parameters.Add("@Notes", SqlDbType.NVarChar, -1).Value = (object)e.Notes ?? DBNull.Value;
         command.Parameters.Add("@XmlData", SqlDbType.NVarChar, -1).Value = (object)e.XmlData ?? DBNull.Value;
         command.Parameters.Add("@Thumbnail", SqlDbType.VarBinary, -1).Value = (object)thumbnail ?? DBNull.Value;
-
-        await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
-        await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task InsertHealthEventAsync(HealthEventIngestion e, DateTime timestamp, CancellationToken cancellationToken)
-    {
-        using SqlConnection connection = Configuration.CreateSqlDatabaseConnection();
-        using var command = new SqlCommand("dbo.InsertHealthEvent", connection) { CommandType = CommandType.StoredProcedure };
-
-        command.Parameters.Add("@EventTimestamp", SqlDbType.DateTime2).Value = timestamp;
-        command.Parameters.Add("@HealthEventId", SqlDbType.Int).Value = e.HealthEventId ?? 0;
-        command.Parameters.Add("@EventSourceTypeId", SqlDbType.Int).Value = e.EventSourceTypeId ?? 0;
-        command.Parameters.Add("@SourceEntityGuid", SqlDbType.UniqueIdentifier).Value = e.Source ?? Guid.Empty;
-        command.Parameters.Add("@EventDescription", SqlDbType.NVarChar, -1).Value = e.Description ?? string.Empty;
-        command.Parameters.Add("@MachineName", SqlDbType.NVarChar, 512).Value = e.MachineName ?? string.Empty;
-        command.Parameters.Add("@SeverityId", SqlDbType.Int).Value = e.SeverityId ?? 0;
-        command.Parameters.Add("@ErrorNumber", SqlDbType.Int).Value = e.ErrorNumber ?? 0;
-        command.Parameters.Add("@Occurrence", SqlDbType.BigInt).Value = e.Occurrence ?? 0;
-        command.Parameters.Add("@ObserverEntity", SqlDbType.UniqueIdentifier).Value = e.Observer ?? Guid.Empty;
-        command.Parameters.Add("@IsActive", SqlDbType.Bit).Value = e.IsActive ?? false;
-
-        await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
-        await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task InsertHealthStatisticAsync(HealthStatisticsIngestion e, DateTime lastErrorTimestamp, CancellationToken cancellationToken)
-    {
-        using SqlConnection connection = Configuration.CreateSqlDatabaseConnection();
-        using var command = new SqlCommand("dbo.InsertHealthStatistic", connection) { CommandType = CommandType.StoredProcedure };
-
-        command.Parameters.Add("@SourceEntityGuid", SqlDbType.UniqueIdentifier).Value = e.Source ?? Guid.Empty;
-        command.Parameters.Add("@EventSourceType", SqlDbType.Int).Value = e.EventSourceType ?? 0;
-        command.Parameters.Add("@FailureCount", SqlDbType.Int).Value = e.FailureCount ?? 0;
-        command.Parameters.Add("@RtpPacketLoss", SqlDbType.Int).Value = e.RtpPacketLoss ?? 0;
-        command.Parameters.Add("@CalculationStatus", SqlDbType.Int).Value = e.CalculationStatus ?? 0;
-        command.Parameters.Add("@UnexpectedDowntimeTicks", SqlDbType.BigInt).Value = TimeSpan.FromSeconds(e.UnexpectedDowntimeSeconds ?? 0).Ticks;
-        command.Parameters.Add("@ExpectedDowntimeTicks", SqlDbType.BigInt).Value = TimeSpan.FromSeconds(e.ExpectedDowntimeSeconds ?? 0).Ticks;
-        command.Parameters.Add("@UptimeTicks", SqlDbType.BigInt).Value = TimeSpan.FromSeconds(e.UptimeSeconds ?? 0).Ticks;
-        command.Parameters.Add("@Mttr", SqlDbType.Real).Value = e.Mttr ?? 0f;
-        command.Parameters.Add("@Mtbf", SqlDbType.Real).Value = e.Mtbf ?? 0f;
-        command.Parameters.Add("@Availability", SqlDbType.Real).Value = e.Availability ?? 0f;
-        command.Parameters.Add("@LastErrorTimestamp", SqlDbType.DateTime2).Value = lastErrorTimestamp;
-        command.Parameters.Add("@ObserverEntity", SqlDbType.UniqueIdentifier).Value = e.Observer ?? Guid.Empty;
 
         await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
         await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);

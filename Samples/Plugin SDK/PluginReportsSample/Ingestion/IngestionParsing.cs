@@ -117,21 +117,12 @@ public static class IngestionParsing
     /// time when the value is empty (the common case for a system that posts events as they happen).
     /// </summary>
     public static bool TryParseTimestamp(string value, out DateTime utc, out string error)
-        => TryParseTimestamp(value, DateTime.UtcNow, out utc, out error);
-
-    /// <summary>
-    /// Parses an ISO 8601 timestamp with an explicit offset as UTC, using the supplied default
-    /// when the value is empty.
-    /// Callers pass a default other than "now" for timestamps that are not event-occurrence
-    /// times, for example a "last error" time that should be a sentinel when no error occurred.
-    /// </summary>
-    public static bool TryParseTimestamp(string value, DateTime whenEmpty, out DateTime utc, out string error)
     {
         error = null;
 
         if (string.IsNullOrEmpty(value))
         {
-            utc = whenEmpty;
+            utc = DateTime.UtcNow;
             return true;
         }
 
