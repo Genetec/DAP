@@ -9,7 +9,7 @@ One Security Center plugin contributes two custom action types: an entity-aware 
 | **Launch encoder command** | Selecting a camera, loading choices from the selected entity, serializing entity-specific configuration, and calling a Platform SDK operation |
 | **Send HTTP request** | Configuring an absolute URL, query parameters, headers, content type, and body, then performing asynchronous external I/O from the plugin role |
 
-Both actions share the plugin role, server module, client module, and icon. Each action builder has its own SDK certificate.
+Both actions share the plugin role, server module, client module, and icon. The plugin role requires an SDK certificate. The action builders in the client module do not.
 
 ## How custom actions work
 
