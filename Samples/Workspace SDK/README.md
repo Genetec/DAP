@@ -2,6 +2,8 @@
 
 Use the Workspace SDK to extend Security Desk and Config Tool with custom tasks, panels, widgets, options, and other user interface components. These samples show how to build Workspace modules for those client applications.
 
+The [Windows Credential Manager logon provider](CredentialLogonProviderSample/) demonstrates a custom client logon dialog with saved credentials, cancellation, and manual authentication when resuming from idle mode. Builds register the module by default. Set `SkipPluginRegistration=true` to build without updating local registration.
+
 ## Prerequisites
 
 - **.NET Framework 4.8.1 targeting pack**: the samples target `net481`. Workspace modules must target .NET Framework because Security Desk and Config Tool host them in-process on .NET Framework. Client modules targeting .NET 8 or .NET 10 are not supported.
