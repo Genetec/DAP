@@ -251,7 +251,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GwpMinimalApiSample", "Gene
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GwpRazorPagesSample", "Genetec Web Player\GwpRazorPagesSample\GwpRazorPagesSample.csproj", "{F6FEAE2D-E83E-FC41-0209-C18D1E6DB7C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CredentialLogonProviderSample", "Workspace SDK\CredentialLogonProviderSample\CredentialLogonProviderSample.csproj", "{2CFDA0D5-F08F-4A52-AFA4-60421F36DED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogonProviderSample", "Workspace SDK\LogonProviderSample\LogonProviderSample.csproj", "{2CFDA0D5-F08F-4A52-AFA4-60421F36DED1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
