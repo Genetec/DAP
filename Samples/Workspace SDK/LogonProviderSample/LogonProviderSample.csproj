@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net481</TargetFrameworks>
 		<RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
-		<AssemblyName>CredentialLogonProviderSample</AssemblyName>
+		<AssemblyName>LogonProviderSample</AssemblyName>
 		<Description>Sample project</Description>
 		<Copyright>Copyright © Genetec Inc. 2026</Copyright>
 		<OutputType>Library</OutputType>

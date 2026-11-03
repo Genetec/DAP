@@ -2,7 +2,7 @@
 
 Use the Workspace SDK to extend Security Desk and Config Tool with custom tasks, panels, widgets, options, and other user interface components. These samples show how to build Workspace modules for those client applications.
 
-The [Windows Credential Manager logon provider](CredentialLogonProviderSample/) demonstrates a custom client logon dialog with saved credentials, cancellation, and manual authentication when resuming from idle mode. Builds register the module by default. Set `SkipPluginRegistration=true` to build without updating local registration.
+The [Windows Credential Manager logon provider](LogonProviderSample/) demonstrates a custom client logon dialog with saved credentials, cancellation, and manual authentication when resuming from idle mode. Builds register the module by default. Set `SkipPluginRegistration=true` to build without updating local registration.
 
 ## Prerequisites
 
