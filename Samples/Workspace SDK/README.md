@@ -2,6 +2,8 @@
 
 Use the Workspace SDK to extend Security Desk and Config Tool with custom tasks, panels, widgets, options, and other user interface components. These samples show how to build Workspace modules for those client applications.
 
+The [AED map object sample](MapObjectSample/) displays existing AED units as custom map markers. Marker colors indicate maintenance status, and selecting a marker shows its recorded maintenance dates. Create and configure the AED units with ConfigPageSample.
+
 The [Windows Credential Manager logon provider](LogonProviderSample/) demonstrates a custom client logon dialog with saved credentials, cancellation, and manual authentication when resuming from idle mode. Builds register the module by default. Set `SkipPluginRegistration=true` to build without updating local registration.
 
 ## Prerequisites
