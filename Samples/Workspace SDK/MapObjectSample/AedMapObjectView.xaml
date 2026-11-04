@@ -15,7 +15,7 @@
             </Style.Triggers>
         </Style>
     </maps:MapObjectView.Resources>
-    <Border Style="{StaticResource SelectionBorder}" BorderThickness="3" CornerRadius="8" Padding="2">
+    <Border x:Name="MarkerContent" Visibility="Collapsed" Style="{StaticResource SelectionBorder}" BorderThickness="3" CornerRadius="8" Padding="2">
         <Border x:Name="MarkerBody" BorderBrush="White" BorderThickness="1" CornerRadius="4">
             <Grid>
                 <TextBlock Text="AED" FontSize="15" FontWeight="Bold" Foreground="White"
