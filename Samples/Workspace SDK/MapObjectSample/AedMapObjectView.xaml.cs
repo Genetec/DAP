@@ -10,7 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xml;
-using Sdk;
 using Sdk.Controls.Themes.Styles;
 using Sdk.Entities;
 using Sdk.Entities.Maps;
@@ -155,29 +154,14 @@ public partial class AedMapObjectView : MapObjectView
         }
 
         m_attached = true;
-        m_workspace.Sdk.EntitiesInvalidated += OnEntitiesInvalidated;
-        m_workspace.Sdk.EntitiesRemoved += OnEntitiesRemoved;
-        m_workspace.Sdk.LoggedOff += OnLoggedOff;
+        m_workspace.Sdk.EntitiesInvalidated += OnRefreshRequired;
+        m_workspace.Sdk.EntitiesRemoved += OnRefreshRequired;
+        m_workspace.Sdk.LoggedOff += OnRefreshRequired;
         m_calendar.Start();
         Refresh();
     }
 
-    private void OnEntitiesInvalidated(object sender, EntitiesInvalidatedEventArgs e)
-    {
-        QueueRefresh();
-    }
-
-    private void OnEntitiesRemoved(object sender, EntitiesRemovedEventArgs e)
-    {
-        QueueRefresh();
-    }
-
-    private void OnLoggedOff(object sender, LoggedOffEventArgs e)
-    {
-        QueueRefresh();
-    }
-
-    private void QueueRefresh()
+    private void OnRefreshRequired(object sender, EventArgs e)
     {
         // SDK notifications can arrive off the WPF thread.
         Dispatcher.BeginInvoke(new Action(() =>
@@ -202,9 +186,9 @@ public partial class AedMapObjectView : MapObjectView
     {
         m_attached = false;
         m_calendar.Stop();
-        m_workspace.Sdk.EntitiesInvalidated -= OnEntitiesInvalidated;
-        m_workspace.Sdk.EntitiesRemoved -= OnEntitiesRemoved;
-        m_workspace.Sdk.LoggedOff -= OnLoggedOff;
+        m_workspace.Sdk.EntitiesInvalidated -= OnRefreshRequired;
+        m_workspace.Sdk.EntitiesRemoved -= OnRefreshRequired;
+        m_workspace.Sdk.LoggedOff -= OnRefreshRequired;
         HideBubbleContent();
     }
 }

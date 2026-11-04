@@ -94,10 +94,6 @@ public sealed class AedMaintenance
         if (inMaintenance)
         {
             state = AedMaintenanceState.InMaintenance;
-        }
-
-        if (inMaintenance)
-        {
             issues.Insert(0, "Entity is in Security Center maintenance mode");
         }
 
