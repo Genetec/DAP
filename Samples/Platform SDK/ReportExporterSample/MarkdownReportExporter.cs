@@ -7,6 +7,8 @@ using System;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using Sdk.ReportExport;
 
 public class MarkdownReportExporter(TextWriter writer) : ReportExporter
@@ -35,7 +37,7 @@ public class MarkdownReportExporter(TextWriter writer) : ReportExporter
         }
     }
 
-    private static string EscapeCell(string value) => value.Replace("\\", "\\\\").Replace("|", "\\|")
+    private static string EscapeCell(string value) => WebUtility.HtmlEncode(Regex.Replace(value, @"[\\`*_{}\[\]()#+\-.!|~=]", @"\$0"))
         .Replace("\r\n", "<br>").Replace("\r", "<br>").Replace("\n", "<br>");
 
     public override void OnExportCompleted()
