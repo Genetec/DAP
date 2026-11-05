@@ -23,12 +23,12 @@ public class VCardReader
         var vcard = new VCard();
 
         // Extract name fields properly
-        string fullName = ExtractField(vCardText, "FN");
+        string fullName = DecodeText(ExtractField(vCardText, "FN"));
         string structuredName = ExtractField(vCardText, "N");
 
         vcard.FirstName = ExtractFirstName(fullName, structuredName);
         vcard.LastName = ExtractLastName(structuredName, fullName);
-        vcard.Note = ExtractField(vCardText, "NOTE");
+        vcard.Note = DecodeText(ExtractField(vCardText, "NOTE"));
         vcard.Picture = ExtractPhoto(vCardText);
 
         vcard.Emails.AddRange(ExtractEmails(vCardText));
@@ -48,7 +48,7 @@ public class VCardReader
         if (!string.IsNullOrEmpty(structuredName))
         {
             // N: field format is "LastName;FirstName;MiddleName;Prefix;Suffix"
-            string[] nameParts = structuredName.Split(';');
+            string[] nameParts = SplitStructuredName(structuredName);
             if (nameParts.Length > 1 && !string.IsNullOrEmpty(nameParts[1]))
             {
                 return nameParts[1].Trim();
@@ -69,7 +69,7 @@ public class VCardReader
         if (!string.IsNullOrEmpty(structuredName))
         {
             // N: field format - last name is the first component
-            string[] nameParts = structuredName.Split(';');
+            string[] nameParts = SplitStructuredName(structuredName);
             if (nameParts.Length > 0 && !string.IsNullOrEmpty(nameParts[0]))
             {
                 return nameParts[0].Trim();
@@ -86,6 +86,29 @@ public class VCardReader
         return string.Empty;
     }
 
+    private static string DecodeText(string value) => Regex.Replace(value, @"\\([nN,;\\])",
+        match => match.Groups[1].Value is "n" or "N" ? "\n" : match.Groups[1].Value);
+
+    private static string[] SplitStructuredName(string value)
+    {
+        var parts = new List<string>();
+        int start = 0;
+        for (int index = 0; index < value.Length; index++)
+        {
+            if (value[index] == '\\')
+            {
+                index++; // An escaped separator belongs to the current component.
+            }
+            else if (value[index] == ';')
+            {
+                parts.Add(DecodeText(value.Substring(start, index - start)));
+                start = index + 1;
+            }
+        }
+        parts.Add(DecodeText(value.Substring(start)));
+        return parts.ToArray();
+    }
+
     private static List<string> ExtractEmails(string vCardText)
     {
         var emails = new List<string>();
@@ -96,7 +119,7 @@ public class VCardReader
 
         foreach (Match match in matches)
         {
-            string email = match.Groups[1].Value.Trim();
+            string email = DecodeText(match.Groups[1].Value.Trim());
             if (!string.IsNullOrEmpty(email) && !emails.Contains(email))
             {
                 emails.Add(email);

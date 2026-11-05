@@ -6,6 +6,7 @@ namespace Genetec.Dap.CodeSamples;
 using System;
 using System.Data;
 using System.IO;
+using System.Net;
 using Genetec.Sdk.ReportExport;
 
 public class HtmlReportExporter : ReportExporter
@@ -16,8 +17,8 @@ public class HtmlReportExporter : ReportExporter
     public HtmlReportExporter(TextWriter writer, string reportTitle)
     {
         m_writer = writer;
-        m_writer.WriteLine($"<html><head><title>{reportTitle}</title></head><body>");
-        m_writer.WriteLine($"<h1>{reportTitle}</h1>");
+        m_writer.WriteLine($"<html><head><title>{WebUtility.HtmlEncode(reportTitle)}</title></head><body>");
+        m_writer.WriteLine($"<h1>{WebUtility.HtmlEncode(reportTitle)}</h1>");
     }
 
     public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
@@ -32,7 +33,7 @@ public class HtmlReportExporter : ReportExporter
 
                 foreach (DataColumn column in dataBlock.Data.Columns)
                 {
-                    m_writer.WriteLine($"<th>{column.ColumnName}</th>");
+                    m_writer.WriteLine($"<th>{WebUtility.HtmlEncode(column.ColumnName)}</th>");
                 }
 
                 m_writer.WriteLine("</tr>");
@@ -47,7 +48,7 @@ public class HtmlReportExporter : ReportExporter
                 m_writer.WriteLine("<tr>");
                 foreach (var item in row.ItemArray)
                 {
-                    m_writer.WriteLine($"<td>{item}</td>");
+                    m_writer.WriteLine($"<td>{WebUtility.HtmlEncode(item?.ToString())}</td>");
                 }
                 m_writer.WriteLine("</tr>");
             }
