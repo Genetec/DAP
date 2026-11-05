@@ -4,6 +4,8 @@ Use the Workspace SDK to extend Security Desk and Config Tool with custom tasks,
 
 The [AED map object sample](MapObjectSample/) displays existing AED units as custom map markers. Marker colors indicate maintenance status, and selecting a marker shows its recorded maintenance dates. Create and configure the AED units with ConfigPageSample.
 
+The [AED map panel sample](MapPanelSample/) demonstrates `MapPanelBuilder`, `MapPanel`, and map selection. Its side panel lists visible AEDs placed on the current map with their maintenance status. Selecting an AED centers the map on its marker; selecting a marker selects its entry in the panel. It reuses the AED definitions and maintenance calculation as linked source files, so the marker sample does not need to be deployed.
+
 The [Windows Credential Manager logon provider](LogonProviderSample/) demonstrates a custom client logon dialog with saved credentials, cancellation, and manual authentication when resuming from idle mode. Builds register the module by default. Set `SkipPluginRegistration=true` to build without updating local registration.
 
 ## Prerequisites
