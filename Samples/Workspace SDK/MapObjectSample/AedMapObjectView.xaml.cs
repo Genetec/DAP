@@ -21,7 +21,9 @@ using Sdk.Workspace.Maps;
 public partial class AedMapObjectView : MapObjectView
 {
     private readonly Workspace m_workspace;
-    private readonly TextBlock m_details = new() { TextWrapping = TextWrapping.Wrap, MaxWidth = 320 };
+    private readonly TextBlock m_name = new() { TextWrapping = TextWrapping.Wrap, FontWeight = FontWeights.SemiBold };
+    private readonly TextBlock m_summary = new() { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
+    private readonly TextBlock m_dates = new() { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
     private readonly Label m_bubble;
     private readonly DispatcherTimer m_calendar;
     private bool m_attached;
@@ -35,10 +37,16 @@ public partial class AedMapObjectView : MapObjectView
 
         // Attach this view to the saved map placement. The host owns its position.
         Initialize(mapObject);
+
+        // Content margin is respected even when the native label template ignores Padding.
+        var details = new StackPanel { Margin = new Thickness(12), MaxWidth = 320 };
+        details.Children.Add(m_name);
+        details.Children.Add(m_summary);
+        details.Children.Add(m_dates);
+
         m_bubble = new Label
         {
-            Content = m_details,
-            Padding = new Thickness(10),
+            Content = details,
             Style = (Style)new StylesExtension(LabelStyles.Normal).ProvideValue(null)
         };
 
@@ -104,6 +112,7 @@ public partial class AedMapObjectView : MapObjectView
 
         MarkerContent.Visibility = Visibility.Visible;
         m_today = DateTime.Today;
+        m_name.Text = entity.Name;
 
         try
         {
@@ -120,9 +129,12 @@ public partial class AedMapObjectView : MapObjectView
                 _ => "!"
             };
 
-            m_details.Text = entity.Name + "\n" + entity.Description
-                + "\n\n" + maintenance.Summary
-                + "\n\nLast inspection: " + FormatDate(information.LastInspectionDate)
+            m_summary.Text = string.IsNullOrWhiteSpace(entity.Description)
+                ? maintenance.Summary
+                : entity.Description + "\n" + maintenance.Summary;
+
+            m_dates.Visibility = Visibility.Visible;
+            m_dates.Text = "Last inspection: " + FormatDate(information.LastInspectionDate)
                 + "\nNext maintenance: " + FormatDate(information.NextScheduledMaintenance)
                 + "\nBattery expires: " + FormatDate(information.BatteryExpirationDate)
                 + "\nPads expire: " + FormatDate(information.PadExpirationDate);
@@ -131,10 +143,12 @@ public partial class AedMapObjectView : MapObjectView
         {
             MarkerBody.Background = Brushes.DarkMagenta;
             MarkerIndicator.Text = "?";
-            m_details.Text = entity.Name + "\nThe AED maintenance configuration cannot be read. Check it in Config Tool.";
+            m_summary.Text = "The AED maintenance configuration cannot be read. Check it in Config Tool.";
+            m_dates.Text = "";
+            m_dates.Visibility = Visibility.Collapsed;
         }
 
-        ToolTip = m_details.Text;
+        ToolTip = (m_name.Text + "\n" + m_summary.Text + "\n" + m_dates.Text).TrimEnd();
     }
 
     private void HideMarker()
@@ -144,7 +158,9 @@ public partial class AedMapObjectView : MapObjectView
         IsSelected = false;
         MarkerContent.Visibility = Visibility.Collapsed;
         ToolTip = null;
-        m_details.Text = "";
+        m_name.Text = "";
+        m_summary.Text = "";
+        m_dates.Text = "";
         MarkerIndicator.Text = "";
         MarkerBody.Background = null;
         HideBubbleContent();
