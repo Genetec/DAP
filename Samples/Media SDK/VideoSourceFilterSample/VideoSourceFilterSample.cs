@@ -29,7 +29,7 @@ public class VideoSourceFilterSample : SampleBase
         byte[] snapshot = await GetCameraSnapshot(engine, camera.Guid, token);
 
         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{camera.Name}_{timestamp}.bmp");
+        string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{camera.Guid}_{timestamp}.bmp");
         System.IO.File.WriteAllBytes(fileName, snapshot);
 
         Console.WriteLine($"Snapshot saved: {fileName}");
