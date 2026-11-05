@@ -110,6 +110,9 @@ const string password = "";
 The samples use hardcoded connection parameters to keep the examples focused on SDK concepts. Use a separate configuration mechanism in production applications.
 
 ### Authentication patterns in samples
+
+For an interactive WPF example with supervisor credentials, required password changes, and Directory certificate validation, see the [Login dialog sample](LoginDialogSample/).
+
 All samples follow consistent authentication patterns:
 - Check `ConnectionStateCode` before proceeding with operations
 - Display connection status and errors to the user

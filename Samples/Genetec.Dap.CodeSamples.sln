@@ -257,6 +257,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapObjectSample", "Workspac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapPanelSample", "Workspace SDK\MapPanelSample\MapPanelSample.csproj", "{B69A58D8-EA19-44B4-930F-7C899C478974}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginDialogSample", "Platform SDK\LoginDialogSample\LoginDialogSample.csproj", "{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_NET8|Any CPU = Debug_NET8|Any CPU
@@ -1611,6 +1613,18 @@ Global
 		{F6FEAE2D-E83E-FC41-0209-C18D1E6DB7C0}.Release_NET10|Any CPU.Build.0 = Release|Any CPU
 		{F6FEAE2D-E83E-FC41-0209-C18D1E6DB7C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6FEAE2D-E83E-FC41-0209-C18D1E6DB7C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Debug_NET10|Any CPU.ActiveCfg = Debug_NET10|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Debug_NET10|Any CPU.Build.0 = Debug_NET10|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Debug_NET8|Any CPU.ActiveCfg = Debug_NET8|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Debug_NET8|Any CPU.Build.0 = Debug_NET8|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Release_NET10|Any CPU.ActiveCfg = Release_NET10|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Release_NET10|Any CPU.Build.0 = Release_NET10|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Release_NET8|Any CPU.ActiveCfg = Release_NET8|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Release_NET8|Any CPU.Build.0 = Release_NET8|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1728,6 +1742,7 @@ Global
 		{1CEB044B-B52B-25F4-1C08-168EAFD4C5A6} = {C59879F1-F7B6-4995-A620-7BD50F92244E}
 		{C7C206CB-5A5E-84E9-9A3E-23FA0D563E7F} = {C59879F1-F7B6-4995-A620-7BD50F92244E}
 		{F6FEAE2D-E83E-FC41-0209-C18D1E6DB7C0} = {C59879F1-F7B6-4995-A620-7BD50F92244E}
+		{3F46CF39-A880-42A6-8BF8-2FAABCCAAB88} = {4F4FBF3C-61E6-41C8-97B0-05A1AA806BA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B18E6094-5F8C-4A40-ABCC-147C4EB191A0}
@@ -1756,6 +1771,7 @@ Global
 		Shared\Shared.projitems*{3451f54a-a0ce-704d-194a-2769c953b0a9}*SharedItemsImports = 5
 		Shared\Shared.projitems*{38f766f9-6f25-49ba-b04b-b909bb280185}*SharedItemsImports = 5
 		Shared\Shared.projitems*{3e803283-fd0e-b1b4-192a-a36566dc8fe3}*SharedItemsImports = 5
+		Shared\Shared.projitems*{3f46cf39-a880-42a6-8bf8-2faabccaab88}*SharedItemsImports = 5
 		Shared\Shared.projitems*{40c28dcf-d716-48fd-81ed-44394c87f87b}*SharedItemsImports = 5
 		Shared\Shared.projitems*{43433976-4dd7-46cd-b7c4-80bf6947b560}*SharedItemsImports = 5
 		Shared\Shared.projitems*{445d9511-e3ca-43ee-ba51-27f5dbd18a47}*SharedItemsImports = 5
