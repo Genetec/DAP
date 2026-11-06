@@ -1,0 +1,54 @@
+<Window x:Class="Genetec.Dap.CodeSamples.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Logon" Width="354" SizeToContent="Height" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" Closing="OnWindowClosing" Loaded="OnWindowLoaded">
+  <Border BorderBrush="#888888" BorderThickness="5" CornerRadius="3">
+    <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+      <GradientStop Color="#323232" Offset="0" /><GradientStop Color="#222222" Offset="1" />
+    </LinearGradientBrush></Border.Background>
+    <StackPanel Margin="20,8,20,12">
+      <StackPanel x:Name="LoginPanel">
+        <StackPanel x:Name="Inputs">
+          <Label Content="_Directory:" Target="{Binding ElementName=DirectoryInput}" />
+          <TextBox x:Name="DirectoryInput" Text="localhost"
+                    AutomationProperties.AutomationId="DirectoryInput" />
+          <TextBlock x:Name="TrustStatus" Text="Directory not verified" Foreground="#BBBBBB" Margin="0,10,0,20" />
+          <Border Height="1" Background="#181818" Margin="0,0,0,12" />
+          <Label Content="_Username:" Target="{Binding ElementName=UsernameInput}" />
+          <TextBox x:Name="UsernameInput" AutomationProperties.AutomationId="UsernameInput" />
+          <Label Content="_Password:" Target="{Binding ElementName=PasswordInput}" />
+          <PasswordBox x:Name="PasswordInput" AutomationProperties.AutomationId="PasswordInput" />
+          <CheckBox x:Name="WindowsCredentials" Content="Use Windows credentials" Margin="0,10,0,0"
+                    Checked="OnWindowsCredentialsChanged" Unchecked="OnWindowsCredentialsChanged" />
+          <Expander x:Name="SupervisorSection" Header="Supervisor logon">
+            <StackPanel Margin="0,4,0,0">
+              <Label Content="Supervisor _username:" Target="{Binding ElementName=SupervisorInput}" />
+              <TextBox x:Name="SupervisorInput" AutomationProperties.AutomationId="SupervisorInput" />
+              <Label Content="Supervisor p_assword:" Target="{Binding ElementName=SupervisorPassword}" />
+              <PasswordBox x:Name="SupervisorPassword" AutomationProperties.AutomationId="SupervisorPassword" />
+            </StackPanel>
+          </Expander>
+        </StackPanel>
+        <Button x:Name="LogOnButton" Content="Log on" Margin="0,20,0,0" IsDefault="True" Click="OnLogOnClicked"
+                AutomationProperties.AutomationId="LogOnButton" />
+      </StackPanel>
+      <StackPanel x:Name="ConnectedPanel" Visibility="Collapsed">
+        <TextBlock x:Name="ConnectionHeading" Text="Connected" FontSize="18" Margin="0,8,0,12" />
+        <TextBlock x:Name="ConnectedUser" TextWrapping="Wrap" />
+        <TextBlock x:Name="ConnectedDirectory" TextWrapping="Wrap" Margin="0,8,0,16" />
+        <Button x:Name="LogOffButton" Content="Log off" Click="OnLogOffClicked" />
+      </StackPanel>
+      <ProgressBar x:Name="Progress" Height="3" IsIndeterminate="True" Visibility="Collapsed" Margin="0,12,0,0" />
+      <TextBlock x:Name="Status" Style="{StaticResource Feedback}" TextWrapping="Wrap" Margin="0,10,0,0" AutomationProperties.LiveSetting="Polite" />
+      <TextBlock x:Name="Error" TextWrapping="Wrap" Foreground="#FFAAAA" Margin="0,4,0,0"
+                 Style="{StaticResource Feedback}" AutomationProperties.LiveSetting="Assertive" />
+      <Button x:Name="CancelButton" Content="Cancel" Style="{StaticResource LinkButton}" Click="OnCancelClicked"
+              AutomationProperties.AutomationId="CancelButton" />
+      <Expander Header="Connection events">
+        <TextBox x:Name="EventTrace" IsReadOnly="True" IsTabStop="False" TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto" Height="130" Margin="0,6,0,0" />
+      </Expander>
+    </StackPanel>
+  </Border>
+</Window>

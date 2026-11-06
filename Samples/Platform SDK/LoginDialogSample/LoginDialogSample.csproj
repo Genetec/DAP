@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net481</TargetFramework>
+    <TargetFramework Condition="'$(Configuration)' == 'Debug_NET8' OR '$(Configuration)' == 'Release_NET8'">net8.0-windows</TargetFramework>
+    <TargetFramework Condition="'$(Configuration)' == 'Debug_NET10' OR '$(Configuration)' == 'Release_NET10'">net10.0-windows</TargetFramework>
+    <Configurations>Debug;Release;Debug_NET8;Release_NET8;Debug_NET10;Release_NET10</Configurations>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Genetec.Dap.CodeSamples</RootNamespace>
+    <AssemblyName>LoginDialogSample</AssemblyName>
+    <StartupObject>Genetec.Dap.CodeSamples.Program</StartupObject>
+  </PropertyGroup>
+  <Import Project="..\PlatformSamples.props" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net481'">
+    <Reference Include="Genetec.Sdk">
+      <HintPath>$(GSC_SDK)\Genetec.Sdk.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <Import Project="..\..\Shared\Shared.projitems" Label="Shared" />
+</Project>
