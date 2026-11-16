@@ -20,14 +20,14 @@ public class CsvReportExporter(TextWriter writer) : ReportExporter
         {
             if (!m_headerWritten)
             {
-                IEnumerable<string> columnNames = dataBlock.Data.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+                IEnumerable<string> columnNames = dataBlock.Data.Columns.Cast<DataColumn>().Select(column => CsvFormatting.Escape(column.ColumnName));
                 writer.WriteLine(string.Join(",", columnNames));
                 m_headerWritten = true;
             }
 
             foreach (DataRow row in dataBlock.Data.Rows)
             {
-                IEnumerable<string> fields = row.ItemArray.Select(field => $"\"{field.ToString().Replace("\"", "\"\"")}\"");
+                IEnumerable<string> fields = row.ItemArray.Select(CsvFormatting.Escape);
                 writer.WriteLine(string.Join(",", fields));
             }
 
@@ -41,19 +41,5 @@ public class CsvReportExporter(TextWriter writer) : ReportExporter
         }
     }
 
-    public override void OnExportCompleted()
-    {
-        try
-        {
-            writer.Close();
-        }
-        catch
-        {
-            // Handle the exception if needed
-        }
-        finally
-        {
-            writer.Dispose();
-        }
-    }
+    public override void OnExportCompleted() => writer.Dispose();
 }

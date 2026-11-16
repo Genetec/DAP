@@ -46,10 +46,6 @@ public class XmlReportExporter(TextWriter textWriter) : ReportExporter
             m_dataTable.WriteXml(m_xmlWriter);
             m_xmlWriter.Flush();
         }
-        catch
-        {
-            // Handle the exception if needed
-        }
         finally
         {
             m_xmlWriter.Dispose();

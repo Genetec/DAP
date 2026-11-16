@@ -40,19 +40,5 @@ public class MarkdownReportExporter(TextWriter writer) : ReportExporter
     private static string EscapeCell(string value) => WebUtility.HtmlEncode(Regex.Replace(value, @"[\\`*_{}\[\]()#+\-.!|~=]", @"\$0"))
         .Replace("\r\n", "<br>").Replace("\r", "<br>").Replace("\n", "<br>");
 
-    public override void OnExportCompleted()
-    {
-        try
-        {
-            writer.Close();
-        }
-        catch
-        {
-            // Handle the exception if needed
-        }
-        finally
-        {
-            writer.Dispose();
-        }
-    }
+    public override void OnExportCompleted() => writer.Dispose();
 }

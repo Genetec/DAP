@@ -43,10 +43,6 @@ public class JsonReportExporter : ReportExporter
             m_writer.WriteEndArray();
             m_writer.Flush();
         }
-        catch
-        {
-            // Handle the exception if needed
-        }
         finally
         {
             m_writer.Close();

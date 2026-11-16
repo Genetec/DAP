@@ -74,10 +74,6 @@ public class HtmlReportExporter : ReportExporter
 
             m_writer.WriteLine("</body></html>");
         }
-        catch
-        {
-            // Handle the exception if needed
-        }
         finally
         {
             m_writer.Dispose();
