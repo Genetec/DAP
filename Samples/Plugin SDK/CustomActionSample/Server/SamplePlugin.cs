@@ -96,7 +96,7 @@ public class SamplePlugin : Plugin
         try
         {
             using HttpRequestMessage request = BuildRequest(action);
-            using HttpResponseMessage response = await s_httpClient.SendAsync(request).ConfigureAwait(false);
+            using HttpResponseMessage response = await s_httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             Logger.TraceInformation($"HTTP {action.Method} returned {(int)response.StatusCode} {response.ReasonPhrase}");
         }
         catch (Exception ex)
