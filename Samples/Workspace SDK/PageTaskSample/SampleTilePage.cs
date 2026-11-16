@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Monitor = Sdk.Workspace.Monitors.Monitor;
 
@@ -31,6 +32,7 @@ public class SampleTilePage : TilePage
 
     private bool m_isActivated;
     private bool m_hasPattern;
+    private bool m_camerasLoaded;
 
     // Pattern commands
     public DelegateCommand ModifyPatternCommand { get; private set; }
@@ -100,7 +102,7 @@ public class SampleTilePage : TilePage
         m_view.DataContext = this;
         View = m_view;
 
-        LoadCameras();
+        _ = LoadCamerasAsync();
     }
 
     protected override void OnActivated(Monitor monitor)
@@ -111,7 +113,10 @@ public class SampleTilePage : TilePage
         {
             m_view.m_tilesHost.Content = m_tileCanvas;
             m_tileCanvas?.Connect();
-            LoadTiles();
+            if (m_camerasLoaded)
+            {
+                LoadTiles();
+            }
         }
 
         IsActivated = true;
@@ -242,15 +247,31 @@ public class SampleTilePage : TilePage
         }
     }
 
-    private void LoadCameras()
+    private async Task LoadCamerasAsync()
     {
-        // Create a query to fetch camera entities
-        var query = (EntityConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-        query.EntityTypeFilter.Add(EntityType.Camera);
-        query.MaximumResultCount = 4; // Limit to 4 cameras
+        try
+        {
+            var query = (EntityConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+            query.EntityTypeFilter.Add(EntityType.Camera);
+            query.MaximumResultCount = 4; // Limit to 4 cameras
 
-        // Execute the query asynchronously
-        Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+            QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+            if (!result.Success && result.Error != ReportError.TooManyResults)
+            {
+                throw new InvalidOperationException($"The camera query failed: {result.Error}");
+            }
+
+            m_camerasLoaded = true;
+            if (IsActivated && m_tileCanvas != null)
+            {
+                LoadTiles();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Unable to load camera tiles. " + ex.Message,
+                "Camera tiles", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     // Loads camera tiles into the page
