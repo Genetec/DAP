@@ -100,13 +100,8 @@ public class ClockWidget : DashboardWidget, INotifyPropertyChanged
         Dispatcher?.BeginInvoke(DispatcherPriority.Render, (Action)(() =>
         {
             DateTime now = DateTime.Now;
-            int hourRotateValue = now.Hour;
-            int minuteRotateValue = now.Minute;
-            int secondRotateValue = now.Second;
-            hourRotateValue = (hourRotateValue + minuteRotateValue / 60) * 30;
-            minuteRotateValue = (minuteRotateValue + secondRotateValue / 60) * 6;
-            m_view.MinuteRotate.Angle = minuteRotateValue;
-            m_view.HourRotate.Angle = hourRotateValue;
+            m_view.MinuteRotate.Angle = now.TimeOfDay.TotalMinutes % 60 * 6;
+            m_view.HourRotate.Angle = now.TimeOfDay.TotalHours % 12 * 30;
             Time = now.ToString("h:mm tt");
         }));
     }
