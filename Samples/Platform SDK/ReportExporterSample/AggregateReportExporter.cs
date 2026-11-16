@@ -12,6 +12,8 @@ public class AggregateReportExporter(params ReportExporter[] exporters) : Report
 {
     private readonly List<ReportExporter> m_exporters = exporters.ToList();
 
+    public AggregateException CompletionException { get; private set; }
+
     public override QueryExportResult OnDataReady(QueryResultsBlock dataBlock)
     {
         var exceptions = m_exporters.Select(exporter => exporter.OnDataReady(dataBlock)).Where(result => !result.Success).Select(result => result.Exception).ToList();
@@ -20,9 +22,21 @@ public class AggregateReportExporter(params ReportExporter[] exporters) : Report
 
     public override void OnExportCompleted()
     {
+        var exceptions = new List<Exception>();
         foreach (var exporter in m_exporters)
         {
-            exporter.OnExportCompleted();
+            try
+            {
+                exporter.OnExportCompleted();
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
         }
+
+        // Let the SDK finish the query before the caller reports export completion failures.
+        if (exceptions.Count > 0)
+            CompletionException = new AggregateException("One or more report files could not be completed.", exceptions);
     }
 }

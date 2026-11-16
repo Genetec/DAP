@@ -52,13 +52,13 @@ public class AccessVerifierSample : SampleBase
         textWriter.Write("Credential");
         foreach (var accessPoint in accessPoints)
         {
-            textWriter.Write("," + EscapeCsv($"{engine.GetEntity(accessPoint.AccessPointGroup).Name} ({accessPoint.Name})"));
+            textWriter.Write("," + CsvFormatting.Escape($"{engine.GetEntity(accessPoint.AccessPointGroup).Name} ({accessPoint.Name})"));
         }
         textWriter.WriteLine();
 
         foreach (var credential in accessResults.Select(tuple => tuple.Credential).Distinct())
         {
-            textWriter.Write(EscapeCsv(credential.Name));
+            textWriter.Write(CsvFormatting.Escape(credential.Name));
 
             foreach (var accessPoint in accessPoints)
             {
@@ -68,6 +68,4 @@ public class AccessVerifierSample : SampleBase
             textWriter.WriteLine();
         }
     }
-
-    private static string EscapeCsv(string value) => $"\"{(value ?? string.Empty).Replace("\"", "\"\"")}\"";
 }

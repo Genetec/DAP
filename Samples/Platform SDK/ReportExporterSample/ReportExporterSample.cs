@@ -28,13 +28,18 @@ public class ReportExporterSample : SampleBase
         using var markDownWriter = new StreamWriter(Path.Combine(outputDirectory, "CardholderActivity.md"), false, Encoding.UTF8);
         using var htmlWriter = new StreamWriter(Path.Combine(outputDirectory, "CardholderActivity.html"), false, Encoding.UTF8);
 
-        query.Exporter = new AggregateReportExporter(
+        var exporter = new AggregateReportExporter(
             new XmlReportExporter(xmlWriter),
             new JsonReportExporter(jsonWriter),
             new CsvReportExporter(csvWriter),
             new MarkdownReportExporter(markDownWriter),
             new HtmlReportExporter(htmlWriter, "Cardholder Activity"));
+        query.Exporter = exporter;
 
-        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+        QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+        if (exporter.CompletionException != null)
+            throw exporter.CompletionException;
+        if (!result.Success)
+            throw new InvalidOperationException($"Report export failed: {result.Error}");
     }
 }
