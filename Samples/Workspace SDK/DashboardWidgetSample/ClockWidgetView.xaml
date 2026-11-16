@@ -24,11 +24,19 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image
+            <Ellipse
                 x:Name="ClockFace"
                 Grid.Row="0"
-                d:IsLocked="True"
-                Source="pack://application:,,,/ModuleSample;Component/Resources/BackgroundClock.png" />
+                Width="240"
+                Height="240"
+                Fill="White"
+                Stroke="Black"
+                StrokeThickness="2" />
+            <Path
+                Grid.Row="0"
+                Data="M130,20 L130,30 M240,130 L230,130 M130,240 L130,230 M20,130 L30,130"
+                Stroke="Black"
+                StrokeThickness="2" />
             <Path
                 x:Name="MinuteHand"
                 Grid.Row="0"
