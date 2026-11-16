@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using Monitor = Sdk.Workspace.Monitors.Monitor;
 
@@ -249,28 +248,16 @@ public class SampleTilePage : TilePage
 
     private async Task LoadCamerasAsync()
     {
-        try
-        {
-            var query = (EntityConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
-            query.EntityTypeFilter.Add(EntityType.Camera);
-            query.MaximumResultCount = 4; // Limit to 4 cameras
+        var query = (EntityConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
+        query.EntityTypeFilter.Add(EntityType.Camera);
+        query.MaximumResultCount = 4; // Limit to 4 cameras
 
-            QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            if (!result.Success && result.Error != ReportError.TooManyResults)
-            {
-                throw new InvalidOperationException($"The camera query failed: {result.Error}");
-            }
+        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
 
-            m_camerasLoaded = true;
-            if (IsActivated && m_tileCanvas != null)
-            {
-                LoadTiles();
-            }
-        }
-        catch (Exception ex)
+        m_camerasLoaded = true;
+        if (IsActivated && m_tileCanvas != null)
         {
-            MessageBox.Show("Unable to load camera tiles. " + ex.Message,
-                "Camera tiles", MessageBoxButton.OK, MessageBoxImage.Error);
+            LoadTiles();
         }
     }
 
