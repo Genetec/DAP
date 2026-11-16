@@ -131,12 +131,7 @@ internal class CustomConfigPage : ConfigPage
     // Validate the configuration before saving
     protected override void BeforeSave(bool beforeUnloading, out bool cancelSaveOperation)
     {
-        if (NextScheduledMaintenance <= LastInspectionDate)
-        {
-            cancelSaveOperation = true;
-        }
-
-        cancelSaveOperation = false;
+        cancelSaveOperation = NextScheduledMaintenance <= LastInspectionDate;
     }
 
     // Save the configuration to the custom entity
