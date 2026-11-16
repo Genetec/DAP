@@ -295,9 +295,11 @@
     const hostConfig = Object.freeze(window.__GWP_HOST_CONFIG__ ?? {});
     const state = {
       player: null,
+      playerController: null,
+      playerContainer: null,
       gwpLoadedFor: null,
-      startGeneration: 0,
-      activeStartGeneration: null,
+      gwpLoadPromise: null,
+      startController: null,
     };
 
     const elements = {
@@ -345,96 +347,126 @@
         throw new Error('GWP was already loaded from a different Media Gateway. Refresh the page before switching servers.');
       }
 
-      await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = scriptUrl;
-        script.onload = resolve;
-        script.onerror = () => reject(new Error(`Failed to load ${scriptUrl}. Check certificate trust and endpoint correctness.`));
-        document.head.appendChild(script);
-      });
+      // Keep one script load shared by retries, even when a startup stops waiting for it.
+      if (!state.gwpLoadPromise) {
+        state.gwpLoadPromise = new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = scriptUrl;
+          script.onload = () => {
+            state.gwpLoadedFor = scriptUrl;
+            logLine(`Loaded gwp.js from ${scriptUrl}`);
+            resolve();
+          };
+          script.onerror = () => {
+            script.remove();
+            state.gwpLoadPromise = null;
+            reject(new Error(`Failed to load ${scriptUrl}. Check certificate trust and endpoint correctness.`));
+          };
+          document.head.appendChild(script);
+        });
+      }
+      return state.gwpLoadPromise;
+    }
 
-      state.gwpLoadedFor = scriptUrl;
-      logLine(`Loaded gwp.js from ${scriptUrl}`);
+    function releasePlayer(player) {
+      if (!player) {
+        return;
+      }
+      try { player.stop(); } catch {}
+      try { player.dispose(); } catch {}
     }
 
     function disposePlayer() {
       if (!state.player) {
         return;
       }
-
-      try {
-        state.player.stop();
-      } catch {
-      }
-
-      try {
-        state.player.dispose();
-      } catch {
-      }
-
+      state.playerController.abort();
+      releasePlayer(state.player);
+      state.playerContainer.remove();
       state.player = null;
+      state.playerController = null;
+      state.playerContainer = null;
       setStatus('Stopped');
       logLine('Player disposed');
     }
 
     function cancelPendingStart() {
-      if (state.activeStartGeneration === null) {
+      if (!state.startController) {
         return false;
       }
-
-      state.startGeneration++;
+      state.startController.abort();
       return true;
     }
 
-    function buildTokenRetriever() {
+    function waitForStart(promise, signal) {
+      return new Promise((resolve, reject) => {
+        const onAbort = () => reject(new DOMException('Player startup stopped.', 'AbortError'));
+        signal.addEventListener('abort', onAbort, { once: true });
+        Promise.resolve(promise).then(resolve, reject).finally(() => {
+          signal.removeEventListener('abort', onAbort);
+        });
+        if (signal.aborted) {
+          onAbort();
+        }
+      });
+    }
+
+    function buildTokenRetriever(signal) {
       const provider = window.chrome.webview.hostObjects.tokenProvider;
       return async (cameraId) => {
-        return await provider.GetToken(cameraId);
+        signal.throwIfAborted();
+        return await waitForStart(provider.GetToken(cameraId), signal);
       };
     }
 
-    function wireEvents(player) {
+    function wireEvents(player, signal) {
       player.onErrorStateRaised.register((error) => {
+        if (signal.aborted) return;
         setStatus(`Error ${error.errorCode}`);
         logLine(`Error ${error.errorCode}: ${error.value}`, 'error');
       });
 
       player.onPlayerStateChanged.register((event) => {
+        if (signal.aborted) return;
         logLine(`Player state changed: ${event.playerState} ${event.value ?? ''}`.trim());
       });
 
       player.onStreamStatusChanged.register((event) => {
+        if (signal.aborted) return;
         setStatus(event.state);
         logLine(`Stream status: ${event.state} ${event.value ?? ''}`.trim());
       });
 
       player.onAudioStateChanged.register((event) => {
+        if (signal.aborted) return;
         logLine(`Audio enabled: ${event.isAudioEnabled}`);
       });
 
       player.onAudioAvailabilityChanged.register((event) => {
+        if (signal.aborted) return;
         logLine(`Audio available: ${event.isAudioAvailable}`);
       });
 
       player.onFrameRendered.register((frameTime) => {
+        if (signal.aborted) return;
         setStatus(`Rendering ${frameTime.toISOString()}`);
       });
     }
 
     async function startPlayer() {
-      if (state.activeStartGeneration !== null) {
+      if (state.startController) {
         logLine('A player startup is already in progress.', 'warn');
         return;
       }
 
-      const generation = ++state.startGeneration;
-      state.activeStartGeneration = generation;
-
-      function cancelled() {
-        return state.startGeneration !== generation;
-      }
-
+      const controller = new AbortController();
+      const signal = controller.signal;
+      state.startController = controller;
       let pendingPlayer = null;
+      let pendingContainer = null;
+      let startPromise = null;
+      const cancelPlayer = () => pendingContainer?.remove();
+      signal.addEventListener('abort', cancelPlayer, { once: true });
       try {
         const mediaGatewayEndpoint = (hostConfig.mediaGatewayEndpoint ?? '').trim().replace(/\/+$/, '');
         const cameraGuid = elements.cameraGuid.value.trim();
@@ -448,43 +480,53 @@
           throw new Error('Camera GUID is required.');
         }
 
-        await ensureGwpLoaded(mediaGatewayEndpoint);
-        if (cancelled()) {
-          setStatus('Stopped');
-          logLine('Start cancelled during script load');
-          return;
-        }
-
+        await waitForStart(ensureGwpLoaded(mediaGatewayEndpoint), signal);
+        signal.throwIfAborted();
         disposePlayer();
 
-        const tokenRetriever = buildTokenRetriever();
-        pendingPlayer = window.gwp.buildPlayer(elements.playerContainer);
-        wireEvents(pendingPlayer);
+        const tokenRetriever = buildTokenRetriever(signal);
+        pendingContainer = document.createElement('div');
+        pendingContainer.style.position = 'absolute';
+        pendingContainer.style.inset = '0';
+        elements.playerContainer.appendChild(pendingContainer);
+        pendingPlayer = window.gwp.buildPlayer(pendingContainer);
+        wireEvents(pendingPlayer, signal);
 
         logLine(`Starting player for ${cameraGuid}`);
-        await pendingPlayer.start(cameraGuid, mediaGatewayEndpoint, tokenRetriever, serverVersion || undefined);
-        if (cancelled()) {
-          setStatus('Stopped');
-          logLine('Start cancelled during session establishment');
-          try { pendingPlayer.stop(); } catch {}
-          try { pendingPlayer.dispose(); } catch {}
-          pendingPlayer = null;
-          return;
-        }
+        const startingPlayer = pendingPlayer;
+        startPromise = pendingPlayer.start(cameraGuid, mediaGatewayEndpoint, tokenRetriever, serverVersion || undefined);
+        // GWP startup is not cancellable. Dispose after it settles, including a late success.
+        const releaseCancelledPlayer = () => {
+          if (signal.aborted) releasePlayer(startingPlayer);
+        };
+        startPromise.then(releaseCancelledPlayer, releaseCancelledPlayer);
+        await waitForStart(startPromise, signal);
+        signal.throwIfAborted();
 
         pendingPlayer.playLive();
         state.player = pendingPlayer;
+        state.playerController = controller;
+        state.playerContainer = pendingContainer;
         pendingPlayer = null;
+        pendingContainer = null;
         setStatus('Live');
         logLine(`GWP version ${window.gwp.version()}`);
         logLine('Live playback started');
-      } finally {
-        if (pendingPlayer) {
-          try { pendingPlayer.stop(); } catch {}
-          try { pendingPlayer.dispose(); } catch {}
+      } catch (error) {
+        if (!signal.aborted) {
+          throw error;
         }
-        if (state.activeStartGeneration === generation) {
-          state.activeStartGeneration = null;
+      } finally {
+        signal.removeEventListener('abort', cancelPlayer);
+        if (pendingPlayer && (!signal.aborted || !startPromise)) {
+          releasePlayer(pendingPlayer);
+        }
+        pendingContainer?.remove();
+        if (state.playerController !== controller) {
+          controller.abort();
+        }
+        if (state.startController === controller) {
+          state.startController = null;
         }
       }
     }
@@ -500,7 +542,7 @@
 
     elements.stopButton.addEventListener('click', () => {
       if (cancelPendingStart()) {
-        setStatus('Cancelling');
+        setStatus('Stopped');
         logLine('Stop requested during startup');
       }
 
@@ -547,7 +589,10 @@
       logLine(`Requested audio state ${nextValue}. Browser autoplay policy still applies.`, 'warn');
     });
 
-    window.addEventListener('beforeunload', () => disposePlayer());
+    window.addEventListener('beforeunload', () => {
+      cancelPendingStart();
+      disposePlayer();
+    });
     logLine('Page ready');
   </script>
 </body>
