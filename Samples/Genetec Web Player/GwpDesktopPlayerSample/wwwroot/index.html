@@ -296,9 +296,7 @@
     const state = {
       player: null,
       playerController: null,
-      playerContainer: null,
-      gwpLoadedFor: null,
-      gwpLoadPromise: null,
+      playerFrame: null,
       startController: null,
     };
 
@@ -336,36 +334,27 @@
       elements.log.prepend(line);
     }
 
-    async function ensureGwpLoaded(mediaGatewayEndpoint) {
+    function loadGwp(frame, mediaGatewayEndpoint) {
       const scriptUrl = `${mediaGatewayEndpoint}/v2/files/gwp.js`;
-
-      if (window.gwp && state.gwpLoadedFor === scriptUrl) {
-        return;
-      }
-
-      if (window.gwp && state.gwpLoadedFor !== scriptUrl) {
-        throw new Error('GWP was already loaded from a different Media Gateway. Refresh the page before switching servers.');
-      }
-
-      // Keep one script load shared by retries, even when a startup stops waiting for it.
-      if (!state.gwpLoadPromise) {
-        state.gwpLoadPromise = new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = scriptUrl;
-          script.onload = () => {
-            state.gwpLoadedFor = scriptUrl;
-            logLine(`Loaded gwp.js from ${scriptUrl}`);
-            resolve();
-          };
-          script.onerror = () => {
-            script.remove();
-            state.gwpLoadPromise = null;
-            reject(new Error(`Failed to load ${scriptUrl}. Check certificate trust and endpoint correctness.`));
-          };
-          document.head.appendChild(script);
-        });
-      }
-      return state.gwpLoadPromise;
+      return new Promise((resolve, reject) => {
+        const frameDocument = frame.contentDocument;
+        frameDocument.body.style.margin = '0';
+        frameDocument.body.style.position = 'absolute';
+        frameDocument.body.style.inset = '0';
+        frameDocument.body.style.overflow = 'hidden';
+        const script = frameDocument.createElement('script');
+        script.src = scriptUrl;
+        script.onload = () => {
+          const api = frame.contentWindow?.gwp;
+          if (api) {
+            resolve(api);
+          } else {
+            reject(new Error('GWP did not load in the player frame.'));
+          }
+        };
+        script.onerror = () => reject(new Error(`Failed to load ${scriptUrl}. Check certificate trust and endpoint correctness.`));
+        frameDocument.head.appendChild(script);
+      });
     }
 
     function releasePlayer(player) {
@@ -382,10 +371,10 @@
       }
       state.playerController.abort();
       releasePlayer(state.player);
-      state.playerContainer.remove();
+      state.playerFrame.remove();
       state.player = null;
       state.playerController = null;
-      state.playerContainer = null;
+      state.playerFrame = null;
       setStatus('Stopped');
       logLine('Player disposed');
     }
@@ -463,9 +452,13 @@
       const signal = controller.signal;
       state.startController = controller;
       let pendingPlayer = null;
-      let pendingContainer = null;
-      let startPromise = null;
-      const cancelPlayer = () => pendingContainer?.remove();
+      let pendingFrame = null;
+      const cancelPlayer = () => {
+        releasePlayer(pendingPlayer);
+        pendingPlayer = null;
+        // Removing the owning frame closes its connections even if GWP startup never settles.
+        pendingFrame?.remove();
+      };
       signal.addEventListener('abort', cancelPlayer, { once: true });
       try {
         const mediaGatewayEndpoint = (hostConfig.mediaGatewayEndpoint ?? '').trim().replace(/\/+$/, '');
@@ -480,37 +473,38 @@
           throw new Error('Camera GUID is required.');
         }
 
-        await waitForStart(ensureGwpLoaded(mediaGatewayEndpoint), signal);
-        signal.throwIfAborted();
         disposePlayer();
+        pendingFrame = document.createElement('iframe');
+        pendingFrame.title = 'Camera video';
+        pendingFrame.allow = 'autoplay';
+        pendingFrame.style.position = 'absolute';
+        pendingFrame.style.inset = '0';
+        pendingFrame.style.width = pendingFrame.style.height = '100%';
+        pendingFrame.style.border = '0';
+        elements.playerContainer.appendChild(pendingFrame);
+        const playerApi = await waitForStart(loadGwp(pendingFrame, mediaGatewayEndpoint), signal);
+        signal.throwIfAborted();
 
         const tokenRetriever = buildTokenRetriever(signal);
-        pendingContainer = document.createElement('div');
-        pendingContainer.style.position = 'absolute';
-        pendingContainer.style.inset = '0';
-        elements.playerContainer.appendChild(pendingContainer);
-        pendingPlayer = window.gwp.buildPlayer(pendingContainer);
+        const playerContainer = pendingFrame.contentDocument.createElement('div');
+        playerContainer.style.position = 'absolute';
+        playerContainer.style.inset = '0';
+        pendingFrame.contentDocument.body.appendChild(playerContainer);
+        pendingPlayer = playerApi.buildPlayer(playerContainer);
         wireEvents(pendingPlayer, signal);
 
         logLine(`Starting player for ${cameraGuid}`);
-        const startingPlayer = pendingPlayer;
-        startPromise = pendingPlayer.start(cameraGuid, mediaGatewayEndpoint, tokenRetriever, serverVersion || undefined);
-        // GWP startup is not cancellable. Dispose after it settles, including a late success.
-        const releaseCancelledPlayer = () => {
-          if (signal.aborted) releasePlayer(startingPlayer);
-        };
-        startPromise.then(releaseCancelledPlayer, releaseCancelledPlayer);
-        await waitForStart(startPromise, signal);
+        await waitForStart(pendingPlayer.start(cameraGuid, mediaGatewayEndpoint, tokenRetriever, serverVersion || undefined), signal);
         signal.throwIfAborted();
 
         pendingPlayer.playLive();
         state.player = pendingPlayer;
         state.playerController = controller;
-        state.playerContainer = pendingContainer;
+        state.playerFrame = pendingFrame;
         pendingPlayer = null;
-        pendingContainer = null;
+        pendingFrame = null;
         setStatus('Live');
-        logLine(`GWP version ${window.gwp.version()}`);
+        logLine(`GWP version ${playerApi.version()}`);
         logLine('Live playback started');
       } catch (error) {
         if (!signal.aborted) {
@@ -518,10 +512,8 @@
         }
       } finally {
         signal.removeEventListener('abort', cancelPlayer);
-        if (pendingPlayer && (!signal.aborted || !startPromise)) {
-          releasePlayer(pendingPlayer);
-        }
-        pendingContainer?.remove();
+        releasePlayer(pendingPlayer);
+        pendingFrame?.remove();
         if (state.playerController !== controller) {
           controller.abort();
         }
