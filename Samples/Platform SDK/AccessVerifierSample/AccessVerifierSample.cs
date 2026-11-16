@@ -34,7 +34,10 @@ public class AccessVerifierSample : SampleBase
                 .Select(result => (engine.GetEntity<AccessPoint>(result.AccessPoint), engine.GetEntity<Credential>(credential.Guid), result.Result)))
             .ToList();
 
-        using var fileStream = new FileStream($"AccessMatrix_{currentTime.ToLocalTime():yyyyMMdd_HHmmss}.csv", FileMode.Create, FileAccess.Write);
+        string outputDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AccessVerifierSample");
+        Directory.CreateDirectory(outputDirectory);
+        string filePath = Path.Combine(outputDirectory, $"AccessMatrix_{currentTime.ToLocalTime():yyyyMMdd_HHmmss}.csv");
+        using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
         using var streamWriter = new StreamWriter(fileStream, Encoding.UTF8);
 
         GenerateAccessMatrixCsv(engine, accessResults, streamWriter);
