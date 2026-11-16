@@ -31,6 +31,7 @@ public class SampleTilePage : TilePage
 
     private bool m_isActivated;
     private bool m_hasPattern;
+    private bool m_camerasLoaded;
 
     // Pattern commands
     public DelegateCommand ModifyPatternCommand { get; private set; }
@@ -100,7 +101,7 @@ public class SampleTilePage : TilePage
         m_view.DataContext = this;
         View = m_view;
 
-        LoadCameras();
+        _ = LoadCamerasAsync();
     }
 
     protected override void OnActivated(Monitor monitor)
@@ -111,7 +112,10 @@ public class SampleTilePage : TilePage
         {
             m_view.m_tilesHost.Content = m_tileCanvas;
             m_tileCanvas?.Connect();
-            LoadTiles();
+            if (m_camerasLoaded)
+            {
+                LoadTiles();
+            }
         }
 
         IsActivated = true;
@@ -242,15 +246,19 @@ public class SampleTilePage : TilePage
         }
     }
 
-    private void LoadCameras()
+    private async Task LoadCamerasAsync()
     {
-        // Create a query to fetch camera entities
         var query = (EntityConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration);
         query.EntityTypeFilter.Add(EntityType.Camera);
         query.MaximumResultCount = 4; // Limit to 4 cameras
 
-        // Execute the query asynchronously
-        Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+        await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+
+        m_camerasLoaded = true;
+        if (IsActivated && m_tileCanvas != null)
+        {
+            LoadTiles();
+        }
     }
 
     // Loads camera tiles into the page
