@@ -66,11 +66,10 @@ public static class FileCryptingManagerExtensions
     {
         TaskCompletionSource<FileEncryptionResult> completion = new();
 
-        object state = new();
         manager.ProgressUpdated += OnProgressUpdated;
         try
         {
-            IAsyncResult asyncResult = begin(OnCompleted, state);
+            IAsyncResult asyncResult = begin(OnCompleted, null);
             using CancellationTokenRegistration register = token.Register(() => Cancel(asyncResult));
             return await completion.Task;
         }
@@ -97,12 +96,6 @@ public static class FileCryptingManagerExtensions
             completion.TrySetCanceled();
         }
 
-        void OnProgressUpdated(object sender, ProgressChangedEventArgs e)
-        {
-            if (ReferenceEquals(e.UserState, state))
-            {
-                progress?.Report(e.ProgressPercentage);
-            }
-        }
+        void OnProgressUpdated(object sender, ProgressChangedEventArgs e) => progress?.Report(e.ProgressPercentage);
     }
 }
