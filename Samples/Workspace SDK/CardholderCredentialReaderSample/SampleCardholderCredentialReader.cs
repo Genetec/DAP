@@ -20,6 +20,8 @@ using Sdk.Workspace.Components.CredentialReader;
 
 public class SampleCardholderCredentialReader : CardholderCredentialReader, INotifyPropertyChanged
 {
+    private bool m_isGenerating;
+
     private int m_facilityCode;
 
     private int m_quantity;
@@ -30,36 +32,61 @@ public class SampleCardholderCredentialReader : CardholderCredentialReader, INot
     {
         GenerateCommand = new DelegateCommand(async () =>
         {
-            List<WiegandStandardCredentialFormat> formats = Enumerable.Range(StartNumber, Quantity).Select(i => new WiegandStandardCredentialFormat(FacilityCode, i)).ToList();
+            if (m_isGenerating)
+                return;
 
-            var query = (CredentialConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.CredentialConfiguration);
-
-            foreach (WiegandStandardCredentialFormat format in formats)
+            m_isGenerating = true;
+            GenerateCommand.RaiseCanExecuteChanged();
+            try
             {
-                query.UniqueIds.Add(format);
-            }
+                if (FacilityCode < 0 || FacilityCode > WiegandStandardCredentialFormat.MaximumFacilityId ||
+                    StartNumber < 0 || Quantity < 1 ||
+                    (long)StartNumber + Quantity - 1 > WiegandStandardCredentialFormat.MaximumCardId)
+                    throw new ArgumentException("Enter a facility code from 0 to 255 and a card number range within 0 to 65535.");
 
-            QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
-            var existing = result.Data.AsEnumerable().Select(row => row.Field<Guid>(nameof(Guid)));
+                List<WiegandStandardCredentialFormat> formats = Enumerable.Range(StartNumber, Quantity).Select(i => new WiegandStandardCredentialFormat(FacilityCode, i)).ToList();
 
-            foreach (Guid entityId in existing)
-            {
-                OnExistingCredentialRetrieved(new ExistingCredentialRetrievedEventArgs(entityId));
-            }
+                var query = (CredentialConfigurationQuery)Workspace.Sdk.ReportManager.CreateReportQuery(ReportType.CredentialConfiguration);
 
-            var missing = formats
-                .Except(existing.Select(Workspace.Sdk.GetEntity).OfType<Credential>().Select(credential => credential.Format), new CredentialFormatComparer())
-                .OfType<WiegandStandardCredentialFormat>();
-
-            await Workspace.Sdk.TransactionManager.ExecuteTransactionAsync(() =>
-            {
-                foreach (WiegandStandardCredentialFormat format in missing)
+                foreach (WiegandStandardCredentialFormat format in formats)
                 {
-                
-                    Dispatcher.Invoke(() => OnCredentialRetrieved(new CredentialRetrievedEventArgs(format)));
+                    query.UniqueIds.Add(format);
                 }
-            });
-        });
+
+                QueryCompletedEventArgs result = await Task.Factory.FromAsync(query.BeginQuery, query.EndQuery, null);
+                if (!result.Success)
+                    throw new InvalidOperationException($"The credential query failed: {result.Error}");
+
+                var existing = result.Data.AsEnumerable().Select(row => row.Field<Guid>(nameof(Guid)));
+
+                foreach (Guid entityId in existing)
+                {
+                    OnExistingCredentialRetrieved(new ExistingCredentialRetrievedEventArgs(entityId));
+                }
+
+                var missing = formats
+                    .Except(existing.Select(Workspace.Sdk.GetEntity).OfType<Credential>().Select(credential => credential.Format), new CredentialFormatComparer())
+                    .OfType<WiegandStandardCredentialFormat>();
+
+                await Workspace.Sdk.TransactionManager.ExecuteTransactionAsync(() =>
+                {
+                    foreach (WiegandStandardCredentialFormat format in missing)
+                    {
+                        Dispatcher.Invoke(() => OnCredentialRetrieved(new CredentialRetrievedEventArgs(format)));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to generate credentials. " + ex.Message,
+                    "Generate credentials", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                m_isGenerating = false;
+                GenerateCommand.RaiseCanExecuteChanged();
+            }
+        }, () => !m_isGenerating);
     }
 
     public override string Name => nameof(SampleCardholderCredentialReader);
