@@ -17,7 +17,7 @@ public class MapSample : SampleBase
 {
     protected override async Task RunAsync(Engine engine, CancellationToken token)
     {
-        var filePath = Path.Combine(Environment.CurrentDirectory, "OfficeFloor.png");
+        var filePath = Path.Combine(AppContext.BaseDirectory, "OfficeFloor.png");
 
         var officeArea = (Area)engine.CreateEntity("Office", EntityType.Area);
         _ = officeArea.CreateMap(new DocumentMapCreationInfo(filePath: filePath, documentType: MapDocumentTypes.Image, zoomLevel: 1));
