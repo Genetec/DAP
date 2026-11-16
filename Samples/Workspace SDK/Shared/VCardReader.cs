@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 
 public class VCardReader
 {
+    private const string PropertyGroup = @"(?:[A-Za-z0-9-]+\.)?";
+
     public static VCard ReadVCard(string filePath)
     {
         string vCardText = File.ReadAllText(filePath);
@@ -38,7 +40,7 @@ public class VCardReader
     private static string ExtractField(string vCardText, string fieldName)
     {
         // Match the exact field name, optionally followed by vCard parameters (";..."), then the value separator
-        string pattern = $@"^{Regex.Escape(fieldName)}(?:;[^:]*)?:(.*)$";
+        string pattern = $@"^{PropertyGroup}{Regex.Escape(fieldName)}(?:;[^:]*)?:(.*)$";
         Match match = Regex.Match(vCardText, pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase);
         return match.Success ? match.Groups[1].Value.Trim() : string.Empty;
     }
@@ -114,7 +116,7 @@ public class VCardReader
         var emails = new List<string>();
 
         // Match EMAIL fields with various parameter formats
-        string pattern = @"^EMAIL(?:[^:]*)?:(.+)$";
+        string pattern = $@"^{PropertyGroup}EMAIL(?:;[^:\r\n]*)?:(.+)$";
         MatchCollection matches = Regex.Matches(vCardText, pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
         foreach (Match match in matches)
@@ -134,15 +136,15 @@ public class VCardReader
         // Try different photo formats
         var photoPatterns = new[]
         {
-            @"PHOTO;ENCODING=b;TYPE=image/jpeg:(.+?)(?=\r?\n[A-Z]|\r?\n$|$)",
-            @"PHOTO;ENCODING=BASE64;TYPE=JPEG:(.+?)(?=\r?\n[A-Z]|\r?\n$|$)",
-            @"PHOTO;TYPE=JPEG;ENCODING=b:(.+?)(?=\r?\n[A-Z]|\r?\n$|$)",
-            @"PHOTO:data:image/jpeg;base64,(.+?)(?=\r?\n[A-Z]|\r?\n$|$)"
+            $@"^{PropertyGroup}PHOTO;ENCODING=b;TYPE=image/jpeg:(.+?)(?=\r?\n[A-Z]|\r?\n$|$)",
+            $@"^{PropertyGroup}PHOTO;ENCODING=BASE64;TYPE=JPEG:(.+?)(?=\r?\n[A-Z]|\r?\n$|$)",
+            $@"^{PropertyGroup}PHOTO;TYPE=JPEG;ENCODING=b:(.+?)(?=\r?\n[A-Z]|\r?\n$|$)",
+            $@"^{PropertyGroup}PHOTO:data:image/jpeg;base64,(.+?)(?=\r?\n[A-Z]|\r?\n$|$)"
         };
 
         foreach (string pattern in photoPatterns)
         {
-            Match photoMatch = Regex.Match(vCardText, pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            Match photoMatch = Regex.Match(vCardText, pattern, RegexOptions.Singleline | RegexOptions.Multiline | RegexOptions.IgnoreCase);
             ImageSource image = TryCreateImageFromPhotoMatch(photoMatch);
             if (image != null)
             {
@@ -158,8 +160,8 @@ public class VCardReader
         // - PHOTO:data:<any-media-type>;base64,...
         var fallbackPatterns = new[]
         {
-            @"^PHOTO(?:;[^:\r\n]*)?:(?:data:[^;,]+(?:;[^,]*)?,)?([A-Za-z0-9+/=\r\n\t ]+)$",
-            @"^PHOTO(?:;[^:\r\n]*ENCODING=b[^:\r\n]*)?:([A-Za-z0-9+/=\r\n\t ]+)$"
+            $@"^{PropertyGroup}PHOTO(?:;[^:\r\n]*)?:(?:data:[^;,]+(?:;[^,]*)?,)?([A-Za-z0-9+/=\r\n\t ]+)$",
+            $@"^{PropertyGroup}PHOTO(?:;[^:\r\n]*ENCODING=b[^:\r\n]*)?:([A-Za-z0-9+/=\r\n\t ]+)$"
         };
 
         foreach (string pattern in fallbackPatterns)
