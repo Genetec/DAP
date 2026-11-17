@@ -29,10 +29,11 @@ public class CopyConfigurationSample : SampleBase
 
         try
         {
-            CopyConfigResultEventArgs result = await engine.EntityManager.CopyConfigurationAsync(source, new[] { destination }, progress, options);
+            Console.WriteLine("Press Ctrl+C to stop waiting. The SDK copy operation may continue.");
+            CopyConfigResultEventArgs result = await engine.EntityManager.CopyConfigurationAsync(source, new[] { destination }, progress, token, options);
             DisplayResult(result);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not OperationCanceledException)
         {
             Console.WriteLine($"Error during configuration copy: {ex.Message}");
         }
