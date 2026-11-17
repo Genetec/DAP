@@ -149,8 +149,7 @@ public class CustomCardFormatBuilderSample : SampleBase
             .UpdateFormatFieldName("Field 1", "Field")
             .UpdateWiegandFieldRepresentation("Field 2", FormatFieldValueRepresentation.Hexadecimal)
             .UpdateWiegandFieldMask("Field", "5-10")
-            .UpdateParityCheck(2, parityPosition: 1)                 // Updates parity position
-            .UpdateParityCheck(2, parityType: ParityCheckType.Even)  // Updates parity type
+            .UpdateParityCheck(2, parityPosition: 1, parityType: ParityCheckType.Even) // Updates parity position and type
             .UpdateParityCheck(0, mask: "4-19")                      // Updates parity mask
             .SetDescription("Updated: Demonstrates field and parity operations")
             .Build();
