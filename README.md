@@ -408,3 +408,5 @@ Contributions such as bug reports, feature requests, and code improvements are w
   
 
 For issues or questions about the Security Center SDK or these samples, contact the Genetec support team through the [Genetec Technical Assistance Portal](https://www.genetec.com/portal).
+
+> Note: documentation clarity probe.
